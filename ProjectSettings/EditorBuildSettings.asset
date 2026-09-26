@@ -6,10 +6,13 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/MusicGame/Member/NTam/Boot_Scene.unity
+    path: Assets/MusicGame/Member/NTam/Scene/Boot_Scene.unity
     guid: 2c4bdea6cf9b7a74986024efb90f8768
   - enabled: 1
-    path: Assets/MusicGame/Member/NTam/Start_Scene.unity
+    path: Assets/MusicGame/Member/NTam/Scene/Start_Scene.unity
+    guid: 976195ebd6ee7304ebca6b1c306f1faf
+  - enabled: 1
+    path: Assets/MusicGame/Member/NTam/Start_Scene1.unity
     guid: 402648a5acdf8df4ab16eb744e5330c4
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
