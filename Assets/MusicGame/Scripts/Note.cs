@@ -3,11 +3,13 @@ using UnityEngine;
 public class Note : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5f;
-    public ComboSystem Combo;
+    private ComboSystem Combo;
+    private ScoreSystem ScoreSystem;
 
     private void Start()
     {
         Combo = FindFirstObjectByType<ComboSystem>();
+        ScoreSystem = FindFirstObjectByType<ScoreSystem>();
     }
 
     private void Update()
@@ -37,6 +39,12 @@ public class Note : MonoBehaviour
         if (Combo != null)
         {
             Combo.HitNote();
+        }
+
+        //score
+        if(ScoreSystem != null)
+        {
+            ScoreSystem.AddScore();
         }
 
         Destroy(gameObject);

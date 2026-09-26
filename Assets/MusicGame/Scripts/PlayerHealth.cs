@@ -1,10 +1,12 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
     [Header("Health")]
     [SerializeField] private int maxHealth = 50;
     [SerializeField] private int damagePerMiss = 10;
+    public Image HPbar;
 
     private int currentHealth;
 
@@ -20,6 +22,12 @@ public class PlayerHealth : MonoBehaviour
         currentHealth = Mathf.Max(currentHealth, 0);
 
         Debug.Log($"Player Health: {currentHealth}/{maxHealth}");
+
+        // Update the health bar
+        if (HPbar != null)
+        {
+            HPbar.fillAmount = (float)currentHealth / maxHealth;
+        }
 
         if (currentHealth <= 0)
         {
