@@ -2,44 +2,42 @@ using UnityEngine;
 
 public class PlayerLaneController : MonoBehaviour
 {
-    [Header("Lane Position")]
-    [SerializeField] private Transform upLane;
-    [SerializeField] private Transform downLane;
+
 
     [Header("Move")]
     [SerializeField] private float moveSpeed = 10f;
+    [SerializeField] private bool isGround = true;
+    [SerializeField] private float jumpForce = 2f;
 
-    private bool isUp = true;
-    private Vector3 targetPosition;
+    [Header("Component")]
+    private Rigidbody2D rb;
 
-    private void Start()
+    private void Awake()
     {
-        targetPosition = downLane.position;
-        transform.position = targetPosition;
+        rb = GetComponent<Rigidbody2D>();
     }
 
     private void Update()
     {
-        // Di chuyển mượt tới lane
-        transform.position = Vector3.MoveTowards(
-            transform.position,
-            targetPosition,
-            moveSpeed * Time.deltaTime
-        );
+      
     }
 
-    // Gọi hàm này khi bấm nút Switch
-    public void SwitchLane()
+    // Gọi hàm này khi bấm nút Jump
+    public void Jump()
     {
-        isUp = !isUp;
-
-        if (isUp)
+        if (isGround)
         {
-            targetPosition = upLane.position;
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            isGround = false;
         }
-        else
+    }
+
+    // Gọi hàm này khi va chạm với mặt đất
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
         {
-            targetPosition = downLane.position;
+            isGround = true;
         }
     }
 }
