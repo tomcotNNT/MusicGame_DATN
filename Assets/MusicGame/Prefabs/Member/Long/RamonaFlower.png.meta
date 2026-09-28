@@ -5422,9 +5422,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 276
-        y: 1583
+        y: 1571
         width: 49
-        height: 64
+        height: 78
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -5444,9 +5444,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 326
-        y: 1577
+        y: 1571
         width: 47
-        height: 71
+        height: 78
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -15621,6 +15621,28 @@ TextureImporter:
       bones: []
       spriteID: 60b23c3a983bd894c9efe9220fc5d658
       internalID: -7915513581761177879
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RamonaFlower_0
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 1555
+        width: 112
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6ee41eb350183a947ab19a0ead786980
+      internalID: -6507977647061156734
       vertices: []
       indices: 
       edges: []
