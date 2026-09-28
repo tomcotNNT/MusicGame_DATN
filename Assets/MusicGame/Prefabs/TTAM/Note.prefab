@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Note
   moveSpeed: 5
+  collectEffect: {fileID: 2910829455640851434, guid: c6c541213650bb24f927aa32431f7fb7, type: 3}
 --- !u!50 &-4812431025825009280
 Rigidbody2D:
   serializedVersion: 5
