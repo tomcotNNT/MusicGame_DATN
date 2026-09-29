@@ -3,7 +3,10 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - Note
+  - Wall
+  - Ground
   layers:
   - Default
   - TransparentFX
@@ -11,7 +14,7 @@ TagManager:
   - 
   - Water
   - UI
-  - Note
+  - 
   - 
   - 
   - 
@@ -40,12 +43,6 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: Note
-    uniqueID: 2277485177
-    locked: 0
-  - name: Player
-    uniqueID: 2031181529
     locked: 0
   m_RenderingLayers:
   - Default
