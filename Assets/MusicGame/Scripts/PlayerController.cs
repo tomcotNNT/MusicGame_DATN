@@ -1,45 +1,107 @@
+using System;
 using UnityEngine;
 
 public class PlayerLaneController : MonoBehaviour
 {
-    [Header("Lane Position")]
-    [SerializeField] private Transform upLane;
-    [SerializeField] private Transform downLane;
-
     [Header("Move")]
     [SerializeField] private float moveSpeed = 10f;
+    [SerializeField] private bool isGround = true;
+    [SerializeField] private float jumpForce = 2f;
 
-    private bool isUp = true;
-    private Vector3 targetPosition;
+    [Header("Component")]
+    private Animator animator;
 
-    private void Start()
+    private Rigidbody2D rb;
+
+    [Header("Class")]
+    private PlayerAttack playerAttack;
+
+    [Header("Touch Effect")]
+    [SerializeField] private TouchEffectManager touchEffectManager;
+
+    private void Awake()
     {
-        targetPosition = downLane.position;
-        transform.position = targetPosition;
+        rb = GetComponent<Rigidbody2D>();
+
+        if (animator == null)
+            animator = GetComponent<Animator>();
+
+        playerAttack = GetComponent<PlayerAttack>();
     }
 
     private void Update()
-    {
-        // Di chuyển mượt tới lane
-        transform.position = Vector3.MoveTowards(
-            transform.position,
-            targetPosition,
-            moveSpeed * Time.deltaTime
-        );
+    {   
+        HandleTouch();
+        // Cập nhật trạng thái Animator
+        animator.SetBool("IsGround", isGround);
     }
 
-    // Gọi hàm này khi bấm nút Switch
-    public void SwitchLane()
+    private void HandleTouch()
     {
-        isUp = !isUp;
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
 
-        if (isUp)
-        {
-            targetPosition = upLane.position;
+            if (touch.phase == TouchPhase.Began)
+            {
+                // Hiệu ứng vòng tròn
+                touchEffectManager.ShowTouch(touch.position);
+
+                // Chia màn hình trái / phải
+                if (touch.position.x < Screen.width / 2f)
+                {
+                    Jump();
+                }
+                else
+                {
+                    playerAttack.Attack();
+                }
+            }
         }
-        else
+
+        // Test bằng chuột trên PC
+        if (Input.GetMouseButtonDown(0))
         {
-            targetPosition = downLane.position;
+            Vector2 mousePosition = Input.mousePosition;
+
+            // Hiệu ứng vòng tròn
+            touchEffectManager.ShowTouch(mousePosition);
+
+            if (mousePosition.x < Screen.width / 2f)
+            {
+                Jump();
+            }
+            else
+            {
+                playerAttack.Attack();
+            }
+        }
+    }
+
+    // Gọi hàm này khi bấm nút Jump
+    public void Jump()
+    {
+        if (isGround)
+        {
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+
+            isGround = false;
+
+            // Bắt đầu Jump
+            animator.SetBool("IsJump", true);
+        }
+    }
+
+    // Gọi khi va chạm với mặt đất
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGround = true;
+
+            // Đã chạm đất
+            animator.SetBool("IsJump", false);
+            animator.SetBool("IsGround", true);
         }
     }
 }

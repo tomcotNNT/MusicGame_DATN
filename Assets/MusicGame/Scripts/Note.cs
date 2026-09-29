@@ -5,16 +5,26 @@ public class Note : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
     private ComboSystem Combo;
     private ScoreSystem ScoreSystem;
+    [SerializeField] private GameObject collectEffect;
+    private FeverSystem feverSystem;
 
     private void Start()
     {
         Combo = FindFirstObjectByType<ComboSystem>();
         ScoreSystem = FindFirstObjectByType<ScoreSystem>();
+        feverSystem = FindFirstObjectByType<FeverSystem>();
     }
 
     private void Update()
-    {
-        transform.position += Vector3.left * moveSpeed * Time.deltaTime;
+    {   
+        float speedMultiplier = 1f;
+         if (feverSystem != null)
+        {
+            speedMultiplier = feverSystem.GetSpeedMultiplier();
+        }
+
+
+        transform.position += Vector3.left * moveSpeed * speedMultiplier * Time.deltaTime;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -36,13 +46,22 @@ public class Note : MonoBehaviour
     private void Collect()
     {
         Debug.Log("Collect Note");
+
+        // Spawn hiệu ứng vòng tròn
+        if (collectEffect != null)
+        {
+            GameObject effect = Instantiate(collectEffect, transform.position, Quaternion.identity);
+            Destroy(effect, 1f); // Hủy hiệu ứng sau 1 giây
+        }
+
+        // Combo
         if (Combo != null)
         {
             Combo.HitNote();
         }
 
-        //score
-        if(ScoreSystem != null)
+        // Score
+        if (ScoreSystem != null)
         {
             ScoreSystem.AddScore();
         }
