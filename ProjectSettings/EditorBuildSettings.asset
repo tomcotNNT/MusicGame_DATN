@@ -17,21 +17,27 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
-  - enabled: 1
+  - enabled: 0
     path: Assets/MusicGame/Member/NTam/Scene/Level 5.unity
     guid: e25bcf431e781f14da165a035bf917f3
-  - enabled: 1
+  - enabled: 0
     path: Assets/MusicGame/Member/NTam/Scene/Level 4.unity
     guid: 477fa1c1270743f4fb8a744eb058fe0b
-  - enabled: 1
+  - enabled: 0
     path: Assets/MusicGame/Member/NTam/Scene/Level 3.unity
     guid: 91bd6168dc4b2c74faebb703d7a1f19a
-  - enabled: 1
+  - enabled: 0
     path: Assets/MusicGame/Member/NTam/Scene/Level 2.unity
     guid: 2f96a105135a3014690c5712b80bd4c2
   - enabled: 1
     path: Assets/MusicGame/Member/NTam/Scene/Level 1.unity
     guid: 6a7205f542e8e024f9babe421cc7c076
+  - enabled: 1
+    path: Assets/Scenes/TTAM/Test.unity
+    guid: fa341fea2a5a62f4b842d5cad4ce4190
+  - enabled: 1
+    path: Assets/MusicGame/Member/NTam/Scene/GamePlay1.unity
+    guid: d2ed738956334794abb0e4d711453bec
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

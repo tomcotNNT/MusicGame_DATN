@@ -12,10 +12,9 @@ public class LevelSelectionManager : MonoBehaviour
 
     [Header("=== DỮ LIỆU LEVEL ===")]
     public bool[] unlockedLevels = new bool[] { true, false, false, false, false };
-
-    // BƯỚC CẢI TIẾN: Chỉ cần khai báo Tiền tố chung (Ví dụ: "Level_")
-    [Tooltip("Nhập phần chữ chung của các Scene. Ví dụ scene tên Level_1 thì nhập Level_")]
-    public string scenePrefix = "Level_"; 
+    
+    [Tooltip("Nhập tên Scene cho từng Level. Màn nào chưa làm thì CỨ ĐỂ TRỐNG")]
+    public string[] levelSceneNames = new string[] { "GamePlay1", "", "", "", "" }; // Tạo sẵn 5 chỗ trống
 
     [Header("=== HIỆU ỨNG ===")]
     public float scaleUp = 1.15f;
@@ -74,7 +73,8 @@ public class LevelSelectionManager : MonoBehaviour
     {
         if (masterPlayButton == null) return;
 
-        if (unlockedLevels[currentCardIndex])
+        // Bật nút Play NẾU: Thẻ đã mở khóa VÀ có tên Scene (không bị để trống)
+        if (unlockedLevels[currentCardIndex] && !string.IsNullOrEmpty(levelSceneNames[currentCardIndex]))
         {
             masterPlayButton.interactable = true;
         }
@@ -86,14 +86,17 @@ public class LevelSelectionManager : MonoBehaviour
 
     public void OnMasterPlayClicked()
     {
-        if (unlockedLevels[currentCardIndex])
+        string sceneToLoad = levelSceneNames[currentCardIndex];
+        
+        // Chỉ load nếu tên Scene không bị trống
+        if (unlockedLevels[currentCardIndex] && !string.IsNullOrEmpty(sceneToLoad))
         {
-            // TỰ ĐỘNG NỐI CHUỖI: scenePrefix + (Vị trí thẻ + 1)
-            // Ví dụ: Thẻ đầu tiên là index 0 -> "Level_" + (0 + 1) = "Level_1"
-            string sceneToLoad = scenePrefix + (currentCardIndex + 1);
-            
             Debug.Log("Đang tải Màn chơi: " + sceneToLoad);
             SceneManager.LoadScene(sceneToLoad);
+        }
+        else
+        {
+            Debug.LogWarning("Màn chơi này chưa được thiết lập Scene!");
         }
     }
 
@@ -102,8 +105,12 @@ public class LevelSelectionManager : MonoBehaviour
         int highestLevel = PlayerPrefs.GetInt("LevelReached", 1);
         PlayerPrefs.SetInt("CurrentPlayingLevel", highestLevel);
 
-        // TỰ ĐỘNG NỐI CHUỖI ĐỒNG BỘ: Dùng chung scenePrefix
-        string sceneToLoad = scenePrefix + highestLevel;
-        SceneManager.LoadScene(sceneToLoad);
+        // Mảng bắt đầu từ 0, nên level 1 tương ứng với index 0
+        string sceneToLoad = levelSceneNames[highestLevel - 1]; 
+
+        if (!string.IsNullOrEmpty(sceneToLoad))
+        {
+            SceneManager.LoadScene(sceneToLoad);
+        }
     }
 }

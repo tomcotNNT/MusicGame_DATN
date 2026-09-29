@@ -44,15 +44,22 @@ public class LevelCardManager : MonoBehaviour
     }
 
     // Hàm này chạy khi bấm trực tiếp vào LevelCard
+    // Hàm này chạy khi bấm trực tiếp vào LevelCard
     public void OnCardClicked()
     {
-        if (isUnlocked)
+        // Kiểm tra xem thẻ đã mở khóa CHƯA và bạn đã nhập tên Scene CHƯA
+        if (isUnlocked && !string.IsNullOrEmpty(sceneName))
         {
-            // Lưu lại thông tin đang chơi màn nào (để code trong game biết đường tính điểm/tăng level)
+            // Lưu lại thông tin đang chơi màn nào
             PlayerPrefs.SetInt("CurrentPlayingLevel", levelID);
             
             // Chuyển Scene
             SceneManager.LoadScene(sceneName);
+        }
+        else if (isUnlocked && string.IsNullOrEmpty(sceneName))
+        {
+            // Báo lỗi nhẹ ra Console thay vì làm văng game
+            Debug.Log("Bạn chưa điền tên Scene cho Level " + levelID + " trong Inspector!");
         }
     }
 }
