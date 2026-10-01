@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
@@ -15,97 +16,78 @@ public class MainMenuManager : MonoBehaviour
     [Header("UI Đặt Tên Lần Đầu")]
     public GameObject nameInputPopup;
     public TMP_InputField nameInputField;
+    public GameObject dimBackgroundPanel; 
+    public TextMeshProUGUI errorText; // Kéo ErrorText vào đây
 
     [Header("UI Reset Dữ Liệu")]
     public GameObject resetConfirmPopup;
 
-    [Header("Hệ thống Âm thanh")]
-    public AudioSource bgmSource;
-    public AudioSource sfxClickSource;
-    public AudioSource sfxStartSource;
-
-    [Header("Cài đặt Chuyển cảnh")]
+    [Header("Hiệu ứng Chuyển Cảnh")]
+    public CanvasGroup fadeCanvasGroup; 
     public float transitionDelay = 1.5f; 
     private bool isStarting = false;
 
-    // ==========================================
-    // CÁC HÀM XỬ LÝ ÂM THANH CHUNG
-    // ==========================================
+    private void Start()
+    {
+        if (fadeCanvasGroup != null)
+        {
+            fadeCanvasGroup.alpha = 0f;
+            fadeCanvasGroup.gameObject.SetActive(false);
+        }
+
+        if (nameInputPopup != null) nameInputPopup.SetActive(false);
+        if (dimBackgroundPanel != null) dimBackgroundPanel.SetActive(false);
+        
+        // Ẩn thông báo lỗi lúc đầu
+        if (errorText != null) errorText.text = "";
+    }
 
     public void PlayClickSound()
     {
-        if (sfxClickSource != null)
+        if (GameManager.Instance != null)
         {
-            sfxClickSource.Play();
+            GameManager.Instance.PlayClickSound();
         }
     }
-
-    // ==========================================
-    // CÁC HÀM XỬ LÝ BẢNG CÀI ĐẶT (SETTINGS)
-    // ==========================================
 
     public void OnSettingsOpenClicked()
     {
         if (isStarting) return; 
         PlayClickSound(); 
-        
-        if (settingsPopup != null)
-            settingsPopup.SetActive(true); 
+        if (settingsPopup != null) settingsPopup.SetActive(true); 
     }
 
     public void OnSettingsCloseClicked()
     {
         PlayClickSound(); 
-        
-        if (settingsPopup != null)
-            settingsPopup.SetActive(false); 
+        if (settingsPopup != null) settingsPopup.SetActive(false); 
     }
-
-    // ==========================================
-    // CÁC HÀM XỬ LÝ RESET DỮ LIỆU
-    // ==========================================
 
     public void OnResetButtonClicked()
     {
         if (isStarting) return;
         PlayClickSound();
-
-        if (resetConfirmPopup != null) 
-            resetConfirmPopup.SetActive(true);
+        if (resetConfirmPopup != null) resetConfirmPopup.SetActive(true);
     }
 
     public void OnCancelResetClicked()
     {
         PlayClickSound();
-
-        if (resetConfirmPopup != null) 
-            resetConfirmPopup.SetActive(false);
+        if (resetConfirmPopup != null) resetConfirmPopup.SetActive(false);
     }
 
     public void OnConfirmResetClicked()
     {
         PlayClickSound();
-
-        // 1. Xóa thông tin đã lưu (Có thể mở rộng xóa nhiều thứ khác sau này)
         PlayerPrefs.DeleteKey("PlayerName");
         PlayerPrefs.Save(); 
-        
-        Debug.Log("Hệ thống: Đã xóa toàn bộ dữ liệu người chơi!");
-
-        // 2. Đóng Popup lại
-        if (resetConfirmPopup != null) 
-            resetConfirmPopup.SetActive(false);
+        if (resetConfirmPopup != null) resetConfirmPopup.SetActive(false);
     }
-
-    // ==========================================
-    // CÁC HÀM XỬ LÝ VÀO GAME & ĐẶT TÊN
-    // ==========================================
 
     public void OnTapToStartClicked()
     {
         if (isStarting) return; 
 
-        // CHỐT AN TOÀN TOÀN DIỆN: Chặn click "Tap To Start" nếu BẤT KỲ popup nào đang mở
         if ((settingsPopup != null && settingsPopup.activeInHierarchy) || 
             (nameInputPopup != null && nameInputPopup.activeInHierarchy) ||
             (resetConfirmPopup != null && resetConfirmPopup.activeInHierarchy)) 
@@ -113,48 +95,75 @@ public class MainMenuManager : MonoBehaviour
             return;
         }
 
-        // KIỂM TRA NGƯỜI CHƠI LẦN ĐẦU (HOẶC VỪA RESET)
         string savedPlayerName = PlayerPrefs.GetString("PlayerName", "");
         
         if (string.IsNullOrEmpty(savedPlayerName))
         {
-            // Chưa có tên -> Phát tiếng chạm nhỏ và MỞ BẢNG ĐẶT TÊN
             PlayClickSound();
-            if (nameInputPopup != null) nameInputPopup.SetActive(true);
+            OpenNameInputPopup(); 
             return; 
         }
         else
         {
-            // Đã có tên -> Tiến hành vào game 
             ExecuteGameStart();
         }
     }
 
+    private void OpenNameInputPopup()
+    {
+        if (nameInputPopup != null) nameInputPopup.SetActive(true);
+        if (dimBackgroundPanel != null) dimBackgroundPanel.SetActive(true); 
+        if (errorText != null) errorText.text = ""; // Reset trắng thông báo lỗi mỗi khi mở popup
+    }
+
+    public void OnReturnNameClicked()
+    {
+        PlayClickSound();
+        if (nameInputPopup != null) nameInputPopup.SetActive(false);
+        if (dimBackgroundPanel != null) dimBackgroundPanel.SetActive(false); 
+    }
+
     public void OnConfirmNameClicked()
     {
+        if (nameInputField == null) return;
+
         string inputName = nameInputField.text.Trim();
 
-        if (string.IsNullOrEmpty(inputName))
+        // 1. Kiểm tra độ dài (Từ 3 đến 12 ký tự)
+        if (inputName.Length < 3 || inputName.Length > 12)
         {
-            Debug.Log("Lỗi: Tên không hợp lệ hoặc để trống!");
+            ShowError("The name must be between 3 and 12 characters long!");
             return; 
         }
 
-        // 1. Lưu tên xuống máy
+        // 2. Kiểm tra ký tự đặc biệt (Chỉ cho phép chữ cái, số và khoảng trắng)
+        if (!Regex.IsMatch(inputName, @"^[a-zA-Z0-9À-ỹ\s]+$"))
+        {
+            ShowError("Must not contain special characters!");
+            return;
+        }
+
+        // Nếu hợp lệ hoàn toàn -> Lưu tên và vào game
         PlayerPrefs.SetString("PlayerName", inputName);
         PlayerPrefs.Save();
         PlayClickSound();
 
-        // 2. Ẩn bảng đặt tên
+        if (errorText != null) errorText.text = "";
         if (nameInputPopup != null) nameInputPopup.SetActive(false);
+        if (dimBackgroundPanel != null) dimBackgroundPanel.SetActive(false);
 
-        // 3. Tiến hành vào game 
         ExecuteGameStart();
     }
 
-    // ==========================================
-    // LOGIC CHUYỂN CẢNH (ANIMATION & LOAD SCENE)
-    // ==========================================
+    // Hàm hỗ trợ hiển thị lỗi trực quan
+    private void ShowError(string message)
+    {
+        PlayClickSound();
+        if (errorText != null)
+        {
+            errorText.text = message;
+        }
+    }
 
     private void ExecuteGameStart()
     {
@@ -162,40 +171,65 @@ public class MainMenuManager : MonoBehaviour
 
         if (tapToStartText != null)
         {
-            tapToStartText.color = clickedColor;
-            StartCoroutine(FlickerTextEffect());
+            StartCoroutine(FlashRedTextEffect());
         }
 
-        if (sfxStartSource != null) sfxStartSource.Play();
-        if (bgmSource != null) StartCoroutine(FadeOutBGM());
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.PlayStartSound();
+            StartCoroutine(FadeOutBGM());
+        }
 
-        StartCoroutine(LoadLobbyScene());
+        StartCoroutine(FadeOutRoutine());
     }
 
-    private IEnumerator FlickerTextEffect()
+    private IEnumerator FlashRedTextEffect()
     {
-        while (true) 
+        float timer = 0f;
+        Color startColor = tapToStartText.color;
+        Color targetColor = new Color(1f, 0.2f, 0.4f, 1f);
+
+        while (timer < transitionDelay)
         {
-            tapToStartText.enabled = !tapToStartText.enabled; 
-            yield return new WaitForSeconds(0.1f); 
+            float t = Mathf.PingPong(Time.time * 8f, 1f); 
+            tapToStartText.color = Color.Lerp(startColor, targetColor, t);
+            timer += Time.deltaTime;
+            yield return null; 
         }
     }
 
     private IEnumerator FadeOutBGM()
     {
-        if (bgmSource == null) yield break;
+        if (GameManager.Instance == null || GameManager.Instance.bgmSource == null) yield break;
 
-        float startVolume = bgmSource.volume;
-        while (bgmSource.volume > 0)
+        AudioSource bgm = GameManager.Instance.bgmSource;
+        float startVolume = bgm.volume;
+        
+        while (bgm.volume > 0)
         {
-            bgmSource.volume -= startVolume * (Time.deltaTime / transitionDelay);
+            bgm.volume -= startVolume * (Time.deltaTime / transitionDelay);
             yield return null;
         }
     }
 
-    private IEnumerator LoadLobbyScene()
+    private IEnumerator FadeOutRoutine()
     {
-        yield return new WaitForSeconds(transitionDelay);
+        if (fadeCanvasGroup != null)
+        {
+            fadeCanvasGroup.gameObject.SetActive(true);
+            float timer = 0f;
+            while (timer < transitionDelay)
+            {
+                timer += Time.deltaTime;
+                fadeCanvasGroup.alpha = Mathf.Clamp01(timer / transitionDelay);
+                yield return null;
+            }
+        }
+        else
+        {
+            yield return new WaitForSeconds(transitionDelay);
+        }
+
         SceneManager.LoadScene(2);
     }
 }

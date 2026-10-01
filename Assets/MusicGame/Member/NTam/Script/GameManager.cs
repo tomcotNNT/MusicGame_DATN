@@ -10,39 +10,62 @@ public class GameManager : MonoBehaviour
     public float gameVolume = 1f;
     public int totalCoins = 0;
 
-    [Header("Âm thanh xuyên Scene")]
-    public AudioSource persistentBGM; // Đổi tên cho chuẩn ý nghĩa nhạc nền xuyên suốt
+    [Header("Kho Âm Thanh Toàn Cục (Global Audio)")]
+    public AudioSource bgmSource;       // Nhạc nền xuyên suốt
+    public AudioSource sfxClickSource;  // Tiếng click chung toàn game
+    public AudioSource sfxStartSource;  // Tiếng bắt đầu game / chuyển cảnh
 
     private void Awake()
     {
-        // Đảm bảo chỉ có 1 GameManager tồn tại
         if (Instance != null && Instance != this)
         {
-            Destroy(gameObject);
+            Destroy(gameObject); // Chống nhân bản GameManager khi sang Scene mới
             return;
         }
+        
         Instance = this;
-        DontDestroyOnLoad(gameObject); // Bùa hộ mệnh giúp sống sót qua mọi Scene
+        DontDestroyOnLoad(gameObject); // Sống mãi xuyên các Scene
 
-        // Khởi tạo dữ liệu ngay từ lúc game vừa mở lên
         LoadSettingsData();
         LoadPlayerData();
     }
 
     private void Start()
     {
-        // Phát nhạc nền. Vì có DontDestroyOnLoad, nhạc sẽ kêu mượt mà từ Boot sang Lobby
-        if (persistentBGM != null && !persistentBGM.isPlaying)
+        PlayBGM();
+    }
+
+    public void PlayBGM()
+    {
+        if (bgmSource != null && !bgmSource.isPlaying)
         {
-            persistentBGM.Play();
+            bgmSource.volume = gameVolume;
+            bgmSource.Play();
+        }
+    }
+
+    // Hàm chung để mọi Script khác gọi tiếng Click mà không cần khai báo lại
+    public void PlayClickSound()
+    {
+        if (sfxClickSource != null)
+        {
+            sfxClickSource.Play();
+        }
+    }
+
+    public void PlayStartSound()
+    {
+        if (sfxStartSource != null)
+        {
+            sfxStartSource.Play();
         }
     }
 
     private void LoadSettingsData()
     {
         audioOffset = PlayerPrefs.GetFloat("AudioOffset", 0f);
-        gameVolume = PlayerPrefs.GetFloat("GameVolume", 1f); 
-        Debug.Log($"[GameManager] Đã nạp Cấu hình: Offset = {audioOffset}, Volume = {gameVolume}");
+        gameVolume = PlayerPrefs.GetFloat("GameVolume", 1f);
+        AudioListener.volume = gameVolume;
     }
 
     private void LoadPlayerData()
@@ -50,14 +73,11 @@ public class GameManager : MonoBehaviour
         string savePath = Application.persistentDataPath + "/SaveData.json";
         if (File.Exists(savePath))
         {
-            // Sau này bạn sẽ dùng JsonUtility để parse dữ liệu thực tế ở đây
             string json = File.ReadAllText(savePath);
-            Debug.Log("[GameManager] Đã tìm thấy dữ liệu Save Game.");
         }
         else
         {
             totalCoins = 0;
-            Debug.Log("[GameManager] Người chơi mới, tạo file Save trống.");
         }
     }
 }
