@@ -1,50 +1,41 @@
-using System.Collections;
 using System.IO;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-
-    [Header("UI Chuyển Cảnh")]
-    public Slider loadingSlider; 
 
     [Header("Dữ Liệu Hệ Thống")]
     public float audioOffset = 0f;
     public float gameVolume = 1f;
     public int totalCoins = 0;
 
-    [Header("Audio Wake-up")]
-    public AudioSource wakeUpAudioSource;
+    [Header("Âm thanh xuyên Scene")]
+    public AudioSource persistentBGM; // Đổi tên cho chuẩn ý nghĩa nhạc nền xuyên suốt
 
     private void Awake()
     {
+        // Đảm bảo chỉ có 1 GameManager tồn tại
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
         Instance = this;
-        DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(gameObject); // Bùa hộ mệnh giúp sống sót qua mọi Scene
+
+        // Khởi tạo dữ liệu ngay từ lúc game vừa mở lên
+        LoadSettingsData();
+        LoadPlayerData();
     }
 
     private void Start()
     {
-        if (wakeUpAudioSource != null)
+        // Phát nhạc nền. Vì có DontDestroyOnLoad, nhạc sẽ kêu mượt mà từ Boot sang Lobby
+        if (persistentBGM != null && !persistentBGM.isPlaying)
         {
-            wakeUpAudioSource.Play();
+            persistentBGM.Play();
         }
-
-        StartCoroutine(BootSequenceRoutine());
-    }
-
-    private IEnumerator BootSequenceRoutine()
-    {
-        LoadSettingsData();
-        LoadPlayerData();
-        yield return StartCoroutine(LoadSceneAsyncCoroutine());
     }
 
     private void LoadSettingsData()
@@ -59,6 +50,7 @@ public class GameManager : MonoBehaviour
         string savePath = Application.persistentDataPath + "/SaveData.json";
         if (File.Exists(savePath))
         {
+            // Sau này bạn sẽ dùng JsonUtility để parse dữ liệu thực tế ở đây
             string json = File.ReadAllText(savePath);
             Debug.Log("[GameManager] Đã tìm thấy dữ liệu Save Game.");
         }
@@ -66,48 +58,6 @@ public class GameManager : MonoBehaviour
         {
             totalCoins = 0;
             Debug.Log("[GameManager] Người chơi mới, tạo file Save trống.");
-        }
-    }
-
-    private IEnumerator LoadSceneAsyncCoroutine()
-    {
-        Debug.Log("[DEBUG] Bắt đầu gọi lệnh LoadScene số 1 ngầm...");
-        AsyncOperation operation = SceneManager.LoadSceneAsync(1);
-        
-        if (operation == null)
-        {
-            Debug.LogError("[LỖI NẶNG] Unity không tìm thấy Scene số 1. Hãy kiểm tra lại Build Settings!");
-            yield break; // Dừng code ngay lập tức
-        }
-
-        operation.allowSceneActivation = false;
-
-        while (!operation.isDone)
-        {
-            float progress = Mathf.Clamp01(operation.progress / 0.9f);
-            
-            if (loadingSlider != null) 
-            {
-                loadingSlider.value = progress;
-            }
-
-            // In tiến độ ra Console
-            Debug.Log($"[DEBUG] Đang load: {progress * 100}%");
-
-           if (operation.progress >= 0.9f)
-            {
-                Debug.Log("[DEBUG] Đã load xong 90% dữ liệu. Đang chờ 1 giây ngắm UI...");
-                yield return new WaitForSeconds(1f); 
-
-                // 1. Cắt đứt tham chiếu UI để tránh lỗi Memory Leak
-                loadingSlider = null;
-                
-                // (ĐÃ XÓA LỆNH DỌN RÁC RAM GÂY TREO GAME Ở ĐÂY)
-
-                Debug.Log("[DEBUG] BẮT ĐẦU CHUYỂN SCENE!");
-                operation.allowSceneActivation = true;
-            }
-            yield return null;
         }
     }
 }
