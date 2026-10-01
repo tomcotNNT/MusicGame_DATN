@@ -40,6 +40,23 @@ public class KeyButtonController : MonoBehaviour
     {
         FindCurrentKey();
         UpdateButtonLight();
+
+         HandleKeyboardInput();
+    }
+
+    private void HandleKeyboardInput()
+    {
+        // Q = L
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            CheckInput(PianoKey.KeyType.Left);
+        }
+
+        // W = R
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            CheckInput(PianoKey.KeyType.Right);
+        }
     }
 
     private void FindCurrentKey()
