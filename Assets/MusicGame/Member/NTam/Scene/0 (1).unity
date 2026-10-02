@@ -3720,8 +3720,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51c5ae631fc9428438ca0a327bf57f85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TestSong
-  noteSpawner: {fileID: 1098503536}
-  interval: 1
 --- !u!1 &2137463765
 GameObject:
   m_ObjectHideFlags: 0

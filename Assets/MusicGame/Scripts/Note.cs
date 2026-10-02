@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Note : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float moveSpeed;
     private ComboSystem Combo;
     private ScoreSystem ScoreSystem;
     [SerializeField] private GameObject collectEffect;
@@ -25,6 +25,11 @@ public class Note : MonoBehaviour
 
 
         transform.position += Vector3.left * moveSpeed * speedMultiplier * Time.deltaTime;
+    }
+
+    public void SetSpeed(float value)
+    {
+        moveSpeed = value;
     }
 
     private void OnTriggerEnter2D(Collider2D other)

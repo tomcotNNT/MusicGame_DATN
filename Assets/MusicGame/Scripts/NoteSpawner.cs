@@ -1,67 +1,82 @@
 using UnityEngine;
-using System.Collections.Generic;
 
 public class NoteSpawner : MonoBehaviour
 {
-    [Header("Prefab")]
+    [Header("References")]
+    [SerializeField] private MidiReader midiReader;
     [SerializeField] private GameObject notePrefab;
 
-    [Header("Spawn Point")]
-    [SerializeField] private Transform upSpawnPoint;
-    [SerializeField] private Transform downSpawnPoint;
+    [Header("Spawn Points")]
+    [SerializeField] private Transform[] spawnPoints;
 
     [Header("Settings")]
-    [SerializeField] private float spawnDistance = 10f;
+    [SerializeField] private float spawnAheadTime = 2f;
 
-    private List<NoteData> notes = new List<NoteData>();
+    private int nextNoteIndex = 0;
 
-    private int currentNoteIndex;
+    private AudioSource audioSource;
+    [SerializeField] private LevelData currentLevel;
 
-    private float currentTime;
+    private void Start()
+    {
+        audioSource = FindFirstObjectByType<AudioSource>();
+
+    }
 
     private void Update()
     {
-        currentTime += Time.deltaTime;
+        if (midiReader == null)
+            return;
+
+        if (midiReader.Notes == null)
+            return;
+
+        if (audioSource == null)
+            return;
 
         SpawnNotes();
     }
 
     private void SpawnNotes()
     {
-        while (
-            currentNoteIndex < notes.Count &&
-            currentTime >= notes[currentNoteIndex].spawnTime
-        )
-        {
-            SpawnNote(notes[currentNoteIndex]);
+        float currentTime = audioSource.time;
 
-            currentNoteIndex++;
+        while (nextNoteIndex < midiReader.Notes.Count)
+        {
+            MidiReader.RhythmNote note =
+                midiReader.Notes[nextNoteIndex];
+
+            float timeUntilNote = note.time - currentTime;
+
+            if (timeUntilNote > spawnAheadTime)
+                break;
+
+            SpawnNote(note);
+
+            nextNoteIndex++;
         }
     }
 
-    private void SpawnNote(NoteData data)
+    private void SpawnNote(MidiReader.RhythmNote note)
     {
-        Transform spawnPoint = GetSpawnPoint(data.lane);
+        if (note.lane < 0 || note.lane >= spawnPoints.Length)
+            return;
 
-        Instantiate(
+        GameObject newNote = Instantiate(
             notePrefab,
-            spawnPoint.position,
+            spawnPoints[note.lane].position,
             Quaternion.identity
         );
-    }
 
-    private Transform GetSpawnPoint(Lane lane)
-    {
-        if (lane == Lane.Up)
-            return upSpawnPoint;
+        Note movement = newNote.GetComponent<Note>();
 
-        return downSpawnPoint;
-    }
+        if (movement != null)
+        {
+            movement.SetSpeed(currentLevel.noteSpeed);
+        }
 
-    public void SetNotes(List<NoteData> newNotes)
-    {
-        notes = newNotes;
-        currentNoteIndex = 0;
-        currentTime = 0;
+        Debug.Log(
+            $"Spawn Note | Time: {note.time:F2} | Lane: {note.lane}"
+        );
     }
 }
