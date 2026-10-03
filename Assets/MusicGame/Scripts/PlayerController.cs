@@ -24,8 +24,12 @@ public class PlayerLaneController : MonoBehaviour
         // Cập nhật Animator
         animator.SetBool("IsGround", isGround);
 
-        // Player tự động chạy
-        Move();
+       
+    }
+
+    private void FixedUpdate()
+    {
+       Move();
     }
 
     public void Jump()
