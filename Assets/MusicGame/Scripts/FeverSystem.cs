@@ -11,12 +11,13 @@ public class FeverSystem : MonoBehaviour
     [SerializeField] private float feverIncreaseSpeed = 5f;
     [SerializeField] private float feverDecreaseSpeed = 10f;
 
+    private float feveraddamount = 10f; // Số lượng tăng khi tích dc điểm
     [Header("Game Speed")]
-    [SerializeField] private float normalSpeed = 1f;
-    [SerializeField] private float feverSpeed = 2f;
+    [SerializeField] private float normalSpeed = 5f;
+    [SerializeField] private float feverSpeed = 8f;
 
     private float currentFever;
-    private bool isFever;
+    public bool isFever;
 
     public float SpeedMultiplier { get; private set; } = 1f;
 
@@ -35,8 +36,6 @@ public class FeverSystem : MonoBehaviour
     {
         if (!isFever)
         {
-            // Fever tăng từ từ
-            currentFever += feverIncreaseSpeed * Time.deltaTime;
 
             if (currentFever >= maxFever)
             {
@@ -85,6 +84,19 @@ public class FeverSystem : MonoBehaviour
         SpeedMultiplier = normalSpeed;
 
         Debug.Log("FEVER END!");
+    }
+
+    public void AddFever()
+    {
+        if (!isFever)
+        {
+            currentFever += feveraddamount;
+
+            if (currentFever > maxFever)
+            {
+                currentFever = maxFever;
+            }
+        }
     }
 
     public float GetSpeedMultiplier()

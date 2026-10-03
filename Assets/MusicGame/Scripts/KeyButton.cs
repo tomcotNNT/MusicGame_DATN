@@ -27,6 +27,23 @@ public class KeyButtonController : MonoBehaviour
     [SerializeField] private AudioSource audioSource;
 
     private PianoKey currentKey;
+    private ScoreSystem scoreSystem;
+    private ComboSystem comboSystem;
+
+    private void Awake()
+    {
+        scoreSystem = FindObjectOfType<ScoreSystem>();
+        if (scoreSystem == null)
+        {
+            Debug.LogError("Không tìm thấy ScoreSystem trong scene!");
+        }
+
+        comboSystem = FindObjectOfType<ComboSystem>();
+        if (comboSystem == null)
+        {
+            Debug.LogError("Không tìm thấy ComboSystem trong scene!");
+        }
+    }
 
     private void Start()
     {
@@ -145,52 +162,6 @@ public class KeyButtonController : MonoBehaviour
         CheckInput(PianoKey.KeyType.Right);
     }
 
-//     private void CheckInput(PianoKey.KeyType inputType)
-// {
-//     if (currentKey == null)
-//         return;
-
-//     // Player phải đang va chạm với key
-//     if (!currentKey.PlayerOnKey)
-//     {
-//         Debug.Log("Player chưa chạm vào key!");
-//         return;
-//     }
-
-//     // Kiểm tra đúng nút L/R
-//     if (currentKey.GetKeyType() != inputType)
-//     {
-//         Debug.Log("WRONG BUTTON");
-//         return;
-//     }
-
-//     float currentTime = audioSource.time;
-
-//     float difference = Mathf.Abs(
-//         currentTime - currentKey.GetTargetTime()
-//     );
-
-//     if (difference <= perfectWindow)
-//     {
-//         Debug.Log("PERFECT +100");
-
-//         // ScoreSystem.AddScore(100);
-
-//         currentKey.Complete();
-//     }
-//     else if (difference <= goodWindow)
-//     {
-//         Debug.Log("GOOD +70");
-
-//         // ScoreSystem.AddScore(70);
-
-//         currentKey.Complete();
-//     }
-//     else
-//     {
-//         Debug.Log("MISS");
-//     }
-// }
 
 private void CheckInput(PianoKey.KeyType inputType)
 {
@@ -200,12 +171,18 @@ private void CheckInput(PianoKey.KeyType inputType)
     if (!currentKey.PlayerOnKey)
     {
         Debug.Log("Player chưa chạm Key");
+
+        // Gọi hàm miss
+        comboSystem.MissNote();
+
         return;
     }
 
     if (currentKey.GetKeyType() != inputType)
     {
         Debug.Log("SAI NÚT");
+        // Gọi hàm miss
+        comboSystem.MissNote();
         return;
     }
 
