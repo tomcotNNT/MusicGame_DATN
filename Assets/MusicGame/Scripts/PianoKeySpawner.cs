@@ -1,143 +1,187 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class PianoKeySpawner : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private MidiReader midiReader;
     [SerializeField] private GameObject pianoKeyPrefab;
-
-    [Header("Fixed Spawn")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private Transform player;
     [SerializeField] private Transform spawnPoint;
 
-    [Header("Key Distance")]
-    [SerializeField] private float minKeyDistance = 2f;
-    [SerializeField] private float maxKeyDistance = 8f;
+    [Header("Rhythm Settings")]
+    [Tooltip("Tốc độ key (unit/giây) - cố định cho cả bài")]
+    [SerializeField] private float keySpeed = 8f;
 
-    private AudioSource audioSource;
-    private int nextNoteIndex = 0;
+    [Tooltip("Key xuất hiện trước thời điểm note bao nhiêu giây. " +
+             "Nên >= khoảng cách spawn / keySpeed")]
+    [SerializeField] private float spawnAheadTime = 2f;
 
-    private float nextKeyX;
-    private bool hasSpawnedKey = false;
+    [Header("Lane")]
+    [Tooltip("Bật = random Left/Right, tắt = theo lane của MIDI (cao/thấp)")]
+    [SerializeField] private bool randomLane = false;
 
-    private PianoKey.KeyType lastType;
-    private int sameCount = 0;
+    // ---- State ----
+    private double songStartDsp;
+    private bool songStarted;
+    private bool songEnded;
+    private int nextNoteIndex;
+    private float spawnDirection = 1f;
 
-    private void Start()
+    private readonly List<GameObject> activeKeys = new List<GameObject>();
+
+    public static PianoKeySpawner Instance { get; private set; }
+
+    private void Awake()
     {
-        audioSource = FindFirstObjectByType<AudioSource>();
+        Instance = this;
+    }
 
-        if (spawnPoint == null)
-            Debug.LogError("Chưa gán Spawn Point!");
+    // Thời gian bài hát (âm trước khi nhạc thực sự phát)
+    public float SongTime => (float)(AudioSettings.dspTime - songStartDsp);
 
-        if (midiReader == null)
-            Debug.LogError("Chưa gán MidiReader!");
+    // =============================================
+    // START SONG - gọi sau khi MidiReader.LoadMidi() xong
+    // =============================================
 
-        if (pianoKeyPrefab == null)
-            Debug.LogError("Chưa gán PianoKey Prefab!");
+    public event System.Action SongEnded;
+
+    // leadIn: số giây từ bây giờ tới lúc nhạc thực sự phát (vd. 3 = hết countdown)
+    public void StartSong(float leadIn = -1f)
+    {
+        if (leadIn < 0f)
+            leadIn = spawnAheadTime;
+        if (midiReader == null || audioSource == null ||
+            player == null || spawnPoint == null || pianoKeyPrefab == null)
+        {
+            Debug.LogError("PianoKeySpawner: thiếu reference!");
+            return;
+        }
+
+        if (midiReader.Notes.Count == 0)
+            Debug.LogError("PianoKeySpawner: Notes rỗng! Chưa gọi MidiReader.LoadMidi() hoặc MIDI không có note.");
+
+        if (audioSource.clip == null)
+            Debug.LogError("PianoKeySpawner: AudioSource chưa có clip nhạc!");
+
+        Debug.Log($"StartSong: {midiReader.Notes.Count} notes, leadIn = {leadIn}");
+
+        ClearAllKeys();
+
+        nextNoteIndex = 0;
+        songEnded = false;
+
+        // Hướng key bay: từ spawnPoint về phía player
+        spawnDirection = spawnPoint.position.x >= player.position.x ? 1f : -1f;
+
+        // Nhạc phát sau leadIn giây; trong lúc đó SongTime < 0 và key vẫn spawn
+        songStartDsp = AudioSettings.dspTime + leadIn;
+        audioSource.Stop();
+        audioSource.PlayScheduled(songStartDsp);
+
+        songStarted = true;
     }
 
     private void Update()
     {
-        if (midiReader == null ||
-            audioSource == null ||
-            spawnPoint == null)
+        if (!songStarted || songEnded)
             return;
 
+        activeKeys.RemoveAll(k => k == null);
+
         SpawnKeys();
+
+        // Hết bài: đã spawn hết note, không còn key và nhạc đã dừng
+        if (nextNoteIndex >= midiReader.Notes.Count &&
+            activeKeys.Count == 0 &&
+            audioSource.clip != null &&
+            SongTime >= audioSource.clip.length)
+        {
+            EndSong();
+        }
     }
+
+    // =============================================
+    // SPAWN THEO THỜI GIAN NOTE
+    // =============================================
 
     private void SpawnKeys()
     {
-        float currentTime = audioSource.time;
+        float now = SongTime;
+        List<MidiReader.RhythmNote> notes = midiReader.Notes;
 
-        // Spawn trước một khoảng thời gian
-        float spawnAheadTime = 2f;
-
-        while (
-            nextNoteIndex < midiReader.Notes.Count &&
-            midiReader.Notes[nextNoteIndex].time
-            <= currentTime + spawnAheadTime)
+        while (nextNoteIndex < notes.Count)
         {
-            SpawnKey(midiReader.Notes[nextNoteIndex]);
+            MidiReader.RhythmNote note = notes[nextNoteIndex];
+
+            // Chưa tới lúc spawn
+            if (note.time > now + spawnAheadTime)
+                break;
 
             nextNoteIndex++;
+
+            float travelTime = note.time - now;
+
+            // Note đã trễ (lag) -> bỏ qua
+            if (travelTime <= 0f)
+                continue;
+
+            SpawnKey(note, travelTime);
         }
     }
 
-    private void SpawnKey(MidiReader.RhythmNote note)
+    private void SpawnKey(MidiReader.RhythmNote note, float travelTime)
     {
-        float distance;
+        // Vị trí sao cho key tới player đúng lúc note.time
+        float spawnX = player.position.x + spawnDirection * keySpeed * travelTime;
 
-        // Key đầu tiên
-        if (!hasSpawnedKey)
-        {
-            nextKeyX = spawnPoint.position.x;
-            hasSpawnedKey = true;
-        }
-        else
-        {
-            // Khoảng cách giữa 2 key
-            distance = Random.Range(
-                minKeyDistance,
-                maxKeyDistance
-            );
-
-            nextKeyX += distance;
-        }
-
-        Vector3 spawnPosition = new Vector3(
-            nextKeyX,
+        Vector3 pos = new Vector3(
+            spawnX,
             spawnPoint.position.y,
             spawnPoint.position.z
         );
 
-        GameObject obj = Instantiate(
-            pianoKeyPrefab,
-            spawnPosition,
-            Quaternion.identity
-        );
-
+        GameObject obj = Instantiate(pianoKeyPrefab, pos, Quaternion.identity);
         PianoKey key = obj.GetComponent<PianoKey>();
 
         if (key == null)
         {
-            Debug.LogError(
-                "PianoKey Prefab chưa có PianoKey.cs!"
-            );
+            Debug.LogError("PianoKey Prefab chưa có PianoKey.cs!");
+            Destroy(obj);
             return;
         }
 
-        PianoKey.KeyType type = GetRandomKey();
+        PianoKey.KeyType type = randomLane
+            ? (Random.value < 0.5f ? PianoKey.KeyType.Left : PianoKey.KeyType.Right)
+            : (note.lane == 0 ? PianoKey.KeyType.Left : PianoKey.KeyType.Right);
 
-        key.Setup(type, note.time);
+        // targetTime để PianoKey tự dùng nếu cần (hiện tại theo audio time)
+        key.Setup(type, note.time, player, keySpeed);
+
+        activeKeys.Add(obj);
     }
 
-    private PianoKey.KeyType GetRandomKey()
+    // =============================================
+    // END / CLEAR
+    // =============================================
+
+    public void EndSong()
     {
-        PianoKey.KeyType type;
+        if (songEnded) return;
+        songEnded = true;
+        ClearAllKeys();
+        Debug.Log("PianoKeySpawner: Song Ended!");
+        SongEnded?.Invoke();
+    }
 
-        if (sameCount >= 2)
+    public void ClearAllKeys()
+    {
+        for (int i = activeKeys.Count - 1; i >= 0; i--)
         {
-            type = lastType == PianoKey.KeyType.Left
-                ? PianoKey.KeyType.Right
-                : PianoKey.KeyType.Left;
-
-            sameCount = 0;
+            if (activeKeys[i] != null)
+                Destroy(activeKeys[i]);
         }
-        else
-        {
-            type = Random.value < 0.5f
-                ? PianoKey.KeyType.Left
-                : PianoKey.KeyType.Right;
-        }
-
-        if (type == lastType)
-            sameCount++;
-        else
-            sameCount = 1;
-
-        lastType = type;
-
-        return type;
+        activeKeys.Clear();
     }
 }

@@ -9,7 +9,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private MidiReader midiReader;
     [SerializeField] private AudioSource audioSource;
 
-    private void Start()
+    private void Awake()
     {
         LoadLevel();
     }
@@ -41,7 +41,7 @@ public class LevelManager : MonoBehaviour
         if (currentLevel.music != null)
         {
             audioSource.clip = currentLevel.music;
-            audioSource.Play();
+            // audioSource.Play();
         }
         else
         {
