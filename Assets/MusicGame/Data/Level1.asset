@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Level1
   m_EditorClassIdentifier: Assembly-CSharp::LevelData
   levelName: 
-  music: {fileID: 8300000, guid: f0c5e2524a7328e4d87204b28a2d5e73, type: 3}
-  midiFileName: KawaiiFriends.midi
+  music: {fileID: 8300000, guid: 35b823bb92fdf534892b78f775138cde, type: 3}
+  midiFileName: Fairy Tail - Main theme.mid
+  forcedTrackIndex: -1
+  timeOffset: 0
   noteSpeed: 5
   difficulty: 1
+  minNoteDistanceOverride: 0
