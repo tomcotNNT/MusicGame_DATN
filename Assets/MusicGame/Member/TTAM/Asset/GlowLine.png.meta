@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 94628d14f27d65d42b675621b91be798
+guid: e153f5a664df9eb4d8e5bd36898588d5
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1198477067713850731
-    second: Panel_0
+      213: -5687272016223560101
+    second: ChatGPT Image 09_45_09 5 thg 10, 2026_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,40 +96,27 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Panel_0
+      name: ChatGPT Image 09_45_09 5 thg 10, 2026_0
       rect:
         serializedVersion: 2
-        x: 333
-        y: 33
-        width: 344
-        height: 481
+        x: 42
+        y: 477
+        width: 1574
+        height: 33
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 592d67be4772e5fe0800000000000000
-      internalID: -1198477067713850731
+      spriteID: b5e99f3db30c211b0800000000000000
+      internalID: -5687272016223560101
       vertices: []
       indices: 
       edges: []
@@ -138,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 7a53eddf038ddf1499f312fb203565a4
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Panel_0: -1198477067713850731
+      ChatGPT Image 09_45_09 5 thg 10, 2026_0: -5687272016223560101
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

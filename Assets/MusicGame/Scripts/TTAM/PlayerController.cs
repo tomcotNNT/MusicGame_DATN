@@ -12,9 +12,15 @@ public class PlayerLaneController : MonoBehaviour
     private Animator animator;
     private Rigidbody2D rb;
     [SerializeField] private PianoKeySpawner pianoKeySpawner;
+    public GameObject WinPanel;
+
+    [Header("Result")]
+    [SerializeField] private ResultSystem resultSystem;
+    [SerializeField] private ScoreSystem scoreSystem;
+
 
     [Header("Countdown UI")]
-    [SerializeField] private TMP_Text countdownText;
+    [SerializeField] private TMP_Text countdownText;                            
 
     [Header("Countdown Animation")]
     [SerializeField] private float letterDelay = 0.1f;      // thời gian giữa mỗi chữ
@@ -55,7 +61,10 @@ public class PlayerLaneController : MonoBehaviour
     }
 
     private void Start()
-    {
+    {   
+        if(WinPanel != null)
+            WinPanel.SetActive(false);
+
         canPlay = false;
         gameEnded = false;
 
@@ -223,6 +232,8 @@ public class PlayerLaneController : MonoBehaviour
         if (pianoKeySpawner != null)
             pianoKeySpawner.ClearAllKeys();
 
+        if (resultSystem != null && scoreSystem != null)
+            resultSystem.ShowResult(scoreSystem.GetScore());  
         Debug.Log("END GAME");
     }
 }
