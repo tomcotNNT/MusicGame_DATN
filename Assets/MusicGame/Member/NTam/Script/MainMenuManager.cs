@@ -6,18 +6,18 @@ using TMPro;
 
 public class MainMenuManager : MonoBehaviour
 {
+    [Header("Settings")]
+    [SerializeField] private string nextSceneName = "SelectSong"; // Cho phép nhập tên Scene tiếp theo trực tiếp trên Inspector
+
     [Header("Hiệu ứng UI")]
     public TextMeshProUGUI tapToStartText; 
     public Color clickedColor = Color.red; 
-
-    [Header("UI Cài Đặt")]
-    public GameObject settingsPopup; 
 
     [Header("UI Đặt Tên Lần Đầu")]
     public GameObject nameInputPopup;
     public TMP_InputField nameInputField;
     public GameObject dimBackgroundPanel; 
-    public TextMeshProUGUI errorText; // Kéo ErrorText vào đây
+    public TextMeshProUGUI errorText; 
 
     [Header("UI Reset Dữ Liệu")]
     public GameObject resetConfirmPopup;
@@ -37,8 +37,8 @@ public class MainMenuManager : MonoBehaviour
 
         if (nameInputPopup != null) nameInputPopup.SetActive(false);
         if (dimBackgroundPanel != null) dimBackgroundPanel.SetActive(false);
+        if (resetConfirmPopup != null) resetConfirmPopup.SetActive(false);
         
-        // Ẩn thông báo lỗi lúc đầu
         if (errorText != null) errorText.text = "";
     }
 
@@ -48,19 +48,6 @@ public class MainMenuManager : MonoBehaviour
         {
             GameManager.Instance.PlayClickSound();
         }
-    }
-
-    public void OnSettingsOpenClicked()
-    {
-        if (isStarting) return; 
-        PlayClickSound(); 
-        if (settingsPopup != null) settingsPopup.SetActive(true); 
-    }
-
-    public void OnSettingsCloseClicked()
-    {
-        PlayClickSound(); 
-        if (settingsPopup != null) settingsPopup.SetActive(false); 
     }
 
     public void OnResetButtonClicked()
@@ -88,8 +75,7 @@ public class MainMenuManager : MonoBehaviour
     {
         if (isStarting) return; 
 
-        if ((settingsPopup != null && settingsPopup.activeInHierarchy) || 
-            (nameInputPopup != null && nameInputPopup.activeInHierarchy) ||
+        if ((nameInputPopup != null && nameInputPopup.activeInHierarchy) ||
             (resetConfirmPopup != null && resetConfirmPopup.activeInHierarchy)) 
         {
             return;
@@ -113,7 +99,7 @@ public class MainMenuManager : MonoBehaviour
     {
         if (nameInputPopup != null) nameInputPopup.SetActive(true);
         if (dimBackgroundPanel != null) dimBackgroundPanel.SetActive(true); 
-        if (errorText != null) errorText.text = ""; // Reset trắng thông báo lỗi mỗi khi mở popup
+        if (errorText != null) errorText.text = ""; 
     }
 
     public void OnReturnNameClicked()
@@ -129,21 +115,18 @@ public class MainMenuManager : MonoBehaviour
 
         string inputName = nameInputField.text.Trim();
 
-        // 1. Kiểm tra độ dài (Từ 3 đến 12 ký tự)
         if (inputName.Length < 3 || inputName.Length > 12)
         {
             ShowError("The name must be between 3 and 12 characters long!");
             return; 
         }
 
-        // 2. Kiểm tra ký tự đặc biệt (Chỉ cho phép chữ cái, số và khoảng trắng)
         if (!Regex.IsMatch(inputName, @"^[a-zA-Z0-9À-ỹ\s]+$"))
         {
             ShowError("Must not contain special characters!");
             return;
         }
 
-        // Nếu hợp lệ hoàn toàn -> Lưu tên và vào game
         PlayerPrefs.SetString("PlayerName", inputName);
         PlayerPrefs.Save();
         PlayClickSound();
@@ -155,7 +138,6 @@ public class MainMenuManager : MonoBehaviour
         ExecuteGameStart();
     }
 
-    // Hàm hỗ trợ hiển thị lỗi trực quan
     private void ShowError(string message)
     {
         PlayClickSound();
@@ -230,6 +212,7 @@ public class MainMenuManager : MonoBehaviour
             yield return new WaitForSeconds(transitionDelay);
         }
 
-        SceneManager.LoadScene(2);
+        // Chuyển sang Scene đích dựa vào chuỗi nhập trên Inspector (Thay vì dùng số Index cố định)
+        SceneManager.LoadScene(nextSceneName);
     }
 }

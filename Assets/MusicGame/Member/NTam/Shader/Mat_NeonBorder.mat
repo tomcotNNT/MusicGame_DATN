@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: UI_Image Shine
-  m_Shader: {fileID: 4800000, guid: 5c03cb1c7639f324984d7e2cc12d1eab, type: 3}
+  m_Name: Mat_NeonBorder
+  m_Shader: {fileID: 4800000, guid: 0eaddb55112ef0d4a812850f1a3ca294, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -22,20 +22,13 @@ Material:
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+    m_TexEnvs: []
     m_Ints: []
     m_Floats:
-    - _ShineAngle: 45
-    - _ShineDelay: 1
-    - _ShineIntensity: 2
-    - _ShineSpeed: 0.73
-    - _ShineWidth: 0.048
+    - _BorderWidth: 0.015
+    - _GlowIntensity: 3
+    - _Speed: 4
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _ShineColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

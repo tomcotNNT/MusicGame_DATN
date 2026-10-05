@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI; // Thêm namespace để dùng Button và Image
 
 public class ListSongControl : MonoBehaviour,
     IBeginDragHandler,
@@ -13,11 +14,9 @@ public class ListSongControl : MonoBehaviour,
 
     [Header("Layout")]
     [SerializeField] private float spacing = 450f;
-
     [SerializeField] private float centerScale = 1f;
     [SerializeField] private float sideScale = 0.75f;
     [SerializeField] private float farScale = 0.5f;
-
     [SerializeField] private int visibleRange = 2;
 
     [Header("Snap")]
@@ -26,8 +25,11 @@ public class ListSongControl : MonoBehaviour,
     [Header("Drag")]
     [SerializeField] private float dragThreshold = 100f;
 
-    private int currentIndex = 0;
+    [Header("UI Play Button & Lock Settings")]
+    [SerializeField] private Button playButton; // Kéo nút Play vào đây trên Inspector
+    [SerializeField] private string gameplaySceneName = "GameplayScene";
 
+    private int currentIndex = 0;
     private Vector2 dragStartPosition;
     private bool isDragging = false;
     private Coroutine snapCoroutine;
@@ -40,7 +42,6 @@ public class ListSongControl : MonoBehaviour,
         {
             if (songItems == null || songItems.Count == 0)
                 return null;
-
             return songItems[currentIndex];
         }
     }
@@ -78,7 +79,6 @@ public class ListSongControl : MonoBehaviour,
             return;
 
         float deltaX = eventData.position.x - dragStartPosition.x;
-
         UpdateDragLayout(deltaX);
     }
 
@@ -88,19 +88,12 @@ public class ListSongControl : MonoBehaviour,
             return;
 
         isDragging = false;
-
         float deltaX = eventData.position.x - dragStartPosition.x;
 
         if (Mathf.Abs(deltaX) >= dragThreshold)
         {
-            if (deltaX < 0)
-            {
-                NextSong();
-            }
-            else
-            {
-                PreviousSong();
-            }
+            if (deltaX < 0) NextSong();
+            else PreviousSong();
         }
         else
         {
@@ -114,33 +107,17 @@ public class ListSongControl : MonoBehaviour,
 
     public void NextSong()
     {
-        if (songItems.Count <= 1)
-            return;
-
+        if (songItems.Count <= 1) return;
         currentIndex++;
-
-        // Vòng lại bài đầu
-        if (currentIndex >= songItems.Count)
-        {
-            currentIndex = 0;
-        }
-
+        if (currentIndex >= songItems.Count) currentIndex = 0;
         SnapToCurrentSong();
     }
 
     public void PreviousSong()
     {
-        if (songItems.Count <= 1)
-            return;
-
+        if (songItems.Count <= 1) return;
         currentIndex--;
-
-        // Vòng lại bài cuối
-        if (currentIndex < 0)
-        {
-            currentIndex = songItems.Count - 1;
-        }
-
+        if (currentIndex < 0) currentIndex = songItems.Count - 1;
         SnapToCurrentSong();
     }
 
@@ -150,31 +127,44 @@ public class ListSongControl : MonoBehaviour,
 
     private void UpdateDragLayout(float dragDelta)
     {
-        if (songItems.Count == 0)
-            return;
+        if (songItems.Count == 0) return;
 
         float offset = dragDelta;
+        int closestIndex = 0;
+        float minAbsX = float.MaxValue;
 
         for (int i = 0; i < songItems.Count; i++)
         {
             int relativeIndex = GetRelativeIndex(i);
-
-            // Mỗi item cách nhau đúng spacing
             float targetX = relativeIndex * spacing + offset;
 
+            if (Mathf.Abs(targetX) < minAbsX)
+            {
+                minAbsX = Mathf.Abs(targetX);
+                closestIndex = i;
+            }
+        }
+
+        for (int i = 0; i < songItems.Count; i++)
+        {
+            int relativeIndex = GetRelativeIndex(i);
+            float targetX = relativeIndex * spacing + offset;
             songItems[i].SetPosition(targetX);
 
-            float distance = Mathf.Abs(
-                relativeIndex + offset / spacing
-            );
-
+            float distance = Mathf.Abs(relativeIndex + offset / spacing);
             float scale = CalculateScale(distance);
 
             songItems[i].SetScale(scale);
-
             songItems[i].SetVisible(true);
+
+            SongCardEffect effect = songItems[i].GetComponent<SongCardEffect>();
+            if (effect != null)
+            {
+                effect.SetActiveCard(i == closestIndex);
+            }
         }
 
+        UpdatePlayButtonStateForIndex(closestIndex);
         UpdateSiblingOrder();
     }
 
@@ -184,21 +174,15 @@ public class ListSongControl : MonoBehaviour,
 
     private void SnapToCurrentSong()
     {
-        if (songItems.Count == 0)
-            return;
+        if (songItems.Count == 0) return;
 
-        if (snapCoroutine != null)
-        {
-            StopCoroutine(snapCoroutine);
-        }
-
+        if (snapCoroutine != null) StopCoroutine(snapCoroutine);
         snapCoroutine = StartCoroutine(SnapAnimation());
     }
 
     private IEnumerator SnapAnimation()
     {
         float duration = snapDuration;
-
         List<Vector2> startPositions = new List<Vector2>();
         List<float> startScales = new List<float>();
 
@@ -209,53 +193,39 @@ public class ListSongControl : MonoBehaviour,
         }
 
         float timer = 0f;
-
         while (timer < duration)
         {
             timer += Time.deltaTime;
-
             float t = Mathf.Clamp01(timer / duration);
-
-            // Smooth easing
             t = Mathf.SmoothStep(0f, 1f, t);
 
             for (int i = 0; i < songItems.Count; i++)
             {
                 int relativeIndex = GetRelativeIndex(i);
-
                 float targetX = relativeIndex * spacing;
-
                 float distance = Mathf.Abs(relativeIndex);
-
                 float targetScale = CalculateScale(distance);
 
-                float x = Mathf.Lerp(
-                    startPositions[i].x,
-                    targetX,
-                    t
-                );
-
-                float scale = Mathf.Lerp(
-                    startScales[i],
-                    targetScale,
-                    t
-                );
+                float x = Mathf.Lerp(startPositions[i].x, targetX, t);
+                float scale = Mathf.Lerp(startScales[i], targetScale, t);
 
                 songItems[i].SetPosition(x);
                 songItems[i].SetScale(scale);
+                songItems[i].SetVisible(distance <= visibleRange);
 
-                songItems[i].SetVisible(
-                    distance <= visibleRange
-                );
+                SongCardEffect effect = songItems[i].GetComponent<SongCardEffect>();
+                if (effect != null)
+                {
+                    effect.SetActiveCard(relativeIndex == 0);
+                }
             }
 
+            UpdatePlayButtonState();
             UpdateSiblingOrder();
-
             yield return null;
         }
 
         RefreshLayout(false);
-
         snapCoroutine = null;
     }
 
@@ -265,99 +235,133 @@ public class ListSongControl : MonoBehaviour,
 
     private void RefreshLayout(bool instant)
     {
-        if (songItems.Count == 0)
-            return;
+        if (songItems.Count == 0) return;
 
         for (int i = 0; i < songItems.Count; i++)
         {
             int relativeIndex = GetRelativeIndex(i);
-
             float x = relativeIndex * spacing;
-
-            float scale = CalculateScale(
-                Mathf.Abs(relativeIndex)
-            );
+            float scale = CalculateScale(Mathf.Abs(relativeIndex));
 
             songItems[i].SetPosition(x);
             songItems[i].SetScale(scale);
-
             songItems[i].SetVisible(true);
+
+            SongCardEffect effect = songItems[i].GetComponent<SongCardEffect>();
+            if (effect != null)
+            {
+                effect.SetActiveCard(relativeIndex == 0);
+            }
         }
 
+        UpdatePlayButtonState();
         UpdateSiblingOrder();
     }
 
     // =========================================================
-    // RELATIVE INDEX
+    // UPDATE PLAY BUTTON STATE (KHÓA / MỞ KHÓA MÀN CHƠI)
+    // =========================================================
+
+    private void UpdatePlayButtonState()
+    {
+        UpdatePlayButtonStateForIndex(currentIndex);
+    }
+
+    private void UpdatePlayButtonStateForIndex(int index)
+    {
+        if (playButton == null) return;
+
+        // TẠM THỜI: Chỉ mở khóa màn đầu tiên (Index 0 tương ứng với Màn 1), các màn từ Index 1 trở đi bị khóa
+        bool isUnlocked = (index == 0);
+
+        playButton.interactable = isUnlocked; // Cho phép hoặc chặn bấm nút
+
+        // Làm mờ nhẹ nút Play nếu màn chơi bị khóa (Alpha = 0.5)
+        CanvasGroup canvasGroup = playButton.GetComponent<CanvasGroup>();
+        if (canvasGroup != null)
+        {
+            canvasGroup.alpha = isUnlocked ? 1f : 0.5f;
+        }
+        else
+        {
+            Image btnImg = playButton.GetComponent<Image>();
+            if (btnImg != null)
+            {
+                Color c = btnImg.color;
+                c.a = isUnlocked ? 1f : 0.5f;
+                btnImg.color = c;
+            }
+        }
+    }
+
+    // =========================================================
+    // PLAY BUTTON CLICKED
+    // =========================================================
+
+    public void OnPlayButtonClicked()
+    {
+        if (songItems == null || songItems.Count == 0) return;
+
+        // Kiểm tra an toàn: Nếu màn hiện tại chưa mở khóa thì chặn không cho vào game
+        if (currentIndex > 0)
+        {
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.PlayClickSound();
+            }
+            Debug.Log("Màn chơi này đang bị khóa!");
+            // (Tùy chọn: Bạn có thể bật một bảng thông báo Pop-up "Coming Soon / Locked" ở đây)
+            return;
+        }
+
+        // Nếu đã mở khóa (Màn 1) thì tiến hành vào game bình thường
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.PlayClickSound();
+        }
+
+        UnityEngine.SceneManagement.SceneManager.LoadScene(gameplaySceneName);
+    }
+
+    // =========================================================
+    // HELPER METHODS
     // =========================================================
 
     private int GetRelativeIndex(int itemIndex)
     {
         int count = songItems.Count;
-
-        if (count <= 1)
-            return 0;
+        if (count <= 1) return 0;
 
         int difference = itemIndex - currentIndex;
-
-        // Vòng tròn
-        if (difference > count / 2)
-            difference -= count;
-
-        if (difference < -count / 2)
-            difference += count;
+        if (difference > count / 2) difference -= count;
+        if (difference < -count / 2) difference += count;
 
         return difference;
     }
 
-    // =========================================================
-    // SCALE
-    // =========================================================
-
     private float CalculateScale(float distance)
     {
-        if (distance <= 0.01f)
-        {
-            return centerScale;
-        }
-
-        if (distance <= 1f)
-        {
-            return sideScale;
-        }
-
+        if (distance <= 0.01f) return centerScale;
+        if (distance <= 1f) return sideScale;
         return farScale;
     }
-
-    // =========================================================
-    // VISIBILITY
-    // =========================================================
 
     private bool IsVisible(int relativeIndex)
     {
         return Mathf.Abs(relativeIndex) <= visibleRange;
     }
 
-    // =========================================================
-    // SIBLING ORDER
-    // =========================================================
-
     private void UpdateSiblingOrder()
     {
-        if (songItems.Count == 0)
-            return;
+        if (songItems.Count == 0) return;
 
-        // Đưa các item xa ra phía sau trước
         List<SongItem> sortedItems = new List<SongItem>(songItems);
-
         sortedItems.Sort((a, b) =>
         {
             int indexA = songItems.IndexOf(a);
             int indexB = songItems.IndexOf(b);
-
             float distanceA = Mathf.Abs(GetRelativeIndex(indexA));
             float distanceB = Mathf.Abs(GetRelativeIndex(indexB));
-
             return distanceB.CompareTo(distanceA);
         });
 

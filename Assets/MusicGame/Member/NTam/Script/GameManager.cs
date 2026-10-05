@@ -1,33 +1,45 @@
 using System.IO;
 using UnityEngine;
 
+[System.Serializable]
+public class PlayerGameData
+{
+    public int totalCoins = 0;
+    public int highestScore = 0;
+    public float gameVolume = 1f;
+    public float audioOffset = 0f;
+}
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    [Header("Dữ Liệu Hệ Thống")]
-    public float audioOffset = 0f;
-    public float gameVolume = 1f;
-    public int totalCoins = 0;
+    [Header("Dữ Liệu Trò Chơi Hiện Tại")]
+    public PlayerGameData playerData = new PlayerGameData();
 
     [Header("Kho Âm Thanh Toàn Cục (Global Audio)")]
     public AudioSource bgmSource;       // Nhạc nền xuyên suốt
-    public AudioSource sfxClickSource;  // Tiếng click chung toàn game
-    public AudioSource sfxStartSource;  // Tiếng bắt đầu game / chuyển cảnh
+    public AudioSource sfxClickSource;  // Tiếng click chung
+    public AudioSource sfxStartSource;  // Tiếng bắt đầu / chuyển cảnh
+
+    private string savePath;
 
     private void Awake()
     {
         if (Instance != null && Instance != this)
         {
-            Destroy(gameObject); // Chống nhân bản GameManager khi sang Scene mới
+            Destroy(gameObject);
             return;
         }
         
         Instance = this;
-        DontDestroyOnLoad(gameObject); // Sống mãi xuyên các Scene
+        DontDestroyOnLoad(gameObject);
 
+        savePath = Application.persistentDataPath + "/PlayerSaveData.json";
+
+        // Khôi phục dữ liệu ngay khi game khởi động ở Scene đầu tiên
+        LoadGameData();
         LoadSettingsData();
-        LoadPlayerData();
     }
 
     private void Start()
@@ -35,49 +47,52 @@ public class GameManager : MonoBehaviour
         PlayBGM();
     }
 
-    public void PlayBGM()
+    // --- QUẢN LÝ LƯU & TẢI DỮ LIỆU ---
+    public void SaveGameData()
     {
-        if (bgmSource != null && !bgmSource.isPlaying)
-        {
-            bgmSource.volume = gameVolume;
-            bgmSource.Play();
-        }
+        string json = JsonUtility.ToJson(playerData, true);
+        File.WriteAllText(savePath, json);
     }
 
-    // Hàm chung để mọi Script khác gọi tiếng Click mà không cần khai báo lại
-    public void PlayClickSound()
+    public void LoadGameData()
     {
-        if (sfxClickSource != null)
+        if (File.Exists(savePath))
         {
-            sfxClickSource.Play();
+            string json = File.ReadAllText(savePath);
+            JsonUtility.FromJsonOverwrite(json, playerData);
         }
-    }
-
-    public void PlayStartSound()
-    {
-        if (sfxStartSource != null)
+        else
         {
-            sfxStartSource.Play();
+            // Nếu chưa có file (lần đầu chơi), khởi tạo mặc định và lưu lại
+            playerData = new PlayerGameData();
+            SaveGameData();
         }
     }
 
     private void LoadSettingsData()
     {
-        audioOffset = PlayerPrefs.GetFloat("AudioOffset", 0f);
-        gameVolume = PlayerPrefs.GetFloat("GameVolume", 1f);
-        AudioListener.volume = gameVolume;
+        playerData.audioOffset = PlayerPrefs.GetFloat("AudioOffset", 0f);
+        playerData.gameVolume = PlayerPrefs.GetFloat("GameVolume", 1f);
+        AudioListener.volume = playerData.gameVolume;
     }
 
-    private void LoadPlayerData()
+    // --- QUẢN LÝ ÂM THANH ---
+    public void PlayBGM()
     {
-        string savePath = Application.persistentDataPath + "/SaveData.json";
-        if (File.Exists(savePath))
+        if (bgmSource != null && !bgmSource.isPlaying)
         {
-            string json = File.ReadAllText(savePath);
+            bgmSource.volume = playerData.gameVolume;
+            bgmSource.Play();
         }
-        else
-        {
-            totalCoins = 0;
-        }
+    }
+
+    public void PlayClickSound()
+    {
+        if (sfxClickSource != null) sfxClickSource.Play();
+    }
+
+    public void PlayStartSound()
+    {
+        if (sfxStartSource != null) sfxStartSource.Play();
     }
 }
