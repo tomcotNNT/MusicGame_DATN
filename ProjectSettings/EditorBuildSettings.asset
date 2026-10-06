@@ -6,8 +6,20 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/MusicGame/Member/NTam/Scene/Start_Scene.unity
+    guid: 2ef57c962ec38d047a5eebb8a1bdfa1f
+  - enabled: 1
+    path: Assets/MusicGame/Member/NTam/Scene/MainMenu2.unity
+    guid: 52405ffabef4c7f4680542c503f92337
+  - enabled: 1
+    path: Assets/MusicGame/Member/NTam/Scene/SelectSong1.unity
+    guid: 897eadc400116ea42901360f1fcd1b1b
+  - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Scenes/TTAM/Man1.unity
+    guid: fa341fea2a5a62f4b842d5cad4ce4190
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
