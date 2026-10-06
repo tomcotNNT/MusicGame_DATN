@@ -1825,7 +1825,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 568323593}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1627216517}
+        m_TargetAssemblyTypeName: Scenes, Assembly-CSharp
+        m_MethodName: GetScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Man1
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &568323593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2709,8 +2721,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 1230307681
-  m_SortingLayer: 1
+  m_SortingLayerID: -2022722701
+  m_SortingLayer: 3
   m_SortingOrder: 5
   m_MaskInteraction: 0
   m_Sprite: {fileID: 0}
@@ -3177,7 +3189,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1233144514}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1627216517}
+        m_TargetAssemblyTypeName: Scenes, Assembly-CSharp
+        m_MethodName: GetScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: SelectSong1
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1233144514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3495,7 +3519,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1283044677
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5082,6 +5106,7 @@ GameObject:
   - component: {fileID: 1627216511}
   - component: {fileID: 1627216515}
   - component: {fileID: 1627216516}
+  - component: {fileID: 1627216517}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -5207,6 +5232,18 @@ MonoBehaviour:
   height: 10
   speed: 5
   characterDelay: -0.44
+--- !u!114 &1627216517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1627216510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc29e755ccf793f4fbe0c672418c3b36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Scenes
 --- !u!1 &1632671309
 GameObject:
   m_ObjectHideFlags: 0
