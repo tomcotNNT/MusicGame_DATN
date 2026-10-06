@@ -2,80 +2,54 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI; // Thêm namespace để dùng Button và Image
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-public class ListSongControl : MonoBehaviour,
+
+public class ListCharControl : MonoBehaviour,
     IBeginDragHandler,
     IDragHandler,
     IEndDragHandler
 {
-    [Header("Song Items")]
-    [SerializeField] private List<SongItem> songItems = new List<SongItem>();
+    [Header("Character Items")]
+    [SerializeField] private List<SongItem> charItems = new List<SongItem>(); // Tận dụng component SongItem cho thẻ nhân vật
 
-    [Header("Layout")]
+    [Header("Layout Settings")]
     [SerializeField] private float spacing = 450f;
     [SerializeField] private float centerScale = 1f;
     [SerializeField] private float sideScale = 0.75f;
     [SerializeField] private float farScale = 0.5f;
     [SerializeField] private int visibleRange = 2;
 
-    [Header("Snap")]
+    [Header("Snap & Drag")]
     [SerializeField] private float snapDuration = 0.25f;
-
-    [Header("Drag")]
     [SerializeField] private float dragThreshold = 100f;
 
-    [Header("UI Play Button & Lock Settings")]
-    [SerializeField] private Button playButton; // Kéo nút Play vào đây trên Inspector
-    [SerializeField] private string gameplaySceneName = "GameplayScene";
+    [Header("UI Buttons & Scenes")]
+    [SerializeField] private Button playButton;                     // Nút Play màu hồng ở giữa
+    [SerializeField] private Button returnButton;                   // Nút mũi tên Return (quay lại) ở góc trái
+    [SerializeField] private string gameplaySceneName = "GameplayScene"; // Tên scene vào chơi game
+    [SerializeField] private string selectSongSceneName = "SelectSong1"; // Tên scene quay lại chọn bài
 
     private int currentIndex = 0;
     private Vector2 dragStartPosition;
     private bool isDragging = false;
     private Coroutine snapCoroutine;
 
-    public int CurrentIndex => currentIndex;
-
-    public SongItem CurrentSong
-    {
-        get
-        {
-            if (songItems == null || songItems.Count == 0)
-                return null;
-            return songItems[currentIndex];
-        }
-    }
-
     private void Start()
     {
-        if (songItems == null || songItems.Count == 0)
+        if (charItems == null || charItems.Count == 0)
             return;
 
         RefreshLayout(true);
     }
-    [Header("Scene Navigation")]
-    [SerializeField] private string selectSongSceneName = "SelectSong1"; // Tên scene sảnh chọn bài
-
-    // Hàm gọi khi bấm nút mũi tên quay lại (Back)
-    public void OnBackButtonClicked()
-    {
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.PlayClickSound();
-        }
-
-        // Quay trở lại màn hình chọn bài hát
-        SceneManager.LoadScene(selectSongSceneName);
-    }
 
     // =========================================================
-    // DRAG
+    // DRAG HANDLERS
     // =========================================================
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (songItems.Count <= 1)
-            return;
+        if (charItems.Count <= 1) return;
 
         if (snapCoroutine != null)
         {
@@ -89,8 +63,7 @@ public class ListSongControl : MonoBehaviour,
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (!isDragging || songItems.Count <= 1)
-            return;
+        if (!isDragging || charItems.Count <= 1) return;
 
         float deltaX = eventData.position.x - dragStartPosition.x;
         UpdateDragLayout(deltaX);
@@ -98,56 +71,51 @@ public class ListSongControl : MonoBehaviour,
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (!isDragging)
-            return;
+        if (!isDragging) return;
 
         isDragging = false;
         float deltaX = eventData.position.x - dragStartPosition.x;
 
         if (Mathf.Abs(deltaX) >= dragThreshold)
         {
-            if (deltaX < 0) NextSong();
-            else PreviousSong();
+            if (deltaX < 0) NextChar();
+            else PreviousChar();
         }
         else
         {
-            SnapToCurrentSong();
+            SnapToCurrentChar();
         }
     }
 
-    // =========================================================
-    // NEXT / PREVIOUS
-    // =========================================================
-
-    public void NextSong()
+    public void NextChar()
     {
-        if (songItems.Count <= 1) return;
+        if (charItems.Count <= 1) return;
         currentIndex++;
-        if (currentIndex >= songItems.Count) currentIndex = 0;
-        SnapToCurrentSong();
+        if (currentIndex >= charItems.Count) currentIndex = 0;
+        SnapToCurrentChar();
     }
 
-    public void PreviousSong()
+    public void PreviousChar()
     {
-        if (songItems.Count <= 1) return;
+        if (charItems.Count <= 1) return;
         currentIndex--;
-        if (currentIndex < 0) currentIndex = songItems.Count - 1;
-        SnapToCurrentSong();
+        if (currentIndex < 0) currentIndex = charItems.Count - 1;
+        SnapToCurrentChar();
     }
 
     // =========================================================
-    // DRAG LAYOUT
+    // LAYOUT & SNAP LOGIC
     // =========================================================
 
     private void UpdateDragLayout(float dragDelta)
     {
-        if (songItems.Count == 0) return;
+        if (charItems.Count == 0) return;
 
         float offset = dragDelta;
         int closestIndex = 0;
         float minAbsX = float.MaxValue;
 
-        for (int i = 0; i < songItems.Count; i++)
+        for (int i = 0; i < charItems.Count; i++)
         {
             int relativeIndex = GetRelativeIndex(i);
             float targetX = relativeIndex * spacing + offset;
@@ -159,19 +127,19 @@ public class ListSongControl : MonoBehaviour,
             }
         }
 
-        for (int i = 0; i < songItems.Count; i++)
+        for (int i = 0; i < charItems.Count; i++)
         {
             int relativeIndex = GetRelativeIndex(i);
             float targetX = relativeIndex * spacing + offset;
-            songItems[i].SetPosition(targetX);
+            charItems[i].SetPosition(targetX);
 
             float distance = Mathf.Abs(relativeIndex + offset / spacing);
             float scale = CalculateScale(distance);
 
-            songItems[i].SetScale(scale);
-            songItems[i].SetVisible(true);
+            charItems[i].SetScale(scale);
+            charItems[i].SetVisible(true);
 
-            SongCardEffect effect = songItems[i].GetComponent<SongCardEffect>();
+            SongCardEffect effect = charItems[i].GetComponent<SongCardEffect>();
             if (effect != null)
             {
                 effect.SetActiveCard(i == closestIndex);
@@ -182,13 +150,9 @@ public class ListSongControl : MonoBehaviour,
         UpdateSiblingOrder();
     }
 
-    // =========================================================
-    // SNAP
-    // =========================================================
-
-    private void SnapToCurrentSong()
+    private void SnapToCurrentChar()
     {
-        if (songItems.Count == 0) return;
+        if (charItems.Count == 0) return;
 
         if (snapCoroutine != null) StopCoroutine(snapCoroutine);
         snapCoroutine = StartCoroutine(SnapAnimation());
@@ -200,10 +164,10 @@ public class ListSongControl : MonoBehaviour,
         List<Vector2> startPositions = new List<Vector2>();
         List<float> startScales = new List<float>();
 
-        for (int i = 0; i < songItems.Count; i++)
+        for (int i = 0; i < charItems.Count; i++)
         {
-            startPositions.Add(songItems[i].GetPosition());
-            startScales.Add(songItems[i].GetScale());
+            startPositions.Add(charItems[i].GetPosition());
+            startScales.Add(charItems[i].GetScale());
         }
 
         float timer = 0f;
@@ -213,7 +177,7 @@ public class ListSongControl : MonoBehaviour,
             float t = Mathf.Clamp01(timer / duration);
             t = Mathf.SmoothStep(0f, 1f, t);
 
-            for (int i = 0; i < songItems.Count; i++)
+            for (int i = 0; i < charItems.Count; i++)
             {
                 int relativeIndex = GetRelativeIndex(i);
                 float targetX = relativeIndex * spacing;
@@ -223,11 +187,11 @@ public class ListSongControl : MonoBehaviour,
                 float x = Mathf.Lerp(startPositions[i].x, targetX, t);
                 float scale = Mathf.Lerp(startScales[i], targetScale, t);
 
-                songItems[i].SetPosition(x);
-                songItems[i].SetScale(scale);
-                songItems[i].SetVisible(distance <= visibleRange);
+                charItems[i].SetPosition(x);
+                charItems[i].SetScale(scale);
+                charItems[i].SetVisible(distance <= visibleRange);
 
-                SongCardEffect effect = songItems[i].GetComponent<SongCardEffect>();
+                SongCardEffect effect = charItems[i].GetComponent<SongCardEffect>();
                 if (effect != null)
                 {
                     effect.SetActiveCard(relativeIndex == 0);
@@ -243,25 +207,21 @@ public class ListSongControl : MonoBehaviour,
         snapCoroutine = null;
     }
 
-    // =========================================================
-    // REFRESH
-    // =========================================================
-
     private void RefreshLayout(bool instant)
     {
-        if (songItems.Count == 0) return;
+        if (charItems.Count == 0) return;
 
-        for (int i = 0; i < songItems.Count; i++)
+        for (int i = 0; i < charItems.Count; i++)
         {
             int relativeIndex = GetRelativeIndex(i);
             float x = relativeIndex * spacing;
             float scale = CalculateScale(Mathf.Abs(relativeIndex));
 
-            songItems[i].SetPosition(x);
-            songItems[i].SetScale(scale);
-            songItems[i].SetVisible(true);
+            charItems[i].SetPosition(x);
+            charItems[i].SetScale(scale);
+            charItems[i].SetVisible(true);
 
-            SongCardEffect effect = songItems[i].GetComponent<SongCardEffect>();
+            SongCardEffect effect = charItems[i].GetComponent<SongCardEffect>();
             if (effect != null)
             {
                 effect.SetActiveCard(relativeIndex == 0);
@@ -273,7 +233,7 @@ public class ListSongControl : MonoBehaviour,
     }
 
     // =========================================================
-    // UPDATE PLAY BUTTON STATE (KHÓA / MỞ KHÓA MÀN CHƠI)
+    // KHÓA / MỞ KHÓA NÚT PLAY THEO NHÂN VẬT
     // =========================================================
 
     private void UpdatePlayButtonState()
@@ -285,12 +245,12 @@ public class ListSongControl : MonoBehaviour,
     {
         if (playButton == null) return;
 
-        // TẠM THỜI: Chỉ mở khóa màn đầu tiên (Index 0 tương ứng với Màn 1), các màn từ Index 1 trở đi bị khóa
+        // TẠM THỜI: Chỉ mở khóa nhân vật đầu tiên (Index 0), các nhân vật từ Index 1 trở đi bị khóa
         bool isUnlocked = (index == 0);
 
-        playButton.interactable = isUnlocked; // Cho phép hoặc chặn bấm nút
+        playButton.interactable = isUnlocked;
 
-        // Làm mờ nhẹ nút Play nếu màn chơi bị khóa (Alpha = 0.5)
+        // Làm mờ nút Play nếu nhân vật bị khóa (Alpha = 0.5)
         CanvasGroup canvasGroup = playButton.GetComponent<CanvasGroup>();
         if (canvasGroup != null)
         {
@@ -309,32 +269,33 @@ public class ListSongControl : MonoBehaviour,
     }
 
     // =========================================================
-    // PLAY BUTTON CLICKED
+    // SỰ KIỆN NÚT BẤM (BUTTON CLICK)
     // =========================================================
 
     public void OnPlayButtonClicked()
     {
-        if (songItems == null || songItems.Count == 0) return;
-
-        // Kiểm tra an toàn: Nếu màn hiện tại chưa mở khóa thì chặn không cho vào game
         if (currentIndex > 0)
         {
-            if (GameManager.Instance != null)
-            {
-                GameManager.Instance.PlayClickSound();
-            }
-            Debug.Log("Màn chơi này đang bị khóa!");
-            // (Tùy chọn: Bạn có thể bật một bảng thông báo Pop-up "Coming Soon / Locked" ở đây)
-            return;
+            Debug.Log("Nhân vật này đang bị khóa!");
+            return; // Chặn không cho vào game nếu chưa mở khóa
         }
 
-        // Nếu đã mở khóa (Màn 1) thì tiến hành vào game bình thường
         if (GameManager.Instance != null)
         {
             GameManager.Instance.PlayClickSound();
         }
 
-        UnityEngine.SceneManagement.SceneManager.LoadScene(gameplaySceneName);
+        SceneManager.LoadScene(gameplaySceneName);
+    }
+
+    public void OnReturnButtonClicked()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.PlayClickSound();
+        }
+
+        SceneManager.LoadScene(selectSongSceneName); // Quay lại màn hình chọn bài
     }
 
     // =========================================================
@@ -343,7 +304,7 @@ public class ListSongControl : MonoBehaviour,
 
     private int GetRelativeIndex(int itemIndex)
     {
-        int count = songItems.Count;
+        int count = charItems.Count;
         if (count <= 1) return 0;
 
         int difference = itemIndex - currentIndex;
@@ -360,22 +321,17 @@ public class ListSongControl : MonoBehaviour,
         return farScale;
     }
 
-    private bool IsVisible(int relativeIndex)
-    {
-        return Mathf.Abs(relativeIndex) <= visibleRange;
-    }
-
     private void UpdateSiblingOrder()
     {
-        if (songItems.Count == 0) return;
+        if (charItems.Count == 0) return;
 
-        List<SongItem> sortedItems = new List<SongItem>(songItems);
+        List<SongItem> sortedItems = new List<SongItem>(charItems);
         sortedItems.Sort((a, b) =>
         {
-            int indexA = songItems.IndexOf(a);
-            int indexB = songItems.IndexOf(b);
-            float distanceA = Mathf.Abs(GetRelativeIndex(indexA));
-            float distanceB = Mathf.Abs(GetRelativeIndex(indexB));
+            int index_a = charItems.IndexOf(a);
+            int index_b = charItems.IndexOf(b);
+            float distanceA = Mathf.Abs(GetRelativeIndex(index_a));
+            float distanceB = Mathf.Abs(GetRelativeIndex(index_b));
             return distanceB.CompareTo(distanceA);
         });
 
