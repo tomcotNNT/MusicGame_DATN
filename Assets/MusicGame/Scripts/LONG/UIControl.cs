@@ -1,16 +1,27 @@
+
 using UnityEngine;
+using TMPro;
 
 public class UIControl : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] private TextMeshProUGUI tapToStartText;
+    [SerializeField] private float blinkInterval = 0.8f;
+
+    private float timer;
+
+    private void Start()
     {
-        
+        tapToStartText.enabled = true;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        timer += Time.deltaTime;
+
+        if (timer >= blinkInterval)
+        {
+            timer = 0f;
+            tapToStartText.enabled = !tapToStartText.enabled;
+        }
     }
 }
