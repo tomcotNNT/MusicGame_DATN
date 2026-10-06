@@ -28,7 +28,6 @@ public class MenuButtonFloat : MonoBehaviour
             startPos + new Vector2(offset, 0);
     }
 
-    // Dành cho nút PLAY
     public void PlayGame()
     {
         SceneManager.LoadScene("Game");
