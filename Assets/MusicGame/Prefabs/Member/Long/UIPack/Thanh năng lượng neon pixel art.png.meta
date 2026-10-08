@@ -1,0 +1,429 @@
+fileFormatVersion: 2
+guid: 7fcbe79ecaa50814cab752cd99fa6885
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 571338934354298915
+    second: "Thanh n\u0103ng l\u01B0\u1EE3ng neon pixel art_0"
+  - first:
+      213: -8087648143677996198
+    second: "Thanh n\u0103ng l\u01B0\u1EE3ng neon pixel art_1"
+  - first:
+      213: 6444887769094331975
+    second: "Thanh n\u0103ng l\u01B0\u1EE3ng neon pixel art_2"
+  - first:
+      213: 1111412688269897020
+    second: "Thanh n\u0103ng l\u01B0\u1EE3ng neon pixel art_3"
+  - first:
+      213: -7548059206945986035
+    second: "Thanh n\u0103ng l\u01B0\u1EE3ng neon pixel art_4"
+  - first:
+      213: -4253280672371624796
+    second: "Thanh n\u0103ng l\u01B0\u1EE3ng neon pixel art_5"
+  - first:
+      213: -6337979059618267569
+    second: "Thanh n\u0103ng l\u01B0\u1EE3ng neon pixel art_6"
+  - first:
+      213: -7848286734328746576
+    second: "Thanh n\u0103ng l\u01B0\u1EE3ng neon pixel art_7"
+  - first:
+      213: -8729383624841860714
+    second: "Thanh n\u0103ng l\u01B0\u1EE3ng neon pixel art_8"
+  - first:
+      213: -5156981652147564516
+    second: "Thanh n\u0103ng l\u01B0\u1EE3ng neon pixel art_9"
+  - first:
+      213: 6337342465259678228
+    second: "Thanh n\u0103ng l\u01B0\u1EE3ng neon pixel art_10"
+  - first:
+      213: -4274305887022984214
+    second: "Thanh n\u0103ng l\u01B0\u1EE3ng neon pixel art_11"
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: "Thanh n\u0103ng l\u01B0\u1EE3ng neon pixel art_0"
+      rect:
+        serializedVersion: 2
+        x: 883
+        y: 659
+        width: 81
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 328c984dbbdcde700800000000000000
+      internalID: 571338934354298915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Thanh n\u0103ng l\u01B0\u1EE3ng neon pixel art_1"
+      rect:
+        serializedVersion: 2
+        x: 1108
+        y: 642
+        width: 158
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a53c9bf0dd6e2cf80800000000000000
+      internalID: -8087648143677996198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Thanh n\u0103ng l\u01B0\u1EE3ng neon pixel art_2"
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 41
+        width: 2125
+        height: 601
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74e902e8747d07950800000000000000
+      internalID: 6444887769094331975
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Thanh n\u0103ng l\u01B0\u1EE3ng neon pixel art_3"
+      rect:
+        serializedVersion: 2
+        x: 92
+        y: 79
+        width: 14
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c3d603393f78c6f00800000000000000
+      internalID: 1111412688269897020
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Thanh n\u0103ng l\u01B0\u1EE3ng neon pixel art_4"
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 144
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d0a2e528428ef3790800000000000000
+      internalID: -7548059206945986035
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Thanh n\u0103ng l\u01B0\u1EE3ng neon pixel art_5"
+      rect:
+        serializedVersion: 2
+        x: 314
+        y: 144
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4a4314963cf49f4c0800000000000000
+      internalID: -4253280672371624796
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Thanh n\u0103ng l\u01B0\u1EE3ng neon pixel art_6"
+      rect:
+        serializedVersion: 2
+        x: 533
+        y: 79
+        width: 17
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f4eb69510a9fa08a0800000000000000
+      internalID: -6337979059618267569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Thanh n\u0103ng l\u01B0\u1EE3ng neon pixel art_7"
+      rect:
+        serializedVersion: 2
+        x: 798
+        y: 98
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0bdace01cc8451390800000000000000
+      internalID: -7848286734328746576
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Thanh n\u0103ng l\u01B0\u1EE3ng neon pixel art_8"
+      rect:
+        serializedVersion: 2
+        x: 917
+        y: 96
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 699603de7dffad680800000000000000
+      internalID: -8729383624841860714
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Thanh n\u0103ng l\u01B0\u1EE3ng neon pixel art_9"
+      rect:
+        serializedVersion: 2
+        x: 1229
+        y: 95
+        width: 25
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c10998e9288be68b0800000000000000
+      internalID: -5156981652147564516
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Thanh n\u0103ng l\u01B0\u1EE3ng neon pixel art_10"
+      rect:
+        serializedVersion: 2
+        x: 1882
+        y: 112
+        width: 9
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 41a2dcd3563c2f750800000000000000
+      internalID: 6337342465259678228
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Thanh n\u0103ng l\u01B0\u1EE3ng neon pixel art_11"
+      rect:
+        serializedVersion: 2
+        x: 1888
+        y: 112
+        width: 16
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae352a6217d9ea4c0800000000000000
+      internalID: -4274305887022984214
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      "Thanh n\u0103ng l\u01B0\u1EE3ng neon pixel art_0": 571338934354298915
+      "Thanh n\u0103ng l\u01B0\u1EE3ng neon pixel art_1": -8087648143677996198
+      "Thanh n\u0103ng l\u01B0\u1EE3ng neon pixel art_10": 6337342465259678228
+      "Thanh n\u0103ng l\u01B0\u1EE3ng neon pixel art_11": -4274305887022984214
+      "Thanh n\u0103ng l\u01B0\u1EE3ng neon pixel art_2": 6444887769094331975
+      "Thanh n\u0103ng l\u01B0\u1EE3ng neon pixel art_3": 1111412688269897020
+      "Thanh n\u0103ng l\u01B0\u1EE3ng neon pixel art_4": -7548059206945986035
+      "Thanh n\u0103ng l\u01B0\u1EE3ng neon pixel art_5": -4253280672371624796
+      "Thanh n\u0103ng l\u01B0\u1EE3ng neon pixel art_6": -6337979059618267569
+      "Thanh n\u0103ng l\u01B0\u1EE3ng neon pixel art_7": -7848286734328746576
+      "Thanh n\u0103ng l\u01B0\u1EE3ng neon pixel art_8": -8729383624841860714
+      "Thanh n\u0103ng l\u01B0\u1EE3ng neon pixel art_9": -5156981652147564516
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
