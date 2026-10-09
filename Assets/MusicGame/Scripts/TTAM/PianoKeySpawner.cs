@@ -9,6 +9,7 @@ public class PianoKeySpawner : MonoBehaviour
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private Transform player;
     [SerializeField] private Transform spawnPoint;
+    [SerializeField] private float longNoteYOffset = -1.2f;
 
     [Header("Rhythm Settings")]
     [Tooltip("Tốc độ key (unit/giây) - cố định cho cả bài")]
@@ -42,6 +43,14 @@ public class PianoKeySpawner : MonoBehaviour
     private readonly List<GameObject> activeKeys = new List<GameObject>();
 
     public static PianoKeySpawner Instance { get; private set; }
+
+    [Header("Long Note")]
+    [SerializeField] private GameObject longNotePrefab;
+    [SerializeField] private ScoreSystem scoreSystem;
+    [Tooltip("Note có duration >= giá trị này (giây) sẽ thành nốt dài")]
+    [SerializeField] private float longNoteMinDuration = 0.5f;
+
+    private float lastAcceptedNoteEnd = -999f;   // thay cho lastAcceptedNoteTime
 
     private void Awake()
     {
@@ -100,7 +109,7 @@ public class PianoKeySpawner : MonoBehaviour
         ClearAllKeys();
 
         nextNoteIndex = 0;
-        lastAcceptedNoteTime = -999f;
+        lastAcceptedNoteEnd = -999f;
         songEnded = false;
 
         // Hướng key bay: từ spawnPoint về phía player
@@ -146,26 +155,86 @@ public class PianoKeySpawner : MonoBehaviour
         {
             MidiReader.RhythmNote note = notes[nextNoteIndex];
 
-            // Chưa tới lúc spawn
             if (note.time > now + spawnAheadTime)
                 break;
 
             nextNoteIndex++;
 
-            // Note sát note trước (hợp âm / 2 lane cùng lúc) -> bỏ để không đè nhau
+            bool isLong = longNotePrefab != null && note.duration >= longNoteMinDuration;
+
+            // Note phải cách điểm kết thúc của note trước (kể cả đuôi nốt dài) đủ xa
             float minGapTime = minKeyGap / keySpeed;
-            if (note.time - lastAcceptedNoteTime < minGapTime)
+            if (note.time - lastAcceptedNoteEnd < minGapTime)
                 continue;
 
             float travelTime = note.time - now;
-
-            // Note đã trễ (lag) -> bỏ qua
             if (travelTime <= 0f)
                 continue;
 
-            lastAcceptedNoteTime = note.time;
-            SpawnKey(note, travelTime);
+            lastAcceptedNoteEnd = note.time + (isLong ? note.duration : 0f);
+
+            if (isLong) SpawnLongKey(note, travelTime);
+            else        SpawnKey(note, travelTime);
         }
+    }
+    private void SpawnLongKey(MidiReader.RhythmNote note, float travelTime)
+    {
+        float spawnX =
+            player.position.x + spawnDirection * keySpeed * travelTime;
+
+        Vector3 pos = new Vector3(
+            spawnX,
+            spawnPoint.position.y + longNoteYOffset,
+            spawnPoint.position.z
+        );
+
+        GameObject obj = Instantiate(
+            longNotePrefab,
+            pos,
+            Quaternion.identity
+        );
+
+        LongNote ln = obj.GetComponent<LongNote>();
+
+        if (ln == null)
+        {
+            Debug.LogError("LongNote Prefab chưa có LongNote.cs!");
+            Destroy(obj);
+            return;
+        }
+
+        // Random lane độc lập cho từng nốt dài
+        Lanee lane;
+
+        if (randomLane)
+        {
+            lane = Random.value < 0.5f
+                ? Lanee.Left
+                : Lanee.Right;
+        }
+        else
+        {
+            lane = note.lane == 0
+                ? Lanee.Left
+                : Lanee.Right;
+        }
+
+        ln.Init(
+            lane,
+            note.time,
+            note.duration,
+            keySpeed,
+            player.position.x,
+            spawnDirection,
+            this
+        );
+
+        activeKeys.Add(obj);
+
+        Debug.Log(
+            $"Long Note: {lane} | Start: {note.time:F2}s | " +
+            $"Duration: {note.duration:F2}s"
+        );
     }
 
     private void SpawnKey(MidiReader.RhythmNote note, float travelTime)

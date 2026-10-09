@@ -1435,7 +1435,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efc7d6c77ddb2df42ae87992461d62aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelManager
-  currentLevel: {fileID: 11400000, guid: 17b0e43c5a729e84cb9aa87e10323c0f, type: 2}
+  currentLevel: {fileID: 11400000, guid: 0ebdaf7c7118e2a48a85409343f60c8a, type: 2}
   midiReader: {fileID: 459371224}
   audioSource: {fileID: 459371225}
 --- !u!1 &497224101
@@ -2453,7 +2453,7 @@ MonoBehaviour:
   audioSource: {fileID: 459371225}
   player: {fileID: 2008411973}
   spawnPoint: {fileID: 983721398}
-  longNoteYOffset: 5.58
+  longNoteYOffset: 4.42
   keySpeed: 8
   spawnAheadTime: 2
   autoSpawnAhead: 1
@@ -4325,7 +4325,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1467893458}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7dd30bea117ed60409d43579e052df2d, type: 3}
   m_Name: 
