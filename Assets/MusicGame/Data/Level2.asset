@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f68ab6cdf0bad1d4496d76fce63011d0, type: 3}
+  m_Name: Level2
+  m_EditorClassIdentifier: Assembly-CSharp::LevelData
+  levelName: 
+  music: {fileID: 8300000, guid: e68699572410439478f38a5f6db26866, type: 3}
+  midiFileName: Pirates of the Caribbean - He's a Pirate (3).mid
+  forcedTrackIndex: -1
+  timeOffset: 0
+  noteSpeed: 5
+  difficulty: 4
+  minNoteDistanceOverride: 0

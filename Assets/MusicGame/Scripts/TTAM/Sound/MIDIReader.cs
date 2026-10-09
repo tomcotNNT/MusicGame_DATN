@@ -83,6 +83,12 @@ public class MidiReader : MonoBehaviour
     [Tooltip("Tối đa bao nhiêu key liên tiếp cùng lane (0 = không giới hạn)")]
     [SerializeField] private int maxSameLane = 3;
 
+    [Header("Long Note")]
+    [Tooltip("Note dài tối thiểu bao nhiêu giây mới là nốt dài (nên bằng longNoteMinDuration của Spawner)")]
+    [SerializeField] private float longNoteMinDuration = 0.5f;
+    [Tooltip("Khoảng trống tối thiểu giữa đuôi nốt dài và nốt kế tiếp (giây). Nên >= minKeyGap / keySpeed của Spawner")]
+    [SerializeField] private float longNoteTailGap = 0.25f;
+
     public List<RhythmNote> Notes { get; private set; } = new List<RhythmNote>();
     public float Bpm { get; private set; } = 120f;
 
@@ -510,6 +516,21 @@ public class MidiReader : MonoBehaviour
 
             filtered.Add(new RhythmNote(start, n.pitch, n.velocity, 0, Mathf.Max(0f, end - start)));
             lastTime = start;
+        }
+
+        // Cắt duration để đuôi nốt dài không đè nốt kế tiếp; nốt quá ngắn -> nốt thường
+        for (int i = 0; i < filtered.Count; i++)
+        {
+            RhythmNote n = filtered[i];
+
+            if (i < filtered.Count - 1)
+            {
+                float maxDuration = filtered[i + 1].time - n.time - longNoteTailGap;
+                n.duration = Mathf.Min(n.duration, maxDuration);
+            }
+
+            if (n.duration < longNoteMinDuration)
+                n.duration = 0f;
         }
 
         AssignLanes(filtered);

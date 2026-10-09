@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        // Kiểm tra cơ chế Singleton: Nếu đã tồn tại một Instance khác, hủy bản sao mới này đi
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -33,6 +34,8 @@ public class GameManager : MonoBehaviour
         }
         
         Instance = this;
+        
+        // Giữ lại GameManager không bị hủy khi chuyển Scene
         DontDestroyOnLoad(gameObject);
 
         savePath = Application.persistentDataPath + "/PlayerSaveData.json";
