@@ -11,6 +11,18 @@ public class PianoKeySpawner : MonoBehaviour
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private float longNoteYOffset = -1.2f;
 
+    private bool paused;
+    private double pauseStartDsp;
+    private bool pausedBeforeAudioStart;
+
+    public bool IsPlaying => songStarted && !songEnded;
+    public bool IsPaused => paused;
+
+    // Đóng băng SongTime khi pause
+    public float SongTime => paused
+        ? (float)(pauseStartDsp - songStartDsp)
+        : (float)(AudioSettings.dspTime - songStartDsp);
+
     [Header("Rhythm Settings")]
     [Tooltip("Tốc độ key (unit/giây) - cố định cho cả bài")]
     [SerializeField] private float keySpeed = 8f;
@@ -56,9 +68,6 @@ public class PianoKeySpawner : MonoBehaviour
     {
         Instance = this;
     }
-
-    // Thời gian bài hát (âm trước khi nhạc thực sự phát)
-    public float SongTime => (float)(AudioSettings.dspTime - songStartDsp);
 
     // =============================================
     // START SONG - gọi sau khi MidiReader.LoadMidi() xong
@@ -289,5 +298,35 @@ public class PianoKeySpawner : MonoBehaviour
                 Destroy(activeKeys[i]);
         }
         activeKeys.Clear();
+    }
+
+    public void PauseSong()
+    {
+        if (!songStarted || songEnded || paused)
+            return;
+
+        paused = true;
+        pauseStartDsp = AudioSettings.dspTime;
+        pausedBeforeAudioStart = pauseStartDsp < songStartDsp;
+
+        if (pausedBeforeAudioStart)
+            audioSource.Stop();      // nhạc chưa phát: huỷ lịch phát
+        else
+            audioSource.Pause();
+    }
+
+    public void ResumeSong()
+    {
+        if (!paused)
+            return;
+
+        // Dời mốc bắt đầu bài đúng bằng thời gian đã dừng
+        songStartDsp += AudioSettings.dspTime - pauseStartDsp;
+        paused = false;
+
+        if (pausedBeforeAudioStart)
+            audioSource.PlayScheduled(songStartDsp);
+        else
+            audioSource.UnPause();
     }
 }

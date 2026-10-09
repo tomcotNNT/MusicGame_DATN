@@ -55,6 +55,8 @@ public class PlayerLaneController : MonoBehaviour
     private bool canPlay = false;
     private bool gameEnded = false;
 
+    public event System.Action SwipeUp;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -227,7 +229,14 @@ public class PlayerLaneController : MonoBehaviour
 
         // Phải vuốt đủ xa, và hướng lên phải chiếm ưu thế (tránh vuốt chéo/ngang bị nhận nhầm)
         if (delta.y >= minSwipeDistance && Mathf.Abs(delta.y) > Mathf.Abs(delta.x))
-        {
+        {   
+            if (delta.y >= minSwipeDistance && Mathf.Abs(delta.y) > Mathf.Abs(delta.x))
+            {
+                SwipeUp?.Invoke();   // <-- thêm dòng này
+                Jump();
+                isSwiping = false;
+            }
+
             Jump();
             isSwiping = false; // mỗi lần vuốt chỉ nhảy 1 lần
         }

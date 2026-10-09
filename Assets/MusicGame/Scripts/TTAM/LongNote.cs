@@ -58,6 +58,11 @@ public class LongNote : MonoBehaviour
     private static PlayerLaneController playerCtrl;
     private bool riding;
 
+    // Tutorial: bỏ điều kiện độ cao để người chơi mới vẫn giữ được nốt.
+    private bool tutorialAssist;
+    public void SetTutorialAssist(bool value) { tutorialAssist = value; }
+    public bool IsWaiting() { return state == State.Waiting; }
+
     // Danh sách nốt dài đang tồn tại (để KeyButtonController biết lane nào đang bận).
     public static readonly List<LongNote> Active = new List<LongNote>();
 
@@ -112,8 +117,8 @@ public class LongNote : MonoBehaviour
     // Player có đang ở đúng độ cao của nốt (chạm nốt) không.
     private bool IsPlayerNear()
     {
-        if (playerCtrl == null)
-            return true; // không tìm thấy Player thì không chặn
+        if (tutorialAssist || playerCtrl == null)
+            return true; // tutorial hoặc không tìm thấy Player thì không chặn
 
         float dy = Mathf.Abs(
             playerCtrl.transform.position.y - (transform.position.y + rideYOffset)
