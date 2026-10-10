@@ -28,10 +28,6 @@ public class LongNote : MonoBehaviour
     [SerializeField] private SpriteRenderer bodyRenderer;
     [SerializeField] private SpriteRenderer headRenderer;
 
-    [SerializeField] private Color normalColor = Color.white;
-    [SerializeField] private Color holdColor = Color.yellow;
-    [SerializeField] private Color failColor = Color.gray;
-
     [Header("Body Layout")]
     [Tooltip("Khoảng cách (unit thế giới) từ tâm Head tới điểm bắt đầu Body. " +
              "Hở thì giảm (có thể âm), chồng lên Head thì tăng.")]
@@ -49,6 +45,10 @@ public class LongNote : MonoBehaviour
     [Header("Head Sprites")]
     [SerializeField] private Sprite leftHeadSprite;
     [SerializeField] private Sprite rightHeadSprite;
+
+    [Header("Body Sprites")]
+    [SerializeField] private Sprite leftBodySprite;
+    [SerializeField] private Sprite rightBodySprite;
 
     private float fullLength;
 
@@ -82,7 +82,6 @@ public class LongNote : MonoBehaviour
 
     private float lastHeldTime;
     private float nextTickTime;
-    private float breakTime;
 
     private void Awake()
     {
@@ -200,9 +199,27 @@ public class LongNote : MonoBehaviour
         fullLength = speed * duration;
 
         UpdateHeadSprite();
+        UpdateBodySprite();   
 
         SetBody(fullLength);
-        SetColor(normalColor);
+    }
+
+    private void UpdateBodySprite()
+    {
+        if (bodyRenderer == null)
+        {
+            Debug.LogWarning("LongNote: Chưa gán Body Renderer!", this);
+            return;
+        }
+
+        Sprite targetSprite = lane == Lanee.Left
+            ? leftBodySprite
+            : rightBodySprite;
+
+        if (targetSprite != null)
+            bodyRenderer.sprite = targetSprite;
+        else
+            Debug.LogWarning($"LongNote: Chưa gán body sprite cho lane {lane}!", this);
     }
 
     private void UpdateHeadSprite()
@@ -288,29 +305,6 @@ public class LongNote : MonoBehaviour
     private void UpdatePosition(float songTime)
     {
         Vector3 position = transform.position;
-
-        // Đang giữ: Head đứng tại Player, Body co dần.
-        if (state == State.Holding)
-        {
-            position.x = playerX;
-            transform.position = position;
-
-            float remainingTime = Mathf.Max(0f, endTime - songTime);
-            float remainingLength = Mathf.Min(speed * remainingTime, fullLength);
-
-            SetBody(remainingLength);
-            return;
-        }
-
-        // Thả sớm: nốt tiếp tục di chuyển.
-        if (state == State.Broken)
-        {
-            position.x = playerX + dir * speed * (breakTime - songTime);
-            transform.position = position;
-            return;
-        }
-
-        // Đang chờ hoặc đã miss.
         position.x = playerX + dir * speed * (noteTime - songTime);
         transform.position = position;
     }
@@ -358,7 +352,6 @@ public class LongNote : MonoBehaviour
         lastHeldTime = songTime;
         nextTickTime = songTime + tickInterval;
 
-        SetColor(holdColor);
         TryRide();
 
         if (scoreSystem != null)
@@ -369,6 +362,8 @@ public class LongNote : MonoBehaviour
 
         if (feverSystem != null)
             feverSystem.AddFever();
+
+        TutorialEvents.LongNoteStarted?.Invoke();
     }
 
     private void HandleHolding(float songTime, bool held)
@@ -412,9 +407,7 @@ public class LongNote : MonoBehaviour
             return;
 
         state = State.Missed;
-        SetColor(failColor);
 
-        // Nếu ComboSystem có hàm Miss(), gọi tại đây.
     }
 
     private void Complete()
@@ -424,6 +417,7 @@ public class LongNote : MonoBehaviour
 
         state = State.Completed;
         StopRide();
+        TutorialEvents.LongNoteCompleted?.Invoke();
 
         if (scoreSystem != null)
             scoreSystem.AddScore(completeBonus);
@@ -440,16 +434,8 @@ public class LongNote : MonoBehaviour
             return;
 
         state = State.Broken;
-        breakTime = spawner.SongTime;
         StopRide();
 
-        SetColor(failColor);
-    }
-
-    private void SetColor(Color color)
-    {
-        if (bodyRenderer != null)
-            bodyRenderer.color = color;
     }
 
     // =========================================================

@@ -174,6 +174,8 @@ public class PianoKey : MonoBehaviour
         if (comboSystem != null) comboSystem.HitNote();
         if (feverSystem != null) feverSystem.AddFever();
 
+        TutorialEvents.NormalNoteHit?.Invoke();
+
         Destroy(gameObject);
     }
 
