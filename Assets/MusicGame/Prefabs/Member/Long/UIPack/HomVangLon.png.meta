@@ -1,0 +1,216 @@
+fileFormatVersion: 2
+guid: abeda061ec3ed1940a6c887bac93fdbe
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3832624007479700863
+    second: HomVangLon_0
+  - first:
+      213: 2459372149497850733
+    second: HomVangLon_1
+  - first:
+      213: 808802074872566630
+    second: HomVangLon_2
+  - first:
+      213: -4467075748332818214
+    second: HomVangLon_3
+  - first:
+      213: 8604016234015593798
+    second: HomVangLon_4
+  - first:
+      213: 4969149486772752195
+    second: HomVangLon_5
+  - first:
+      213: 7430651643571666581
+    second: HomVangLon_6
+  - first:
+      213: 7176997709500293077
+    second: HomVangLon_7
+  - first:
+      213: 8062083584216003468
+    second: HomVangLon_8
+  - first:
+      213: 6469331941189066516
+    second: HomVangLon_9
+  - first:
+      213: 2605960495971866933
+    second: HomVangLon_10
+  - first:
+      213: 3337830437272953511
+    second: HomVangLon_11
+  - first:
+      213: -8975229062041301722
+    second: HomVangLon_12
+  - first:
+      213: -2059267985750340472
+    second: HomVangLon_13
+  - first:
+      213: -8286415295719813124
+    second: HomVangLon_14
+  - first:
+      213: -1680338630281749473
+    second: HomVangLon_15
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: HomVangLon_0
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 98
+        width: 1215
+        height: 1027
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 182d98475c8cfcac0800000000000000
+      internalID: -3832624007479700863
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 26e9c147ec49e164599caba0f9dd852a
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      HomVangLon_0: -3832624007479700863
+      HomVangLon_1: 2459372149497850733
+      HomVangLon_10: 2605960495971866933
+      HomVangLon_11: 3337830437272953511
+      HomVangLon_12: -8975229062041301722
+      HomVangLon_13: -2059267985750340472
+      HomVangLon_14: -8286415295719813124
+      HomVangLon_15: -1680338630281749473
+      HomVangLon_2: 808802074872566630
+      HomVangLon_3: -4467075748332818214
+      HomVangLon_4: 8604016234015593798
+      HomVangLon_5: 4969149486772752195
+      HomVangLon_6: 7430651643571666581
+      HomVangLon_7: 7176997709500293077
+      HomVangLon_8: 8062083584216003468
+      HomVangLon_9: 6469331941189066516
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,260 @@
+fileFormatVersion: 2
+guid: 539f92e4ef58aad47b2c55a272cc567d
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 7647114219038928229
+    second: SakuraIcon_0
+  - first:
+      213: 2868300103190002085
+    second: SakuraIcon_1
+  - first:
+      213: -597032336772058930
+    second: SakuraIcon_2
+  - first:
+      213: 856001440312267959
+    second: SakuraIcon_3
+  - first:
+      213: 6296568898126030904
+    second: SakuraIcon_4
+  - first:
+      213: 8692735091746169049
+    second: SakuraIcon_5
+  - first:
+      213: -8311178259160739298
+    second: SakuraIcon_6
+  - first:
+      213: -1249229572408304856
+    second: SakuraIcon_7
+  - first:
+      213: 573257770300527405
+    second: SakuraIcon_8
+  - first:
+      213: 2335153744549751087
+    second: SakuraIcon_9
+  - first:
+      213: -6820910753798095377
+    second: SakuraIcon_10
+  - first:
+      213: 2028549510313167900
+    second: SakuraIcon_11
+  - first:
+      213: 6540294226788190450
+    second: SakuraIcon_12
+  - first:
+      213: -2270053833962183270
+    second: SakuraIcon_13
+  - first:
+      213: -3292091383019330628
+    second: SakuraIcon_14
+  - first:
+      213: 7756715532406328752
+    second: SakuraIcon_15
+  - first:
+      213: -2921241140947871627
+    second: SakuraIcon_16
+  - first:
+      213: 4975655763608984978
+    second: SakuraIcon_17
+  - first:
+      213: 7068587874776582431
+    second: SakuraIcon_18
+  - first:
+      213: -7628863906879955392
+    second: SakuraIcon_19
+  - first:
+      213: -2722827964695660586
+    second: SakuraIcon_20
+  - first:
+      213: -4156710471946528103
+    second: SakuraIcon_21
+  - first:
+      213: 4389572426657070487
+    second: SakuraIcon_22
+  - first:
+      213: 4177257942589726032
+    second: SakuraIcon_23
+  - first:
+      213: 865576505856958099
+    second: SakuraIcon_24
+  - first:
+      213: 8382329814650056875
+    second: SakuraIcon_25
+  - first:
+      213: -5188184534276188700
+    second: SakuraIcon_26
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: SakuraIcon_0
+      rect:
+        serializedVersion: 2
+        x: 219
+        y: 118
+        width: 862
+        height: 920
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 56d67a6bdd1002a60800000000000000
+      internalID: 7647114219038928229
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 4743e713963a8744193d98713e106559
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      SakuraIcon_0: 7647114219038928229
+      SakuraIcon_1: 2868300103190002085
+      SakuraIcon_10: -6820910753798095377
+      SakuraIcon_11: 2028549510313167900
+      SakuraIcon_12: 6540294226788190450
+      SakuraIcon_13: -2270053833962183270
+      SakuraIcon_14: -3292091383019330628
+      SakuraIcon_15: 7756715532406328752
+      SakuraIcon_16: -2921241140947871627
+      SakuraIcon_17: 4975655763608984978
+      SakuraIcon_18: 7068587874776582431
+      SakuraIcon_19: -7628863906879955392
+      SakuraIcon_2: -597032336772058930
+      SakuraIcon_20: -2722827964695660586
+      SakuraIcon_21: -4156710471946528103
+      SakuraIcon_22: 4389572426657070487
+      SakuraIcon_23: 4177257942589726032
+      SakuraIcon_24: 865576505856958099
+      SakuraIcon_25: 8382329814650056875
+      SakuraIcon_26: -5188184534276188700
+      SakuraIcon_3: 856001440312267959
+      SakuraIcon_4: 6296568898126030904
+      SakuraIcon_5: 8692735091746169049
+      SakuraIcon_6: -8311178259160739298
+      SakuraIcon_7: -1249229572408304856
+      SakuraIcon_8: 573257770300527405
+      SakuraIcon_9: 2335153744549751087
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
