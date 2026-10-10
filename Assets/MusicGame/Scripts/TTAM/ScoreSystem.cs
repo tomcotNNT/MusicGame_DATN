@@ -42,6 +42,16 @@ public class ScoreSystem : MonoBehaviour
         Debug.Log("Score: " + score);
     }
 
+    public void AddScore(int amount)
+    {
+        score += amount;
+
+        if (feverSystem != null && feverSystem.isFever)
+            score += amount;
+
+        UpdateScoreUI();
+    }
+
     private void UpdateScoreUI()
     {
         if (scoreText != null)

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI; // Thêm namespace để dùng Button và Image
-
+using UnityEngine.SceneManagement;
 public class ListSongControl : MonoBehaviour,
     IBeginDragHandler,
     IDragHandler,
@@ -52,6 +52,20 @@ public class ListSongControl : MonoBehaviour,
             return;
 
         RefreshLayout(true);
+    }
+    [Header("Scene Navigation")]
+    [SerializeField] private string selectSongSceneName = "SelectSong1"; // Tên scene sảnh chọn bài
+
+    // Hàm gọi khi bấm nút mũi tên quay lại (Back)
+    public void OnBackButtonClicked()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.PlayClickSound();
+        }
+
+        // Quay trở lại màn hình chọn bài hát
+        SceneManager.LoadScene(selectSongSceneName);
     }
 
     // =========================================================
