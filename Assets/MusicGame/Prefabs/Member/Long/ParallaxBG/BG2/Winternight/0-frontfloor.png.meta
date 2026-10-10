@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: f85fe890d7c74104f857b6599fe38f57
+guid: 1a4a6dda211ac8c48b950d1452e0dc03
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5224863268634269391
-    second: desert_mountain_0
+      213: -446027556398271984
+    second: 0-frontfloor_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -46,12 +46,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 1024
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: desert_mountain_0
+      name: 0-frontfloor_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 239
+        y: 0
         width: 3800
-        height: 515
+        height: 186
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fc69ee6d571728840800000000000000
-      internalID: 5224863268634269391
+      spriteID: 01278d4fc446fc9f0800000000000000
+      internalID: -446027556398271984
       vertices: []
       indices: 
       edges: []
@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      desert_mountain_0: 5224863268634269391
+      0-frontfloor_0: -446027556398271984
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,31 +1,40 @@
 fileFormatVersion: 2
-guid: abad0f32cde2c3444998d3efedf3251e
+guid: 044af11db75ae124595125e780344475
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8527013701240848269
-    second: desert_moon_0
+      213: -7281727591021098893
+    second: 2-1-water reflex_0
   - first:
-      213: -6039040079634683417
-    second: desert_moon_1
+      213: -9096064412559675063
+    second: 2-1-water reflex_1
   - first:
-      213: 400506736123075013
-    second: desert_moon_2
+      213: -7584026174062200671
+    second: 2-1-water reflex_2
   - first:
-      213: 5976701722817307113
-    second: desert_moon_3
+      213: -5661529640397966958
+    second: 2-1-water reflex_3
   - first:
-      213: 1023810638276955967
-    second: desert_moon_4
+      213: 2268314416840228650
+    second: 2-1-water reflex_4
   - first:
-      213: -3096463906435644665
-    second: desert_moon_5
+      213: -5785950173894430237
+    second: 2-1-water reflex_5
   - first:
-      213: 8390390633598086421
-    second: desert_moon_6
+      213: 5811475658506420790
+    second: 2-1-water reflex_6
   - first:
-      213: -1509924238237166719
-    second: desert_moon_7
+      213: -3791986288776938224
+    second: 2-1-water reflex_7
+  - first:
+      213: -7040322905824430958
+    second: 2-1-water reflex_8
+  - first:
+      213: 6961345064000195414
+    second: 2-1-water reflex_9
+  - first:
+      213: -8602208168473190428
+    second: 2-1-water reflex_10
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -58,7 +67,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -67,12 +76,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 2048
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -96,7 +105,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -134,13 +143,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: desert_moon_0
+      name: 2-1-water reflex_0
       rect:
         serializedVersion: 2
-        x: 3187
-        y: 2207
-        width: 158
-        height: 122
+        x: 0
+        y: 161
+        width: 378
+        height: 49
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -149,20 +158,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d8f795188c9065670800000000000000
-      internalID: 8527013701240848269
+      spriteID: 378c602165b12fa90800000000000000
+      internalID: -7281727591021098893
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: desert_moon_1
+      name: 2-1-water reflex_1
       rect:
         serializedVersion: 2
-        x: 3339
-        y: 2251
-        width: 46
-        height: 36
+        x: 399
+        y: 184
+        width: 821
+        height: 26
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -171,20 +180,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7e927053b05013ca0800000000000000
-      internalID: -6039040079634683417
+      spriteID: 941fe4b1c9944c180800000000000000
+      internalID: -9096064412559675063
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: desert_moon_2
+      name: 2-1-water reflex_2
       rect:
         serializedVersion: 2
-        x: 3365
-        y: 2009
-        width: 282
-        height: 280
+        x: 3701
+        y: 178
+        width: 99
+        height: 13
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -193,20 +202,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5c954c821c2ee8500800000000000000
-      internalID: 400506736123075013
+      spriteID: 1a8f1c7606020c690800000000000000
+      internalID: -7584026174062200671
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: desert_moon_3
+      name: 2-1-water reflex_3
       rect:
         serializedVersion: 2
-        x: 3225
-        y: 2189
-        width: 12
-        height: 12
+        x: 437
+        y: 117
+        width: 708
+        height: 34
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -215,20 +224,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9e1adfc0d8281f250800000000000000
-      internalID: 5976701722817307113
+      spriteID: 291fbb2c9c43e61b0800000000000000
+      internalID: -5661529640397966958
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: desert_moon_4
+      name: 2-1-water reflex_4
       rect:
         serializedVersion: 2
-        x: 3261
-        y: 2183
-        width: 16
-        height: 10
+        x: 1298
+        y: 110
+        width: 696
+        height: 61
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -237,20 +246,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f3f83c3e95e453e00800000000000000
-      internalID: 1023810638276955967
+      spriteID: a2fb8aea1fbaa7f10800000000000000
+      internalID: 2268314416840228650
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: desert_moon_5
+      name: 2-1-water reflex_5
       rect:
         serializedVersion: 2
-        x: 3309
-        y: 2187
-        width: 22
-        height: 12
+        x: 2077
+        y: 144
+        width: 1249
+        height: 34
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -259,20 +268,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 703c51d9b762705d0800000000000000
-      internalID: -3096463906435644665
+      spriteID: 3e1b9ecd8fc24bfa0800000000000000
+      internalID: -5785950173894430237
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: desert_moon_6
+      name: 2-1-water reflex_6
       rect:
         serializedVersion: 2
-        x: 3253
-        y: 2141
-        width: 38
-        height: 28
+        x: 0
+        y: 0
+        width: 698
+        height: 104
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -281,20 +290,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 51de06ab3d7a07470800000000000000
-      internalID: 8390390633598086421
+      spriteID: 632ca16225286a050800000000000000
+      internalID: 5811475658506420790
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: desert_moon_7
+      name: 2-1-water reflex_7
       rect:
         serializedVersion: 2
-        x: 3321
-        y: 2063
-        width: 54
-        height: 46
+        x: 549
+        y: 44
+        width: 725
+        height: 53
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -303,8 +312,74 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1831f1eb7ebab0be0800000000000000
-      internalID: -1509924238237166719
+      spriteID: 01d7c48af88206bc0800000000000000
+      internalID: -3791986288776938224
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2-1-water reflex_8
+      rect:
+        serializedVersion: 2
+        x: 725
+        y: 0
+        width: 2393
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 294f94e4e9fbb4e90800000000000000
+      internalID: -7040322905824430958
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2-1-water reflex_9
+      rect:
+        serializedVersion: 2
+        x: 2346
+        y: 65
+        width: 635
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 65b86a2f37aab9060800000000000000
+      internalID: 6961345064000195414
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2-1-water reflex_10
+      rect:
+        serializedVersion: 2
+        x: 3107
+        y: 0
+        width: 693
+        height: 103
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ef113a4f31de9880800000000000000
+      internalID: -8602208168473190428
       vertices: []
       indices: 
       edges: []
@@ -313,7 +388,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -323,14 +398,17 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      desert_moon_0: 8527013701240848269
-      desert_moon_1: -6039040079634683417
-      desert_moon_2: 400506736123075013
-      desert_moon_3: 5976701722817307113
-      desert_moon_4: 1023810638276955967
-      desert_moon_5: -3096463906435644665
-      desert_moon_6: 8390390633598086421
-      desert_moon_7: -1509924238237166719
+      2-1-water reflex_0: -7281727591021098893
+      2-1-water reflex_1: -9096064412559675063
+      2-1-water reflex_10: -8602208168473190428
+      2-1-water reflex_2: -7584026174062200671
+      2-1-water reflex_3: -5661529640397966958
+      2-1-water reflex_4: 2268314416840228650
+      2-1-water reflex_5: -5785950173894430237
+      2-1-water reflex_6: 5811475658506420790
+      2-1-water reflex_7: -3791986288776938224
+      2-1-water reflex_8: -7040322905824430958
+      2-1-water reflex_9: 6961345064000195414
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

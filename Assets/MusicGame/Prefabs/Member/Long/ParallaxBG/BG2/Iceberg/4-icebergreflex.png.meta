@@ -1,31 +1,22 @@
 fileFormatVersion: 2
-guid: abad0f32cde2c3444998d3efedf3251e
+guid: 63cf4b09ed20ef7498b3558ca4d912db
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8527013701240848269
-    second: desert_moon_0
+      213: -6102921214930300178
+    second: 4-icebergreflex_0
   - first:
-      213: -6039040079634683417
-    second: desert_moon_1
+      213: -3275103035339453082
+    second: 4-icebergreflex_1
   - first:
-      213: 400506736123075013
-    second: desert_moon_2
+      213: -2790504211932228773
+    second: 4-icebergreflex_2
   - first:
-      213: 5976701722817307113
-    second: desert_moon_3
+      213: -9172850385654287782
+    second: 4-icebergreflex_3
   - first:
-      213: 1023810638276955967
-    second: desert_moon_4
-  - first:
-      213: -3096463906435644665
-    second: desert_moon_5
-  - first:
-      213: 8390390633598086421
-    second: desert_moon_6
-  - first:
-      213: -1509924238237166719
-    second: desert_moon_7
+      213: 5048394013520881002
+    second: 4-icebergreflex_4
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -58,7 +49,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -67,12 +58,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 2048
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -96,7 +87,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -134,13 +125,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: desert_moon_0
+      name: 4-icebergreflex_0
       rect:
         serializedVersion: 2
-        x: 3187
-        y: 2207
-        width: 158
-        height: 122
+        x: 189
+        y: 612
+        width: 103
+        height: 13
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -149,20 +140,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d8f795188c9065670800000000000000
-      internalID: 8527013701240848269
+      spriteID: ee252eb5d711e4ba0800000000000000
+      internalID: -6102921214930300178
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: desert_moon_1
+      name: 4-icebergreflex_1
       rect:
         serializedVersion: 2
-        x: 3339
-        y: 2251
-        width: 46
-        height: 36
+        x: 1621
+        y: 414
+        width: 457
+        height: 199
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -171,20 +162,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7e927053b05013ca0800000000000000
-      internalID: -6039040079634683417
+      spriteID: 66dc9cf342f7c82d0800000000000000
+      internalID: -3275103035339453082
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: desert_moon_2
+      name: 4-icebergreflex_2
       rect:
         serializedVersion: 2
-        x: 3365
-        y: 2009
-        width: 282
-        height: 280
+        x: 2318
+        y: 48
+        width: 1417
+        height: 572
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -193,20 +184,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5c954c821c2ee8500800000000000000
-      internalID: 400506736123075013
+      spriteID: b535c8734332649d0800000000000000
+      internalID: -2790504211932228773
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: desert_moon_3
+      name: 4-icebergreflex_3
       rect:
         serializedVersion: 2
-        x: 3225
-        y: 2189
-        width: 12
-        height: 12
+        x: 4964
+        y: 126
+        width: 588
+        height: 490
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -215,20 +206,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9e1adfc0d8281f250800000000000000
-      internalID: 5976701722817307113
+      spriteID: a5275419c2d73b080800000000000000
+      internalID: -9172850385654287782
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: desert_moon_4
+      name: 4-icebergreflex_4
       rect:
         serializedVersion: 2
-        x: 3261
-        y: 2183
-        width: 16
-        height: 10
+        x: 146
+        y: 89
+        width: 619
+        height: 510
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -237,74 +228,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f3f83c3e95e453e00800000000000000
-      internalID: 1023810638276955967
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: desert_moon_5
-      rect:
-        serializedVersion: 2
-        x: 3309
-        y: 2187
-        width: 22
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 703c51d9b762705d0800000000000000
-      internalID: -3096463906435644665
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: desert_moon_6
-      rect:
-        serializedVersion: 2
-        x: 3253
-        y: 2141
-        width: 38
-        height: 28
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 51de06ab3d7a07470800000000000000
-      internalID: 8390390633598086421
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: desert_moon_7
-      rect:
-        serializedVersion: 2
-        x: 3321
-        y: 2063
-        width: 54
-        height: 46
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 1831f1eb7ebab0be0800000000000000
-      internalID: -1509924238237166719
+      spriteID: a65ee169b9f7f0640800000000000000
+      internalID: 5048394013520881002
       vertices: []
       indices: 
       edges: []
@@ -313,7 +238,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -323,14 +248,11 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      desert_moon_0: 8527013701240848269
-      desert_moon_1: -6039040079634683417
-      desert_moon_2: 400506736123075013
-      desert_moon_3: 5976701722817307113
-      desert_moon_4: 1023810638276955967
-      desert_moon_5: -3096463906435644665
-      desert_moon_6: 8390390633598086421
-      desert_moon_7: -1509924238237166719
+      4-icebergreflex_0: -6102921214930300178
+      4-icebergreflex_1: -3275103035339453082
+      4-icebergreflex_2: -2790504211932228773
+      4-icebergreflex_3: -9172850385654287782
+      4-icebergreflex_4: 5048394013520881002
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
