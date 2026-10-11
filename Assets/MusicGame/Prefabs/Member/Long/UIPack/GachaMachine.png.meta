@@ -1,0 +1,300 @@
+fileFormatVersion: 2
+guid: 72b00a71174bf4d4f875fbf04b975bed
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -2164639370841987265
+    second: GachaMachine_0
+  - first:
+      213: 7639549503675240183
+    second: GachaMachine_1
+  - first:
+      213: 1752918671735316475
+    second: GachaMachine_2
+  - first:
+      213: -8434320696564187015
+    second: GachaMachine_3
+  - first:
+      213: 2724980501219173851
+    second: GachaMachine_4
+  - first:
+      213: -3850806006530964188
+    second: GachaMachine_5
+  - first:
+      213: 8261290952948480633
+    second: GachaMachine_6
+  - first:
+      213: 3887536157435177363
+    second: GachaMachine_7
+  - first:
+      213: -8963481023463241759
+    second: GachaMachine_8
+  - first:
+      213: -2204165990499550819
+    second: GachaMachine_9
+  - first:
+      213: 7837087874087615145
+    second: GachaMachine_10
+  - first:
+      213: 5962376708752653779
+    second: GachaMachine_11
+  - first:
+      213: -7175690010648257199
+    second: GachaMachine_12
+  - first:
+      213: 7636225526885952887
+    second: GachaMachine_13
+  - first:
+      213: -4182634704239547252
+    second: GachaMachine_14
+  - first:
+      213: 6833294249384478632
+    second: GachaMachine_15
+  - first:
+      213: -1052087024210939087
+    second: GachaMachine_16
+  - first:
+      213: 7209758736659983663
+    second: GachaMachine_17
+  - first:
+      213: -765837073613817952
+    second: GachaMachine_18
+  - first:
+      213: -4596081306298873628
+    second: GachaMachine_19
+  - first:
+      213: -7678398281208054983
+    second: GachaMachine_20
+  - first:
+      213: -537578161877438091
+    second: GachaMachine_21
+  - first:
+      213: 2176813161574170955
+    second: GachaMachine_22
+  - first:
+      213: 8578055329034018003
+    second: GachaMachine_23
+  - first:
+      213: 8272776234063440037
+    second: GachaMachine_24
+  - first:
+      213: -1169525958227821956
+    second: GachaMachine_25
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: GachaMachine_0
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 338
+        width: 636
+        height: 691
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f37632206f7a5f1e0800000000000000
+      internalID: -2164639370841987265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GachaMachine_14
+      rect:
+        serializedVersion: 2
+        x: 892
+        y: 843
+        width: 146
+        height: 132
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8ca494a5eb44f5c0800000000000000
+      internalID: -4182634704239547252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GachaMachine_17
+      rect:
+        serializedVersion: 2
+        x: 700
+        y: 293
+        width: 513
+        height: 523
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f2d23ee3f553e0460800000000000000
+      internalID: 7209758736659983663
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 0013238d7e97ef54488728f6b1a7ccef
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      GachaMachine_0: -2164639370841987265
+      GachaMachine_1: 7639549503675240183
+      GachaMachine_10: 7837087874087615145
+      GachaMachine_11: 5962376708752653779
+      GachaMachine_12: -7175690010648257199
+      GachaMachine_13: 7636225526885952887
+      GachaMachine_14: -4182634704239547252
+      GachaMachine_15: 6833294249384478632
+      GachaMachine_16: -1052087024210939087
+      GachaMachine_17: 7209758736659983663
+      GachaMachine_18: -765837073613817952
+      GachaMachine_19: -4596081306298873628
+      GachaMachine_2: 1752918671735316475
+      GachaMachine_20: -7678398281208054983
+      GachaMachine_21: -537578161877438091
+      GachaMachine_22: 2176813161574170955
+      GachaMachine_23: 8578055329034018003
+      GachaMachine_24: 8272776234063440037
+      GachaMachine_25: -1169525958227821956
+      GachaMachine_3: -8434320696564187015
+      GachaMachine_4: 2724980501219173851
+      GachaMachine_5: -3850806006530964188
+      GachaMachine_6: 8261290952948480633
+      GachaMachine_7: 3887536157435177363
+      GachaMachine_8: -8963481023463241759
+      GachaMachine_9: -2204165990499550819
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
