@@ -17,6 +17,21 @@ public class LongNote : MonoBehaviour
     [SerializeField] private float releaseGrace = 0.12f;
     [SerializeField] private float endTolerance = 0.1f;
 
+    [Header("VFX")]
+    [Tooltip("Prefab VFX loop (ParticleSystem) chạy suốt lúc giữ nốt")]
+    [SerializeField] private GameObject holdVfxPrefab;
+
+    [Tooltip("VFX nổ 1 lần khi hoàn thành nốt (tuỳ chọn)")]
+    [SerializeField] private GameObject completeVfxPrefab;
+
+    [SerializeField] private float completeVfxLifetime = 1f;
+
+    [Tooltip("Offset so với vị trí Player")]
+    [SerializeField] private Vector3 vfxOffset = Vector3.zero;
+
+    private GameObject holdVfx;
+    private ParticleSystem[] holdVfxParticles;
+
     [Header("Score")]
     [SerializeField] private int startScore = 10;
     [SerializeField] private int tickScore = 10;
@@ -107,6 +122,7 @@ public class LongNote : MonoBehaviour
     {
         Active.Remove(this);
         StopRide(); // bị Destroy giữa chừng cũng phải nhả Player
+        StopHoldVfx(); 
     }
 
     // =========================================================
@@ -297,6 +313,7 @@ public class LongNote : MonoBehaviour
 
         UpdatePosition(songTime);
         UpdateState(songTime);
+        UpdateHoldVfx(); 
 
         if (songTime > endTime + 1f)
             Destroy(gameObject);
@@ -353,6 +370,7 @@ public class LongNote : MonoBehaviour
         nextTickTime = songTime + tickInterval;
 
         TryRide();
+        StartHoldVfx(); 
 
         if (scoreSystem != null)
             scoreSystem.AddScore(startScore);
@@ -416,7 +434,11 @@ public class LongNote : MonoBehaviour
             return;
 
         state = State.Completed;
+
         StopRide();
+        StopHoldVfx();       // <-- thêm
+        PlayCompleteVfx();   // <-- thêm
+
         TutorialEvents.LongNoteCompleted?.Invoke();
 
         if (scoreSystem != null)
@@ -435,7 +457,61 @@ public class LongNote : MonoBehaviour
 
         state = State.Broken;
         StopRide();
+        StopHoldVfx();   
+    }
 
+    // Vị trí VFX: bám Player nếu có, không thì bám đầu nốt
+    private Vector3 GetVfxPosition()
+    {
+        Vector3 basePos = playerCtrl != null
+            ? playerCtrl.transform.position
+            : transform.position;
+
+        return basePos + vfxOffset;
+    }
+
+    private void StartHoldVfx()
+    {
+        if (holdVfxPrefab == null || holdVfx != null)
+            return;
+
+        holdVfx = Instantiate(holdVfxPrefab, GetVfxPosition(), Quaternion.identity);
+        holdVfxParticles = holdVfx.GetComponentsInChildren<ParticleSystem>();
+    }
+
+    private void UpdateHoldVfx()
+    {
+        if (holdVfx == null)
+            return;
+
+        holdVfx.transform.position = GetVfxPosition();
+    }
+
+    // Ngừng phát nhưng để hạt cũ tan dần rồi mới hủy
+    private void StopHoldVfx()
+    {
+        if (holdVfx == null)
+            return;
+
+        if (holdVfxParticles != null)
+        {
+            foreach (var ps in holdVfxParticles)
+                if (ps != null)
+                    ps.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+        }
+
+        Destroy(holdVfx, 1.5f);
+        holdVfx = null;
+        holdVfxParticles = null;
+    }
+
+    private void PlayCompleteVfx()
+    {
+        if (completeVfxPrefab == null)
+            return;
+
+        GameObject vfx = Instantiate(completeVfxPrefab, GetVfxPosition(), Quaternion.identity);
+        Destroy(vfx, completeVfxLifetime);
     }
 
     // =========================================================

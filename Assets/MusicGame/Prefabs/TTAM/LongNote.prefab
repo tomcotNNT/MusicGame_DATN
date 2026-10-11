@@ -141,6 +141,10 @@ MonoBehaviour:
   hitWindow: 0.15
   releaseGrace: 0.12
   endTolerance: 0.1
+  holdVfxPrefab: {fileID: 7562170989480799990, guid: 7a068b67217b17f4ca80a5ba9aeaad08, type: 3}
+  completeVfxPrefab: {fileID: 4306488877223958017, guid: 2fbb1969d46802e4485b17e89d3a86cb, type: 3}
+  completeVfxLifetime: 1
+  vfxOffset: {x: 0, y: 0, z: 0}
   startScore: 10
   tickScore: 10
   tickInterval: 0.1

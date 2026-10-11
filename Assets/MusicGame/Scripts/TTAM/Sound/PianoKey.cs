@@ -11,6 +11,17 @@ public class PianoKey : MonoBehaviour
 
     public static List<PianoKey> ActiveKeys = new List<PianoKey>();
 
+    [Header("VFX")]
+    [Tooltip("Prefab VFX (ParticleSystem) spawn khi hit đúng")]
+    [SerializeField] private GameObject hitVfxPrefab;
+
+    [Tooltip("Thời gian tự hủy VFX sau khi spawn")]
+    [SerializeField] private float vfxLifetime = 1f;
+
+    [Tooltip("Offset so với vị trí key")]
+    [SerializeField] private Vector3 vfxOffset = Vector3.zero;
+
+
     [Header("Visual")]
     [SerializeField] private GameObject keyLeft;
     [SerializeField] private GameObject keyRight;
@@ -170,6 +181,8 @@ public class PianoKey : MonoBehaviour
 
         IsCompleted = true;
 
+        SpawnHitVfx();
+
         if (scoreSystem != null) scoreSystem.AddScore();
         if (comboSystem != null) comboSystem.HitNote();
         if (feverSystem != null) feverSystem.AddFever();
@@ -177,6 +190,19 @@ public class PianoKey : MonoBehaviour
         TutorialEvents.NormalNoteHit?.Invoke();
 
         Destroy(gameObject);
+    }
+
+    private void SpawnHitVfx()
+    {
+        if (hitVfxPrefab == null)
+            return;
+
+        GameObject vfx = Instantiate(
+            hitVfxPrefab,
+            transform.position + vfxOffset,
+            Quaternion.identity);
+
+        Destroy(vfx, vfxLifetime);
     }
 
     private void Miss()

@@ -429,6 +429,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b5f0dd1b4d619640b6eda641f82bedf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PianoKey
+  hitVfxPrefab: {fileID: 4306488877223958017, guid: 2fbb1969d46802e4485b17e89d3a86cb, type: 3}
+  vfxLifetime: 1
+  vfxOffset: {x: 0, y: 0, z: 0}
   keyLeft: {fileID: 5649146341775402379}
   keyRight: {fileID: 991127301677762403}
   missWindow: 0.25
