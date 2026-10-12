@@ -8795,7 +8795,7 @@ TextureImporter:
         serializedVersion: 2
         x: 570
         y: 2433
-        width: 18
+        width: 27
         height: 117
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -8807,50 +8807,6 @@ TextureImporter:
       bones: []
       spriteID: 96c75768862a44930800000000000000
       internalID: 4126601728394361961
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Xbox 360_312
-      rect:
-        serializedVersion: 2
-        x: 583
-        y: 2471
-        width: 13
-        height: 79
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 176d3bf5109286f40800000000000000
-      internalID: 5721868412451542641
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Xbox 360_313
-      rect:
-        serializedVersion: 2
-        x: 590
-        y: 2531
-        width: 6
-        height: 19
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 973f46a1901530fa0800000000000000
-      internalID: -5835731592602651783
       vertices: []
       indices: 
       edges: []
