@@ -2695,6 +2695,7 @@ MonoBehaviour:
   player: {fileID: 2008411973}
   spawnPoint: {fileID: 983721398}
   longNoteYOffset: 5.58
+  coinSpawner: {fileID: 0}
   keySpeed: 8
   isTutorial: 0
   spawnAheadTime: 2

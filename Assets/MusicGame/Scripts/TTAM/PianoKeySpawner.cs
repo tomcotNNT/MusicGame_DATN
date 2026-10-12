@@ -11,6 +11,13 @@ public class PianoKeySpawner : MonoBehaviour
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private float longNoteYOffset = -1.2f;
 
+    [Header("Coin")]
+    [SerializeField] private CoinSpawner coinSpawner;
+
+    public float KeySpeed => keySpeed;
+    public float SpawnDirection => spawnDirection;
+public float PlayerX => player.position.x;
+
     private bool paused;
     private double pauseStartDsp;
     private bool pausedBeforeAudioStart;
@@ -139,6 +146,17 @@ public class PianoKeySpawner : MonoBehaviour
 
         // Hướng key bay: từ spawnPoint về phía player
         spawnDirection = spawnPoint.position.x >= player.position.x ? 1f : -1f;
+
+        if (coinSpawner != null)
+        {
+            coinSpawner.Build(  
+                midiReader.Notes,
+                minKeyGap,
+                keySpeed,
+                longNotePrefab != null ? longNoteMinDuration : float.MaxValue,
+                spawnPoint.position.y,
+                spawnPoint.position.y + longNoteYOffset);
+        }
 
         // Nhạc phát sau leadIn giây; trong lúc đó SongTime < 0 và key vẫn spawn
         songStartDsp = AudioSettings.dspTime + leadIn;
@@ -308,7 +326,11 @@ public class PianoKeySpawner : MonoBehaviour
     {
         if (songEnded) return;
         songEnded = true;
+        
         ClearAllKeys();
+        if (coinSpawner != null)
+            coinSpawner.ClearAll();
+
         Debug.Log("PianoKeySpawner: Song Ended!");
         SongEnded?.Invoke();
     }
