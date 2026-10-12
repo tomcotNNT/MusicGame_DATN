@@ -67,6 +67,9 @@ public class ResultSystem : MonoBehaviour
             scoreText.text = score.ToString();
 
         StartCoroutine(PlayStarAnimation(stars));
+
+        // Cập nhật dữ liệu người chơi là đã hoàn thành màn này
+        SelectLevel.CompleteCurrentLevel();
     }
 
     private IEnumerator PlayStarAnimation(int stars)

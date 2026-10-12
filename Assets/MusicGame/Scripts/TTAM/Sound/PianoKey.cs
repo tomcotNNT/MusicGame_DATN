@@ -21,6 +21,18 @@ public class PianoKey : MonoBehaviour
     [Tooltip("Offset so với vị trí key")]
     [SerializeField] private Vector3 vfxOffset = Vector3.zero;
 
+    [Header("SFX")]
+    [Tooltip("Tiếng khi chạm nốt lane Left (ví dụ bass)")]
+    [SerializeField] private AudioClip leftHitClip;
+
+    [Tooltip("Tiếng khi chạm nốt lane Right")]
+    [SerializeField] private AudioClip rightHitClip;
+
+    [Range(0f, 1f)]
+    [SerializeField] private float hitVolume = 1f;
+
+    private static AudioSource sfxSource;
+
 
     [Header("Visual")]
     [SerializeField] private GameObject keyLeft;
@@ -182,6 +194,7 @@ public class PianoKey : MonoBehaviour
         IsCompleted = true;
 
         SpawnHitVfx();
+        PlayHitSfx();
 
         if (scoreSystem != null) scoreSystem.AddScore();
         if (comboSystem != null) comboSystem.HitNote();
@@ -203,6 +216,24 @@ public class PianoKey : MonoBehaviour
             Quaternion.identity);
 
         Destroy(vfx, vfxLifetime);
+    }
+
+    private void PlayHitSfx()
+    {
+        AudioClip clip = keyType == KeyType.Left ? leftHitClip : rightHitClip;
+
+        if (clip == null)
+            return;
+
+        if (sfxSource == null)
+        {
+            GameObject go = new GameObject("PianoKeySfx");
+            sfxSource = go.AddComponent<AudioSource>();
+            sfxSource.playOnAwake = false;
+            sfxSource.spatialBlend = 0f;   // 2D, không bị nhỏ dần theo khoảng cách
+        }
+
+        sfxSource.PlayOneShot(clip, hitVolume);
     }
 
     private void Miss()

@@ -9,20 +9,26 @@ EditorBuildSettings:
     path: Assets/MusicGame/Member/NTam/Scene/Start_Scene.unity
     guid: 2ef57c962ec38d047a5eebb8a1bdfa1f
   - enabled: 1
+    path: Assets/MusicGame/Member/NTam/Scene/LoadingScene 1.unity
+    guid: 8970f94a2044efa40a1a61aad15cbd06
+  - enabled: 1
     path: Assets/MusicGame/Member/NTam/Scene/MainMenu2.unity
     guid: 52405ffabef4c7f4680542c503f92337
   - enabled: 1
-    path: Assets/MusicGame/Member/NTam/Scene/SelectSong1.unity
-    guid: 897eadc400116ea42901360f1fcd1b1b
+    path: Assets/Scenes/LONG/SelectSong.unity
+    guid: 8522c400eb3891448abea1a655669434
   - enabled: 1
-    path: Assets/Scenes/VIET/SampleScene.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
+    path: Assets/Scenes/LONG/SelectChar.unity
+    guid: bd9f6f8a75ff69e448dab827742d7f7c
+  - enabled: 1
+    path: Assets/Scenes/TTAM/Tutorial.unity
+    guid: 63c675b8cc3a54b41a15257435c419f2
   - enabled: 1
     path: Assets/Scenes/TTAM/Man1.unity
-    guid: fa341fea2a5a62f4b842d5cad4ce4190
+    guid: e56f3e76eedd0a74d870bfd2363add98
   - enabled: 1
-    path: Assets/MusicGame/Member/NTam/Scene/SelectChar1.unity
-    guid: 37b446c4fa83ea448839d763f45620eb
+    path: Assets/Scenes/TTAM/Man2.unity
+    guid: 1fc7f31395305964ba98162aa560494b
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
