@@ -2457,6 +2457,7 @@ MonoBehaviour:
   player: {fileID: 2008411973}
   spawnPoint: {fileID: 983721398}
   longNoteYOffset: 5.58
+  coinSpawner: {fileID: 0}
   keySpeed: 8
   isTutorial: 1
   spawnAheadTime: 2
@@ -3126,7 +3127,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 4.7998047, y: -4.9003906}
+  m_AnchoredPosition: {x: 4.798828, y: -4.9003906}
   m_SizeDelta: {x: 500, y: 165}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1201995160
@@ -5273,7 +5274,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -5373,6 +5374,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc29e755ccf793f4fbe0c672418c3b36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Scenes
+  optionPanel: {fileID: 0}
 --- !u!1 &1632671309
 GameObject:
   m_ObjectHideFlags: 0

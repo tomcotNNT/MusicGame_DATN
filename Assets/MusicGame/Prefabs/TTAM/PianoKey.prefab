@@ -434,7 +434,7 @@ MonoBehaviour:
   vfxOffset: {x: 0, y: 0, z: 0}
   leftHitClip: {fileID: 8300000, guid: d154d433531030d4d878b5bf12e47ae0, type: 3}
   rightHitClip: {fileID: 8300000, guid: d154d433531030d4d878b5bf12e47ae0, type: 3}
-  hitVolume: 1
+  hitVolume: 0
   keyLeft: {fileID: 5649146341775402379}
   keyRight: {fileID: 991127301677762403}
   missWindow: 0.25

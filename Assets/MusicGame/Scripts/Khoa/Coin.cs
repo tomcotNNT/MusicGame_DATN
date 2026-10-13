@@ -11,7 +11,7 @@ public class Coin : MonoBehaviour
 
     [Header("Despawn")]
     [Tooltip("Coin đi qua player quá khoảng này (unit) thì tự hủy")]
-    [SerializeField] private float destroyBehindDistance = 2f;
+    [SerializeField] private float destroyBehindDistance = 5f;
 
     [Header("Collect VFX")]
     [SerializeField] private GameObject collectVfxPrefab;
