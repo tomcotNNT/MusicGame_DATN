@@ -8,6 +8,7 @@ public class PlayerGameData
     public int highestScore = 0;
     public float gameVolume = 1f;
     public float audioOffset = 0f;
+
 }
 
 public class GameManager : MonoBehaviour
@@ -21,7 +22,29 @@ public class GameManager : MonoBehaviour
     public AudioSource bgmSource;       // Nhạc nền xuyên suốt
     public AudioSource sfxClickSource;  // Tiếng click chung
     public AudioSource sfxStartSource;  // Tiếng bắt đầu / chuyển cảnh
+    [Header("UI SFX Library")]
+    public AudioSource sfxAudioSource; // Kéo AudioSource chuyên phát hiệu ứng vào đây
+    public AudioClip clickClip;       // Tương ứng file confirm / click
+    public AudioClip popupOpenClip;   // Tương ứng file open (mở bảng)
+    public AudioClip errorClip;
 
+    public void PlayClickSound()
+    {
+        if (sfxAudioSource != null && clickClip != null)
+            sfxAudioSource.PlayOneShot(clickClip);
+    }
+
+    public void PlayPopupOpenSound()
+    {
+        if (sfxAudioSource != null && popupOpenClip != null)
+            sfxAudioSource.PlayOneShot(popupOpenClip);
+    }
+
+    public void PlayErrorSound()
+    {
+        if (sfxAudioSource != null && errorClip != null)
+            sfxAudioSource.PlayOneShot(errorClip);
+    }
     private string savePath;
 
     private void Awake()
@@ -32,9 +55,9 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        
+
         Instance = this;
-        
+
         // Giữ lại GameManager không bị hủy khi chuyển Scene
         DontDestroyOnLoad(gameObject);
 
@@ -89,10 +112,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void PlayClickSound()
-    {
-        if (sfxClickSource != null) sfxClickSource.Play();
-    }
+    
 
     public void PlayStartSound()
     {

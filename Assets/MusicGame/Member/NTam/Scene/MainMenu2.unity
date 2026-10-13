@@ -2709,7 +2709,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edca52c18b393054695011946c367c27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainMenuManager
-  nextSceneName: SelectSong
+  nextSceneName: SelectSong1
   tapToStartText: {fileID: 1552826011}
   clickedColor: {r: 1, g: 0, b: 0, a: 1}
   nameInputPopup: {fileID: 560999804}
@@ -2881,7 +2881,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1467836093
 RectTransform:
   m_ObjectHideFlags: 0
