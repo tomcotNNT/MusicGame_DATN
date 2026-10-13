@@ -459,7 +459,7 @@ public class SelectLevel : MonoBehaviour,
         // Ghi nhớ màn đang chơi để scene gameplay biết đánh dấu done màn nào
         CurrentLevelId = GetLevelId(currentIndex);
 
-        SceneManager.LoadScene(sceneToLoad);
+        SceneLoader.Load(sceneToLoad);         // <-- thay bằng dòng này
     }
 
     // =====================================================

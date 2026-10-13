@@ -146,15 +146,6 @@ public class PianoKey : MonoBehaviour
         transform.position = pos;
     }
 
-    private void CheckMiss(float songTime)
-    {
-        // Đã qua player một đoạn -> hủy (dương = nằm phía sau player)
-        float passed = (hitX - transform.position.x) * direction;
-
-        if (passed > destroyBehindDistance || songTime > targetTime + missWindow)
-            Miss();
-    }
-
     // =====================================================
     // GET DATA
     // =====================================================
@@ -244,7 +235,7 @@ public class PianoKey : MonoBehaviour
         IsCompleted = true;
 
         // TODO: comboSystem.Miss(); PlayerHealth.TakeDamage();
-
+        comboSystem.MissNote();
         Destroy(gameObject);
     }
 }
