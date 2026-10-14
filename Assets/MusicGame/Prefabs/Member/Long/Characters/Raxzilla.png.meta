@@ -1,0 +1,3380 @@
+fileFormatVersion: 2
+guid: 896c794e4c2bd9f4494ac661a61ccccf
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -8249360937346750763
+    second: Raxzilla_0
+  - first:
+      213: -4157316737702550695
+    second: Raxzilla_1
+  - first:
+      213: -3252446332491445406
+    second: Raxzilla_2
+  - first:
+      213: 2971711244979196834
+    second: Raxzilla_3
+  - first:
+      213: 2150004631158759011
+    second: Raxzilla_4
+  - first:
+      213: -6109301356641575578
+    second: Raxzilla_5
+  - first:
+      213: 4017796776597944241
+    second: Raxzilla_6
+  - first:
+      213: 7839880964160468702
+    second: Raxzilla_7
+  - first:
+      213: 305243268336615225
+    second: Raxzilla_8
+  - first:
+      213: -6085067557428562452
+    second: Raxzilla_9
+  - first:
+      213: -9009078892082505229
+    second: Raxzilla_10
+  - first:
+      213: -2434485237420401818
+    second: Raxzilla_11
+  - first:
+      213: 7706452242545139829
+    second: Raxzilla_12
+  - first:
+      213: -5435237128124735670
+    second: Raxzilla_13
+  - first:
+      213: -3852335709026831238
+    second: Raxzilla_14
+  - first:
+      213: -4447798511381996494
+    second: Raxzilla_15
+  - first:
+      213: -4473196828309132503
+    second: Raxzilla_16
+  - first:
+      213: -4659203228660796359
+    second: Raxzilla_17
+  - first:
+      213: -23869507582700233
+    second: Raxzilla_18
+  - first:
+      213: 8120312828963285572
+    second: Raxzilla_19
+  - first:
+      213: -4832122541510502593
+    second: Raxzilla_20
+  - first:
+      213: -3781947359062127891
+    second: Raxzilla_21
+  - first:
+      213: 6401114369508467706
+    second: Raxzilla_22
+  - first:
+      213: -5669763941445303520
+    second: Raxzilla_23
+  - first:
+      213: -5550571647856543719
+    second: Raxzilla_24
+  - first:
+      213: 8041037362452907753
+    second: Raxzilla_25
+  - first:
+      213: -1574466958573468941
+    second: Raxzilla_26
+  - first:
+      213: -1620065063451111908
+    second: Raxzilla_27
+  - first:
+      213: 2020200359381274873
+    second: Raxzilla_28
+  - first:
+      213: -4566037460390761113
+    second: Raxzilla_29
+  - first:
+      213: -2694211126735471760
+    second: Raxzilla_30
+  - first:
+      213: -6776191333467732109
+    second: Raxzilla_31
+  - first:
+      213: -7312907420500200431
+    second: Raxzilla_32
+  - first:
+      213: 8084358109004606255
+    second: Raxzilla_33
+  - first:
+      213: 1398283450314962333
+    second: Raxzilla_34
+  - first:
+      213: 759170906605492178
+    second: Raxzilla_35
+  - first:
+      213: 8763271541899434683
+    second: Raxzilla_36
+  - first:
+      213: 973540064308392003
+    second: Raxzilla_37
+  - first:
+      213: 611167781007003984
+    second: Raxzilla_38
+  - first:
+      213: -9041587625620739040
+    second: Raxzilla_39
+  - first:
+      213: -8704698505384631339
+    second: Raxzilla_40
+  - first:
+      213: -8549564372212473856
+    second: Raxzilla_41
+  - first:
+      213: 1570012604377964876
+    second: Raxzilla_42
+  - first:
+      213: -3613424383175234751
+    second: Raxzilla_43
+  - first:
+      213: 3140831133312188662
+    second: Raxzilla_44
+  - first:
+      213: 969953999901063596
+    second: Raxzilla_45
+  - first:
+      213: 244351401375991308
+    second: Raxzilla_46
+  - first:
+      213: -711246640518284124
+    second: Raxzilla_47
+  - first:
+      213: 2053715378981089278
+    second: Raxzilla_48
+  - first:
+      213: -7243229389621337311
+    second: Raxzilla_49
+  - first:
+      213: -3204121323978735300
+    second: Raxzilla_50
+  - first:
+      213: 2918064004300575995
+    second: Raxzilla_51
+  - first:
+      213: 3038698891613901053
+    second: Raxzilla_52
+  - first:
+      213: 2455558695174301485
+    second: Raxzilla_53
+  - first:
+      213: 5035578524131019709
+    second: Raxzilla_54
+  - first:
+      213: -2246202686826310337
+    second: Raxzilla_55
+  - first:
+      213: -7919861114583739130
+    second: Raxzilla_56
+  - first:
+      213: -1267459681545604983
+    second: Raxzilla_57
+  - first:
+      213: 5262963694381288563
+    second: Raxzilla_58
+  - first:
+      213: -5879016524334001429
+    second: Raxzilla_59
+  - first:
+      213: -5537014454426828947
+    second: Raxzilla_60
+  - first:
+      213: -6076474199208000299
+    second: Raxzilla_61
+  - first:
+      213: -2183387449300263641
+    second: Raxzilla_62
+  - first:
+      213: 2411217749026937485
+    second: Raxzilla_63
+  - first:
+      213: 315723233783026807
+    second: Raxzilla_64
+  - first:
+      213: 6107639955079149137
+    second: Raxzilla_65
+  - first:
+      213: 6265780335264684659
+    second: Raxzilla_66
+  - first:
+      213: -5692729746483823619
+    second: Raxzilla_67
+  - first:
+      213: 1197042814274521180
+    second: Raxzilla_68
+  - first:
+      213: 1510610315914255341
+    second: Raxzilla_69
+  - first:
+      213: 1874322006274801789
+    second: Raxzilla_70
+  - first:
+      213: -3013817908955342141
+    second: Raxzilla_71
+  - first:
+      213: 7449301915384565939
+    second: Raxzilla_72
+  - first:
+      213: 4923161704767248916
+    second: Raxzilla_73
+  - first:
+      213: -3896918968388211454
+    second: Raxzilla_74
+  - first:
+      213: -2350573134252655670
+    second: Raxzilla_75
+  - first:
+      213: 1899025977685159393
+    second: Raxzilla_76
+  - first:
+      213: -5821819895602632445
+    second: Raxzilla_77
+  - first:
+      213: -7421342979985883632
+    second: Raxzilla_78
+  - first:
+      213: -5971666539888920054
+    second: Raxzilla_79
+  - first:
+      213: -3713979573476846734
+    second: Raxzilla_80
+  - first:
+      213: 6610713991774289244
+    second: Raxzilla_81
+  - first:
+      213: 8951715020952149760
+    second: Raxzilla_82
+  - first:
+      213: -5559763342542300595
+    second: Raxzilla_83
+  - first:
+      213: -7192884189207679359
+    second: Raxzilla_84
+  - first:
+      213: 6256610721532564359
+    second: Raxzilla_85
+  - first:
+      213: 8779721868482155569
+    second: Raxzilla_86
+  - first:
+      213: 2597281230642868994
+    second: Raxzilla_87
+  - first:
+      213: 5310656130937513018
+    second: Raxzilla_88
+  - first:
+      213: -800980586838150637
+    second: Raxzilla_89
+  - first:
+      213: -8192746414533559949
+    second: Raxzilla_90
+  - first:
+      213: 8625489717236558477
+    second: Raxzilla_91
+  - first:
+      213: -4445527141414942246
+    second: Raxzilla_92
+  - first:
+      213: 1032884805147000975
+    second: Raxzilla_93
+  - first:
+      213: -6513963155601023351
+    second: Raxzilla_94
+  - first:
+      213: 5816125083375227457
+    second: Raxzilla_95
+  - first:
+      213: 1259740786510423931
+    second: Raxzilla_96
+  - first:
+      213: -8058686183145320279
+    second: Raxzilla_97
+  - first:
+      213: 1385997341112026650
+    second: Raxzilla_98
+  - first:
+      213: -1445258856822178342
+    second: Raxzilla_99
+  - first:
+      213: 4261696527451379625
+    second: Raxzilla_100
+  - first:
+      213: -8341667608113568216
+    second: Raxzilla_101
+  - first:
+      213: 1124296701342608845
+    second: Raxzilla_102
+  - first:
+      213: -516901648583777786
+    second: Raxzilla_103
+  - first:
+      213: -6862474263991150538
+    second: Raxzilla_104
+  - first:
+      213: 5151095496725045625
+    second: Raxzilla_105
+  - first:
+      213: 6111811953271485941
+    second: Raxzilla_106
+  - first:
+      213: -74366684155182700
+    second: Raxzilla_107
+  - first:
+      213: 7767175680776882115
+    second: Raxzilla_108
+  - first:
+      213: -6900124795950734427
+    second: Raxzilla_109
+  - first:
+      213: -3978772382493894478
+    second: Raxzilla_110
+  - first:
+      213: 1924611675198260265
+    second: Raxzilla_111
+  - first:
+      213: 928243112460326077
+    second: Raxzilla_112
+  - first:
+      213: 4414385047658502345
+    second: Raxzilla_113
+  - first:
+      213: -3006731419679047728
+    second: Raxzilla_114
+  - first:
+      213: -1900467131671932342
+    second: Raxzilla_115
+  - first:
+      213: -3000552822212352276
+    second: Raxzilla_116
+  - first:
+      213: -5935709522883695289
+    second: Raxzilla_117
+  - first:
+      213: 6702794845841653682
+    second: Raxzilla_118
+  - first:
+      213: -6649117114992485734
+    second: Raxzilla_119
+  - first:
+      213: 286851967674871499
+    second: Raxzilla_120
+  - first:
+      213: -6328823141665856938
+    second: Raxzilla_121
+  - first:
+      213: 6488207526383060109
+    second: Raxzilla_122
+  - first:
+      213: 1317071220048007786
+    second: Raxzilla_123
+  - first:
+      213: 942270321107095482
+    second: Raxzilla_124
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Raxzilla_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 765
+        width: 60
+        height: 79
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d6a6793fe1648d80800000000000000
+      internalID: -8249360937346750763
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_1
+      rect:
+        serializedVersion: 2
+        x: 61
+        y: 765
+        width: 59
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9532476147e3e46c0800000000000000
+      internalID: -4157316737702550695
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_2
+      rect:
+        serializedVersion: 2
+        x: 121
+        y: 765
+        width: 57
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 26b43d4fa4dfcd2d0800000000000000
+      internalID: -3252446332491445406
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_3
+      rect:
+        serializedVersion: 2
+        x: 179
+        y: 765
+        width: 56
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a3d40ce1a3ad3920800000000000000
+      internalID: 2971711244979196834
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_4
+      rect:
+        serializedVersion: 2
+        x: 236
+        y: 765
+        width: 58
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 36e99a122d956dd10800000000000000
+      internalID: 2150004631158759011
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_5
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 765
+        width: 60
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 66d119bd8c6673ba0800000000000000
+      internalID: -6109301356641575578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 683
+        width: 61
+        height: 79
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1b774d091e412c730800000000000000
+      internalID: 4017796776597944241
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_7
+      rect:
+        serializedVersion: 2
+        x: 62
+        y: 683
+        width: 66
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed6b12e033adccc60800000000000000
+      internalID: 7839880964160468702
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_8
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 684
+        width: 58
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 93f7843a2217c3400800000000000000
+      internalID: 305243268336615225
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_9
+      rect:
+        serializedVersion: 2
+        x: 188
+        y: 684
+        width: 58
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce5773deb4f7d8ba0800000000000000
+      internalID: -6085067557428562452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_10
+      rect:
+        serializedVersion: 2
+        x: 247
+        y: 685
+        width: 55
+        height: 79
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3f9d3f3da7259f280800000000000000
+      internalID: -9009078892082505229
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_11
+      rect:
+        serializedVersion: 2
+        x: 303
+        y: 683
+        width: 58
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 66bdf943398f63ed0800000000000000
+      internalID: -2434485237420401818
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 613
+        width: 64
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5706a6beb71d2fa60800000000000000
+      internalID: 7706452242545139829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_13
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 613
+        width: 62
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a4f5c1c01a82294b0800000000000000
+      internalID: -5435237128124735670
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_14
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 613
+        width: 64
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a7437eb4511c98ac0800000000000000
+      internalID: -3852335709026831238
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_15
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 529
+        width: 76
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 23c9090c1de3642c0800000000000000
+      internalID: -4447798511381996494
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_16
+      rect:
+        serializedVersion: 2
+        x: 77
+        y: 529
+        width: 71
+        height: 79
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 92bea364f230ce1c0800000000000000
+      internalID: -4473196828309132503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_17
+      rect:
+        serializedVersion: 2
+        x: 149
+        y: 529
+        width: 66
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 934f15b595f275fb0800000000000000
+      internalID: -4659203228660796359
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_18
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 529
+        width: 61
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 735d19f2fc23baff0800000000000000
+      internalID: -23869507582700233
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_19
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 529
+        width: 59
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44a6763ae7521b070800000000000000
+      internalID: 8120312828963285572
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 445
+        width: 65
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f37db12762ad0fcb0800000000000000
+      internalID: -4832122541510502593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_21
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 445
+        width: 77
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dea00ef1ae2d38bc0800000000000000
+      internalID: -3781947359062127891
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_22
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 445
+        width: 66
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af36331ca9355d850800000000000000
+      internalID: 6401114369508467706
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_23
+      rect:
+        serializedVersion: 2
+        x: 211
+        y: 445
+        width: 66
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 02385d52cb3f051b0800000000000000
+      internalID: -5669763941445303520
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_24
+      rect:
+        serializedVersion: 2
+        x: 278
+        y: 445
+        width: 66
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 918f7259e7868f2b0800000000000000
+      internalID: -5550571647856543719
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_25
+      rect:
+        serializedVersion: 2
+        x: 345
+        y: 445
+        width: 76
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e646aeb0e0879f60800000000000000
+      internalID: 8041037362452907753
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_26
+      rect:
+        serializedVersion: 2
+        x: 422
+        y: 445
+        width: 67
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3f283af94ae562ae0800000000000000
+      internalID: -1574466958573468941
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_27
+      rect:
+        serializedVersion: 2
+        x: 490
+        y: 445
+        width: 68
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c1ec9f3886f5489e0800000000000000
+      internalID: -1620065063451111908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_28
+      rect:
+        serializedVersion: 2
+        x: 559
+        y: 445
+        width: 68
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f0990cf581390c10800000000000000
+      internalID: 2020200359381274873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_29
+      rect:
+        serializedVersion: 2
+        x: 628
+        y: 445
+        width: 68
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 76d28462f1d22a0c0800000000000000
+      internalID: -4566037460390761113
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_30
+      rect:
+        serializedVersion: 2
+        x: 697
+        y: 446
+        width: 67
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07bf609314d3c9ad0800000000000000
+      internalID: -2694211126735471760
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_31
+      rect:
+        serializedVersion: 2
+        x: 765
+        y: 443
+        width: 85
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 377439e42e126f1a0800000000000000
+      internalID: -6776191333467732109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_32
+      rect:
+        serializedVersion: 2
+        x: 851
+        y: 443
+        width: 80
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 11474cd4275538a90800000000000000
+      internalID: -7312907420500200431
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_33
+      rect:
+        serializedVersion: 2
+        x: 932
+        y: 443
+        width: 82
+        height: 71
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f2ba44c0ed8613070800000000000000
+      internalID: 8084358109004606255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_34
+      rect:
+        serializedVersion: 2
+        x: 1015
+        y: 443
+        width: 82
+        height: 71
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d95b45fb363b76310800000000000000
+      internalID: 1398283450314962333
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_35
+      rect:
+        serializedVersion: 2
+        x: 1102
+        y: 443
+        width: 82
+        height: 71
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d71804daed198a00800000000000000
+      internalID: 759170906605492178
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_36
+      rect:
+        serializedVersion: 2
+        x: 1189
+        y: 443
+        width: 82
+        height: 71
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bba943d99056d9970800000000000000
+      internalID: 8763271541899434683
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_37
+      rect:
+        serializedVersion: 2
+        x: 1272
+        y: 443
+        width: 83
+        height: 70
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 34076bbc785b28d00800000000000000
+      internalID: 973540064308392003
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_38
+      rect:
+        serializedVersion: 2
+        x: 1356
+        y: 445
+        width: 82
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0511615dbdd4b7800800000000000000
+      internalID: 611167781007003984
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_39
+      rect:
+        serializedVersion: 2
+        x: 1439
+        y: 445
+        width: 60
+        height: 79
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 02cee4975f3d58280800000000000000
+      internalID: -9041587625620739040
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_40
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 343
+        width: 60
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d3ecad24d2b23780800000000000000
+      internalID: -8704698505384631339
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_41
+      rect:
+        serializedVersion: 2
+        x: 61
+        y: 343
+        width: 57
+        height: 85
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 000a0f14088d95980800000000000000
+      internalID: -8549564372212473856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_42
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 343
+        width: 56
+        height: 99
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c41a5d8352ec9c510800000000000000
+      internalID: 1570012604377964876
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_43
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 343
+        width: 55
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 14bea121ba98addc0800000000000000
+      internalID: -3613424383175234751
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_44
+      rect:
+        serializedVersion: 2
+        x: 232
+        y: 343
+        width: 56
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f08f806649769b20800000000000000
+      internalID: 3140831133312188662
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_45
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 343
+        width: 56
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ca9729c1608f57d00800000000000000
+      internalID: 969953999901063596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_46
+      rect:
+        serializedVersion: 2
+        x: 346
+        y: 343
+        width: 56
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c06826f0e4c146300800000000000000
+      internalID: 244351401375991308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_47
+      rect:
+        serializedVersion: 2
+        x: 403
+        y: 343
+        width: 55
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4acb734e2f42126f0800000000000000
+      internalID: -711246640518284124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_48
+      rect:
+        serializedVersion: 2
+        x: 459
+        y: 343
+        width: 56
+        height: 99
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: efface19143408c10800000000000000
+      internalID: 2053715378981089278
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_49
+      rect:
+        serializedVersion: 2
+        x: 516
+        y: 343
+        width: 55
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12363f41f31ea7b90800000000000000
+      internalID: -7243229389621337311
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_50
+      rect:
+        serializedVersion: 2
+        x: 572
+        y: 343
+        width: 56
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c314efac1aca883d0800000000000000
+      internalID: -3204121323978735300
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_51
+      rect:
+        serializedVersion: 2
+        x: 629
+        y: 343
+        width: 56
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bf4903850cb0f7820800000000000000
+      internalID: 2918064004300575995
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_52
+      rect:
+        serializedVersion: 2
+        x: 686
+        y: 343
+        width: 56
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df0150eca80ab2a20800000000000000
+      internalID: 3038698891613901053
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_53
+      rect:
+        serializedVersion: 2
+        x: 743
+        y: 343
+        width: 55
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d276cf68f95e31220800000000000000
+      internalID: 2455558695174301485
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_54
+      rect:
+        serializedVersion: 2
+        x: 799
+        y: 343
+        width: 56
+        height: 99
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dbb4a61fcf7f1e540800000000000000
+      internalID: 5035578524131019709
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_55
+      rect:
+        serializedVersion: 2
+        x: 856
+        y: 343
+        width: 57
+        height: 85
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f359036ae82e3d0e0800000000000000
+      internalID: -2246202686826310337
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_56
+      rect:
+        serializedVersion: 2
+        x: 914
+        y: 343
+        width: 60
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6059eca0740071290800000000000000
+      internalID: -7919861114583739130
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_57
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 256
+        width: 81
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 980385a8224196ee0800000000000000
+      internalID: -1267459681545604983
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_58
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 256
+        width: 80
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 37ccf5d789dc90940800000000000000
+      internalID: 5262963694381288563
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_59
+      rect:
+        serializedVersion: 2
+        x: 163
+        y: 260
+        width: 79
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: be29b669e99896ea0800000000000000
+      internalID: -5879016524334001429
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_60
+      rect:
+        serializedVersion: 2
+        x: 243
+        y: 258
+        width: 82
+        height: 72
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d6f7fa7a0b29823b0800000000000000
+      internalID: -5537014454426828947
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_61
+      rect:
+        serializedVersion: 2
+        x: 326
+        y: 256
+        width: 81
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d4816d09e60caba0800000000000000
+      internalID: -6076474199208000299
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_62
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 256
+        width: 80
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 72d5965deac03b1e0800000000000000
+      internalID: -2183387449300263641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_63
+      rect:
+        serializedVersion: 2
+        x: 489
+        y: 260
+        width: 79
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8a1ede74cd567120800000000000000
+      internalID: 2411217749026937485
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_64
+      rect:
+        serializedVersion: 2
+        x: 569
+        y: 258
+        width: 82
+        height: 72
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 77499fcbb9ca16400800000000000000
+      internalID: 315723233783026807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_65
+      rect:
+        serializedVersion: 2
+        x: 652
+        y: 257
+        width: 82
+        height: 71
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 156b972fd22b2c450800000000000000
+      internalID: 6107639955079149137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_66
+      rect:
+        serializedVersion: 2
+        x: 735
+        y: 257
+        width: 83
+        height: 70
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 37a5414740684f650800000000000000
+      internalID: 6265780335264684659
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_67
+      rect:
+        serializedVersion: 2
+        x: 819
+        y: 259
+        width: 82
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dfb388af47c5ff0b0800000000000000
+      internalID: -5692729746483823619
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_68
+      rect:
+        serializedVersion: 2
+        x: 906
+        y: 262
+        width: 76
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c5844cde810cc9010800000000000000
+      internalID: 1197042814274521180
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_69
+      rect:
+        serializedVersion: 2
+        x: 983
+        y: 261
+        width: 79
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: deb1c1a2414c6f410800000000000000
+      internalID: 1510610315914255341
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_70
+      rect:
+        serializedVersion: 2
+        x: 1063
+        y: 261
+        width: 78
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d7005b22fede20a10800000000000000
+      internalID: 1874322006274801789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_71
+      rect:
+        serializedVersion: 2
+        x: 1142
+        y: 264
+        width: 76
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ca91076494cc26d0800000000000000
+      internalID: -3013817908955342141
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_72
+      rect:
+        serializedVersion: 2
+        x: 1219
+        y: 259
+        width: 79
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b0522bbf9c316760800000000000000
+      internalID: 7449301915384565939
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_73
+      rect:
+        serializedVersion: 2
+        x: 1299
+        y: 259
+        width: 78
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 41a55788c75925440800000000000000
+      internalID: 4923161704767248916
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_74
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 185
+        width: 81
+        height: 70
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20d2db258dc5be9c0800000000000000
+      internalID: -3896918968388211454
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_75
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 185
+        width: 81
+        height: 70
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: acb3b423036116fd0800000000000000
+      internalID: -2350573134252655670
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_76
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 185
+        width: 83
+        height: 70
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1eda923b012ba5a10800000000000000
+      internalID: 1899025977685159393
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_77
+      rect:
+        serializedVersion: 2
+        x: 248
+        y: 185
+        width: 81
+        height: 70
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 309ad4876adb43fa0800000000000000
+      internalID: -5821819895602632445
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_78
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 185
+        width: 80
+        height: 70
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01e3a9131e7120990800000000000000
+      internalID: -7421342979985883632
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_79
+      rect:
+        serializedVersion: 2
+        x: 411
+        y: 185
+        width: 83
+        height: 70
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a0ab5d4dbe0602da0800000000000000
+      internalID: -5971666539888920054
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_80
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 98
+        width: 57
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2731bd3614b457cc0800000000000000
+      internalID: -3713979573476846734
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_81
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 98
+        width: 59
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c5d3967b959fdbb50800000000000000
+      internalID: 6610713991774289244
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_82
+      rect:
+        serializedVersion: 2
+        x: 118
+        y: 100
+        width: 64
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00f91622261ea3c70800000000000000
+      internalID: 8951715020952149760
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_83
+      rect:
+        serializedVersion: 2
+        x: 183
+        y: 98
+        width: 68
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d4a178462b0c7d2b0800000000000000
+      internalID: -5559763342542300595
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_84
+      rect:
+        serializedVersion: 2
+        x: 252
+        y: 98
+        width: 82
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 18ea0cf70fdbd2c90800000000000000
+      internalID: -7192884189207679359
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_85
+      rect:
+        serializedVersion: 2
+        x: 335
+        y: 98
+        width: 83
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 78359d26d42f3d650800000000000000
+      internalID: 6256610721532564359
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_86
+      rect:
+        serializedVersion: 2
+        x: 419
+        y: 98
+        width: 67
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1349b9db586d7d970800000000000000
+      internalID: 8779721868482155569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_87
+      rect:
+        serializedVersion: 2
+        x: 487
+        y: 99
+        width: 61
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 203f14ea4856b0420800000000000000
+      internalID: 2597281230642868994
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_88
+      rect:
+        serializedVersion: 2
+        x: 549
+        y: 98
+        width: 53
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a34e7c03d9d33b940800000000000000
+      internalID: 5310656130937513018
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_89
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 7
+        width: 66
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3123789666852e4f0800000000000000
+      internalID: -800980586838150637
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_90
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 7
+        width: 67
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3793fd20b848d4e80800000000000000
+      internalID: -8192746414533559949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_91
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 7
+        width: 68
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8a6ba1b235e3b770800000000000000
+      internalID: 8625489717236558477
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_92
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 7
+        width: 72
+        height: 90
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad9ca984e905e42c0800000000000000
+      internalID: -4445527141414942246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_93
+      rect:
+        serializedVersion: 2
+        x: 277
+        y: 7
+        width: 104
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f808fa0024b855e00800000000000000
+      internalID: 1032884805147000975
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_94
+      rect:
+        serializedVersion: 2
+        x: 382
+        y: 7
+        width: 138
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 98e1b6eb501c995a0800000000000000
+      internalID: -6513963155601023351
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_95
+      rect:
+        serializedVersion: 2
+        x: 521
+        y: 6
+        width: 157
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 142d1dbb2f607b050800000000000000
+      internalID: 5816125083375227457
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_96
+      rect:
+        serializedVersion: 2
+        x: 679
+        y: 0
+        width: 157
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b776609229f7b7110800000000000000
+      internalID: 1259740786510423931
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_97
+      rect:
+        serializedVersion: 2
+        x: 837
+        y: 7
+        width: 87
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9a05649fc9bc92090800000000000000
+      internalID: -8058686183145320279
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_98
+      rect:
+        serializedVersion: 2
+        x: 916
+        y: 11
+        width: 81
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a164e980d3d0c3310800000000000000
+      internalID: 1385997341112026650
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_99
+      rect:
+        serializedVersion: 2
+        x: 998
+        y: 7
+        width: 61
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: add70ae1ab861fbe0800000000000000
+      internalID: -1445258856822178342
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_100
+      rect:
+        serializedVersion: 2
+        x: 1080
+        y: 15
+        width: 72
+        height: 57
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9a7514b8966942b30800000000000000
+      internalID: 4261696527451379625
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_101
+      rect:
+        serializedVersion: 2
+        x: 1153
+        y: 7
+        width: 61
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8262208a1817c3c80800000000000000
+      internalID: -8341667608113568216
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_102
+      rect:
+        serializedVersion: 2
+        x: 1254
+        y: 54
+        width: 14
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dcd6ba1a4ed4a9f00800000000000000
+      internalID: 1124296701342608845
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_103
+      rect:
+        serializedVersion: 2
+        x: 1263
+        y: 29
+        width: 42
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 602a95470b893d8f0800000000000000
+      internalID: -516901648583777786
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_104
+      rect:
+        serializedVersion: 2
+        x: 1306
+        y: 7
+        width: 57
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6381c8e040893c0a0800000000000000
+      internalID: -6862474263991150538
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_105
+      rect:
+        serializedVersion: 2
+        x: 1420
+        y: 60
+        width: 30
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9712966001e5c7740800000000000000
+      internalID: 5151095496725045625
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_106
+      rect:
+        serializedVersion: 2
+        x: 1451
+        y: 7
+        width: 91
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f5bbb8f69481d450800000000000000
+      internalID: 6111811953271485941
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_107
+      rect:
+        serializedVersion: 2
+        x: 1567
+        y: 63
+        width: 23
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4918ecf05ebc7fef0800000000000000
+      internalID: -74366684155182700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_108
+      rect:
+        serializedVersion: 2
+        x: 1571
+        y: 56
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c742c0212d8acb60800000000000000
+      internalID: 7767175680776882115
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_109
+      rect:
+        serializedVersion: 2
+        x: 1414
+        y: 45
+        width: 32
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a3ed777e05dd30a0800000000000000
+      internalID: -6900124795950734427
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_110
+      rect:
+        serializedVersion: 2
+        x: 1562
+        y: 50
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2b8115b399f88c8c0800000000000000
+      internalID: -3978772382493894478
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_111
+      rect:
+        serializedVersion: 2
+        x: 1579
+        y: 52
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 92403ce1f1895ba10800000000000000
+      internalID: 1924611675198260265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_112
+      rect:
+        serializedVersion: 2
+        x: 1065
+        y: 38
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db496675138c1ec00800000000000000
+      internalID: 928243112460326077
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_113
+      rect:
+        serializedVersion: 2
+        x: 1072
+        y: 39
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c81b7bffcb034d30800000000000000
+      internalID: 4414385047658502345
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_114
+      rect:
+        serializedVersion: 2
+        x: 1220
+        y: 39
+        width: 13
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0df360344b1f546d0800000000000000
+      internalID: -3006731419679047728
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_115
+      rect:
+        serializedVersion: 2
+        x: 1235
+        y: 39
+        width: 14
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a42936d763f20a5e0800000000000000
+      internalID: -1900467131671932342
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_116
+      rect:
+        serializedVersion: 2
+        x: 1250
+        y: 38
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce6ac361b15eb56d0800000000000000
+      internalID: -3000552822212352276
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_117
+      rect:
+        serializedVersion: 2
+        x: 1372
+        y: 42
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74d2d9e33af10ada0800000000000000
+      internalID: -5935709522883695289
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_118
+      rect:
+        serializedVersion: 2
+        x: 1390
+        y: 40
+        width: 9
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2bff5bc366c150d50800000000000000
+      internalID: 6702794845841653682
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_119
+      rect:
+        serializedVersion: 2
+        x: 1404
+        y: 41
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a9a17e2663799b3a0800000000000000
+      internalID: -6649117114992485734
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_120
+      rect:
+        serializedVersion: 2
+        x: 1428
+        y: 38
+        width: 13
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bcee164485a1bf300800000000000000
+      internalID: 286851967674871499
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_121
+      rect:
+        serializedVersion: 2
+        x: 1577
+        y: 43
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6522cba52e08b28a0800000000000000
+      internalID: -6328823141665856938
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_122
+      rect:
+        serializedVersion: 2
+        x: 1102
+        y: 13
+        width: 19
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8404178e5eba0a50800000000000000
+      internalID: 6488207526383060109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_123
+      rect:
+        serializedVersion: 2
+        x: 1261
+        y: 18
+        width: 14
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a621ad6eb4d274210800000000000000
+      internalID: 1317071220048007786
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Raxzilla_124
+      rect:
+        serializedVersion: 2
+        x: 1413
+        y: 24
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: abf4bfb5ddd931d00800000000000000
+      internalID: 942270321107095482
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Raxzilla_0: -8249360937346750763
+      Raxzilla_1: -4157316737702550695
+      Raxzilla_10: -9009078892082505229
+      Raxzilla_100: 4261696527451379625
+      Raxzilla_101: -8341667608113568216
+      Raxzilla_102: 1124296701342608845
+      Raxzilla_103: -516901648583777786
+      Raxzilla_104: -6862474263991150538
+      Raxzilla_105: 5151095496725045625
+      Raxzilla_106: 6111811953271485941
+      Raxzilla_107: -74366684155182700
+      Raxzilla_108: 7767175680776882115
+      Raxzilla_109: -6900124795950734427
+      Raxzilla_11: -2434485237420401818
+      Raxzilla_110: -3978772382493894478
+      Raxzilla_111: 1924611675198260265
+      Raxzilla_112: 928243112460326077
+      Raxzilla_113: 4414385047658502345
+      Raxzilla_114: -3006731419679047728
+      Raxzilla_115: -1900467131671932342
+      Raxzilla_116: -3000552822212352276
+      Raxzilla_117: -5935709522883695289
+      Raxzilla_118: 6702794845841653682
+      Raxzilla_119: -6649117114992485734
+      Raxzilla_12: 7706452242545139829
+      Raxzilla_120: 286851967674871499
+      Raxzilla_121: -6328823141665856938
+      Raxzilla_122: 6488207526383060109
+      Raxzilla_123: 1317071220048007786
+      Raxzilla_124: 942270321107095482
+      Raxzilla_13: -5435237128124735670
+      Raxzilla_14: -3852335709026831238
+      Raxzilla_15: -4447798511381996494
+      Raxzilla_16: -4473196828309132503
+      Raxzilla_17: -4659203228660796359
+      Raxzilla_18: -23869507582700233
+      Raxzilla_19: 8120312828963285572
+      Raxzilla_2: -3252446332491445406
+      Raxzilla_20: -4832122541510502593
+      Raxzilla_21: -3781947359062127891
+      Raxzilla_22: 6401114369508467706
+      Raxzilla_23: -5669763941445303520
+      Raxzilla_24: -5550571647856543719
+      Raxzilla_25: 8041037362452907753
+      Raxzilla_26: -1574466958573468941
+      Raxzilla_27: -1620065063451111908
+      Raxzilla_28: 2020200359381274873
+      Raxzilla_29: -4566037460390761113
+      Raxzilla_3: 2971711244979196834
+      Raxzilla_30: -2694211126735471760
+      Raxzilla_31: -6776191333467732109
+      Raxzilla_32: -7312907420500200431
+      Raxzilla_33: 8084358109004606255
+      Raxzilla_34: 1398283450314962333
+      Raxzilla_35: 759170906605492178
+      Raxzilla_36: 8763271541899434683
+      Raxzilla_37: 973540064308392003
+      Raxzilla_38: 611167781007003984
+      Raxzilla_39: -9041587625620739040
+      Raxzilla_4: 2150004631158759011
+      Raxzilla_40: -8704698505384631339
+      Raxzilla_41: -8549564372212473856
+      Raxzilla_42: 1570012604377964876
+      Raxzilla_43: -3613424383175234751
+      Raxzilla_44: 3140831133312188662
+      Raxzilla_45: 969953999901063596
+      Raxzilla_46: 244351401375991308
+      Raxzilla_47: -711246640518284124
+      Raxzilla_48: 2053715378981089278
+      Raxzilla_49: -7243229389621337311
+      Raxzilla_5: -6109301356641575578
+      Raxzilla_50: -3204121323978735300
+      Raxzilla_51: 2918064004300575995
+      Raxzilla_52: 3038698891613901053
+      Raxzilla_53: 2455558695174301485
+      Raxzilla_54: 5035578524131019709
+      Raxzilla_55: -2246202686826310337
+      Raxzilla_56: -7919861114583739130
+      Raxzilla_57: -1267459681545604983
+      Raxzilla_58: 5262963694381288563
+      Raxzilla_59: -5879016524334001429
+      Raxzilla_6: 4017796776597944241
+      Raxzilla_60: -5537014454426828947
+      Raxzilla_61: -6076474199208000299
+      Raxzilla_62: -2183387449300263641
+      Raxzilla_63: 2411217749026937485
+      Raxzilla_64: 315723233783026807
+      Raxzilla_65: 6107639955079149137
+      Raxzilla_66: 6265780335264684659
+      Raxzilla_67: -5692729746483823619
+      Raxzilla_68: 1197042814274521180
+      Raxzilla_69: 1510610315914255341
+      Raxzilla_7: 7839880964160468702
+      Raxzilla_70: 1874322006274801789
+      Raxzilla_71: -3013817908955342141
+      Raxzilla_72: 7449301915384565939
+      Raxzilla_73: 4923161704767248916
+      Raxzilla_74: -3896918968388211454
+      Raxzilla_75: -2350573134252655670
+      Raxzilla_76: 1899025977685159393
+      Raxzilla_77: -5821819895602632445
+      Raxzilla_78: -7421342979985883632
+      Raxzilla_79: -5971666539888920054
+      Raxzilla_8: 305243268336615225
+      Raxzilla_80: -3713979573476846734
+      Raxzilla_81: 6610713991774289244
+      Raxzilla_82: 8951715020952149760
+      Raxzilla_83: -5559763342542300595
+      Raxzilla_84: -7192884189207679359
+      Raxzilla_85: 6256610721532564359
+      Raxzilla_86: 8779721868482155569
+      Raxzilla_87: 2597281230642868994
+      Raxzilla_88: 5310656130937513018
+      Raxzilla_89: -800980586838150637
+      Raxzilla_9: -6085067557428562452
+      Raxzilla_90: -8192746414533559949
+      Raxzilla_91: 8625489717236558477
+      Raxzilla_92: -4445527141414942246
+      Raxzilla_93: 1032884805147000975
+      Raxzilla_94: -6513963155601023351
+      Raxzilla_95: 5816125083375227457
+      Raxzilla_96: 1259740786510423931
+      Raxzilla_97: -8058686183145320279
+      Raxzilla_98: 1385997341112026650
+      Raxzilla_99: -1445258856822178342
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
