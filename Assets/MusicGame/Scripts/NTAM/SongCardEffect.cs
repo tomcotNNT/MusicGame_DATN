@@ -9,6 +9,9 @@ public class SongCardEffect : MonoBehaviour
     [Header("Hiệu ứng Viền Neon")]
     [SerializeField] private GameObject neonBorderObject; // Kéo NeonBorderFrame vào đây
 
+    [Header("Thứ tự màn chơi / Background tương ứng")]
+    public int songIndex; // Đánh số: 0 cho Man1, 1 cho Man2, 2 cho Man3
+
     private RectTransform rectTransform;
     private Vector2 defaultAnchoredPos;
     private bool isCurrentActive = false;
@@ -35,7 +38,7 @@ public class SongCardEffect : MonoBehaviour
         }
     }
 
-    // Hàm nhận lệnh trực tiếp từ ListSongControl
+    // Hàm nhận lệnh trực tiếp từ bộ điều khiển ListSong
     public void SetActiveCard(bool isActive)
     {
         isCurrentActive = isActive;
@@ -48,6 +51,14 @@ public class SongCardEffect : MonoBehaviour
         if (!isActive)
         {
             defaultAnchoredPos = rectTransform.anchoredPosition;
+        }
+        else
+        {
+            // KHI CARD NÀY ĐƯỢC KÍCH HOẠT Ở TRUNG TÂM -> TỰ ĐỘNG ĐỔI BACKGROUND TƯƠNG TỨNG
+            if (SongBackgroundSwitcher.Instance != null)
+            {
+                SongBackgroundSwitcher.Instance.SwitchBackground(songIndex);
+            }
         }
     }
 }
