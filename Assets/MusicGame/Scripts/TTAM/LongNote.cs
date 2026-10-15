@@ -69,7 +69,6 @@ public class LongNote : MonoBehaviour
 
     private static ScoreSystem scoreSystem;
     private static ComboSystem comboSystem;
-    private static FeverSystem feverSystem;
     private static PlayerLaneController playerCtrl;
     private bool riding;
 
@@ -105,9 +104,6 @@ public class LongNote : MonoBehaviour
 
         if (comboSystem == null)
             comboSystem = FindFirstObjectByType<ComboSystem>();
-
-        if (feverSystem == null)
-            feverSystem = FindFirstObjectByType<FeverSystem>();
 
         if (playerCtrl == null)
             playerCtrl = FindFirstObjectByType<PlayerLaneController>();
@@ -332,7 +328,7 @@ public class LongNote : MonoBehaviour
 
     private void UpdateState(float songTime)
     {
-        bool autoHold = feverSystem != null && feverSystem.isFever;
+        bool autoHold = ItemDurationSystem.Instance != null && ItemDurationSystem.Instance.IsActive("Fever");
         bool held = autoHold || HoldInput.IsHeld(lane);
 
         switch (state)
@@ -377,9 +373,6 @@ public class LongNote : MonoBehaviour
 
         if (comboSystem != null)
             comboSystem.HitNote();
-
-        if (feverSystem != null)
-            feverSystem.AddFever();
 
         TutorialEvents.LongNoteStarted?.Invoke();
     }
@@ -443,9 +436,6 @@ public class LongNote : MonoBehaviour
 
         if (scoreSystem != null)
             scoreSystem.AddScore(completeBonus);
-
-        if (feverSystem != null)
-            feverSystem.AddFever();
 
         Destroy(gameObject);
     }

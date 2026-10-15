@@ -23,6 +23,10 @@ public class Coin : MonoBehaviour
     [Range(0f, 1f)]
     [SerializeField] private float collectVolume = 1f;
 
+    private Transform attractTarget;
+    private float attractSpeed;
+    private float attractElapsed;
+
     private float targetTime;
     private float moveSpeed;
     private float hitX;
@@ -43,6 +47,23 @@ public class Coin : MonoBehaviour
         if (collected || PianoKeySpawner.Instance == null)
             return;
 
+            if (attractTarget != null)
+            {
+                attractElapsed += Time.deltaTime;
+                float s = attractSpeed * (1f + attractElapsed * 2f); // càng lâu càng nhanh
+
+                transform.position = Vector3.MoveTowards(
+                    transform.position, attractTarget.position, s * Time.deltaTime);
+
+                if ((transform.position - attractTarget.position).sqrMagnitude < 0.04f)
+                    Collect();
+
+                return;
+            }
+
+        if (PianoKeySpawner.Instance == null)
+        return;
+
         float songTime = PianoKeySpawner.Instance.SongTime;
 
         Vector3 pos = transform.position;
@@ -61,6 +82,16 @@ public class Coin : MonoBehaviour
             return;
 
         Collect();
+    }
+
+    // Magnet gọi: coin ngừng theo SongTime và bay về Player.
+    public void Attract(Transform target, float speed)
+    {
+        if (collected || attractTarget != null)
+            return;
+
+        attractTarget = target;
+        attractSpeed = speed;
     }
 
     public void Collect()
