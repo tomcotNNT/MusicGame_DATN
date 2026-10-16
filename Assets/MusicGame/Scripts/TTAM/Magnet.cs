@@ -8,7 +8,33 @@ public class Magnet : MonoBehaviour
     [SerializeField] private float duration = 5f;
     [SerializeField] private Sprite icon;
 
+    private float targetTime;
+    private float moveSpeed;
+    private float hitX;
+    private float direction;
+    private bool configured;
+
+    [SerializeField] private float destroyBehindDistance = 5f;
+
     private bool used;
+    
+
+    private void Update()
+    {
+        // Đã nhặt rồi thì đứng yên để coroutine chạy.
+        if (used || !configured || PianoKeySpawner.Instance == null)
+            return;
+
+        float songTime = PianoKeySpawner.Instance.SongTime;
+
+        Vector3 pos = transform.position;
+        pos.x = hitX + direction * moveSpeed * (targetTime - songTime);
+        transform.position = pos;
+
+        // Bay qua Player mà không nhặt thì hủy.
+        if ((hitX - pos.x) * direction > destroyBehindDistance)
+            Destroy(gameObject);
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -44,5 +70,14 @@ public class Magnet : MonoBehaviour
         }
 
         Destroy(gameObject);
+    }
+
+    public void Setup(float time, float speed, float playerX, float dir)
+    {
+        targetTime = time;
+        moveSpeed = speed;
+        hitX = playerX;
+        direction = dir;
+        configured = true;
     }
 }
