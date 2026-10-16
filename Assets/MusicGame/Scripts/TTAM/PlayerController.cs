@@ -7,7 +7,8 @@ public class PlayerLaneController : MonoBehaviour
     [Header("Player")]
     [SerializeField] private bool isGround = true;
     [SerializeField] private float jumpForce = 2f;
-
+    [Header("Boss")]
+    [SerializeField] private BossSpawner bossSpawner;
     private bool isRiding;
     private Transform rideTarget;
     private float rideYOffset;
@@ -378,20 +379,33 @@ public class PlayerLaneController : MonoBehaviour
         if (gameEnded)
             return;
 
-        gameEnded = true;
-        canPlay = false;
-
         if (isRiding)
             ReleaseRide();
-
-        rb.linearVelocity = Vector2.zero;
-        rb.angularVelocity = 0f;
 
         if (pianoKeySpawner != null)
             pianoKeySpawner.ClearAllKeys();
 
+        // Có boss thì đánh boss xong mới kết thúc, không có thì kết thúc luôn.
+        if (bossSpawner != null)
+            bossSpawner.StartBossFight(FinishGame);
+        else
+            FinishGame();
+    }
+
+    private void FinishGame()
+    {
+        if (gameEnded)
+            return;
+
+        gameEnded = true;
+        canPlay = false;
+
+        rb.linearVelocity = Vector2.zero;
+        rb.angularVelocity = 0f;
+
         if (resultSystem != null && scoreSystem != null)
-            resultSystem.ShowResult(scoreSystem.GetScore());  
+            resultSystem.ShowResult(scoreSystem.GetScore());
+
         Debug.Log("END GAME");
     }
 }
