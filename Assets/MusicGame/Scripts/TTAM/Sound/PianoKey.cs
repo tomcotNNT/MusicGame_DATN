@@ -59,7 +59,6 @@ public class PianoKey : MonoBehaviour
     // Cache dùng chung, tránh FindObjectOfType cho từng key
     private static ScoreSystem scoreSystem;
     private static ComboSystem comboSystem;
-    private static FeverSystem feverSystem;
 
     private void Awake()
     {
@@ -67,8 +66,6 @@ public class PianoKey : MonoBehaviour
             scoreSystem = FindFirstObjectByType<ScoreSystem>();
         if (comboSystem == null)
             comboSystem = FindFirstObjectByType<ComboSystem>();
-        if (feverSystem == null)
-            feverSystem = FindFirstObjectByType<FeverSystem>();
     }
 
     private void OnEnable()
@@ -125,14 +122,6 @@ public class PianoKey : MonoBehaviour
         float songTime = PianoKeySpawner.Instance.SongTime;
 
         Move(songTime);
-
-        // Fever: tự động hoàn thành key khi tới player
-        if (feverSystem != null && feverSystem.isFever && songTime >= targetTime)
-        {
-            Complete();
-            return;
-        }
-
         // CheckMiss(songTime);
     }
 
@@ -189,7 +178,6 @@ public class PianoKey : MonoBehaviour
 
         if (scoreSystem != null) scoreSystem.AddScore();
         if (comboSystem != null) comboSystem.HitNote();
-        if (feverSystem != null) feverSystem.AddFever();
 
         TutorialEvents.NormalNoteHit?.Invoke();
 
