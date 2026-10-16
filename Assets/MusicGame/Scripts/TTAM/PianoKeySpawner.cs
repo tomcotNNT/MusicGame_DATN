@@ -10,13 +10,13 @@ public class PianoKeySpawner : MonoBehaviour
     [SerializeField] private Transform player;
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private float longNoteYOffset = -1.2f;
+    public float KeySpeed => keySpeed;
 
     [Header("Coin")]
     [SerializeField] private CoinSpawner coinSpawner;
 
-    public float KeySpeed => keySpeed;
     public float SpawnDirection => spawnDirection;
-public float PlayerX => player.position.x;
+    public float PlayerX => player.position.x;
 
     private bool paused;
     private double pauseStartDsp;
