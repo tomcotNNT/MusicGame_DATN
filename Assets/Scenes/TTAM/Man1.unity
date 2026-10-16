@@ -1607,7 +1607,7 @@ MonoBehaviour:
   laneMode: 0
   splitPitch: 60
   maxSameLane: 3
-  longNoteMinDuration: 0.2
+  longNoteMinDuration: 0.5
   longNoteTailGap: 0.25
 --- !u!82 &459371225
 AudioSource:
@@ -3233,17 +3233,17 @@ MonoBehaviour:
   audioSource: {fileID: 459371225}
   player: {fileID: 2008411973}
   spawnPoint: {fileID: 983721398}
-  longNoteYOffset: 5.58
-  coinSpawner: {fileID: 625427041}
+  longNoteYOffset: -1.2
+  coinSpawner: {fileID: 0}
   keySpeed: 8
   isTutorial: 0
   spawnAheadTime: 2
   autoSpawnAhead: 1
   minKeyGap: 1.5
   randomLane: 0
-  longNotePrefab: {fileID: 4216641539723573487, guid: 4b2aa78745d0e154fba2cf4af593d47e, type: 3}
-  scoreSystem: {fileID: 230136156}
-  longNoteMinDuration: 0.43
+  longNotePrefab: {fileID: 0}
+  scoreSystem: {fileID: 0}
+  longNoteMinDuration: 0.5
 --- !u!1 &882365117
 GameObject:
   m_ObjectHideFlags: 0
@@ -6392,7 +6392,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc29e755ccf793f4fbe0c672418c3b36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Scenes
-  optionPanel: {fileID: 1078260694}
+  optionPanel: {fileID: 0}
 --- !u!1 &1679399471
 GameObject:
   m_ObjectHideFlags: 0
