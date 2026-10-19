@@ -437,6 +437,9 @@ public class LongNote : MonoBehaviour
         if (scoreSystem != null)
             scoreSystem.AddScore(completeBonus);
 
+        if (FeverSystem.Instance != null)
+            FeverSystem.Instance.AddNote();    
+
         Destroy(gameObject);
     }
 

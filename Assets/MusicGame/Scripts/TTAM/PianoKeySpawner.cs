@@ -15,6 +15,10 @@ public class PianoKeySpawner : MonoBehaviour
     [Header("Coin")]
     [SerializeField] private CoinSpawner coinSpawner;
 
+
+    [Header("Boss")]
+    [SerializeField] private BossSpawner bossSpawner;
+
     public float SpawnDirection => spawnDirection;
     public float PlayerX => player.position.x;
 
@@ -33,8 +37,28 @@ public class PianoKeySpawner : MonoBehaviour
             : (float)(AudioSettings.dspTime - songStartDsp));
 
     [Header("Rhythm Settings")]
-    [Tooltip("Tốc độ key (unit/giây) - cố định cho cả bài")]
+    [Tooltip("Tốc độ key (unit/giây) của vòng hiện tại (= tốc độ gốc x roundSpeed)")]
     [SerializeField] private float keySpeed = 8f;
+
+    [Header("Loop tăng tốc")]
+    [Tooltip("Hết bài thì phát lại với tốc độ cao hơn")]
+    [SerializeField] private bool loopWithSpeedUp = true;
+    [Tooltip("Mỗi vòng nhanh thêm bao nhiêu (0.15 = +15%)")]
+    [SerializeField] private float speedStep = 0.15f;
+    [Tooltip("Tốc độ tối đa. Đạt mức này thì vòng kế tiếp là vòng cuối, hết là EndSong")]
+    [SerializeField] private float maxSpeed = 2.5f;
+    [Tooltip("Số giây chờ giữa 2 vòng trước khi nhạc phát lại")]
+    [SerializeField] private float nextRoundLeadIn = 1.5f;
+
+    public int Round { get; private set; } = 1;
+    public float RoundSpeed => roundSpeed;
+
+    // (số vòng, hệ số tốc độ) - dùng cho UI "Vòng 2 - x1.15"
+    public event System.Action<int, float> RoundStarted;
+
+    private float roundSpeed = 1f;
+    private float baseKeySpeed;
+    private List<MidiReader.RhythmNote> playNotes = new List<MidiReader.RhythmNote>();
 
     [Header("Tutorial")]
     [Tooltip("Tick = scene tutorial: không dùng MIDI/nhạc, nốt do TutorialManager spawn thủ công.")]
@@ -55,8 +79,6 @@ public class PianoKeySpawner : MonoBehaviour
     [Tooltip("Khoảng cách tối thiểu giữa 2 key (unit). Nên >= chiều rộng prefab key. " +
              "Note nào sát hơn mức này sẽ bị bỏ.")]
     [SerializeField] private float minKeyGap = 1.5f;
-
-    private float lastAcceptedNoteTime = -999f;
 
     [Header("Lane")]
     [Tooltip("Bật = random Left/Right, tắt = theo lane của MIDI (cao/thấp)")]
@@ -79,11 +101,12 @@ public class PianoKeySpawner : MonoBehaviour
     [Tooltip("Note có duration >= giá trị này (giây) sẽ thành nốt dài")]
     [SerializeField] private float longNoteMinDuration = 0.5f;
 
-    private float lastAcceptedNoteEnd = -999f;   // thay cho lastAcceptedNoteTime
+    private float lastAcceptedNoteEnd = -999f;
 
     private void Awake()
     {
         Instance = this;
+        baseKeySpeed = keySpeed;
     }
 
     // =============================================
@@ -92,14 +115,26 @@ public class PianoKeySpawner : MonoBehaviour
 
     public event System.Action SongEnded;
 
-    // Gọi từ LevelManager sau khi nạp level
+    // Gọi từ LevelManager sau khi nạp level (bắt đầu bài mới => reset vòng)
     public void SetLevel(LevelData level)
     {
         if (level == null)
             return;
 
-        keySpeed = level.noteSpeed;
+        baseKeySpeed = level.noteSpeed;
+        ResetRounds();
         RecalculateSpawnAhead();
+    }
+
+    // Đưa về vòng 1, tốc độ gốc
+    public void ResetRounds()
+    {
+        roundSpeed = 1f;
+        Round = 1;
+        keySpeed = baseKeySpeed;
+
+        if (audioSource != null)
+            audioSource.pitch = 1f;
     }
 
     private void RecalculateSpawnAhead()
@@ -119,10 +154,6 @@ public class PianoKeySpawner : MonoBehaviour
             return;
         }
 
-        RecalculateSpawnAhead();
-
-        if (leadIn < 0f)
-            leadIn = spawnAheadTime;
         if (midiReader == null || audioSource == null ||
             player == null || spawnPoint == null || pianoKeyPrefab == null)
         {
@@ -130,27 +161,38 @@ public class PianoKeySpawner : MonoBehaviour
             return;
         }
 
-        if (midiReader.Notes.Count == 0)
+        // Key bay nhanh theo vòng => khoảng cách giữa các key trên màn hình giữ nguyên
+        keySpeed = baseKeySpeed * roundSpeed;
+        RecalculateSpawnAhead();
+
+        if (leadIn < 0f)
+            leadIn = spawnAheadTime;
+
+        // Note của vòng này: thời gian chia cho roundSpeed (không sửa Notes gốc)
+        playNotes = midiReader.GetNotesWithSpeed(roundSpeed);
+
+        if (playNotes.Count == 0)
             Debug.LogError("PianoKeySpawner: Notes rỗng! Chưa gọi MidiReader.LoadMidi() hoặc MIDI không có note.");
 
         if (audioSource.clip == null)
             Debug.LogError("PianoKeySpawner: AudioSource chưa có clip nhạc!");
 
-        Debug.Log($"StartSong: {midiReader.Notes.Count} notes, leadIn = {leadIn}");
+        Debug.Log($"StartSong: Round {Round} | x{roundSpeed:F2} | {playNotes.Count} notes, leadIn = {leadIn}");
 
         ClearAllKeys();
 
         nextNoteIndex = 0;
         lastAcceptedNoteEnd = -999f;
         songEnded = false;
+        paused = false;
 
         // Hướng key bay: từ spawnPoint về phía player
         spawnDirection = spawnPoint.position.x >= player.position.x ? 1f : -1f;
 
         if (coinSpawner != null)
         {
-            coinSpawner.Build(  
-                midiReader.Notes,
+            coinSpawner.Build(
+                playNotes,
                 minKeyGap,
                 keySpeed,
                 longNotePrefab != null ? longNoteMinDuration : float.MaxValue,
@@ -161,6 +203,7 @@ public class PianoKeySpawner : MonoBehaviour
         // Nhạc phát sau leadIn giây; trong lúc đó SongTime < 0 và key vẫn spawn
         songStartDsp = AudioSettings.dspTime + leadIn;
         audioSource.Stop();
+        audioSource.pitch = roundSpeed;
         audioSource.PlayScheduled(songStartDsp);
 
         songStarted = true;
@@ -182,14 +225,61 @@ public class PianoKeySpawner : MonoBehaviour
 
         SpawnKeys();
 
-        // Hết bài: đã spawn hết note, không còn key và nhạc đã dừng
-        if (nextNoteIndex >= midiReader.Notes.Count &&
+        // Hết vòng: đã spawn hết note, không còn key và nhạc đã dừng
+        // (nhạc phát nhanh x roundSpeed nên độ dài thực = clip.length / roundSpeed)
+        if (nextNoteIndex >= playNotes.Count &&
             activeKeys.Count == 0 &&
             audioSource.clip != null &&
-            SongTime >= audioSource.clip.length)
+            SongTime >= audioSource.clip.length / roundSpeed)
         {
-            EndSong();
+            if (loopWithSpeedUp && roundSpeed < maxSpeed)
+                NextRound();
+            else
+                EndSong();
         }
+    }
+
+    // Sang vòng mới: nhanh hơn, giữ nguyên điểm số
+    private void NextRound()
+    {
+        roundSpeed = Mathf.Min(roundSpeed + speedStep, maxSpeed);
+        Round++;
+
+        ClearAllKeys();
+        if (coinSpawner != null)
+            coinSpawner.ClearAll();
+
+        RoundStarted?.Invoke(Round, roundSpeed);
+
+        // Nhạc phát lại => boss xuất hiện
+        if (bossSpawner != null)
+            bossSpawner.StartBossFight(OnBossDefeated);
+
+        StartSong(nextRoundLeadIn);
+    }
+
+    // Gắn vào Button "Skip" trên UI: bỏ qua phần nhạc còn lại của vòng này
+    public void SkipSong()
+    {
+        if (isTutorial || !songStarted || songEnded)
+            return;
+
+        // Đang đếm ngược trước khi nhạc phát: bỏ qua để tránh bấm đúp nhảy 2 vòng
+        if (SongTime < 0f)
+            return;
+
+        audioSource.Stop();
+
+        if (loopWithSpeedUp && roundSpeed < maxSpeed)
+            NextRound();
+        else
+            EndSong();
+    }
+
+    private void OnBossDefeated()
+    {
+        Debug.Log($"Boss vòng {Round} bị hạ!");
+        // TODO: thưởng điểm/coin, hồi máu... tuỳ game của bạn
     }
 
     // =============================================
@@ -199,7 +289,7 @@ public class PianoKeySpawner : MonoBehaviour
     private void SpawnKeys()
     {
         float now = SongTime;
-        List<MidiReader.RhythmNote> notes = midiReader.Notes;
+        List<MidiReader.RhythmNote> notes = playNotes;
 
         while (nextNoteIndex < notes.Count)
         {
@@ -227,6 +317,7 @@ public class PianoKeySpawner : MonoBehaviour
             else        SpawnKey(note, travelTime);
         }
     }
+
     private void SpawnLongKey(MidiReader.RhythmNote note, float travelTime)
     {
         float spawnX =
@@ -326,12 +417,18 @@ public class PianoKeySpawner : MonoBehaviour
     {
         if (songEnded) return;
         songEnded = true;
-        
+
         ClearAllKeys();
         if (coinSpawner != null)
             coinSpawner.ClearAll();
 
-        Debug.Log("PianoKeySpawner: Song Ended!");
+        if (audioSource != null)
+            audioSource.pitch = 1f;
+
+        Debug.Log($"PianoKeySpawner: Song Ended! (Round {Round}, x{roundSpeed:F2})");
+
+        if (bossSpawner != null)
+            bossSpawner.ClearBoss();
         SongEnded?.Invoke();
     }
 
@@ -400,7 +497,7 @@ public class PianoKeySpawner : MonoBehaviour
         songStarted = true;
     }
 
-// Spawn 1 nốt thường, tới Player sau SpawnAheadTime giây.
+    // Spawn 1 nốt thường, tới Player sau SpawnAheadTime giây.
     public PianoKey SpawnTutorialKey(bool left)
     {
         if (!isTutorial || !songStarted)

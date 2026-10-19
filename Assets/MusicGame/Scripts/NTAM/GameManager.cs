@@ -1,5 +1,6 @@
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class PlayerGameData
@@ -49,7 +50,6 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        // Kiểm tra cơ chế Singleton: Nếu đã tồn tại một Instance khác, hủy bản sao mới này đi
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -58,14 +58,22 @@ public class GameManager : MonoBehaviour
 
         Instance = this;
 
-        // Giữ lại GameManager không bị hủy khi chuyển Scene
         DontDestroyOnLoad(gameObject);
 
         savePath = Application.persistentDataPath + "/PlayerSaveData.json";
 
-        // Khôi phục dữ liệu ngay khi game khởi động ở Scene đầu tiên
         LoadGameData();
         LoadSettingsData();
+
+        // Đăng ký sự kiện khi chuyển Scene
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
+        // Kiểm tra nếu game khởi động trực tiếp ở Man1
+        if (SceneManager.GetActiveScene().name == "Man1")
+        {
+            Destroy(gameObject);
+            return;
+        }
     }
 
     private void Start()
@@ -112,10 +120,28 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Tutorial")
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+
+            if (Instance == this)
+            {
+                Instance = null;
+            }
+
+            Destroy(gameObject);
+        }
+    }
 
     public void PlayStartSound()
     {
         if (sfxStartSource != null) sfxStartSource.Play();
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 }
