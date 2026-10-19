@@ -6,8 +6,9 @@ using UnityEngine;
 /// Spawn coin theo thời gian bài hát (SongTime). Tốc độ, hướng, vị trí Player
 /// đều lấy từ PianoKeySpawner nên luôn khớp với key.
 ///
-/// 2 nguồn coin:
-///  1) Tự sinh từ MIDI: vòng cung coin ở khoảng trống giữa 2 nốt, hàng coin dọc theo nốt dài.
+/// 3 nguồn coin:
+///  1) Tự sinh từ MIDI: vòng cung coin ở khoảng trống giữa 2 nốt, hàng coin dọc theo nốt dài,
+///     và 1 coin ngay dưới mỗi nốt đơn.
 ///  2) Pattern đặt tay trong Inspector (tuỳ chọn).
 ///
 /// Coin được xếp lịch sẵn từ đầu bài và chỉ xuất hiện đúng lúc nó vào tầm nhìn
@@ -86,12 +87,26 @@ public class CoinSpawner : MonoBehaviour
 
     [SerializeField] private int maxCoinsPerLongNote = 30;
 
+    [Header("Coin dưới nốt đơn")]
+    [SerializeField] private bool singleNoteCoins = true;
+
+    [Tooltip("Lệch Y so với key. Âm = nằm dưới key")]
+    [SerializeField] private float singleNoteCoinYOffset = -1f;
+
+    [Range(0f, 1f)]
+    [Tooltip("Xác suất 1 nốt đơn có coin dưới (1 = nốt nào cũng có)")]
+    [SerializeField] private float singleNoteCoinChance = 1f;
+
+    [Tooltip("Cứ N nốt đơn thì có 1 coin (1 = mỗi nốt, 2 = cách 1 nốt...)")]
+    [SerializeField, Min(1)] private int singleNoteEvery = 1;
+
     [Header("Pattern đặt tay (tuỳ chọn)")]
     [SerializeField] private List<CoinPattern> manualPatterns = new List<CoinPattern>();
 
     private readonly List<Group> pending = new List<Group>();
     private readonly List<GameObject> spawned = new List<GameObject>();
     private int nextGroup;
+    private int singleNoteCounter;
 
     // =====================================================
     // BUILD (PianoKeySpawner gọi trong StartSong)
@@ -115,6 +130,8 @@ public class CoinSpawner : MonoBehaviour
 
         if (autoGenerate && notes != null)
         {
+            singleNoteCounter = 0;
+
             // Lặp lại đúng bộ lọc của PianoKeySpawner để biết nốt nào thật sự xuất hiện
             float lastEnd = -999f;
             float minGapTime = minKeyGap / Mathf.Max(0.01f, keySpeed);
@@ -131,6 +148,9 @@ public class CoinSpawner : MonoBehaviour
 
                 if (isLong && longNoteCoins)
                     AddLongNoteCoins(note.time, note.duration, longNoteY);
+
+                if (!isLong && singleNoteCoins)
+                    AddSingleNoteCoin(note.time, keyY);
 
                 lastEnd = note.time + (isLong ? note.duration : 0f);
             }
@@ -196,6 +216,20 @@ public class CoinSpawner : MonoBehaviour
             Mathf.FloorToInt(available / coinInterval) + 1, 1, maxCoinsPerLongNote);
 
         Enqueue(start, count, coinInterval, longNoteY + longNoteCoinYOffset, Shape.Line, 0f);
+    }
+
+    private void AddSingleNoteCoin(float noteTime, float keyY)
+    {
+        singleNoteCounter++;
+
+        if (singleNoteCounter % singleNoteEvery != 0)
+            return;
+
+        if (UnityEngine.Random.value > singleNoteCoinChance)
+            return;
+
+        // 1 coin, targetTime = noteTime => cùng cột X với nốt, nằm dưới key
+        Enqueue(noteTime, 1, coinInterval, keyY + singleNoteCoinYOffset, Shape.Line, 0f);
     }
 
     private void Enqueue(float startTime, int count, float interval, float y, Shape shape, float arcHeight)

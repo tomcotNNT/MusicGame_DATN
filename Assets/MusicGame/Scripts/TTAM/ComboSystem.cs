@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using System.Collections;
 
@@ -7,25 +8,36 @@ public class ComboSystem : MonoBehaviour
     [Header("UI")]
     [SerializeField] private TMP_Text comboLabelText;   // chữ "COMBO" (gợn sóng)
     [SerializeField] private TMP_Text comboNumberText;  // số "x100" (scale khi tăng)
-    [SerializeField] private TMP_Text judgmentText;
 
-    [Header("Judgment Random Spawn")]
-    [SerializeField] private float judgmentRangeX = 300f;   // lệch ngang tối đa so với vị trí gốc
-    [SerializeField] private float judgmentRangeY = 150f;   // lệch dọc tối đa so với vị trí gốc
-    [SerializeField] private float judgmentMaxRotation = 12f; // nghiêng tối đa (độ), 0 = không nghiêng
-    [SerializeField] private float minDistanceFromLast = 120f; // cách vị trí lần trước tối thiểu
+    [Header("Judgment Images")]
+    [SerializeField] private Image judgmentImage;       // thay cho judgmentText
+    [SerializeField] private Sprite goodSprite;
+    [SerializeField] private Sprite awesomeSprite;
+    [SerializeField] private Sprite perfectSprite;
+    [SerializeField] private Sprite missSprite;
+    [SerializeField] private bool setNativeSize = true; // tự đặt kích thước theo sprite
 
-    private Vector2 judgmentOriginPos;
+    [Header("Judgment Popup Around Player")]
+    [SerializeField] private Transform player;            // kéo Player vào đây
+    [SerializeField] private Camera worldCamera;          // camera nhìn thấy player (để trống = Camera.main)
+    [SerializeField] private Canvas canvas;               // canvas chứa judgmentImage
+    [SerializeField] private Vector3 playerWorldOffset = new Vector3(0f, 1f, 0f); // lệch so với chân player
+    [SerializeField] private float minRadius = 80f;       // khoảng cách tối thiểu quanh player (pixel canvas)
+    [SerializeField] private float maxRadius = 200f;      // khoảng cách tối đa quanh player
+    [SerializeField] private float judgmentMaxRotation = 12f;
+    [SerializeField] private float minDistanceFromLast = 80f;
+
+    private RectTransform judgmentParentRect;
     private Vector2 lastJudgmentPos;
 
     [Header("Number Pop")]
-    [SerializeField] private float numberPopScale = 1.5f;     // phóng to tối đa khi combo tăng
-    [SerializeField] private float numberPopDuration = 0.2f;  // thời gian lớn -> nhỏ về bình thường
+    [SerializeField] private float numberPopScale = 1.5f;
+    [SerializeField] private float numberPopDuration = 0.2f;
 
     [Header("Label Wave (gợn sóng)")]
-    [SerializeField] private float waveAmplitude = 8f;   // độ cao sóng
-    [SerializeField] private float waveSpeed = 6f;       // tốc độ sóng
-    [SerializeField] private float waveFrequency = 0.6f; // độ lệch pha giữa các chữ
+    [SerializeField] private float waveAmplitude = 8f;
+    [SerializeField] private float waveSpeed = 6f;
+    [SerializeField] private float waveFrequency = 0.6f;
 
     [Header("Timing")]
     [SerializeField] private float hitAnimationDuration = 0.12f;
@@ -37,12 +49,12 @@ public class ComboSystem : MonoBehaviour
     [SerializeField] private int perfectCombo = 10;
 
     [Header("Combo Colors")]
-    [SerializeField] private int colorTier1 = 5;    // combo > 5
-    [SerializeField] private int colorTier2 = 15;   // combo > 15
-    [SerializeField] private int colorTier3 = 25;   // combo > 25
-    [SerializeField] private Color tier1Color = new Color(1f, 0.9f, 0.2f);  
-    [SerializeField] private Color tier2Color = new Color(1f, 0.5f, 0.1f);  
-    [SerializeField] private Color tier3Color = new Color(1f, 0.2f, 0.3f);  
+    [SerializeField] private int colorTier1 = 5;
+    [SerializeField] private int colorTier2 = 15;
+    [SerializeField] private int colorTier3 = 25;
+    [SerializeField] private Color tier1Color = new Color(1f, 0.9f, 0.2f);
+    [SerializeField] private Color tier2Color = new Color(1f, 0.5f, 0.1f);
+    [SerializeField] private Color tier3Color = new Color(1f, 0.2f, 0.3f);
 
     private Color originalLabelColor;
     private Color originalNumberColor;
@@ -64,10 +76,13 @@ public class ComboSystem : MonoBehaviour
         combo = 0;
         comboVisible = false;
 
+        if (worldCamera == null)
+            worldCamera = Camera.main;
+
         if (comboLabelText != null)
         {
             originalLabelScale = comboLabelText.rectTransform.localScale;
-            originalLabelColor = comboLabelText.color;     
+            originalLabelColor = comboLabelText.color;
             comboLabelText.text = "COMBO";
             comboLabelText.rectTransform.localScale = Vector3.zero;
         }
@@ -75,23 +90,25 @@ public class ComboSystem : MonoBehaviour
         if (comboNumberText != null)
         {
             originalNumberScale = comboNumberText.rectTransform.localScale;
-            originalNumberColor = comboNumberText.color;    
+            originalNumberColor = comboNumberText.color;
             comboNumberText.text = "";
             comboNumberText.rectTransform.localScale = Vector3.zero;
         }
-        if (judgmentText != null)
-        {
-            originalJudgmentScale = judgmentText.rectTransform.localScale;
-            judgmentOriginPos = judgmentText.rectTransform.anchoredPosition;
-            lastJudgmentPos = judgmentOriginPos;
 
-            judgmentText.text = "";
-            judgmentText.rectTransform.localScale = Vector3.zero;
+        if (judgmentImage != null)
+        {
+            originalJudgmentScale = judgmentImage.rectTransform.localScale;
+            judgmentParentRect = judgmentImage.rectTransform.parent as RectTransform;
+            lastJudgmentPos = judgmentImage.rectTransform.anchoredPosition;
+
+            judgmentImage.sprite = null;
+            judgmentImage.enabled = false;
+            judgmentImage.rectTransform.localScale = Vector3.zero;
         }
     }
 
     // =====================================================
-    // WAVE: gợn sóng từng ký tự của chữ COMBO
+    // WAVE
     // =====================================================
 
     private void LateUpdate()
@@ -114,39 +131,11 @@ public class ComboSystem : MonoBehaviour
             comboNumberText.color = useTier ? tier : originalNumberColor;
     }
 
-    private void RandomizeJudgmentPosition()
-    {
-        if (judgmentText == null)
-            return;
-
-        Vector2 pos = judgmentOriginPos;
-
-        // Thử vài lần để không trùng chỗ với lần trước
-        for (int i = 0; i < 10; i++)
-        {
-            pos = judgmentOriginPos + new Vector2(
-                Random.Range(-judgmentRangeX, judgmentRangeX),
-                Random.Range(-judgmentRangeY, judgmentRangeY)
-            );
-
-            if (Vector2.Distance(pos, lastJudgmentPos) >= minDistanceFromLast)
-                break;
-        }
-
-        lastJudgmentPos = pos;
-
-        RectTransform rect = judgmentText.rectTransform;
-        rect.anchoredPosition = pos;
-        rect.localRotation = Quaternion.Euler(0f, 0f,
-            Random.Range(-judgmentMaxRotation, judgmentMaxRotation));
-    }
-
     private void AnimateWave()
     {
         if (comboLabelText == null)
             return;
 
-        // Reset mesh về trạng thái gốc rồi mới cộng offset (tránh cộng dồn)
         comboLabelText.ForceMeshUpdate();
         TMP_TextInfo info = comboLabelText.textInfo;
 
@@ -177,6 +166,55 @@ public class ComboSystem : MonoBehaviour
     }
 
     // =====================================================
+    // JUDGMENT POSITION (xung quanh player)
+    // =====================================================
+
+    // Đổi vị trí world của player -> toạ độ local trong canvas
+    private Vector2 GetPlayerCanvasPos()
+    {
+        if (player == null || worldCamera == null || judgmentParentRect == null)
+            return lastJudgmentPos;
+
+        Vector3 screen = worldCamera.WorldToScreenPoint(player.position + playerWorldOffset);
+
+        Camera uiCam = null;
+        if (canvas != null && canvas.renderMode != RenderMode.ScreenSpaceOverlay)
+            uiCam = canvas.worldCamera;
+
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            judgmentParentRect, screen, uiCam, out Vector2 local);
+
+        return local;
+    }
+
+    private void RandomizeJudgmentPosition()
+    {
+        if (judgmentImage == null)
+            return;
+
+        Vector2 center = GetPlayerCanvasPos();
+        Vector2 pos = center;
+
+        // Chọn điểm ngẫu nhiên trên vòng quanh player, thử vài lần để không trùng lần trước
+        for (int i = 0; i < 10; i++)
+        {
+            float angle = Random.Range(0f, Mathf.PI * 2f);
+            float radius = Random.Range(minRadius, maxRadius);
+            pos = center + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * radius;
+
+            if (Vector2.Distance(pos, lastJudgmentPos) >= minDistanceFromLast)
+                break;
+        }
+
+        lastJudgmentPos = pos;
+
+        RectTransform rect = judgmentImage.rectTransform;
+        rect.anchoredPosition = pos;
+        rect.localRotation = Quaternion.Euler(0f, 0f,
+            Random.Range(-judgmentMaxRotation, judgmentMaxRotation));
+    }
+
+    // =====================================================
     // HIT / MISS
     // =====================================================
 
@@ -186,24 +224,20 @@ public class ComboSystem : MonoBehaviour
 
         UpdateJudgment();
         ShowComboUI();
-        ShowJudgmentText();
+        ShowJudgmentImage();
 
-        // Số: phóng to rồi nhỏ lại mỗi lần tăng
         if (numberAnimRoutine != null)
             StopCoroutine(numberAnimRoutine);
         numberAnimRoutine = StartCoroutine(AnimateNumberPop());
 
-        // Judgment
         if (judgmentAnimRoutine != null)
             StopCoroutine(judgmentAnimRoutine);
-        judgmentAnimRoutine = StartCoroutine(AnimateJudgmentText());
+        judgmentAnimRoutine = StartCoroutine(AnimateJudgmentImage());
 
-        // Hẹn giờ ẩn combo
         if (comboHideRoutine != null)
             StopCoroutine(comboHideRoutine);
         comboHideRoutine = StartCoroutine(HideComboAfterDelay());
 
-        // Hẹn giờ ẩn judgment
         if (judgmentHideRoutine != null)
             StopCoroutine(judgmentHideRoutine);
         judgmentHideRoutine = StartCoroutine(HideJudgmentAfterDelay());
@@ -227,14 +261,12 @@ public class ComboSystem : MonoBehaviour
 
         HideComboUI();
 
-        if (judgmentText != null)
-            judgmentText.text = "MISS";
-
-        ShowJudgmentText();
+        SetJudgmentSprite(missSprite);
+        ShowJudgmentImage();
 
         if (judgmentAnimRoutine != null)
             StopCoroutine(judgmentAnimRoutine);
-        judgmentAnimRoutine = StartCoroutine(AnimateJudgmentText());
+        judgmentAnimRoutine = StartCoroutine(AnimateJudgmentImage());
 
         if (judgmentHideRoutine != null)
             StopCoroutine(judgmentHideRoutine);
@@ -245,15 +277,22 @@ public class ComboSystem : MonoBehaviour
 
     private void UpdateJudgment()
     {
-        if (judgmentText == null)
+        if (combo >= perfectCombo)
+            SetJudgmentSprite(perfectSprite);
+        else if (combo >= awesomeCombo)
+            SetJudgmentSprite(awesomeSprite);
+        else
+            SetJudgmentSprite(goodSprite);
+    }
+
+    private void SetJudgmentSprite(Sprite sprite)
+    {
+        if (judgmentImage == null)
             return;
 
-        if (combo >= perfectCombo)
-            judgmentText.text = "PERFECT";
-        else if (combo >= awesomeCombo)
-            judgmentText.text = "AWESOME";
-        else
-            judgmentText.text = "GOOD";
+        judgmentImage.sprite = sprite;
+        if (setNativeSize && sprite != null)
+            judgmentImage.SetNativeSize();
     }
 
     // =====================================================
@@ -272,7 +311,7 @@ public class ComboSystem : MonoBehaviour
             comboNumberText.text = "x" + combo;
             comboNumberText.rectTransform.localScale = originalNumberScale;
         }
-        
+
         ApplyComboColor();
     }
 
@@ -290,14 +329,15 @@ public class ComboSystem : MonoBehaviour
         }
     }
 
-    private void ShowJudgmentText()
+    private void ShowJudgmentImage()
     {
-        if (judgmentText != null)
-        {
-            RandomizeJudgmentPosition(); 
-            judgmentText.gameObject.SetActive(true);
-            judgmentText.rectTransform.localScale = originalJudgmentScale;
-        }
+        if (judgmentImage == null)
+            return;
+
+        RandomizeJudgmentPosition();
+        judgmentImage.enabled = true;
+        judgmentImage.gameObject.SetActive(true);
+        judgmentImage.rectTransform.localScale = originalJudgmentScale;
     }
 
     private IEnumerator HideComboAfterDelay()
@@ -312,10 +352,11 @@ public class ComboSystem : MonoBehaviour
     {
         yield return new WaitForSeconds(judgmentHideDelay);
 
-        if (judgmentText != null)
+        if (judgmentImage != null)
         {
-            judgmentText.text = "";
-            judgmentText.rectTransform.localScale = Vector3.zero;
+            judgmentImage.sprite = null;
+            judgmentImage.enabled = false;
+            judgmentImage.rectTransform.localScale = Vector3.zero;
         }
 
         judgmentHideRoutine = null;
@@ -325,7 +366,6 @@ public class ComboSystem : MonoBehaviour
     // ANIMATION
     // =====================================================
 
-    // Số combo: bật to (numberPopScale) rồi thu nhỏ dần về bình thường
     private IEnumerator AnimateNumberPop()
     {
         if (comboNumberText == null)
@@ -337,7 +377,7 @@ public class ComboSystem : MonoBehaviour
         while (elapsed < numberPopDuration)
         {
             float t = Mathf.Clamp01(elapsed / numberPopDuration);
-            float eased = 1f - (1f - t) * (1f - t); // ease-out
+            float eased = 1f - (1f - t) * (1f - t);
             float scale = Mathf.Lerp(numberPopScale, 1f, eased);
 
             rect.localScale = originalNumberScale * scale;
@@ -350,12 +390,12 @@ public class ComboSystem : MonoBehaviour
         numberAnimRoutine = null;
     }
 
-    private IEnumerator AnimateJudgmentText()
+    private IEnumerator AnimateJudgmentImage()
     {
-        if (judgmentText == null)
+        if (judgmentImage == null)
             yield break;
 
-        RectTransform rect = judgmentText.rectTransform;
+        RectTransform rect = judgmentImage.rectTransform;
         float elapsed = 0f;
 
         while (elapsed < hitAnimationDuration)

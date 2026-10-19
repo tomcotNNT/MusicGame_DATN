@@ -2370,9 +2370,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ComboSystem
   comboLabelText: {fileID: 1609016684}
   comboNumberText: {fileID: 1566575456}
-  judgmentText: {fileID: 1155778059}
-  judgmentRangeX: 300
-  judgmentRangeY: 150
+  judgmentImage: {fileID: 0}
+  goodSprite: {fileID: 0}
+  awesomeSprite: {fileID: 0}
+  perfectSprite: {fileID: 0}
+  missSprite: {fileID: 0}
+  setNativeSize: 1
+  player: {fileID: 0}
+  worldCamera: {fileID: 0}
+  canvas: {fileID: 0}
+  playerWorldOffset: {x: 0, y: 1, z: 0}
+  minRadius: 80
+  maxRadius: 200
   judgmentMaxRotation: 12
   minDistanceFromLast: 120
   numberPopScale: 1.5
@@ -7288,6 +7297,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerLaneController
   isGround: 1
   jumpForce: 22
+  bossSpawner: {fileID: 0}
   minSwipeDistance: 80
   swipeOnRelease: 0
   pianoKeySpawner: {fileID: 861260837}
