@@ -290,6 +290,10 @@ MonoBehaviour:
   touchVFXPrefab: {fileID: 6534240511995935521, guid: 6e57a3cf9435eb14fb9928fa4ee60c63, type: 3}
   targetCamera: {fileID: 735204664}
   vfxWorldZ: 0
+  enableClickSound: 1
+  clickSound: {fileID: 0}
+  clickVolume: 1
+  randomizePitch: 0
 --- !u!4 &9045629
 Transform:
   m_ObjectHideFlags: 0
@@ -490,7 +494,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -13.96, y: 52.11}
+  m_AnchoredPosition: {x: -13.959991, y: 52.11}
   m_SizeDelta: {x: 2820.44, y: 2449.95}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &52663781
@@ -727,7 +731,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: RAMONA
+  m_text: 'KNIVES CHAU
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cff795b62545af9429319060574f9291, type: 2}
   m_sharedMaterial: {fileID: -1067818911978945230, guid: cff795b62545af9429319060574f9291, type: 2}
@@ -2657,7 +2663,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: RAMONA
+  m_text: UNKNOWN
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cff795b62545af9429319060574f9291, type: 2}
   m_sharedMaterial: {fileID: -1067818911978945230, guid: cff795b62545af9429319060574f9291, type: 2}
@@ -3179,8 +3185,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 5, y: 15.020004}
-  m_SizeDelta: {x: -290, y: -189.97}
+  m_AnchoredPosition: {x: 0.2599945, y: 15.020004}
+  m_SizeDelta: {x: -266.58, y: -189.97}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &552429768
 MonoBehaviour:
@@ -3202,7 +3208,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -527374979924963428, guid: b755bb4f623de8e4fb88fd6c8b74b49b, type: 3}
+  m_Sprite: {fileID: 1540654099810009019, guid: 1f9ff0a96fc2b1c40b694ae08d4b8b4b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5289,8 +5295,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 5, y: 15.020004}
-  m_SizeDelta: {x: -290, y: -189.97}
+  m_AnchoredPosition: {x: 4, y: 15.020004}
+  m_SizeDelta: {x: -261.59, y: -189.97}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &862638964
 MonoBehaviour:
@@ -5312,7 +5318,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -527374979924963428, guid: b755bb4f623de8e4fb88fd6c8b74b49b, type: 3}
+  m_Sprite: {fileID: -2004829876301313059, guid: 711ab4d05839efe438be5d4451bb6389, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6628,8 +6634,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 5, y: 15.020004}
-  m_SizeDelta: {x: -290, y: -189.97}
+  m_AnchoredPosition: {x: 7, y: 15.020004}
+  m_SizeDelta: {x: -280.46, y: -189.97}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1062777295
 MonoBehaviour:
@@ -6651,7 +6657,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -527374979924963428, guid: b755bb4f623de8e4fb88fd6c8b74b49b, type: 3}
+  m_Sprite: {fileID: -6005075867065505916, guid: 8898fd104c3a7c849a67b9ec6be0681b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7083,8 +7089,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 5, y: 15.020004}
-  m_SizeDelta: {x: -290, y: -189.97}
+  m_AnchoredPosition: {x: 49, y: 15.020004}
+  m_SizeDelta: {x: -190.19, y: -189.97}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1113788189
 MonoBehaviour:
@@ -7106,7 +7112,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -527374979924963428, guid: b755bb4f623de8e4fb88fd6c8b74b49b, type: 3}
+  m_Sprite: {fileID: -3574356388309911756, guid: 1f9ff0a96fc2b1c40b694ae08d4b8b4b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7301,7 +7307,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 51.049995, y: -23.750015}
+  m_AnchoredPosition: {x: 51.049988, y: -23.750015}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &1153283248
@@ -7682,7 +7688,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 17.53, y: 24.65}
+  m_AnchoredPosition: {x: 17.529999, y: 24.649994}
   m_SizeDelta: {x: 2256.25, y: 1510.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1246309776
@@ -9601,7 +9607,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: RAMONA
+  m_text: 'STEPHEN
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cff795b62545af9429319060574f9291, type: 2}
   m_sharedMaterial: {fileID: -1067818911978945230, guid: cff795b62545af9429319060574f9291, type: 2}
@@ -16907,7 +16915,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: RAMONA
+  m_text: 'SCOTT
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cff795b62545af9429319060574f9291, type: 2}
   m_sharedMaterial: {fileID: -1067818911978945230, guid: cff795b62545af9429319060574f9291, type: 2}
