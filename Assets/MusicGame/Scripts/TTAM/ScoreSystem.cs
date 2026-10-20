@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System.Globalization;
 
 public class ScoreSystem : MonoBehaviour
 {
@@ -37,7 +38,7 @@ public class ScoreSystem : MonoBehaviour
     {
         if (scoreText != null)
         {
-            scoreText.text = score.ToString();
+            scoreText.text = score.ToString("#,##0", CultureInfo.InvariantCulture);
         }
     }
 

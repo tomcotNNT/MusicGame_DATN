@@ -51,6 +51,16 @@ public class Boss : MonoBehaviour
         }
     }
 
+    // Boss tấn công. Tạm thời chỉ log, sau này thêm animation/hiệu ứng/trừ máu player ở đây
+    public void Attack()
+    {
+        if (!IsReady || dead)
+            return;
+
+        Debug.Log("Boss Attack!");
+        // TODO: animator.SetTrigger("Attack"); ...
+    }
+
     private void RefreshBar()
     {
         if (healthFill != null)

@@ -178,6 +178,8 @@ public class PianoKey : MonoBehaviour
 
         if (scoreSystem != null) scoreSystem.AddScore();
         if (comboSystem != null) comboSystem.HitNote();
+        if (FeverSystem.Instance != null)
+            FeverSystem.Instance.AddNote();
 
         TutorialEvents.NormalNoteHit?.Invoke();
 

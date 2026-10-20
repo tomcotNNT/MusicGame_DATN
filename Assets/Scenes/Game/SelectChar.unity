@@ -290,6 +290,10 @@ MonoBehaviour:
   touchVFXPrefab: {fileID: 6534240511995935521, guid: 6e57a3cf9435eb14fb9928fa4ee60c63, type: 3}
   targetCamera: {fileID: 735204664}
   vfxWorldZ: 0
+  enableClickSound: 1
+  clickSound: {fileID: 8300000, guid: bfffc52fa4517364082d1f5bc77cdec4, type: 3}
+  clickVolume: 1
+  randomizePitch: 0
 --- !u!4 &9045629
 Transform:
   m_ObjectHideFlags: 0
