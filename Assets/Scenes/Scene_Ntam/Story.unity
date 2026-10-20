@@ -929,7 +929,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 667, y: -406}
+  m_AnchoredPosition: {x: 758, y: -503}
   m_SizeDelta: {x: 600, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &578263360
@@ -1092,6 +1092,10 @@ MonoBehaviour:
   touchVFXPrefab: {fileID: 6534240511995935521, guid: 6e57a3cf9435eb14fb9928fa4ee60c63, type: 3}
   targetCamera: {fileID: 112553530}
   vfxWorldZ: 0
+  enableClickSound: 1
+  clickSound: {fileID: 0}
+  clickVolume: 1
+  randomizePitch: 0
 --- !u!4 &874646900
 Transform:
   m_ObjectHideFlags: 0
@@ -1160,11 +1164,14 @@ MonoBehaviour:
   displayDuration: 4
   fadeDuration: 1.5
   stages:
-  - stageTitle: 1.Tokyo
-    storyContent: "\"M\u1ED9t t\xEDn hi\u1EC7u \xE2m nh\u1EA1c l\u1EA1 xu\u1EA5t
-      hi\u1EC7n t\u1EEB th\xE1p Tokyo, \u0111\xE1nh th\u1EE9c c\xE1c n\u1ED1t n\u0103ng
-      l\u01B0\u1EE3ng tr\xEAn nh\u1EEFng c\xE2y c\u1EA7u v\u01B0\u1EE3t. \nCu\u1ED9c
-      h\xE0nh tr\xECnh nh\u1ECBp \u0111i\u1EC7u ch\xEDnh th\u1EE9c b\u1EAFt \u0111\u1EA7u."
+  - stageTitle: 0.Tokyo
+    storyContent: "Ch\xE0o m\u1EEBng \u0111\u1EBFn v\u1EDBi Neo Tokyo! Nh\u1EEFng
+      d\u1EA3i t\u1EA7n s\u1ED1 \xE2m thanh \u0111\u1EA7u ti\xEAn \u0111\xE3 th\u1EE9c
+      t\u1EC9nh tr\xEAn b\u1EA7u tr\u1EDDi th\xE0nh ph\u1ED1.\n\nH\xE3y l\xE0m quen
+      v\u1EDBi nh\u1ECBp \u0111i\u1EC7u: L\u1EAFng nghe giai \u0111i\u1EC7u v\xE0
+      b\u1EA5m chu\u1EA9n x\xE1c 2 l\xE0n ph\xEDm [Tr\xE1i] - [Ph\u1EA3i] \u0111\u1EC3
+      thu th\u1EADp n\u1ED1t n\u0103ng l\u01B0\u1EE3ng.\n\nB\u1EA5m NEXT \u0111\u1EC3
+      b\u1EAFt \u0111\u1EA7u b\xE0i hu\u1EA5n luy\u1EC7n!"
     background1: {fileID: 21300000, guid: a92357b50e7cc6347abdd05f6fc3e833, type: 3}
     background2: {fileID: 21300000, guid: 54e68cda7ed7d264f9a4e4c7ddc0dee6, type: 3}
     targetGameplayScene: Tutorial
@@ -2103,8 +2110,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 100, y: 100}
-  m_SizeDelta: {x: 600, y: 200}
+  m_AnchoredPosition: {x: 100, y: 22}
+  m_SizeDelta: {x: 400, y: 200}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1891329916
 MonoBehaviour:
