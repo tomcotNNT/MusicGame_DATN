@@ -1175,15 +1175,15 @@ MonoBehaviour:
     background1: {fileID: 21300000, guid: a92357b50e7cc6347abdd05f6fc3e833, type: 3}
     background2: {fileID: 21300000, guid: 54e68cda7ed7d264f9a4e4c7ddc0dee6, type: 3}
     targetGameplayScene: Tutorial
+  - stageTitle: 1.New York City
+    storyContent: "\"Ch\xE0o m\u1EEBng \u0111\u1EBFn new york.........\""
+    background1: {fileID: 21300000, guid: b75c4d643bcd95e4bafa6b07f27eb5a8, type: 3}
+    background2: {fileID: 21300000, guid: 65c6cfceeb66d1a43a7bb944f8c68454, type: 3}
+    targetGameplayScene: Man1
   - stageTitle: 
     storyContent: 
     background1: {fileID: 21300000, guid: 3e06c48674f5779478e2def1cf387132, type: 3}
     background2: {fileID: 21300000, guid: a68f8f9ceebc3004f90ad7535c25c175, type: 3}
-    targetGameplayScene: 
-  - stageTitle: 
-    storyContent: 
-    background1: {fileID: 0}
-    background2: {fileID: 0}
     targetGameplayScene: 
   - stageTitle: 
     storyContent: 

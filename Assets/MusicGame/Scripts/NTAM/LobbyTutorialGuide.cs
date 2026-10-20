@@ -4,21 +4,20 @@ using UnityEngine.SceneManagement;
 
 public class LobbyTutorialGuide : MonoBehaviour
 {
-    [Header("UI Tham chiếu")]
-    [SerializeField] private GameObject tutorialOverlay; // Kéo TutorialOverlay vào đây
-    [SerializeField] private RectTransform handPointer;    // Kéo HandPointer vào đây
-    [SerializeField] private Button nextButton;          // Kéo Button NEXT vào đây
+    [Header("UI Hướng Dẫn")]
+    [SerializeField] private GameObject tutorialOverlay; 
+    [SerializeField] private RectTransform handPointer;    
+    [SerializeField] private Button nextButton;          
 
-    [Header("Card / Màn chơi cần khóa")]
-    [SerializeField] private GameObject stage1LockIcon;  // Icon ổ khóa của Màn 1 (nếu có)
-    [SerializeField] private Button stage1Button;        // Nút chọn Màn 1
+    [Header("Màn 1 Cần Khóa")]
+    [SerializeField] private GameObject stage1LockIcon;  
+    [SerializeField] private Button stage1Button;        
 
     private bool isFirstTime = true;
     private Vector2 initialHandPos;
 
-    private void Start()
+    private void Awake()
     {
-        // 0: Chưa chơi Tutorial, 1: Đã hoàn thành Tutorial
         int tutorialCompleted = PlayerPrefs.GetInt("TutorialCompleted", 0);
         isFirstTime = (tutorialCompleted == 0);
 
@@ -29,30 +28,37 @@ public class LobbyTutorialGuide : MonoBehaviour
 
         if (isFirstTime)
         {
-            // Bật màn tối và bàn tay chỉ dẫn
+            // === NGƯỜI CHƠI MỚI: BẮT BUỘC CHƠI TUTORIAL (INDEX 0) ===
             if (tutorialOverlay != null) tutorialOverlay.SetActive(true);
             if (handPointer != null) handPointer.gameObject.SetActive(true);
 
-            // Khóa màn 1
             LockStage1(true);
 
-            // Gán hành động khi ấn NEXT ở lần đầu
-            nextButton.onClick.RemoveAllListeners();
-            nextButton.onClick.AddListener(OnFirstTimeNextClicked);
+            if (nextButton != null)
+            {
+                nextButton.onClick.RemoveAllListeners();
+                nextButton.onClick.AddListener(OnFirstTimeNextClicked);
+            }
         }
         else
         {
-            // Người chơi cũ: Tắt toàn bộ lớp hướng dẫn, mở khóa màn 1
+            // === ĐÃ XONG TUTORIAL: CHUYỂN SANG MÀN 1 NEW YORK (INDEX 1) ===
             if (tutorialOverlay != null) tutorialOverlay.SetActive(false);
             if (handPointer != null) handPointer.gameObject.SetActive(false);
 
             LockStage1(false);
+
+            // Gán nút NEXT ở giữa sảnh dẫn vào Màn 1 Fairy Tail (New York City)
+            if (nextButton != null)
+            {
+                nextButton.onClick.RemoveAllListeners();
+                nextButton.onClick.AddListener(OnPlayStage1Clicked);
+            }
         }
     }
 
     private void Update()
     {
-        // Hiệu ứng bàn tay nhấp nhô nhẹ nhàng thu hút sự chú ý
         if (isFirstTime && handPointer != null)
         {
             float bounce = Mathf.Sin(Time.time * 6f) * 12f;
@@ -60,13 +66,20 @@ public class LobbyTutorialGuide : MonoBehaviour
         }
     }
 
+    // Dành cho tân thủ: nạp Tokyo Tutorial
     private void OnFirstTimeNextClicked()
     {
-        // Gán chỉ số màn là 0 (hoặc index của Tutorial) để Scene Story load đúng truyện
         PlayerPrefs.SetInt("SelectedStageIndex", 0);
         PlayerPrefs.Save();
+        SceneManager.LoadScene("Story");
+    }
 
-        // Chuyển thẳng sang Scene Story của Tutorial
+    // Dành cho người đã mở khóa Màn 1: nạp 1.New York City
+    public void OnPlayStage1Clicked()
+    {
+        Debug.Log(">>> [LOBBY] Bấm NEXT Màn 1: Gán SelectedStageIndex = 1 và mở Story New York!");
+        PlayerPrefs.SetInt("SelectedStageIndex", 1);
+        PlayerPrefs.Save();
         SceneManager.LoadScene("Story");
     }
 
@@ -74,11 +87,19 @@ public class LobbyTutorialGuide : MonoBehaviour
     {
         if (stage1Button != null)
         {
-            stage1Button.interactable = !isLocked; // Không cho click chọn bài khác
+            stage1Button.interactable = !isLocked;
+            
+            // Nếu người chơi bấm trực tiếp vào Card bài hát Fairy Tail cũng sẽ nạp Màn 1
+            if (!isLocked)
+            {
+                stage1Button.onClick.RemoveAllListeners();
+                stage1Button.onClick.AddListener(OnPlayStage1Clicked);
+            }
         }
+
         if (stage1LockIcon != null)
         {
-            stage1LockIcon.SetActive(isLocked); // Bật icon ổ khóa trên Màn 1
+            stage1LockIcon.SetActive(isLocked);
         }
     }
 }
