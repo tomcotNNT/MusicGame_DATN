@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using System.Globalization;
 
 public class ResultSystem : MonoBehaviour
 {
@@ -64,9 +65,12 @@ public class ResultSystem : MonoBehaviour
             resultPanel.SetActive(true);
 
         if (scoreText != null)
-            scoreText.text = score.ToString();
+            scoreText.text = score.ToString("#,##0", CultureInfo.InvariantCulture);
 
         StartCoroutine(PlayStarAnimation(stars));
+
+        // Cập nhật dữ liệu người chơi là đã hoàn thành màn này
+        SelectLevel.CompleteCurrentLevel();
     }
 
     private IEnumerator PlayStarAnimation(int stars)

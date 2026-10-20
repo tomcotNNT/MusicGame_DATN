@@ -642,4 +642,14 @@ public class MidiReader : MonoBehaviour
 
         return value;
     }
+
+    // Trả về bản sao danh sách note với tốc độ nhanh hơn (speed >= 1)
+    public List<RhythmNote> GetNotesWithSpeed(float speed)
+    {
+        speed = Mathf.Max(0.1f, speed);
+        return Notes.Select(n => new RhythmNote(
+            n.time / speed, n.pitch, n.velocity, n.lane, n.duration / speed)).ToList();
+    }
+
+    
 }

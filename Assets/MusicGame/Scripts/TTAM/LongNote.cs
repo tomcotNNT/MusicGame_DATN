@@ -17,6 +17,21 @@ public class LongNote : MonoBehaviour
     [SerializeField] private float releaseGrace = 0.12f;
     [SerializeField] private float endTolerance = 0.1f;
 
+    [Header("VFX")]
+    [Tooltip("Prefab VFX loop (ParticleSystem) chạy suốt lúc giữ nốt")]
+    [SerializeField] private GameObject holdVfxPrefab;
+
+    [Tooltip("VFX nổ 1 lần khi hoàn thành nốt (tuỳ chọn)")]
+    [SerializeField] private GameObject completeVfxPrefab;
+
+    [SerializeField] private float completeVfxLifetime = 1f;
+
+    [Tooltip("Offset so với vị trí Player")]
+    [SerializeField] private Vector3 vfxOffset = Vector3.zero;
+
+    private GameObject holdVfx;
+    private ParticleSystem[] holdVfxParticles;
+
     [Header("Score")]
     [SerializeField] private int startScore = 10;
     [SerializeField] private int tickScore = 10;
@@ -27,10 +42,6 @@ public class LongNote : MonoBehaviour
     [SerializeField] private Transform body;
     [SerializeField] private SpriteRenderer bodyRenderer;
     [SerializeField] private SpriteRenderer headRenderer;
-
-    [SerializeField] private Color normalColor = Color.white;
-    [SerializeField] private Color holdColor = Color.yellow;
-    [SerializeField] private Color failColor = Color.gray;
 
     [Header("Body Layout")]
     [Tooltip("Khoảng cách (unit thế giới) từ tâm Head tới điểm bắt đầu Body. " +
@@ -50,11 +61,14 @@ public class LongNote : MonoBehaviour
     [SerializeField] private Sprite leftHeadSprite;
     [SerializeField] private Sprite rightHeadSprite;
 
+    [Header("Body Sprites")]
+    [SerializeField] private Sprite leftBodySprite;
+    [SerializeField] private Sprite rightBodySprite;
+
     private float fullLength;
 
     private static ScoreSystem scoreSystem;
     private static ComboSystem comboSystem;
-    private static FeverSystem feverSystem;
     private static PlayerLaneController playerCtrl;
     private bool riding;
 
@@ -82,7 +96,6 @@ public class LongNote : MonoBehaviour
 
     private float lastHeldTime;
     private float nextTickTime;
-    private float breakTime;
 
     private void Awake()
     {
@@ -91,9 +104,6 @@ public class LongNote : MonoBehaviour
 
         if (comboSystem == null)
             comboSystem = FindFirstObjectByType<ComboSystem>();
-
-        if (feverSystem == null)
-            feverSystem = FindFirstObjectByType<FeverSystem>();
 
         if (playerCtrl == null)
             playerCtrl = FindFirstObjectByType<PlayerLaneController>();
@@ -108,6 +118,7 @@ public class LongNote : MonoBehaviour
     {
         Active.Remove(this);
         StopRide(); // bị Destroy giữa chừng cũng phải nhả Player
+        StopHoldVfx(); 
     }
 
     // =========================================================
@@ -200,9 +211,27 @@ public class LongNote : MonoBehaviour
         fullLength = speed * duration;
 
         UpdateHeadSprite();
+        UpdateBodySprite();   
 
         SetBody(fullLength);
-        SetColor(normalColor);
+    }
+
+    private void UpdateBodySprite()
+    {
+        if (bodyRenderer == null)
+        {
+            Debug.LogWarning("LongNote: Chưa gán Body Renderer!", this);
+            return;
+        }
+
+        Sprite targetSprite = lane == Lanee.Left
+            ? leftBodySprite
+            : rightBodySprite;
+
+        if (targetSprite != null)
+            bodyRenderer.sprite = targetSprite;
+        else
+            Debug.LogWarning($"LongNote: Chưa gán body sprite cho lane {lane}!", this);
     }
 
     private void UpdateHeadSprite()
@@ -280,6 +309,7 @@ public class LongNote : MonoBehaviour
 
         UpdatePosition(songTime);
         UpdateState(songTime);
+        UpdateHoldVfx(); 
 
         if (songTime > endTime + 1f)
             Destroy(gameObject);
@@ -288,29 +318,6 @@ public class LongNote : MonoBehaviour
     private void UpdatePosition(float songTime)
     {
         Vector3 position = transform.position;
-
-        // Đang giữ: Head đứng tại Player, Body co dần.
-        if (state == State.Holding)
-        {
-            position.x = playerX;
-            transform.position = position;
-
-            float remainingTime = Mathf.Max(0f, endTime - songTime);
-            float remainingLength = Mathf.Min(speed * remainingTime, fullLength);
-
-            SetBody(remainingLength);
-            return;
-        }
-
-        // Thả sớm: nốt tiếp tục di chuyển.
-        if (state == State.Broken)
-        {
-            position.x = playerX + dir * speed * (breakTime - songTime);
-            transform.position = position;
-            return;
-        }
-
-        // Đang chờ hoặc đã miss.
         position.x = playerX + dir * speed * (noteTime - songTime);
         transform.position = position;
     }
@@ -321,7 +328,7 @@ public class LongNote : MonoBehaviour
 
     private void UpdateState(float songTime)
     {
-        bool autoHold = feverSystem != null && feverSystem.isFever;
+        bool autoHold = ItemDurationSystem.Instance != null && ItemDurationSystem.Instance.IsActive("Fever");
         bool held = autoHold || HoldInput.IsHeld(lane);
 
         switch (state)
@@ -358,8 +365,8 @@ public class LongNote : MonoBehaviour
         lastHeldTime = songTime;
         nextTickTime = songTime + tickInterval;
 
-        SetColor(holdColor);
         TryRide();
+        StartHoldVfx(); 
 
         if (scoreSystem != null)
             scoreSystem.AddScore(startScore);
@@ -367,8 +374,7 @@ public class LongNote : MonoBehaviour
         if (comboSystem != null)
             comboSystem.HitNote();
 
-        if (feverSystem != null)
-            feverSystem.AddFever();
+        TutorialEvents.LongNoteStarted?.Invoke();
     }
 
     private void HandleHolding(float songTime, bool held)
@@ -412,9 +418,7 @@ public class LongNote : MonoBehaviour
             return;
 
         state = State.Missed;
-        SetColor(failColor);
 
-        // Nếu ComboSystem có hàm Miss(), gọi tại đây.
     }
 
     private void Complete()
@@ -423,13 +427,18 @@ public class LongNote : MonoBehaviour
             return;
 
         state = State.Completed;
+
         StopRide();
+        StopHoldVfx();       // <-- thêm
+        PlayCompleteVfx();   // <-- thêm
+
+        TutorialEvents.LongNoteCompleted?.Invoke();
 
         if (scoreSystem != null)
             scoreSystem.AddScore(completeBonus);
 
-        if (feverSystem != null)
-            feverSystem.AddFever();
+        if (FeverSystem.Instance != null)
+            FeverSystem.Instance.AddNote();    
 
         Destroy(gameObject);
     }
@@ -440,16 +449,62 @@ public class LongNote : MonoBehaviour
             return;
 
         state = State.Broken;
-        breakTime = spawner.SongTime;
         StopRide();
-
-        SetColor(failColor);
+        StopHoldVfx();   
     }
 
-    private void SetColor(Color color)
+    // Vị trí VFX: bám Player nếu có, không thì bám đầu nốt
+    private Vector3 GetVfxPosition()
     {
-        if (bodyRenderer != null)
-            bodyRenderer.color = color;
+        Vector3 basePos = playerCtrl != null
+            ? playerCtrl.transform.position
+            : transform.position;
+
+        return basePos + vfxOffset;
+    }
+
+    private void StartHoldVfx()
+    {
+        if (holdVfxPrefab == null || holdVfx != null)
+            return;
+
+        holdVfx = Instantiate(holdVfxPrefab, GetVfxPosition(), Quaternion.identity);
+        holdVfxParticles = holdVfx.GetComponentsInChildren<ParticleSystem>();
+    }
+
+    private void UpdateHoldVfx()
+    {
+        if (holdVfx == null)
+            return;
+
+        holdVfx.transform.position = GetVfxPosition();
+    }
+
+    // Ngừng phát nhưng để hạt cũ tan dần rồi mới hủy
+    private void StopHoldVfx()
+    {
+        if (holdVfx == null)
+            return;
+
+        if (holdVfxParticles != null)
+        {
+            foreach (var ps in holdVfxParticles)
+                if (ps != null)
+                    ps.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+        }
+
+        Destroy(holdVfx, 1.5f);
+        holdVfx = null;
+        holdVfxParticles = null;
+    }
+
+    private void PlayCompleteVfx()
+    {
+        if (completeVfxPrefab == null)
+            return;
+
+        GameObject vfx = Instantiate(completeVfxPrefab, GetVfxPosition(), Quaternion.identity);
+        Destroy(vfx, completeVfxLifetime);
     }
 
     // =========================================================

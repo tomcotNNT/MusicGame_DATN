@@ -11,6 +11,29 @@ public class PianoKey : MonoBehaviour
 
     public static List<PianoKey> ActiveKeys = new List<PianoKey>();
 
+    [Header("VFX")]
+    [Tooltip("Prefab VFX (ParticleSystem) spawn khi hit đúng")]
+    [SerializeField] private GameObject hitVfxPrefab;
+
+    [Tooltip("Thời gian tự hủy VFX sau khi spawn")]
+    [SerializeField] private float vfxLifetime = 1f;
+
+    [Tooltip("Offset so với vị trí key")]
+    [SerializeField] private Vector3 vfxOffset = Vector3.zero;
+
+    [Header("SFX")]
+    [Tooltip("Tiếng khi chạm nốt lane Left (ví dụ bass)")]
+    [SerializeField] private AudioClip leftHitClip;
+
+    [Tooltip("Tiếng khi chạm nốt lane Right")]
+    [SerializeField] private AudioClip rightHitClip;
+
+    [Range(0f, 1f)]
+    [SerializeField] private float hitVolume = 1f;
+
+    private static AudioSource sfxSource;
+
+
     [Header("Visual")]
     [SerializeField] private GameObject keyLeft;
     [SerializeField] private GameObject keyRight;
@@ -36,7 +59,6 @@ public class PianoKey : MonoBehaviour
     // Cache dùng chung, tránh FindObjectOfType cho từng key
     private static ScoreSystem scoreSystem;
     private static ComboSystem comboSystem;
-    private static FeverSystem feverSystem;
 
     private void Awake()
     {
@@ -44,8 +66,6 @@ public class PianoKey : MonoBehaviour
             scoreSystem = FindFirstObjectByType<ScoreSystem>();
         if (comboSystem == null)
             comboSystem = FindFirstObjectByType<ComboSystem>();
-        if (feverSystem == null)
-            feverSystem = FindFirstObjectByType<FeverSystem>();
     }
 
     private void OnEnable()
@@ -102,14 +122,6 @@ public class PianoKey : MonoBehaviour
         float songTime = PianoKeySpawner.Instance.SongTime;
 
         Move(songTime);
-
-        // Fever: tự động hoàn thành key khi tới player
-        if (feverSystem != null && feverSystem.isFever && songTime >= targetTime)
-        {
-            Complete();
-            return;
-        }
-
         // CheckMiss(songTime);
     }
 
@@ -121,15 +133,6 @@ public class PianoKey : MonoBehaviour
         Vector3 pos = transform.position;
         pos.x = hitX + direction * moveSpeed * remaining;
         transform.position = pos;
-    }
-
-    private void CheckMiss(float songTime)
-    {
-        // Đã qua player một đoạn -> hủy (dương = nằm phía sau player)
-        float passed = (hitX - transform.position.x) * direction;
-
-        if (passed > destroyBehindDistance || songTime > targetTime + missWindow)
-            Miss();
     }
 
     // =====================================================
@@ -170,11 +173,48 @@ public class PianoKey : MonoBehaviour
 
         IsCompleted = true;
 
+        SpawnHitVfx();
+        PlayHitSfx();
+
         if (scoreSystem != null) scoreSystem.AddScore();
         if (comboSystem != null) comboSystem.HitNote();
-        if (feverSystem != null) feverSystem.AddFever();
+        if (FeverSystem.Instance != null)
+            FeverSystem.Instance.AddNote();
+
+        TutorialEvents.NormalNoteHit?.Invoke();
 
         Destroy(gameObject);
+    }
+
+    private void SpawnHitVfx()
+    {
+        if (hitVfxPrefab == null)
+            return;
+
+        GameObject vfx = Instantiate(
+            hitVfxPrefab,
+            transform.position + vfxOffset,
+            Quaternion.identity);
+
+        Destroy(vfx, vfxLifetime);
+    }
+
+    private void PlayHitSfx()
+    {
+        AudioClip clip = keyType == KeyType.Left ? leftHitClip : rightHitClip;
+
+        if (clip == null)
+            return;
+
+        if (sfxSource == null)
+        {
+            GameObject go = new GameObject("PianoKeySfx");
+            sfxSource = go.AddComponent<AudioSource>();
+            sfxSource.playOnAwake = false;
+            sfxSource.spatialBlend = 0f;   // 2D, không bị nhỏ dần theo khoảng cách
+        }
+
+        sfxSource.PlayOneShot(clip, hitVolume);
     }
 
     private void Miss()
@@ -185,7 +225,7 @@ public class PianoKey : MonoBehaviour
         IsCompleted = true;
 
         // TODO: comboSystem.Miss(); PlayerHealth.TakeDamage();
-
+        comboSystem.MissNote();
         Destroy(gameObject);
     }
 }

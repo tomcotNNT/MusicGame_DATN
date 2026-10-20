@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System.Globalization;
 
 public class ScoreSystem : MonoBehaviour
 {
@@ -10,16 +11,6 @@ public class ScoreSystem : MonoBehaviour
     [SerializeField] private TMP_Text scoreText;
 
     private int score;
-    private FeverSystem feverSystem;
-
-    private void Awake()
-    {
-        feverSystem = FindObjectOfType<FeverSystem>();
-        if (feverSystem == null)
-        {
-            Debug.LogError("Không tìm thấy FeverSystem trong scene!");
-        }
-    }
 
     private void Start()
     {
@@ -31,12 +22,6 @@ public class ScoreSystem : MonoBehaviour
     {
         score += scorePerNote;
 
-        //nếu đang fever thì x2 điểm
-        if (feverSystem != null && feverSystem.isFever)
-        {
-            score += scorePerNote; // Thêm điểm gấp đôi khi đang trong trạng thái Fever
-        }
-
         UpdateScoreUI();
 
         Debug.Log("Score: " + score);
@@ -46,9 +31,6 @@ public class ScoreSystem : MonoBehaviour
     {
         score += amount;
 
-        if (feverSystem != null && feverSystem.isFever)
-            score += amount;
-
         UpdateScoreUI();
     }
 
@@ -56,7 +38,7 @@ public class ScoreSystem : MonoBehaviour
     {
         if (scoreText != null)
         {
-            scoreText.text = score.ToString();
+            scoreText.text = score.ToString("#,##0", CultureInfo.InvariantCulture);
         }
     }
 
