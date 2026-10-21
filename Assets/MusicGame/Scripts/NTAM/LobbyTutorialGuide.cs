@@ -4,6 +4,9 @@ using UnityEngine.SceneManagement;
 
 public class LobbyTutorialGuide : MonoBehaviour
 {
+    [Header("Cấu hình Chuyển Scene")]
+    [SerializeField] private string characterSceneName = "Character"; // Scene chọn nhân vật
+
     [Header("UI Hướng Dẫn")]
     [SerializeField] private GameObject tutorialOverlay; 
     [SerializeField] private RectTransform handPointer;    
@@ -18,6 +21,7 @@ public class LobbyTutorialGuide : MonoBehaviour
 
     private void Awake()
     {
+        // 0: Chưa chơi Tutorial (Tân thủ), 1: Đã hoàn thành Tutorial
         int tutorialCompleted = PlayerPrefs.GetInt("TutorialCompleted", 0);
         isFirstTime = (tutorialCompleted == 0);
 
@@ -28,37 +32,23 @@ public class LobbyTutorialGuide : MonoBehaviour
 
         if (isFirstTime)
         {
-            // === NGƯỜI CHƠI MỚI: BẮT BUỘC CHƠI TUTORIAL (INDEX 0) ===
+            // Tân thủ: Bật màn tối, hiện bàn tay, khóa Màn 1
             if (tutorialOverlay != null) tutorialOverlay.SetActive(true);
             if (handPointer != null) handPointer.gameObject.SetActive(true);
-
             LockStage1(true);
-
-            if (nextButton != null)
-            {
-                nextButton.onClick.RemoveAllListeners();
-                nextButton.onClick.AddListener(OnFirstTimeNextClicked);
-            }
         }
         else
         {
-            // === ĐÃ XONG TUTORIAL: CHUYỂN SANG MÀN 1 NEW YORK (INDEX 1) ===
+            // Người chơi cũ: Tắt màn tối, tắt bàn tay, mở khóa Màn 1
             if (tutorialOverlay != null) tutorialOverlay.SetActive(false);
             if (handPointer != null) handPointer.gameObject.SetActive(false);
-
             LockStage1(false);
-
-            // Gán nút NEXT ở giữa sảnh dẫn vào Màn 1 Fairy Tail (New York City)
-            if (nextButton != null)
-            {
-                nextButton.onClick.RemoveAllListeners();
-                nextButton.onClick.AddListener(OnPlayStage1Clicked);
-            }
         }
     }
 
     private void Update()
     {
+        // Bàn tay nhấp nhô chỉ chạy khi là tân thủ
         if (isFirstTime && handPointer != null)
         {
             float bounce = Mathf.Sin(Time.time * 6f) * 12f;
@@ -66,21 +56,26 @@ public class LobbyTutorialGuide : MonoBehaviour
         }
     }
 
-    // Dành cho tân thủ: nạp Tokyo Tutorial
-    private void OnFirstTimeNextClicked()
+    // === HÀM PUBLIC DUY NHẤT ĐỂ GÁN VÀO ON CLICK CỦA NÚT PLAY ===
+    public void OnNextButtonClicked()
     {
-        PlayerPrefs.SetInt("SelectedStageIndex", 0);
-        PlayerPrefs.Save();
-        SceneManager.LoadScene("Story");
-    }
+        int tutorialCompleted = PlayerPrefs.GetInt("TutorialCompleted", 0);
 
-    // Dành cho người đã mở khóa Màn 1: nạp 1.New York City
-    public void OnPlayStage1Clicked()
-    {
-        Debug.Log(">>> [LOBBY] Bấm NEXT Màn 1: Gán SelectedStageIndex = 1 và mở Story New York!");
-        PlayerPrefs.SetInt("SelectedStageIndex", 1);
+        if (tutorialCompleted == 0)
+        {
+            Debug.Log(">>> [LOBBY] Tân thủ: Gán SelectedStageIndex = 0 -> Nạp Character!");
+            PlayerPrefs.SetInt("SelectedStageIndex", 0); // Màn Tokyo Tutorial
+        }
+        else
+        {
+            Debug.Log(">>> [LOBBY] Đã mở khóa: Gán SelectedStageIndex = 1 -> Nạp Character!");
+            PlayerPrefs.SetInt("SelectedStageIndex", 1); // Màn 1 Fairy Tail (New York)
+        }
+
         PlayerPrefs.Save();
-        SceneManager.LoadScene("Story");
+
+        // Luôn luôn chuyển sang Scene Character
+        SceneManager.LoadScene(characterSceneName);
     }
 
     private void LockStage1(bool isLocked)
@@ -88,12 +83,10 @@ public class LobbyTutorialGuide : MonoBehaviour
         if (stage1Button != null)
         {
             stage1Button.interactable = !isLocked;
-            
-            // Nếu người chơi bấm trực tiếp vào Card bài hát Fairy Tail cũng sẽ nạp Màn 1
             if (!isLocked)
             {
                 stage1Button.onClick.RemoveAllListeners();
-                stage1Button.onClick.AddListener(OnPlayStage1Clicked);
+                stage1Button.onClick.AddListener(OnNextButtonClicked);
             }
         }
 
@@ -101,5 +94,14 @@ public class LobbyTutorialGuide : MonoBehaviour
         {
             stage1LockIcon.SetActive(isLocked);
         }
+    }
+
+    // --- CÔNG CỤ TEST NHANH TRÊN UNITY ---
+    [ContextMenu("Test: Reset Về Tân Thủ")]
+    public void ResetToBeginner()
+    {
+        PlayerPrefs.DeleteKey("TutorialCompleted");
+        PlayerPrefs.Save();
+        Debug.Log(">>> [TEST] Đã Reset về Tân thủ (TutorialCompleted = 0)!");
     }
 }

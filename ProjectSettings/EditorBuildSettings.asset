@@ -44,7 +44,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game/Loading.unity
     guid: 442a7de735b69ed49b2025bc598707d8
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Scene_Ntam/SelectChar1.unity
     guid: 37b446c4fa83ea448839d763f45620eb
   - enabled: 0
@@ -56,6 +56,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Scene_Ntam/Story.unity
     guid: 032fae5b02228cb4ca6ef5452af6fcd7
+  - enabled: 1
+    path: Assets/Scenes/Scene_Ntam/Character.unity
+    guid: 62909799954ab27479520907b9bfde64
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

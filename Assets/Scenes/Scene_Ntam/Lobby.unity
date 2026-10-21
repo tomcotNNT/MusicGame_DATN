@@ -1487,6 +1487,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae7ae49ec8e46064eafe17bd45c58b25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LobbyTutorialGuide
+  characterSceneName: Character
   tutorialOverlay: {fileID: 885169783}
   handPointer: {fileID: 1187526115}
   nextButton: {fileID: 1579789603}
@@ -22666,9 +22667,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1007487211}
-        m_TargetAssemblyTypeName: SelectLevel, Assembly-CSharp
-        m_MethodName: OnPlayButtonClicked
+      - m_Target: {fileID: 62450476}
+        m_TargetAssemblyTypeName: LobbyTutorialGuide, Assembly-CSharp
+        m_MethodName: OnNextButtonClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
