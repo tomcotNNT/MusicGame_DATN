@@ -4020,9 +4020,9 @@ MonoBehaviour:
   hitPointTop: {fileID: 667812587}
   coinSpawner: {fileID: 625427041}
   bossSpawner: {fileID: 2135059614}
-  bossAppearAt: 0.199
+  bossAppearAt: 0.536
   bossReplacesNote: 1
-  keySpeed: 8
+  keySpeed: 5.7
   loopWithSpeedUp: 1
   speedStep: 0.15
   maxSpeed: 2.5
@@ -4062,14 +4062,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 882365117}
-  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 113234491}
   m_Father: {fileID: 1544290758}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 5, y: -333}
@@ -5821,7 +5821,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f1cf679c03d9a7459230d20b9b05dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ResultSystem
-  resultPanel: {fileID: 1544290757}
+  resultPanel: {fileID: 1192332736}
   scoreText: {fileID: 951839814}
   sfxSource: {fileID: 1364280813}
   starSound: {fileID: 8300000, guid: dc7f9a1a0b188014b8b41eb4aa7fc724, type: 3}
