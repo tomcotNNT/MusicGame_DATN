@@ -9,6 +9,7 @@ TagManager:
   - Ground
   - HitPointTop
   - HitPointBottom
+  - BossAttackPosition
   layers:
   - Default
   - TransparentFX
