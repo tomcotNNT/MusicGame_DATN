@@ -6,7 +6,7 @@ public class CharacterTutorialGuide : MonoBehaviour
 {
     [Header("Cài đặt Nhân vật mặc định")]
     [Tooltip("Chỉ số của Ramona (Vị trí thứ 3 trong hàng tính từ 0 là Index 2)")]
-    [SerializeField] private int ramonaIndex = 2; 
+    [SerializeField] private int ramonaIndex = 2;
 
     [Header("Quản Lý Layer Highlight Ramona")]
     [Tooltip("Kéo GameObject Char_01 vào đây")]
@@ -14,10 +14,10 @@ public class CharacterTutorialGuide : MonoBehaviour
     [SerializeField] private GameObject ramonaGlowEffect; // Kéo GlowEffect của Ramona vào đây
 
     [Header("UI Hướng Dẫn Tân Thủ")]
-    [SerializeField] private GameObject tutorialOverlay; 
-    [SerializeField] private RectTransform handPointer;    
-    [SerializeField] private Button playButton;          
-    [SerializeField] private Button backButton;          
+    [SerializeField] private GameObject tutorialOverlay;
+    [SerializeField] private RectTransform handPointer;
+    [SerializeField] private Button playButton;
+    [SerializeField] private Button backButton;
 
     [Header("Scene Tiếp Theo")]
     [SerializeField] private string nextSceneName = "Story";
@@ -55,12 +55,16 @@ public class CharacterTutorialGuide : MonoBehaviour
         }
         else
         {
-            // === NGƯỜI CHƠI CŨ: RAMONA VỀ BÌNH THƯỜNG & MỞ KHÓA TƯƠNG TÁC ===
             if (tutorialOverlay != null) tutorialOverlay.SetActive(false);
             if (handPointer != null) handPointer.gameObject.SetActive(false);
-            if (backButton != null) backButton.interactable = true;
+            
+            if (backButton != null)
+            {
+                backButton.interactable = true;
+                backButton.onClick.RemoveAllListeners();
+                backButton.onClick.AddListener(OnBackToLobbyClicked); // Tự động nhận click quay về
+            }
 
-            // Đưa Ramona về bình thường (giữ nguyên hình ảnh, tắt hào quang)
             ResetRamonaToNormal();
 
             if (playButton != null)
@@ -145,6 +149,17 @@ public class CharacterTutorialGuide : MonoBehaviour
         PlayerPrefs.SetInt("SelectedCharacterIndex", ramonaIndex);
         PlayerPrefs.Save();
         Debug.Log(">>> [CHARACTER] Mặc định đã chọn RAMONA (Index: " + ramonaIndex + ")!");
+    }
+    public void OnBackToLobbyClicked()
+    {
+        // 1. Phát âm thanh SFX nút Back
+        if (GlobalAudioManager.Instance != null)
+        {
+            GlobalAudioManager.Instance.PlaySFX(UISfxType.Back);
+        }
+
+        // 2. Tải về Scene Lobby (Nhạc nền BGM3 trong DontDestroyOnLoad vẫn giữ nguyên)
+        SceneManager.LoadScene("Lobby");
     }
 
     private void OnConfirmPlayClicked()

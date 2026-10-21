@@ -11431,6 +11431,8 @@ RectTransform:
   - {fileID: 1007487212}
   - {fileID: 512547066}
   - {fileID: 904560492}
+  - {fileID: 885169784}
+  - {fileID: 1579789600}
   - {fileID: 235147259}
   - {fileID: 110295371}
   - {fileID: 351402871}
@@ -11438,8 +11440,6 @@ RectTransform:
   - {fileID: 280775735}
   - {fileID: 1527605973}
   - {fileID: 2104030023}
-  - {fileID: 885169784}
-  - {fileID: 1579789600}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -12290,7 +12290,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &830193451
 Transform:
   m_ObjectHideFlags: 0
@@ -15585,6 +15585,7 @@ GameObject:
   - component: {fileID: 1037525725}
   - component: {fileID: 1037525724}
   - component: {fileID: 1037525723}
+  - component: {fileID: 1037525726}
   m_Layer: 5
   m_Name: Sound
   m_TagString: Untagged
@@ -15693,6 +15694,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1037525721}
   m_CullTransparentMesh: 1
+--- !u!114 &1037525726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1037525721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecd1d1234ca1ab8469e567a01da958f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SettingAudioToggle
+  toggleType: 1
+  targetImage: {fileID: 1037525724}
+  onSprite: {fileID: 0}
+  offSprite: {fileID: 0}
+  useColorDim: 1
+  onColor: {r: 1, g: 1, b: 1, a: 1}
+  offColor: {r: 0.45, g: 0.45, b: 0.45, a: 0.7}
 --- !u!1 &1050619393
 GameObject:
   m_ObjectHideFlags: 0
@@ -19022,6 +19042,7 @@ GameObject:
   - component: {fileID: 1268233861}
   - component: {fileID: 1268233860}
   - component: {fileID: 1268233859}
+  - component: {fileID: 1268233862}
   m_Layer: 5
   m_Name: Music
   m_TagString: Untagged
@@ -19130,6 +19151,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1268233857}
   m_CullTransparentMesh: 1
+--- !u!114 &1268233862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1268233857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecd1d1234ca1ab8469e567a01da958f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SettingAudioToggle
+  toggleType: 0
+  targetImage: {fileID: 1268233860}
+  onSprite: {fileID: 0}
+  offSprite: {fileID: 0}
+  useColorDim: 1
+  onColor: {r: 1, g: 1, b: 1, a: 1}
+  offColor: {r: 0.45, g: 0.45, b: 0.45, a: 0.7}
 --- !u!1 &1277214355
 GameObject:
   m_ObjectHideFlags: 0
@@ -22952,9 +22992,8 @@ GameObject:
   - component: {fileID: 1579789602}
   - component: {fileID: 1579789601}
   - component: {fileID: 1579789603}
-  - component: {fileID: 1579789604}
   m_Layer: 5
-  m_Name: Play
+  m_Name: NEXT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23061,32 +23100,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1579789601}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 62450476}
-        m_TargetAssemblyTypeName: LobbyTutorialGuide, Assembly-CSharp
-        m_MethodName: OnNextButtonClicked
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &1579789604
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1579789599}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e7fdeedd746c574295def86848b51d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UIButtonSound
-  soundType: 1
+      m_Calls: []
 --- !u!1 &1583590244
 GameObject:
   m_ObjectHideFlags: 0

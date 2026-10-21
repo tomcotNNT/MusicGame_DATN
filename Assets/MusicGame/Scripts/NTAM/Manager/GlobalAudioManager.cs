@@ -6,8 +6,8 @@ public class GlobalAudioManager : MonoBehaviour
     public static GlobalAudioManager Instance { get; private set; }
 
     [Header("Kênh Âm Thanh (Bắt buộc dùng 2 AudioSource riêng)")]
-    public AudioSource bgmSource; // ĐÃ ĐỔI THÀNH public
-    public AudioSource sfxSource; // ĐÃ ĐỔI THÀNH public
+    public AudioSource bgmSource;
+    public AudioSource sfxSource;
 
     [Header("Nhạc Nền Sảnh (Lobby BGM)")]
     [SerializeField] private AudioClip lobbyBgmClip;
@@ -23,6 +23,12 @@ public class GlobalAudioManager : MonoBehaviour
     [SerializeField] private AudioClip gachaSpinClip;
     [SerializeField] private AudioClip gachaJackpotClip;
 
+    // =========================================================================
+    // TRẠNG THÁI ÂM THANH (DÙNG CHO UI NÚT BẤM KIỂM TRA)
+    // =========================================================================
+    public bool IsBGMActive => bgmSource != null && !bgmSource.mute;
+    public bool IsSFXActive => sfxSource != null && !sfxSource.mute;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -35,7 +41,7 @@ public class GlobalAudioManager : MonoBehaviour
         transform.SetParent(null);
         DontDestroyOnLoad(gameObject);
 
-        // Đảm bảo cấu hình đúng tính chất 2 kênh
+        // Cấu hình tính chất 2 kênh phát
         if (bgmSource != null)
         {
             bgmSource.loop = true;
@@ -47,6 +53,9 @@ public class GlobalAudioManager : MonoBehaviour
             sfxSource.loop = false;
             sfxSource.playOnAwake = false;
         }
+
+        // Khôi phục trạng thái Bật/Tắt đã lưu từ lần chơi trước
+        InitAudioSettings();
     }
 
     private void OnEnable()
@@ -64,12 +73,65 @@ public class GlobalAudioManager : MonoBehaviour
         PlayLobbyBGM();
     }
 
+    // =========================================================================
+    // HỆ THỐNG MUTE & LƯU CÀI ĐẶT
+    // =========================================================================
+    private void InitAudioSettings()
+    {
+        // 1. LUÔN LUÔN BẬT NHẠC NỀN (BGM) KHI MỞ GAME
+        if (bgmSource != null)
+        {
+            bgmSource.mute = false;
+            bgmSource.volume = 1f;
+        }
+        PlayerPrefs.SetInt("SETTING_BGM", 1); // Ghi đè lại trạng thái bật để UI nút bấm luôn sáng
+
+        // 2. KHỞI TẠO HIỆU ỨNG ÂM THANH (SFX)
+        // (Nếu muốn SFX cũng luôn bật khi mở game, đổi dòng dưới thành sfxEnabled = true;)
+        bool sfxEnabled = PlayerPrefs.GetInt("SETTING_SFX", 1) == 1;
+
+        if (sfxSource != null)
+        {
+            sfxSource.mute = !sfxEnabled;
+            sfxSource.volume = sfxEnabled ? 1f : 0f;
+        }
+
+        PlayerPrefs.Save();
+    }
+
     /// <summary>
-    /// Tự động bật/tắt nhạc sảnh theo từng Scene mà không làm mất GameObject
+    /// Đảo trạng thái Mute của BGM và lưu lại cài đặt
     /// </summary>
+    public void ToggleBGM()
+    {
+        if (bgmSource == null) return;
+
+        bgmSource.mute = !bgmSource.mute;
+        PlayerPrefs.SetInt("SETTING_BGM", bgmSource.mute ? 0 : 1);
+        PlayerPrefs.Save();
+
+        Debug.Log(">>> [AUDIO] BGM: " + (!bgmSource.mute ? "ON" : "OFF"));
+    }
+
+    /// <summary>
+    /// Đảo trạng thái Mute của SFX và lưu lại cài đặt
+    /// </summary>
+    public void ToggleSFX()
+    {
+        if (sfxSource == null) return;
+
+        sfxSource.mute = !sfxSource.mute;
+        PlayerPrefs.SetInt("SETTING_SFX", sfxSource.mute ? 0 : 1);
+        PlayerPrefs.Save();
+
+        Debug.Log(">>> [AUDIO] SFX: " + (!sfxSource.mute ? "ON" : "OFF"));
+    }
+
+    // =========================================================================
+    // QUẢN LÝ THEO DÕI SCENE & PHÁT NHẠC NỀN
+    // =========================================================================
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // Hủy trạng thái câm tiếng và đóng băng thời gian phòng khi thoát từ bảng Pause
         Time.timeScale = 1f;
         AudioListener.pause = false;
 
@@ -81,7 +143,6 @@ public class GlobalAudioManager : MonoBehaviour
         }
         else if (IsGameplayScene(sceneName))
         {
-            // Vào màn chơi: Chỉ dừng phát BGM sảnh, giữ nguyên hệ thống SFX
             StopBGM();
         }
     }
@@ -95,6 +156,7 @@ public class GlobalAudioManager : MonoBehaviour
             bgmSource.clip = lobbyBgmClip;
         }
 
+        // Chặn tua lại nếu bài nhạc đang chạy
         if (!bgmSource.isPlaying && bgmSource.clip != null)
         {
             bgmSource.Play();
@@ -110,9 +172,9 @@ public class GlobalAudioManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Phát âm thanh hiệu ứng UI qua PlayOneShot
-    /// </summary>
+    // =========================================================================
+    // PHÁT HIỆU ỨNG ÂM THANH UI
+    // =========================================================================
     public void PlaySFX(UISfxType sfxType)
     {
         AudioClip clipToPlay = null;
@@ -147,7 +209,6 @@ public class GlobalAudioManager : MonoBehaviour
     }
 }
 
-// ĐẶT ENUM Ở CUỐI FILE ĐỂ TRÁNH LỖI NHẬN DIỆN CLASS CỦA UNITY
 public enum UISfxType
 {
     Click,
