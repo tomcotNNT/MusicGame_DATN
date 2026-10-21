@@ -1256,6 +1256,7 @@ GameObject:
   - component: {fileID: 62450474}
   - component: {fileID: 62450475}
   - component: {fileID: 62450476}
+  - component: {fileID: 62450477}
   m_Layer: 0
   m_Name: UIControl
   m_TagString: Untagged
@@ -1493,6 +1494,20 @@ MonoBehaviour:
   nextButton: {fileID: 1579789603}
   stage1LockIcon: {fileID: 1950492707}
   stage1Button: {fileID: 0}
+--- !u!114 &62450477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 62450462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efb4dddf79bfce74f915dc8ed673521c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CurrencyUIAutoSync
+  goldText: {fileID: 1976321878}
+  diamondText: {fileID: 900632328}
 --- !u!1 &73052073
 GameObject:
   m_ObjectHideFlags: 0
@@ -3310,6 +3325,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 199059271}
+  - component: {fileID: 199059273}
+  - component: {fileID: 199059272}
   m_Layer: 5
   m_Name: Diamond
   m_TagString: Untagged
@@ -3339,6 +3356,63 @@ RectTransform:
   m_AnchoredPosition: {x: -316, y: 335}
   m_SizeDelta: {x: 262.86, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &199059272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 199059270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e7fdeedd746c574295def86848b51d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonSound
+  soundType: 0
+--- !u!114 &199059273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 199059270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 0}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &202054103
 GameObject:
   m_ObjectHideFlags: 0
@@ -5682,6 +5756,7 @@ GameObject:
   - component: {fileID: 318963254}
   - component: {fileID: 318963253}
   - component: {fileID: 318963255}
+  - component: {fileID: 318963256}
   m_Layer: 5
   m_Name: Discount
   m_TagString: Untagged
@@ -5802,6 +5877,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &318963256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 318963251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e7fdeedd746c574295def86848b51d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonSound
+  soundType: 0
 --- !u!1 &323652421
 GameObject:
   m_ObjectHideFlags: 0
@@ -13200,6 +13288,7 @@ GameObject:
   - component: {fileID: 885506372}
   - component: {fileID: 885506371}
   - component: {fileID: 885506370}
+  - component: {fileID: 885506373}
   m_Layer: 5
   m_Name: Back
   m_TagString: Untagged
@@ -13308,6 +13397,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 885506368}
   m_CullTransparentMesh: 1
+--- !u!114 &885506373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 885506368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e7fdeedd746c574295def86848b51d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonSound
+  soundType: 2
 --- !u!1 &887494598
 GameObject:
   m_ObjectHideFlags: 0
@@ -16040,6 +16142,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1068657153}
   m_CullTransparentMesh: 1
+--- !u!1 &1074566162
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1074566163}
+  - component: {fileID: 1074566164}
+  m_Layer: 0
+  m_Name: AdminTest
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1074566163
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1074566162}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.58609, y: 0.72338, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1074566164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1074566162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2332a3ca2fd23eb44ad6eeb52fffd414, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AdminCurrencyController
+  goldText: {fileID: 1976321878}
+  diamondText: {fileID: 900632328}
+  targetGold: 1000
+  targetDiamond: 100
+  enableHotkeys: 1
 --- !u!1 &1080663712
 GameObject:
   m_ObjectHideFlags: 0
@@ -17983,6 +18134,7 @@ GameObject:
   - component: {fileID: 1184880453}
   - component: {fileID: 1184880452}
   - component: {fileID: 1184880454}
+  - component: {fileID: 1184880455}
   m_Layer: 5
   m_Name: Mission
   m_TagString: Untagged
@@ -18103,6 +18255,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1184880455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184880450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e7fdeedd746c574295def86848b51d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonSound
+  soundType: 0
 --- !u!1 &1187526114
 GameObject:
   m_ObjectHideFlags: 0
@@ -18324,6 +18489,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1203721043}
+  - component: {fileID: 1203721045}
+  - component: {fileID: 1203721044}
   m_Layer: 5
   m_Name: Gold
   m_TagString: Untagged
@@ -18353,6 +18520,63 @@ RectTransform:
   m_AnchoredPosition: {x: -667, y: 335}
   m_SizeDelta: {x: 262.86, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1203721044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1203721042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e7fdeedd746c574295def86848b51d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonSound
+  soundType: 0
+--- !u!114 &1203721045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1203721042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 0}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1225835096
 GameObject:
   m_ObjectHideFlags: 0
@@ -21229,6 +21453,7 @@ GameObject:
   - component: {fileID: 1481376884}
   - component: {fileID: 1481376883}
   - component: {fileID: 1481376885}
+  - component: {fileID: 1481376886}
   m_Layer: 5
   m_Name: Archive
   m_TagString: Untagged
@@ -21349,6 +21574,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1481376886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1481376881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e7fdeedd746c574295def86848b51d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonSound
+  soundType: 0
 --- !u!1 &1488261876
 GameObject:
   m_ObjectHideFlags: 0
@@ -21773,6 +22011,7 @@ GameObject:
   - component: {fileID: 1516123026}
   - component: {fileID: 1516123025}
   - component: {fileID: 1516123027}
+  - component: {fileID: 1516123028}
   m_Layer: 5
   m_Name: Settings
   m_TagString: Untagged
@@ -21893,6 +22132,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1516123028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516123023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e7fdeedd746c574295def86848b51d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonSound
+  soundType: 0
 --- !u!1 &1520644569
 GameObject:
   m_ObjectHideFlags: 0
@@ -22700,6 +22952,7 @@ GameObject:
   - component: {fileID: 1579789602}
   - component: {fileID: 1579789601}
   - component: {fileID: 1579789603}
+  - component: {fileID: 1579789604}
   m_Layer: 5
   m_Name: Play
   m_TagString: Untagged
@@ -22821,6 +23074,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1579789604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1579789599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e7fdeedd746c574295def86848b51d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonSound
+  soundType: 1
 --- !u!1 &1583590244
 GameObject:
   m_ObjectHideFlags: 0
@@ -22833,6 +23099,7 @@ GameObject:
   - component: {fileID: 1583590247}
   - component: {fileID: 1583590246}
   - component: {fileID: 1583590248}
+  - component: {fileID: 1583590249}
   m_Layer: 5
   m_Name: VipPack
   m_TagString: Untagged
@@ -22953,6 +23220,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1583590249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1583590244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e7fdeedd746c574295def86848b51d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonSound
+  soundType: 0
 --- !u!1 &1593982168
 GameObject:
   m_ObjectHideFlags: 0
@@ -24461,6 +24741,7 @@ GameObject:
   - component: {fileID: 1719550512}
   - component: {fileID: 1719550511}
   - component: {fileID: 1719550513}
+  - component: {fileID: 1719550514}
   m_Layer: 5
   m_Name: Gacha
   m_TagString: Untagged
@@ -24569,6 +24850,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1719550514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1719550509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e7fdeedd746c574295def86848b51d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonSound
+  soundType: 0
 --- !u!1 &1719921968
 GameObject:
   m_ObjectHideFlags: 0
@@ -34937,3 +35231,4 @@ SceneRoots:
   - {fileID: 1917496931}
   - {fileID: 334491535}
   - {fileID: 830193451}
+  - {fileID: 1074566163}

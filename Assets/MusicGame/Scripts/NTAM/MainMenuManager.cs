@@ -1,4 +1,5 @@
 using System.Collections;
+using System.IO; // Thêm thư viện để thao tác xóa file JSON trực tiếp
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,7 +8,7 @@ using TMPro;
 public class MainMenuManager : MonoBehaviour
 {
     [Header("Settings")]
-    [SerializeField] private string nextSceneName = "Lobby"; // Đổi thành Scene tiếp theo (Lobby hoặc SelectSong)
+    [SerializeField] private string nextSceneName = "Lobby";
 
     [Header("Hiệu ứng UI")]
     public TextMeshProUGUI tapToStartText;
@@ -84,24 +85,46 @@ public class MainMenuManager : MonoBehaviour
         CloseAllPopups();
     }
 
+    /// <summary>
+    /// Xóa tận gốc dữ liệu JSON và PlayerPrefs để đưa game về trạng thái tân thủ tuyệt đối
+    /// </summary>
     public void OnConfirmResetClicked()
     {
         PlayClickSound();
 
         if (resetAllGameData)
         {
-            // Xóa toàn bộ dữ liệu game để đưa về trạng thái tân thủ tuyệt đối
+            // 1. Reset dữ liệu trong bộ nhớ RAM và ghi đè file lưu qua GameManager
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.ResetNewPlayerData();
+            }
+
+            // 2. Xóa trực tiếp file JSON trên ổ đĩa (đảm bảo sạch hoàn toàn ngay cả khi chạy lẻ Scene này)
+            string savePath = Application.persistentDataPath + "/PlayerSaveData.json";
+            if (File.Exists(savePath))
+            {
+                File.Delete(savePath);
+                Debug.Log(">>> [RESET] Đã xóa file lưu JSON: " + savePath);
+            }
+
+            // 3. Xóa sạch PlayerPrefs (Tên nhân vật, cờ tân thủ TutorialCompleted, cài đặt tạm)
             PlayerPrefs.DeleteAll();
-            Debug.Log(">>> [RESET] Đã xóa toàn bộ PlayerPrefs (Tên, Tutorial, Coin, Diamond)!");
+            PlayerPrefs.Save();
+
+            Debug.Log("<color=green>>>> [RESET] ĐÃ RESET TOÀN BỘ DỮ LIỆU GAME VỀ 0 (COIN = 0, DIAMOND = 0)!</color>");
         }
         else
         {
+            // Chỉ xóa tên và tiến trình hướng dẫn
             PlayerPrefs.DeleteKey("PlayerName");
             PlayerPrefs.DeleteKey("TutorialCompleted");
-        }
-        PlayerPrefs.Save();
+            PlayerPrefs.Save();
 
-        // Xóa sạch ô nhập text nếu trước đó đã gõ
+            Debug.Log("<color=yellow>>>> [RESET] Chỉ xóa PlayerName và TutorialCompleted!</color>");
+        }
+
+        // Xóa sạch text trong ô input
         if (nameInputField != null) nameInputField.text = "";
 
         CloseAllPopups();
