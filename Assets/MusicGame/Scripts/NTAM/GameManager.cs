@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        // Nếu GameManager khác đã tồn tại thì hủy bản trùng
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -57,7 +58,6 @@ public class GameManager : MonoBehaviour
         }
 
         Instance = this;
-
         DontDestroyOnLoad(gameObject);
 
         savePath = Application.persistentDataPath + "/PlayerSaveData.json";
@@ -65,10 +65,10 @@ public class GameManager : MonoBehaviour
         LoadGameData();
         LoadSettingsData();
 
-        // Đăng ký sự kiện khi chuyển Scene
+        // Theo dõi sự kiện chuyển Scene
         SceneManager.sceneLoaded += OnSceneLoaded;
 
-        // Kiểm tra nếu game khởi động trực tiếp ở Man1
+        // Nếu khởi động trực tiếp ở Man1 thì tự hủy
         if (SceneManager.GetActiveScene().name == "Man1")
         {
             Destroy(gameObject);
@@ -122,15 +122,24 @@ public class GameManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "Tutorial")
+        if (scene.name == "Man1")
         {
-            SceneManager.sceneLoaded -= OnSceneLoaded;
-
             if (Instance == this)
             {
                 Instance = null;
             }
 
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+            Destroy(gameObject);
+        }
+        else if (scene.name == "Tutorial")
+        {
+            if (Instance == this)
+            {
+                Instance = null;
+            }
+
+            SceneManager.sceneLoaded -= OnSceneLoaded;
             Destroy(gameObject);
         }
     }

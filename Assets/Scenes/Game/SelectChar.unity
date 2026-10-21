@@ -4036,6 +4036,7 @@ GameObject:
   m_Component:
   - component: {fileID: 699324274}
   - component: {fileID: 699324275}
+  - component: {fileID: 699324276}
   m_Layer: 5
   m_Name: ListChar
   m_TagString: Untagged
@@ -4074,7 +4075,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 699324273}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 972e210242aa40c4dbb68b64788dd5b4, type: 3}
   m_Name: 
@@ -4095,6 +4096,33 @@ MonoBehaviour:
   playButton: {fileID: 0}
   gameplaySceneName: GameplayScene
   selectSongSceneName: SelectSong1
+--- !u!114 &699324276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 699324273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 109946def88550a48976749cea4b4cb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ListChar
+  characterItems:
+  - {fileID: 319027346}
+  - {fileID: 1949844922}
+  - {fileID: 1173999340}
+  - {fileID: 1772816853}
+  - {fileID: 1279822301}
+  spacing: 450
+  centerScale: 1
+  sideScale: 0.75
+  farScale: 0.5
+  visibleRange: 2
+  snapDuration: 0.25
+  dragThreshold: 100
+  playButton: {fileID: 1579789603}
+  defaultSceneName: Man1
 --- !u!1 &706878086
 GameObject:
   m_ObjectHideFlags: 0
@@ -9076,7 +9104,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1579789601}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 699324276}
+        m_TargetAssemblyTypeName: ListChar, Assembly-CSharp
+        m_MethodName: OnPlayButtonClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1580406653
 GameObject:
   m_ObjectHideFlags: 0
