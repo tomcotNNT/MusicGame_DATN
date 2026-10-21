@@ -1,56 +1,50 @@
 using UnityEngine;
 
-public class PlayerAttack : MonoBehaviour
+public class PlayerAttackAnimation : MonoBehaviour
 {
-    [Header("Attack")]
-    [SerializeField] private float attackCooldown = 0.5f;
-    [SerializeField] private int damage = 10;
-    public GameObject Hitbox;
+    [SerializeField] private Animator animator;
 
-    [Header("Component")]
-     private Animator animator;
+    [Header("Trigger")]
+    [Tooltip("Bật = dùng 2 trigger riêng cho Left/Right, tắt = dùng chung 1 trigger")]
+    [SerializeField] private bool separateLanes = false;
+    [SerializeField] private string attackTrigger = "Attack";
+    [SerializeField] private string attackLeftTrigger = "AttackLeft";
+    [SerializeField] private string attackRightTrigger = "AttackRight";
 
-    private float lastAttackTime;
+    [Header("Đánh luân phiên (tuỳ chọn)")]
+    [Tooltip("Bật = xen kẽ 2 anim đánh (Attack1/Attack2) cho đỡ lặp")]
+    [SerializeField] private bool alternate = false;
+    [SerializeField] private string attack2Trigger = "Attack2";
+
+    private bool toggle;
 
     private void Awake()
     {
         if (animator == null)
-            animator = GetComponent<Animator>();
+            animator = GetComponentInChildren<Animator>();
     }
 
-    private void Start()
-    {
-        Hitbox.SetActive(false);
-    }
+    private void OnEnable()  { PianoKey.NoteHit += OnNoteHit; }
+    private void OnDisable() { PianoKey.NoteHit -= OnNoteHit; }
 
-    private void Update()
+    private void OnNoteHit(PianoKey.KeyType type)
     {
-        // Test bằng phím Space
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Attack();
-        }
-    }
-
-    public void Attack()
-    {
-        // Không cho đánh liên tục
-        if (Time.time < lastAttackTime + attackCooldown)
+        if (animator == null)
             return;
 
-        lastAttackTime = Time.time;
+        string trigger;
 
-        // Chạy animation Attack
-        animator.SetTrigger("Attack");
-    }
+        if (separateLanes)
+            trigger = type == PianoKey.KeyType.Left ? attackLeftTrigger : attackRightTrigger;
+        else if (alternate)
+        {
+            toggle = !toggle;
+            trigger = toggle ? attackTrigger : attack2Trigger;
+        }
+        else
+            trigger = attackTrigger;
 
-    public void ActivateHitbox()
-    {
-        Hitbox.SetActive(true);
-    }
-
-    public void DeactivateHitbox()
-    {
-        Hitbox.SetActive(false);
+        animator.ResetTrigger(trigger);
+        animator.SetTrigger(trigger);
     }
 }
