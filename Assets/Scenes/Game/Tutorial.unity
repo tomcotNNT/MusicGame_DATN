@@ -2466,8 +2466,18 @@ MonoBehaviour:
   player: {fileID: 2008411973}
   spawnPoint: {fileID: 983721398}
   longNoteYOffset: 5.58
+  hitPointBottom: {fileID: 0}
+  hitPointTop: {fileID: 0}
   coinSpawner: {fileID: 0}
+  bossSpawner: {fileID: 0}
+  bossAppearAt: 0.5
+  bossReplacesNote: 1
   keySpeed: 8
+  loopWithSpeedUp: 1
+  speedStep: 0.15
+  maxSpeed: 2.5
+  nextRoundLeadIn: 1.5
+  maxRounds: 1
   isTutorial: 1
   spawnAheadTime: 2
   autoSpawnAhead: 1
@@ -2792,6 +2802,10 @@ MonoBehaviour:
   touchVFXPrefab: {fileID: 6534240511995935521, guid: b510bdbad3869bd46a076e237edec2fe, type: 3}
   targetCamera: {fileID: 519420031}
   vfxWorldZ: 0
+  enableClickSound: 1
+  clickSound: {fileID: 0}
+  clickVolume: 1
+  randomizePitch: 0
 --- !u!212 &1099700212
 SpriteRenderer:
   serializedVersion: 2
@@ -3910,29 +3924,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc051d8b36ab9984a8b2e5898e4c8390, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KeyButtonController
-  leftImage: {fileID: 1881559663}
-  rightImage: {fileID: 631369473}
-  normalColor: {r: 0.9372549, g: 1, b: 0, a: 1}
-  leftFill: {fileID: 1881559663}
-  rightFill: {fileID: 631369473}
-  fillMethod: 4
-  fillOrigin: 0
-  fillColor: {r: 1, g: 0.9, b: 0.2, a: 1}
-  hitColor: {r: 0.2, g: 1, b: 0.4, a: 1}
-  fillStartAlpha: 0.3
-  fillEndAlpha: 0.7
-  hitAlpha: 1
-  leftText: {fileID: 1493179190}
-  rightText: {fileID: 1879373495}
-  textFadeDelay: 3
-  textFadeDuration: 1
-  textEndAlpha: 0
-  detectDistance: 4
-  touchOffset: 0.5
-  perfectWindow: 0.12
-  goodWindow: 0.25
-  player: {fileID: 2008411973}
-  audioSource: {fileID: 459371225}
 --- !u!114 &1340397856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4088,20 +4079,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f1cf679c03d9a7459230d20b9b05dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ResultSystem
-  star1Score: 15000
-  star2Score: 25000
-  star3Score: 35000
   resultPanel: {fileID: 1283044676}
   scoreText: {fileID: 1606800311}
-  starImages:
-  - {fileID: 420726564}
-  - {fileID: 2108399888}
-  - {fileID: 1442324362}
-  starOn: {fileID: 4537489976979972008, guid: f241daa206898b54aa6d92d436d36065, type: 3}
-  starOff: {fileID: 4537489976979972008, guid: 91f6b621b8a3fb746bccdd37e5c5c50d, type: 3}
-  delayBetweenStars: 0.4
-  popDuration: 0.25
-  popOvershoot: 1.4
   sfxSource: {fileID: 1364280813}
   starSound: {fileID: 8300000, guid: dc7f9a1a0b188014b8b41eb4aa7fc724, type: 3}
 --- !u!114 &1364280815
@@ -4320,12 +4299,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dd30bea117ed60409d43579e052df2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FeverSystem
-  feverBar: {fileID: 1092582730}
-  maxFever: 100
-  feverDecreaseSpeed: 10
-  normalSpeed: 1
-  feverSpeed: 2
-  isFever: 0
+  feverBar: {fileID: 0}
+  feverFill: {fileID: 0}
+  fillSmooth: 8
+  notesToFill: 10
+  resetWhenFull: 1
 --- !u!1 &1477870752
 GameObject:
   m_ObjectHideFlags: 0
@@ -7296,24 +7274,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerLaneController
   isGround: 1
-  jumpForce: 22
-  bossSpawner: {fileID: 0}
-  minSwipeDistance: 80
-  swipeOnRelease: 0
+  startPoint: {fileID: 0}
+  entryPoint: {fileID: 0}
+  introMoveSpeed: 5
+  outroMoveSpeed: 4
+  dashSpeed: 60
+  hangTime: 0.15
+  riseYOffset: 0
+  attackTriggers:
+  - Attack1
+  - Attack2
+  - Attack3
+  avoidRepeat: 1
   pianoKeySpawner: {fileID: 861260837}
   WinPanel: {fileID: 1283044676}
   resultSystem: {fileID: 1364280814}
   scoreSystem: {fileID: 230136156}
   countdownText: {fileID: 325852676}
+  readyToGoTime: 3
+  goDuration: 1
   letterDelay: 0.1
-  readyHoldTime: 0.6
-  shrinkDuration: 0.2
-  popDuration: 0.25
-  popOvershoot: 1.3
   countdownAudio: {fileID: 2008411980}
   ReadySound: {fileID: 8300000, guid: 74938815bd6134d44a1be1fdd1d8bebb, type: 3}
   goSound: {fileID: 8300000, guid: dc7f9a1a0b188014b8b41eb4aa7fc724, type: 3}
   audioSource: {fileID: 2008411980}
+  holdAttackTrigger: Sing
 --- !u!50 &2008411975
 Rigidbody2D:
   serializedVersion: 5
@@ -7436,9 +7421,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fc649c3e14455249b56c58b42038bfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
-  attackCooldown: 0.5
-  damage: 10
-  Hitbox: {fileID: 450852526}
+  animator: {fileID: 0}
+  separateLanes: 0
+  attackTrigger: Attack
+  attackLeftTrigger: AttackLeft
+  attackRightTrigger: AttackRight
+  alternate: 0
+  attack2Trigger: Attack2
 --- !u!82 &2008411980
 AudioSource:
   m_ObjectHideFlags: 0
