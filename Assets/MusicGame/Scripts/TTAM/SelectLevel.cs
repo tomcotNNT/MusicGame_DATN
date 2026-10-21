@@ -43,6 +43,11 @@ public class SelectLevel : MonoBehaviour,
     // INSPECTOR
     // =====================================================
 
+    [Header("Character Select")]
+    [Tooltip("Tên scene chọn nhân vật (phải có trong Build Settings). Để trống = vào thẳng màn chơi.")]
+    [SerializeField] private string characterSelectScene = "SelectChar";
+
+
     [Header("Levels (theo thứ tự chơi)")]
     [SerializeField] private List<LevelEntry> levels = new List<LevelEntry>();
 
@@ -459,7 +464,13 @@ public class SelectLevel : MonoBehaviour,
         // Ghi nhớ màn đang chơi để scene gameplay biết đánh dấu done màn nào
         CurrentLevelId = GetLevelId(currentIndex);
 
-        SceneLoader.Load(sceneToLoad);         // <-- thay bằng dòng này
+        // Nhớ scene gameplay, đi qua scene chọn nhân vật trước
+        CharacterSelection.PendingScene = sceneToLoad;
+
+        if (!string.IsNullOrEmpty(characterSelectScene))
+            SceneLoader.Load(characterSelectScene);
+        else
+            SceneLoader.Load(sceneToLoad);
     }
 
     // =====================================================
