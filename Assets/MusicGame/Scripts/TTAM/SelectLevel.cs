@@ -43,6 +43,11 @@ public class SelectLevel : MonoBehaviour,
     // INSPECTOR
     // =====================================================
 
+    [Header("Character Select")]
+    [Tooltip("Tên scene chọn nhân vật (phải có trong Build Settings). Để trống = vào thẳng màn chơi.")]
+    [SerializeField] private string characterSelectScene = "SelectChar";
+
+
     [Header("Levels (theo thứ tự chơi)")]
     [SerializeField] private List<LevelEntry> levels = new List<LevelEntry>();
 
@@ -435,14 +440,13 @@ public class SelectLevel : MonoBehaviour,
         }
     }
 
-   public void OnPlayButtonClicked()
+    public void OnPlayButtonClicked()
     {
         if (levels == null || levels.Count == 0) return;
 
         if (GameManager.Instance != null)
             GameManager.Instance.PlayClickSound();
 
-        // 1. Kiểm tra màn có bị khóa hay không
         if (!IsUnlocked(currentIndex))
         {
             Debug.Log("Màn chơi này đang bị khóa!");
@@ -457,18 +461,16 @@ public class SelectLevel : MonoBehaviour,
             return;
         }
 
-        // 2. Ghi nhớ ID màn để scene gameplay biết màn nào vừa hoàn thành
+        // Ghi nhớ màn đang chơi để scene gameplay biết đánh dấu done màn nào
         CurrentLevelId = GetLevelId(currentIndex);
 
-        // 3. LƯU CHỈ SỐ MÀN VÀO PLAYERPREFS ĐỂ SCENE STORY ĐỌC ĐƯỢC
-        PlayerPrefs.SetInt("SelectedStageIndex", currentIndex);
-        // Lưu kèm tên Scene đích để dự phòng nếu cần dùng lại
-        PlayerPrefs.SetString("TargetGameplayScene", sceneToLoad);
-        PlayerPrefs.Save();
+        // Nhớ scene gameplay, đi qua scene chọn nhân vật trước
+        CharacterSelection.PendingScene = sceneToLoad;
 
-        // 4. CHUYỂN THẲNG VÀO SCENE STORY
-        // (Thay thế cho dòng SceneLoader.Load(sceneToLoad); cũ)
-        SceneManager.LoadScene("Story");
+        if (!string.IsNullOrEmpty(characterSelectScene))
+            SceneLoader.Load(characterSelectScene);
+        else
+            SceneLoader.Load(sceneToLoad);
     }
 
     // =====================================================

@@ -8,19 +8,19 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/MusicGame/Member/NTam/Scene/Start_Scene.unity
     guid: 2ef57c962ec38d047a5eebb8a1bdfa1f
-  - enabled: 1
-    path: Assets/Scenes/Scene_Ntam/LoadingScene 1.unity
+  - enabled: 0
+    path: Assets/MusicGame/Member/NTam/Scene/LoadingScene 1.unity
     guid: 8970f94a2044efa40a1a61aad15cbd06
-  - enabled: 1
-    path: Assets/Scenes/Scene_Ntam/MainMenu2.unity
+  - enabled: 0
+    path: Assets/MusicGame/Member/NTam/Scene/MainMenu2.unity
     guid: 52405ffabef4c7f4680542c503f92337
-  - enabled: 1
-    path: "Assets/Scenes/Scene_Ntam/Scene nh\xE1p/SelectSong1.unity"
+  - enabled: 0
+    path: Assets/MusicGame/Member/NTam/Scene/SelectSong1.unity
     guid: 897eadc400116ea42901360f1fcd1b1b
   - enabled: 0
     path: Assets/Scenes/LONG/SelectSong.unity
     guid: 8522c400eb3891448abea1a655669434
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/LONG/SelectChar.unity
     guid: bd9f6f8a75ff69e448dab827742d7f7c
   - enabled: 1
@@ -32,6 +32,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game/SelectSong.unity
     guid: 32db7ca92a2f5d4469fdd120a08734d1
+  - enabled: 1
+    path: Assets/Scenes/Game/SelectChar.unity
+    guid: f23c1a7245b83d847a457d29201e9398
   - enabled: 1
     path: Assets/Scenes/TTAM/Tutorial.unity
     guid: 63c675b8cc3a54b41a15257435c419f2
@@ -45,20 +48,11 @@ EditorBuildSettings:
     path: Assets/Scenes/Game/Loading.unity
     guid: 442a7de735b69ed49b2025bc598707d8
   - enabled: 0
-    path: Assets/Scenes/Scene_Ntam/SelectChar1.unity
+    path: Assets/MusicGame/Member/NTam/Scene/SelectChar1.unity
     guid: 37b446c4fa83ea448839d763f45620eb
   - enabled: 0
     path: Assets/Scenes/Game/lllll.unity
     guid: 1f45fc5d74724a84d8962de785929646
-  - enabled: 1
-    path: Assets/Scenes/Scene_Ntam/Lobby.unity
-    guid: c9e83147b1d57ce49a0e3cb2ae2eec35
-  - enabled: 1
-    path: Assets/Scenes/Scene_Ntam/Story.unity
-    guid: 032fae5b02228cb4ca6ef5452af6fcd7
-  - enabled: 1
-    path: Assets/Scenes/Scene_Ntam/Character.unity
-    guid: 62909799954ab27479520907b9bfde64
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
