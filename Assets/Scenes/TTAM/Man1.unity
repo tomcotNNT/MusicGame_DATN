@@ -1939,11 +1939,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6455be64fbf609449e00c6044f3813d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MidiReader
-  ignoreDrums: 1
+  contentMode: 2
+  forcedTrackIndex: -1
+  preferNamedTracks: 1
+  requireDrumChannel: 1
+  allowedDrumPitches: 
+  filterDrumPitches: 0
+  mapDrumsByType: 1
+  hiHatLane: 1
+  otherDrumLane: 0
+  allowedPitches: 
+  filterCustomPitches: 1
+  bassMinPitch: 28
+  bassMaxPitch: 55
   laneCount: 2
   laneMode: 0
   splitPitch: 60
   maxSameLane: 3
+  minimumNoteDistance: 0.15
+  timeOffset: 0
   longNoteMinDuration: 0.5
   longNoteTailGap: 0.25
 --- !u!82 &459371225
@@ -4571,7 +4585,7 @@ MonoBehaviour:
   - {fileID: 81011134}
   - {fileID: 1961208857}
   - {fileID: 1729519126}
-  speed: 6
+  speed: 7
   segmentWidth: 23
 --- !u!1 &983721397
 GameObject:
@@ -5821,8 +5835,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f1cf679c03d9a7459230d20b9b05dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ResultSystem
-  resultPanel: {fileID: 1192332736}
-  scoreText: {fileID: 951839814}
+  resultPanel: {fileID: 1544290757}
+  scoreText: {fileID: 1192332738}
   sfxSource: {fileID: 1364280813}
   starSound: {fileID: 8300000, guid: dc7f9a1a0b188014b8b41eb4aa7fc724, type: 3}
 --- !u!114 &1364280815
@@ -7971,7 +7985,7 @@ Transform:
   m_GameObject: {fileID: 1795008668}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.8, y: -4.47, z: 0}
+  m_LocalPosition: {x: -14.94, y: -4.47, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
