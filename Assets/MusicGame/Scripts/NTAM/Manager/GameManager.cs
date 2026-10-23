@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     private string savePath;
 
     // =========================================================================
-    // CẦU NỐI ÂM THANH (TƯƠNG THÍCH VỚI TẤT CẢ SCRIPT CŨ CỦA ĐỒNG ĐỘI)
+    // CẦU NỐI ÂM THANH (TƯƠNG THÍCH VỚI SCRIPT CỦA NHÁNH TTAM & LONG)
     // =========================================================================
     public AudioSource bgmSource
     {
@@ -76,7 +76,7 @@ public class GameManager : MonoBehaviour
         transform.SetParent(null);
         DontDestroyOnLoad(gameObject);
 
-        savePath = Application.persistentDataPath + "/PlayerSaveData.json";
+        savePath = Path.Combine(Application.persistentDataPath, "PlayerSaveData.json");
 
         LoadGameData();
         LoadSettingsData();
@@ -84,20 +84,35 @@ public class GameManager : MonoBehaviour
 
     public void SaveGameData()
     {
-        string json = JsonUtility.ToJson(playerData, true);
-        File.WriteAllText(savePath, json);
+        try
+        {
+            string json = JsonUtility.ToJson(playerData, true);
+            File.WriteAllText(savePath, json);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError(">>> [DATA] Lỗi khi lưu dữ liệu JSON: " + ex.Message);
+        }
     }
 
     public void LoadGameData()
     {
-        if (File.Exists(savePath))
+        try
         {
-            string json = File.ReadAllText(savePath);
-            JsonUtility.FromJsonOverwrite(json, playerData);
+            if (File.Exists(savePath))
+            {
+                string json = File.ReadAllText(savePath);
+                JsonUtility.FromJsonOverwrite(json, playerData);
+            }
+            else
+            {
+                // Lần đầu chơi: Khởi tạo dữ liệu sạch (0 Coin, 0 Diamond)
+                ResetNewPlayerData();
+            }
         }
-        else
+        catch (Exception ex)
         {
-            // Lần đầu chơi: Khởi tạo dữ liệu sạch (0 Coin, 0 Diamond)
+            Debug.LogError(">>> [DATA] Lỗi khi tải dữ liệu JSON: " + ex.Message);
             ResetNewPlayerData();
         }
     }
@@ -110,7 +125,7 @@ public class GameManager : MonoBehaviour
     }
 
     // =========================================================================
-    // HỆ THỐNG KINH TẾ: QUẢN LÝ TIỀN TỆ AN TOÀN VÀ ĐỒNG BỘ UI
+    // HỆ THỐNG KINH TẾ (COINS & DIAMONDS)
     // =========================================================================
     public bool SpendCoins(int amount)
     {
@@ -118,11 +133,11 @@ public class GameManager : MonoBehaviour
         {
             playerData.totalCoins -= amount;
             SaveGameData();
-            OnCurrencyChanged?.Invoke(); // Bắn tín hiệu để Text UI tự nhảy số mới
+            OnCurrencyChanged?.Invoke();
             return true;
         }
 
-        PlayErrorSound(); // Báo âm thanh từ chối khi không đủ tiền
+        PlayErrorSound();
         return false;
     }
 
@@ -130,7 +145,7 @@ public class GameManager : MonoBehaviour
     {
         playerData.totalCoins += amount;
         SaveGameData();
-        OnCurrencyChanged?.Invoke(); // Bắn tín hiệu cập nhật Text UI
+        OnCurrencyChanged?.Invoke();
     }
 
     public bool SpendDiamonds(int amount)
@@ -139,7 +154,7 @@ public class GameManager : MonoBehaviour
         {
             playerData.totalDiamonds -= amount;
             SaveGameData();
-            OnCurrencyChanged?.Invoke(); // Bắn tín hiệu cập nhật Text UI
+            OnCurrencyChanged?.Invoke();
             return true;
         }
 
@@ -151,8 +166,20 @@ public class GameManager : MonoBehaviour
     {
         playerData.totalDiamonds += amount;
         SaveGameData();
-        OnCurrencyChanged?.Invoke(); // Bắn tín hiệu cập nhật Text UI
+        OnCurrencyChanged?.Invoke();
     }
+
+    // =========================================================================
+    // CẦU NỐI ĐỒNG BỘ TÊN GỌI (GOLD / DIAMOND ALIASES CHO SCRIPT CŨ)
+    // =========================================================================
+    public int GetGold() => playerData.totalCoins;
+    public int GetDiamond() => playerData.totalDiamonds;
+
+    public void AddGold(int amount) => AddCoins(amount);
+    public bool SpendGold(int amount) => SpendCoins(amount);
+
+    public void AddDiamond(int amount) => AddDiamonds(amount);
+    public bool SpendDiamond(int amount) => SpendDiamonds(amount);
 
     // =========================================================================
     // CÔNG CỤ TEST NHANH TRONG EDITOR
