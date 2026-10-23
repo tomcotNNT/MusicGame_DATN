@@ -1003,7 +1003,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1230307681
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_MaskInteraction: 0
   m_Sprite: {fileID: -8712778243190278716, guid: 8cabffc92d9db4941b1b331643b4678c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1094,7 +1094,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1230307681
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_MaskInteraction: 0
   m_Sprite: {fileID: -8712778243190278716, guid: 8cabffc92d9db4941b1b331643b4678c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1185,7 +1185,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1230307681
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_MaskInteraction: 0
   m_Sprite: {fileID: -8712778243190278716, guid: 8cabffc92d9db4941b1b331643b4678c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1276,7 +1276,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1230307681
   m_SortingLayer: 1
-  m_SortingOrder: -1
+  m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 1168926902407322946, guid: 3f3dc19f1c29a5146974d10cc6124f3e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1396,8 +1396,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Ready '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
-  m_sharedMaterial: {fileID: -1467977752007274282, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1774,7 +1774,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: SelectSong
+          m_StringArgument: LobbyNNT
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &436338656
@@ -1939,11 +1939,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6455be64fbf609449e00c6044f3813d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MidiReader
-  ignoreDrums: 1
+  contentMode: 2
+  forcedTrackIndex: -1
+  preferNamedTracks: 1
+  requireDrumChannel: 1
+  allowedDrumPitches: 
+  filterDrumPitches: 0
+  mapDrumsByType: 1
+  hiHatLane: 1
+  otherDrumLane: 0
+  allowedPitches: 
+  filterCustomPitches: 1
+  bassMinPitch: 28
+  bassMaxPitch: 55
   laneCount: 2
   laneMode: 0
   splitPitch: 60
   maxSameLane: 3
+  minimumNoteDistance: 0.15
+  timeOffset: 0
   longNoteMinDuration: 0.5
   longNoteTailGap: 0.25
 --- !u!82 &459371225
@@ -2137,7 +2151,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1230307681
   m_SortingLayer: 1
-  m_SortingOrder: -1
+  m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 1168926902407322946, guid: 3f3dc19f1c29a5146974d10cc6124f3e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2259,7 +2273,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1230307681
   m_SortingLayer: 1
-  m_SortingOrder: -2
+  m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -4571828015118065507, guid: 9d65df1249faf044d84a75143d4dc2b3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2656,7 +2670,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1230307681
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_MaskInteraction: 0
   m_Sprite: {fileID: -8712778243190278716, guid: 8cabffc92d9db4941b1b331643b4678c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3462,7 +3476,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1230307681
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_MaskInteraction: 0
   m_Sprite: {fileID: -8712778243190278716, guid: 8cabffc92d9db4941b1b331643b4678c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -4020,9 +4034,9 @@ MonoBehaviour:
   hitPointTop: {fileID: 667812587}
   coinSpawner: {fileID: 625427041}
   bossSpawner: {fileID: 2135059614}
-  bossAppearAt: 0.199
+  bossAppearAt: 0.522
   bossReplacesNote: 1
-  keySpeed: 8
+  keySpeed: 5.7
   loopWithSpeedUp: 1
   speedStep: 0.15
   maxSpeed: 2.5
@@ -4062,14 +4076,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 882365117}
-  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 113234491}
   m_Father: {fileID: 1544290758}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 5, y: -333}
@@ -4121,8 +4135,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1627216517}
         m_TargetAssemblyTypeName: Scenes, Assembly-CSharp
-        m_MethodName: GetScene
-        m_Mode: 5
+        m_MethodName: HideOptionPanel
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4571,7 +4585,7 @@ MonoBehaviour:
   - {fileID: 81011134}
   - {fileID: 1961208857}
   - {fileID: 1729519126}
-  speed: 6
+  speed: 7
   segmentWidth: 23
 --- !u!1 &983721397
 GameObject:
@@ -4696,7 +4710,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: SelectSong
+          m_StringArgument: LobbyNT
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1076550473
@@ -5182,8 +5196,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
-  m_sharedMaterial: {fileID: -1467977752007274282, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5584,7 +5598,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1230307681
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_MaskInteraction: 0
   m_Sprite: {fileID: -8712778243190278716, guid: 8cabffc92d9db4941b1b331643b4678c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -5822,7 +5836,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ResultSystem
   resultPanel: {fileID: 1544290757}
-  scoreText: {fileID: 951839814}
+  scoreText: {fileID: 1192332738}
   sfxSource: {fileID: 1364280813}
   starSound: {fileID: 8300000, guid: dc7f9a1a0b188014b8b41eb4aa7fc724, type: 3}
 --- !u!114 &1364280815
@@ -5923,7 +5937,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1230307681
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2690792559708188323, guid: 93104e414f47a0740ad1cc660ec3e454, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -6659,7 +6673,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1544290758
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6859,8 +6873,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
-  m_sharedMaterial: {fileID: -1467977752007274282, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -7016,7 +7030,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1230307681
   m_SortingLayer: 1
-  m_SortingOrder: -2
+  m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -4571828015118065507, guid: 9d65df1249faf044d84a75143d4dc2b3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -7089,8 +7103,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
-  m_sharedMaterial: {fileID: -1467977752007274282, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -7179,7 +7193,6 @@ GameObject:
   - component: {fileID: 1627216513}
   - component: {fileID: 1627216512}
   - component: {fileID: 1627216511}
-  - component: {fileID: 1627216515}
   - component: {fileID: 1627216516}
   - component: {fileID: 1627216517}
   m_Layer: 5
@@ -7281,18 +7294,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1627216515
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1627216510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f51567ebf997484f8a0396264e724c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TouchEffectManager
 --- !u!114 &1627216516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7450,7 +7451,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1230307681
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_MaskInteraction: 0
   m_Sprite: {fileID: -8712778243190278716, guid: 8cabffc92d9db4941b1b331643b4678c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -7541,7 +7542,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1230307681
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_MaskInteraction: 0
   m_Sprite: {fileID: -8712778243190278716, guid: 8cabffc92d9db4941b1b331643b4678c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -7612,8 +7613,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: SCORE
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
-  m_sharedMaterial: {fileID: -1467977752007274282, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -7928,6 +7929,37 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1789357150
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1789357151}
+  m_Layer: 0
+  m_Name: AttackPoint
+  m_TagString: BossAttackPosition
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1789357151
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1789357150}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -462.33, y: -1000.51, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2135059613}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1795008668
 GameObject:
   m_ObjectHideFlags: 0
@@ -7953,7 +7985,7 @@ Transform:
   m_GameObject: {fileID: 1795008668}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.8, y: -4.47, z: 0}
+  m_LocalPosition: {x: -14.94, y: -4.47, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8195,7 +8227,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1230307681
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_MaskInteraction: 0
   m_Sprite: {fileID: -8712778243190278716, guid: 8cabffc92d9db4941b1b331643b4678c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -8449,8 +8481,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 1000000
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
-  m_sharedMaterial: {fileID: -1467977752007274282, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -9282,8 +9314,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1627216517}
         m_TargetAssemblyTypeName: Scenes, Assembly-CSharp
-        m_MethodName: GetScene
-        m_Mode: 5
+        m_MethodName: HideOptionPanel
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -9521,7 +9553,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1230307681
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2690792559708188323, guid: 93104e414f47a0740ad1cc660ec3e454, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -9565,6 +9597,7 @@ Transform:
   m_Children:
   - {fileID: 1906374409}
   - {fileID: 909918463}
+  - {fileID: 1789357151}
   m_Father: {fileID: 25114625}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2135059614

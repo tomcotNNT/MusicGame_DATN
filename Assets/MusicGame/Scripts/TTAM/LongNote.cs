@@ -151,6 +151,9 @@ public class LongNote : MonoBehaviour
             return;
 
         riding = true;
+
+        // Cho Player di chuyển lên và bám theo nốt dài.
+        playerCtrl.AttachToLongNote(transform, rideYOffset);
     }
 
     private void StopRide()

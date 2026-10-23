@@ -351,11 +351,6 @@ public class PlayerController : MonoBehaviour
         rb.gravityScale = 0f;
         rb.linearVelocity = Vector2.zero;
 
-        isGround = false;
-
-        if (animator != null && animParams.Contains("IsJump"))
-            animator.SetBool("IsJump", true);
-
         mode = AirMode.Dash;
         dashTargetY = noteY + riseYOffset;
         reachedTarget = false;
@@ -378,11 +373,6 @@ public class PlayerController : MonoBehaviour
 
         rb.gravityScale = 0f;
         rb.linearVelocity = Vector2.zero;
-
-        isGround = false;
-
-        if (animator != null && animParams.Contains("IsJump"))
-            animator.SetBool("IsJump", true);
 
         mode = AirMode.Ride;
         rideTarget = target;
@@ -471,23 +461,6 @@ public class PlayerController : MonoBehaviour
         );
 
         rb.MovePosition(new Vector2(rb.position.x, y));
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (!collision.gameObject.CompareTag("Ground"))
-            return;
-
-        isGround = true;
-
-        if (animator != null)
-        {
-            if (animParams.Contains("IsJump"))
-                animator.SetBool("IsJump", false);
-
-            if (animParams.Contains("IsGround"))
-                animator.SetBool("IsGround", true);
-        }
     }
 
     // =====================================================

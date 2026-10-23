@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Level2
   m_EditorClassIdentifier: Assembly-CSharp::LevelData
   levelName: 
-  music: {fileID: 8300000, guid: e68699572410439478f38a5f6db26866, type: 3}
-  midiFileName: Pirates of the Caribbean - He's a Pirate (3).mid
-  forcedTrackIndex: -1
+  music: {fileID: 8300000, guid: 488552e778a879d4bbeec9275b9aeaec, type: 3}
+  midiFileName: noma-brain-power-more.mid
+  forcedTrackIndex: 1
   timeOffset: 0
   noteSpeed: 5
-  difficulty: 4
+  difficulty: 1
   minNoteDistanceOverride: 0
