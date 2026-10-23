@@ -561,16 +561,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   playerData:
     totalCoins: 0
+    totalDiamonds: 0
     highestScore: 0
     gameVolume: 1
     audioOffset: 0
-  bgmSource: {fileID: 403765797}
-  sfxClickSource: {fileID: 969888212}
-  sfxStartSource: {fileID: 33617463}
-  sfxAudioSource: {fileID: 0}
-  clickClip: {fileID: 0}
-  popupOpenClip: {fileID: 0}
-  errorClip: {fileID: 0}
 --- !u!82 &403765797
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1164,8 +1158,8 @@ MonoBehaviour:
   displayDuration: 4
   fadeDuration: 1.5
   stages:
-  - stageTitle: 0.Tokyo
-    storyContent: "Ch\xE0o m\u1EEBng \u0111\u1EBFn v\u1EDBi Neo Tokyo! Nh\u1EEFng
+  - stageTitle: Tutorial
+    storyContent: "Ch\xE0o m\u1EEBng \u0111\u1EBFn v\u1EDBi Tutorial City.Nh\u1EEFng
       d\u1EA3i t\u1EA7n s\u1ED1 \xE2m thanh \u0111\u1EA7u ti\xEAn \u0111\xE3 th\u1EE9c
       t\u1EC9nh tr\xEAn b\u1EA7u tr\u1EDDi th\xE0nh ph\u1ED1.\n\nH\xE3y l\xE0m quen
       v\u1EDBi nh\u1ECBp \u0111i\u1EC7u: L\u1EAFng nghe giai \u0111i\u1EC7u v\xE0
@@ -1176,7 +1170,14 @@ MonoBehaviour:
     background2: {fileID: 21300000, guid: 54e68cda7ed7d264f9a4e4c7ddc0dee6, type: 3}
     targetGameplayScene: Tutorial
   - stageTitle: 1.New York City
-    storyContent: "\"Ch\xE0o m\u1EEBng \u0111\u1EBFn new york.........\""
+    storyContent: "Th\xE0nh ph\u1ED1 New York t\u01B0\u01A1ng lai \u0111ang b\u1ECB
+      bao ph\u1EE7 b\u1EDFi nh\u1EEFng \u0111\u1EE3t s\xF3ng \xE2m h\u1ED7n lo\u1EA1n.\n\nV\u1EDBi
+      t\u01B0 c\xE1ch l\xE0 m\u1ED9t Beat Runner, nhi\u1EC7m v\u1EE5 c\u1EE7a b\u1EA1n
+      l\xE0 b\xE1m s\xE1t t\u1EEBng nh\u1ECBp \u0111i\u1EC7u, thu th\u1EADp to\xE0n
+      b\u1ED9 c\xE1c h\u1EA1t n\u0103ng l\u01B0\u1EE3ng \xE2m nh\u1EA1c v\xE0 \u0110\u1EEBng
+      \u0111\u1EC3 b\u1EA5t k\u1EF3 n\u1ED1t nh\u1EA1c n\xE0o tr\xF4i qua!\n\nH\xE3y
+      s\u1EB5n s\xE0ng b\u1EE9t t\u1ED1c v\xE0 l\xE0m ch\u1EE7 \u0111\u01B0\u1EDDng
+      \u0111ua!"
     background1: {fileID: 21300000, guid: b75c4d643bcd95e4bafa6b07f27eb5a8, type: 3}
     background2: {fileID: 21300000, guid: 65c6cfceeb66d1a43a7bb944f8c68454, type: 3}
     targetGameplayScene: Man1
@@ -1555,7 +1556,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 608, y: 388}
+  m_AnchoredPosition: {x: 747, y: 388}
   m_SizeDelta: {x: 396.87, y: 91.62}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1213595942
@@ -1580,8 +1581,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: LOADING...
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: cff795b62545af9429319060574f9291, type: 2}
-  m_sharedMaterial: {fileID: -1067818911978945230, guid: cff795b62545af9429319060574f9291, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 58ce5fe5fd1911b4e819881a5ece5582, type: 2}
+  m_sharedMaterial: {fileID: 7148952429060436824, guid: 58ce5fe5fd1911b4e819881a5ece5582, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1605,8 +1606,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 48
+  m_fontSizeBase: 48
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1861,8 +1862,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "1.Ti\xEAu \u0111\u1EC1 m\xE0n ch\u01A1i 1:"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 58ce5fe5fd1911b4e819881a5ece5582, type: 2}
+  m_sharedMaterial: {fileID: 7148952429060436824, guid: 58ce5fe5fd1911b4e819881a5ece5582, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1998,8 +1999,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Next...
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: cff795b62545af9429319060574f9291, type: 2}
-  m_sharedMaterial: {fileID: -1067818911978945230, guid: cff795b62545af9429319060574f9291, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2023,7 +2024,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
+  m_fontSize: 44.75
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2135,8 +2136,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "N\u1ED9i dung m\xE0n ch\u01A1i ...................................................................."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 58ce5fe5fd1911b4e819881a5ece5582, type: 2}
+  m_sharedMaterial: {fileID: 7148952429060436824, guid: 58ce5fe5fd1911b4e819881a5ece5582, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2166,7 +2167,7 @@ MonoBehaviour:
   m_enableAutoSizing: 1
   m_fontSizeMin: 24
   m_fontSizeMax: 32
-  m_fontStyle: 1
+  m_fontStyle: 3
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
