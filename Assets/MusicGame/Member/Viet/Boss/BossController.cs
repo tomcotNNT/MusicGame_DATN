@@ -131,14 +131,11 @@ public class BossController : MonoBehaviour
         }
 
         MoveBoss(homePosition);
-
-        // BAT BUOC TRO VE IDLE
         PlayIdle();
 
         isAttacking = false;
     }
 
-    // ATTACK 2: BAN 1 QUA CAU -> IDLE
     IEnumerator ShootAttack()
     {
         isAttacking = true;
