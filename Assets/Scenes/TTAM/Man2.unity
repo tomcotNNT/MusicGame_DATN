@@ -10475,8 +10475,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerLaneController
   isGround: 1
-  startPoint: {fileID: 0}
-  entryPoint: {fileID: 0}
+  startPoint: {fileID: 1795008669}
+  entryPoint: {fileID: 1894021350}
   introMoveSpeed: 5
   outroMoveSpeed: 4
   dashSpeed: 60
