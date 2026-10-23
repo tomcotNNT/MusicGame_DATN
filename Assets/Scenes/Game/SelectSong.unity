@@ -222,7 +222,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 5228420633748801654, guid: 8a7e6d640cf4f8540969af39501f0001, type: 3}
+  m_Sprite: {fileID: -7730486409907412771, guid: 2418193554839404e94b90bae94e37b6, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4377,7 +4377,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Pirates of the Caribbean '
+  m_text: 'Tutorial
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
   m_sharedMaterial: {fileID: -1467977752007274282, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
@@ -4952,7 +4954,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Fairy Tails
+  m_text: "2 Ph\xFAt H\u01A1n-Remix"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
   m_sharedMaterial: {fileID: -1467977752007274282, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
@@ -11148,7 +11150,7 @@ GameObject:
   - component: {fileID: 711707414}
   - component: {fileID: 711707412}
   m_Layer: 5
-  m_Name: Song_02
+  m_Name: Song_02(Tutorial
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14911,16 +14913,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d05f3f3372b2f554f8ba21b6281422db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SelectLevel
+  characterSelectScene: SelectChar
   levels:
   - levelId: 0
-    sceneName: Tutorial
+    sceneName: Man1
     item: {fileID: 1950492708}
     unlockedByDefault: 1
     doneMark: {fileID: 0}
   - levelId: 1
-    sceneName: Man2
+    sceneName: Tutorial
     item: {fileID: 711707412}
-    unlockedByDefault: 0
+    unlockedByDefault: 1
     doneMark: {fileID: 0}
   - levelId: 2
     sceneName: 
@@ -20328,7 +20331,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -7730486409907412771, guid: 2418193554839404e94b90bae94e37b6, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -20710,7 +20713,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: SINGER
+  m_text: .....
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cff795b62545af9429319060574f9291, type: 2}
   m_sharedMaterial: {fileID: -1067818911978945230, guid: cff795b62545af9429319060574f9291, type: 2}
@@ -24497,10 +24500,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: SINGER
+  m_text: "Ph\xE1o"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: cff795b62545af9429319060574f9291, type: 2}
-  m_sharedMaterial: {fileID: -1067818911978945230, guid: cff795b62545af9429319060574f9291, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
+  m_sharedMaterial: {fileID: -1467977752007274282, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
