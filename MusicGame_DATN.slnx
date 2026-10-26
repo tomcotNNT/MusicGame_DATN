@@ -1,7 +1,4 @@
 ﻿<Solution>
-<<<<<<< HEAD
-  <Project Path="MerryYellow.CodeAssist.Editor.csproj" />
-=======
   <Project Path="Unity.Timeline.csproj" />
   <Project Path="Unity.InputSystem.csproj" />
   <Project Path="Unity.PlasticSCM.Editor.csproj" />
@@ -12,7 +9,6 @@
   <Project Path="Unity.Cinemachine.Editor.csproj" />
   <Project Path="Unity.2D.Psdimporter.Editor.csproj" />
   <Project Path="Unity.Collections.csproj" />
->>>>>>> Feature/TTam
   <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Unity.2D.IK.Runtime.csproj" />
   <Project Path="Unity.VisualScripting.Core.Editor.csproj" />
