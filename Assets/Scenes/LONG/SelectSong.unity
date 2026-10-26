@@ -189,6 +189,10 @@ MonoBehaviour:
   touchVFXPrefab: {fileID: 6534240511995935521, guid: 6e57a3cf9435eb14fb9928fa4ee60c63, type: 3}
   targetCamera: {fileID: 735204664}
   vfxWorldZ: 0
+  enableClickSound: 1
+  clickSound: {fileID: 0}
+  clickVolume: 1
+  randomizePitch: 0
 --- !u!4 &9045629
 Transform:
   m_ObjectHideFlags: 0
@@ -1506,9 +1510,12 @@ MonoBehaviour:
   maxFullRotations: 7
   x1Button: {fileID: 950598450}
   x5Button: {fileID: 434094706}
+  adsFreeButton: {fileID: 181275796}
   okButton: {fileID: 1626331318}
   noticePanel: {fileID: 539121986}
   noticeText: {fileID: 691819916}
+  adsManager: {fileID: 715306520}
+  adsNotice: {fileID: 168029674}
 --- !u!114 &62450475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10435,6 +10442,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 707692688}
   m_CullTransparentMesh: 1
+--- !u!1 &715306518
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 715306519}
+  - component: {fileID: 715306520}
+  m_Layer: 0
+  m_Name: RewardedAdsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &715306519
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 715306518}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.19698, y: -1.00238, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &715306520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 715306518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98c28e9d20ffd694e887b93e5caa8957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RewardedAdsManager
 --- !u!1 &718751252
 GameObject:
   m_ObjectHideFlags: 0
@@ -21400,7 +21451,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1527605973
 RectTransform:
   m_ObjectHideFlags: 0
@@ -35860,3 +35911,4 @@ SceneRoots:
   - {fileID: 9045629}
   - {fileID: 62450464}
   - {fileID: 1917496931}
+  - {fileID: 715306519}
