@@ -2036,7 +2036,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6455be64fbf609449e00c6044f3813d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MidiReader
-  contentMode: 2
+  contentMode: 1
   forcedTrackIndex: -1
   preferNamedTracks: 1
   requireDrumChannel: 1
@@ -3208,7 +3208,7 @@ MonoBehaviour:
   longNoteInset: 0.15
   maxCoinsPerLongNote: 30
   singleNoteCoins: 1
-  singleNoteCoinYOffset: 2.6
+  singleNoteCoinYOffset: -1
   singleNoteCoinChance: 1
   singleNoteEvery: 1
   manualPatterns: []
@@ -4353,18 +4353,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ComboSystem
   comboLabelText: {fileID: 1609016684}
   comboNumberText: {fileID: 1566575456}
-  judgmentImage: {fileID: 1110652937}
-  goodSprite: {fileID: 7136714779170010723, guid: 95bd74a0e68953a499f76e5c5351c8bb, type: 3}
-  awesomeSprite: {fileID: -2576124040473027337, guid: 95bd74a0e68953a499f76e5c5351c8bb, type: 3}
-  perfectSprite: {fileID: -4048163772151588603, guid: 95bd74a0e68953a499f76e5c5351c8bb, type: 3}
-  missSprite: {fileID: 9221342647978663572, guid: 95bd74a0e68953a499f76e5c5351c8bb, type: 3}
-  setNativeSize: 0
-  player: {fileID: 2008411973}
-  worldCamera: {fileID: 519420031}
-  canvas: {fileID: 1627216513}
-  playerWorldOffset: {x: 0, y: 2.79, z: 0}
-  minRadius: 62
-  maxRadius: 135
+  judgmentImage: {fileID: 0}
+  goodSprite: {fileID: 0}
+  awesomeSprite: {fileID: 0}
+  perfectSprite: {fileID: 0}
+  missSprite: {fileID: 0}
+  setNativeSize: 1
+  player: {fileID: 0}
+  worldCamera: {fileID: 0}
+  canvas: {fileID: 0}
+  playerWorldOffset: {x: 0, y: 1, z: 0}
+  minRadius: 80
+  maxRadius: 200
   judgmentMaxRotation: 12
   minDistanceFromLast: 120
   numberPopScale: 1.5
@@ -4582,11 +4582,11 @@ MonoBehaviour:
   player: {fileID: 2008411973}
   spawnPoint: {fileID: 983721398}
   longNoteYOffset: 0
-  hitPointBottom: {fileID: 633655436}
-  hitPointTop: {fileID: 667812587}
+  hitPointBottom: {fileID: 0}
+  hitPointTop: {fileID: 0}
   coinSpawner: {fileID: 625427041}
-  bossSpawner: {fileID: 2135059614}
-  bossAppearAt: 0.52
+  bossSpawner: {fileID: 0}
+  bossAppearAt: 0.5
   bossReplacesNote: 1
   keySpeed: 5.7
   loopWithSpeedUp: 1
@@ -4811,7 +4811,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FeverSystem
   feverBar: {fileID: 827852634}
-  feverFill: {fileID: 721661520}
+  feverFill: {fileID: 0}
   fillSmooth: 8
   notesToFill: 10
   resetWhenFull: 1
@@ -6554,7 +6554,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HoldInput
   splitRatio: 0.5
   ignoreAreas: []
-  uiCamera: {fileID: 519420031}
+  uiCamera: {fileID: 0}
   enableKeyboard: 1
 --- !u!1 &1351338761
 GameObject:
@@ -6857,7 +6857,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2.88, y: 1.85}
+  m_Size: {x: 2.88, y: 0.52}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -10339,7 +10339,7 @@ MonoBehaviour:
   isGround: 1
   startPoint: {fileID: 1795008669}
   entryPoint: {fileID: 1894021350}
-  introMoveSpeed: 4
+  introMoveSpeed: 5
   outroMoveSpeed: 4
   dashSpeed: 60
   hangTime: 0.15
@@ -10354,7 +10354,7 @@ MonoBehaviour:
   resultSystem: {fileID: 1364280814}
   scoreSystem: {fileID: 230136156}
   countdownText: {fileID: 325852676}
-  readyToGoTime: 1.6
+  readyToGoTime: 3
   goDuration: 1
   letterDelay: 0.1
   countdownAudio: {fileID: 2008411980}
@@ -10484,7 +10484,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fc649c3e14455249b56c58b42038bfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
-  animator: {fileID: 2008411978}
+  animator: {fileID: 0}
   separateLanes: 0
   attackTrigger: Attack
   attackLeftTrigger: AttackLeft
@@ -11029,7 +11029,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2.88, y: 1.85}
+  m_Size: {x: 2.88, y: 0.52}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
