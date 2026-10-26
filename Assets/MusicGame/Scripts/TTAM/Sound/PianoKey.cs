@@ -15,6 +15,8 @@ public class PianoKey : MonoBehaviour
     [Header("VFX")]
     [Tooltip("Prefab VFX (ParticleSystem) spawn khi hit đúng")]
     [SerializeField] private GameObject hitVfxPrefab;
+    //vfx 2
+    [SerializeField] private GameObject hitVfxPrefab2;
 
     [Tooltip("Thời gian tự hủy VFX sau khi spawn")]
     [SerializeField] private float vfxLifetime = 1f;
@@ -230,6 +232,16 @@ public class PianoKey : MonoBehaviour
             hitVfxPrefab,
             transform.position + vfxOffset,
             Quaternion.identity);
+
+        //vfx 2
+        if (hitVfxPrefab2 != null)
+        {
+            GameObject vfx2 = Instantiate(
+                hitVfxPrefab2,
+                transform.position + vfxOffset,
+                Quaternion.identity);
+            Destroy(vfx2, vfxLifetime);
+        }    
 
         Destroy(vfx, vfxLifetime);
     }
