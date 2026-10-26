@@ -10,25 +10,24 @@ public class ComboSystem : MonoBehaviour
     [SerializeField] private TMP_Text comboNumberText;  // số "x100" (scale khi tăng)
 
     [Header("Judgment Images")]
-    [SerializeField] private Image judgmentImage;       // thay cho judgmentText
+    [SerializeField] private Image judgmentImage;
     [SerializeField] private Sprite goodSprite;
     [SerializeField] private Sprite awesomeSprite;
     [SerializeField] private Sprite perfectSprite;
     [SerializeField] private Sprite missSprite;
     [SerializeField] private bool setNativeSize = true; // tự đặt kích thước theo sprite
 
-    [Header("Judgment Popup Around Player")]
+    [Header("Judgment Popup (bay lên)")]
     [SerializeField] private Transform player;            // kéo Player vào đây
     [SerializeField] private Camera worldCamera;          // camera nhìn thấy player (để trống = Camera.main)
     [SerializeField] private Canvas canvas;               // canvas chứa judgmentImage
     [SerializeField] private Vector3 playerWorldOffset = new Vector3(0f, 1f, 0f); // lệch so với chân player
-    [SerializeField] private float minRadius = 80f;       // khoảng cách tối thiểu quanh player (pixel canvas)
-    [SerializeField] private float maxRadius = 200f;      // khoảng cách tối đa quanh player
-    [SerializeField] private float judgmentMaxRotation = 12f;
-    [SerializeField] private float minDistanceFromLast = 80f;
+    [SerializeField] private float startYOffset = -20f;   // điểm bắt đầu, so với vị trí player trên canvas
+    [SerializeField] private float riseDistance = 90f;    // bay lên bao nhiêu pixel canvas
 
     private RectTransform judgmentParentRect;
     private Vector2 lastJudgmentPos;
+    private Vector2 judgmentStartPos;
 
     [Header("Number Pop")]
     [SerializeField] private float numberPopScale = 1.5f;
@@ -166,7 +165,7 @@ public class ComboSystem : MonoBehaviour
     }
 
     // =====================================================
-    // JUDGMENT POSITION (xung quanh player)
+    // JUDGMENT POSITION (cố định trên player, bay thẳng lên)
     // =====================================================
 
     // Đổi vị trí world của player -> toạ độ local trong canvas
@@ -187,31 +186,17 @@ public class ComboSystem : MonoBehaviour
         return local;
     }
 
-    private void RandomizeJudgmentPosition()
+    private void PlaceJudgment()
     {
         if (judgmentImage == null)
             return;
 
-        Vector2 center = GetPlayerCanvasPos();
-        Vector2 pos = center;
-
-        // Chọn điểm ngẫu nhiên trên vòng quanh player, thử vài lần để không trùng lần trước
-        for (int i = 0; i < 10; i++)
-        {
-            float angle = Random.Range(0f, Mathf.PI * 2f);
-            float radius = Random.Range(minRadius, maxRadius);
-            pos = center + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * radius;
-
-            if (Vector2.Distance(pos, lastJudgmentPos) >= minDistanceFromLast)
-                break;
-        }
-
-        lastJudgmentPos = pos;
+        judgmentStartPos = GetPlayerCanvasPos() + new Vector2(0f, startYOffset);
+        lastJudgmentPos = judgmentStartPos;
 
         RectTransform rect = judgmentImage.rectTransform;
-        rect.anchoredPosition = pos;
-        rect.localRotation = Quaternion.Euler(0f, 0f,
-            Random.Range(-judgmentMaxRotation, judgmentMaxRotation));
+        rect.anchoredPosition = judgmentStartPos;
+        rect.localRotation = Quaternion.identity;
     }
 
     // =====================================================
@@ -334,7 +319,7 @@ public class ComboSystem : MonoBehaviour
         if (judgmentImage == null)
             return;
 
-        RandomizeJudgmentPosition();
+        PlaceJudgment();
         judgmentImage.enabled = true;
         judgmentImage.gameObject.SetActive(true);
         judgmentImage.rectTransform.localScale = originalJudgmentScale;
@@ -390,25 +375,34 @@ public class ComboSystem : MonoBehaviour
         numberAnimRoutine = null;
     }
 
+    // Phóng to (pop) ở đầu, đồng thời trượt thẳng lên suốt thời gian popup hiển thị
     private IEnumerator AnimateJudgmentImage()
     {
         if (judgmentImage == null)
             yield break;
 
         RectTransform rect = judgmentImage.rectTransform;
+        Vector2 start = judgmentStartPos;
+        Vector2 end = start + new Vector2(0f, riseDistance);
+
+        // Kết thúc ngay trước khi popup bị ẩn
+        float duration = Mathf.Max(0.05f, judgmentHideDelay * 0.95f);
         float elapsed = 0f;
 
-        while (elapsed < hitAnimationDuration)
+        while (elapsed < duration)
         {
-            float t = elapsed / hitAnimationDuration;
-            float scale = Mathf.Lerp(0.5f, 1f, t);
+            float t = elapsed / duration;
+            float easedRise = 1f - (1f - t) * (1f - t);   // ease-out: lên nhanh rồi chậm dần
+            rect.anchoredPosition = Vector2.Lerp(start, end, easedRise);
 
-            rect.localScale = originalJudgmentScale * scale;
+            float popT = Mathf.Clamp01(elapsed / hitAnimationDuration);
+            rect.localScale = originalJudgmentScale * Mathf.Lerp(0.5f, 1f, popT);
 
             elapsed += Time.deltaTime;
             yield return null;
         }
 
+        rect.anchoredPosition = end;
         rect.localScale = originalJudgmentScale;
         judgmentAnimRoutine = null;
     }

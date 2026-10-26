@@ -10,10 +10,13 @@ public class PianoKey : MonoBehaviour
     }
 
     public static List<PianoKey> ActiveKeys = new List<PianoKey>();
+    public static event System.Action<KeyType> NoteHit;
 
     [Header("VFX")]
     [Tooltip("Prefab VFX (ParticleSystem) spawn khi hit đúng")]
     [SerializeField] private GameObject hitVfxPrefab;
+    //vfx 2
+    [SerializeField] private GameObject hitVfxPrefab2;
 
     [Tooltip("Thời gian tự hủy VFX sau khi spawn")]
     [SerializeField] private float vfxLifetime = 1f;
@@ -34,31 +37,33 @@ public class PianoKey : MonoBehaviour
     private static AudioSource sfxSource;
 
 
+    [Header("Player")]
+    [Tooltip("Trúng nốt TRÊN: Player lướt lên lane trên rồi rơi xuống. Trúng nốt DƯỚI: Player rơi xuống nếu đang lơ lửng")]
+    [SerializeField] private bool movePlayer = true;
+
     [Header("Visual")]
     [SerializeField] private GameObject keyLeft;
     [SerializeField] private GameObject keyRight;
-
-    [Header("Miss")]
-    [Tooltip("Quá targetTime bao nhiêu giây thì tính Miss")]
-    [SerializeField] private float missWindow = 0.25f;
-
-    [Tooltip("Key đi qua player quá khoảng này (unit) thì tự hủy")]
-    [SerializeField] private float destroyBehindDistance = 1.5f;
 
     private KeyType keyType;
     private float targetTime;
     private float moveSpeed;
 
+    // Đích của key: hit point của lane này
     private Transform player;
     private float hitX;        // vị trí X nơi key phải chạm đúng lúc targetTime
     private float direction;   // +1: key bay từ phải sang trái, -1: ngược lại
 
+    // true khi key đang chồng lên hit point CÙNG lane
     public bool PlayerOnKey { get; private set; }
     public bool IsCompleted { get; private set; }
 
     // Cache dùng chung, tránh FindObjectOfType cho từng key
     private static ScoreSystem scoreSystem;
     private static ComboSystem comboSystem;
+    private static PlayerController playerCtrl;
+
+    private Lanee Lane => keyType == KeyType.Left ? Lanee.Left : Lanee.Right;
 
     private void Awake()
     {
@@ -66,6 +71,8 @@ public class PianoKey : MonoBehaviour
             scoreSystem = FindFirstObjectByType<ScoreSystem>();
         if (comboSystem == null)
             comboSystem = FindFirstObjectByType<ComboSystem>();
+        if (playerCtrl == null)
+            playerCtrl = FindFirstObjectByType<PlayerController>();
     }
 
     private void OnEnable()
@@ -83,6 +90,7 @@ public class PianoKey : MonoBehaviour
     // SETUP
     // =====================================================
 
+    // playerTransform: truyền HIT POINT của lane (spawner đã làm vậy)
     public void Setup(
         KeyType type,
         float time,
@@ -122,10 +130,11 @@ public class PianoKey : MonoBehaviour
         float songTime = PianoKeySpawner.Instance.SongTime;
 
         Move(songTime);
-        // CheckMiss(songTime);
+        CheckPress();
     }
 
-    // Vị trí tính từ thời gian bài hát -> luôn khớp nhạc, không bị trôi
+    // Vị trí tính từ thời gian bài hát -> luôn khớp nhạc, không bị trôi.
+    // Chỉ đổi X, Y giữ nguyên độ cao lúc spawn (= độ cao hit point).
     private void Move(float songTime)
     {
         float remaining = targetTime - songTime;
@@ -133,6 +142,13 @@ public class PianoKey : MonoBehaviour
         Vector3 pos = transform.position;
         pos.x = hitX + direction * moveSpeed * remaining;
         transform.position = pos;
+    }
+
+    // Đang chồng lên hit point đúng lane + vừa bấm đúng nút => trúng
+    private void CheckPress()
+    {
+        if (PlayerOnKey && HoldInput.WasPressed(Lane))
+            Complete();
     }
 
     // =====================================================
@@ -144,28 +160,34 @@ public class PianoKey : MonoBehaviour
     public float GetTargetTime() => targetTime;
 
     // =====================================================
+    // HIT POINT (HitPoint.cs gọi vào đây)
+    // =====================================================
+
+    public void SetHitPoint(HitPoint hitPoint, bool inside)
+    {
+        // Chỉ hit point cùng type mới tính
+        if (hitPoint.Lane != Lane)
+            return;
+
+        PlayerOnKey = inside;
+    }
+
+    // =====================================================
     // TRIGGERS
     // =====================================================
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
-            PlayerOnKey = true;
-
+        // Đi qua hit point mà không bấm đúng => chạm Wall => Miss
         if (collision.CompareTag("Wall"))
             Miss();
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-            PlayerOnKey = false;
     }
 
     // =====================================================
     // COMPLETE / MISS
     // =====================================================
 
+    // KeyButtonController có gọi Complete() cũng không sao, đã có chặn IsCompleted
     public void Complete()
     {
         if (IsCompleted)
@@ -175,6 +197,7 @@ public class PianoKey : MonoBehaviour
 
         SpawnHitVfx();
         PlayHitSfx();
+        NoteHit?.Invoke(keyType);
 
         if (scoreSystem != null) scoreSystem.AddScore();
         if (comboSystem != null) comboSystem.HitNote();
@@ -182,6 +205,20 @@ public class PianoKey : MonoBehaviour
             FeverSystem.Instance.AddNote();
 
         TutorialEvents.NormalNoteHit?.Invoke();
+
+        // Trúng nốt trên => Player lướt lên rồi rơi xuống đất; nốt dưới => rơi xuống nếu đang lơ lửng
+        if (playerCtrl != null)
+        {
+            if (movePlayer)
+            {
+                if (keyType == KeyType.Right)
+                    playerCtrl.DashUp(transform.position.y);
+                else
+                    playerCtrl.Drop();
+            }
+
+            playerCtrl.PlayAttack();
+        }
 
         Destroy(gameObject);
     }
@@ -195,6 +232,16 @@ public class PianoKey : MonoBehaviour
             hitVfxPrefab,
             transform.position + vfxOffset,
             Quaternion.identity);
+
+        //vfx 2
+        if (hitVfxPrefab2 != null)
+        {
+            GameObject vfx2 = Instantiate(
+                hitVfxPrefab2,
+                transform.position + vfxOffset,
+                Quaternion.identity);
+            Destroy(vfx2, vfxLifetime);
+        }    
 
         Destroy(vfx, vfxLifetime);
     }
@@ -224,8 +271,10 @@ public class PianoKey : MonoBehaviour
 
         IsCompleted = true;
 
-        // TODO: comboSystem.Miss(); PlayerHealth.TakeDamage();
-        comboSystem.MissNote();
+        // TODO: PlayerHealth.TakeDamage();
+        if (comboSystem != null)
+            comboSystem.MissNote();
+
         Destroy(gameObject);
     }
 }

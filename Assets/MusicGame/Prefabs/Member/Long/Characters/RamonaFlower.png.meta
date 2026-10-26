@@ -9714,7 +9714,7 @@ TextureImporter:
         x: 1099
         y: 940
         width: 52
-        height: 65
+        height: 87
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -9733,10 +9733,10 @@ TextureImporter:
       name: RamonaFlower_697
       rect:
         serializedVersion: 2
-        x: 1152
+        x: 1151
         y: 940
-        width: 52
-        height: 71
+        width: 56
+        height: 87
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -9758,9 +9758,9 @@ TextureImporter:
         x: 1207
         y: 940
         width: 64
-        height: 84
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        height: 87
+      alignment: 9
+      pivot: {x: 0.6234627, y: 0.52505386}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -9778,11 +9778,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1274
-        y: 940
+        y: 941
         width: 67
-        height: 85
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        height: 86
+      alignment: 9
+      pivot: {x: 0.6277402, y: 0.5124398}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -15634,7 +15634,7 @@ TextureImporter:
         width: 112
         height: 10
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
