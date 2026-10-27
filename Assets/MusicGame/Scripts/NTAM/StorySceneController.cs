@@ -22,7 +22,7 @@ public class StorySceneController : MonoBehaviour
     [SerializeField] private Image backgroundB;              // Kéo Background (2) vào đây
     [SerializeField] private TextMeshProUGUI stageTitleText; // Kéo TitleStoryText vào đây
     [SerializeField] private TextMeshProUGUI storyContentText;// Kéo StoryContextText vào đây
-    [SerializeField] private Button nextButton;              // Kéo NextText vào đây
+    [SerializeField] private Button nextButton;              // Kéo NextText / NextBUTTON vào đây
     [SerializeField] private CanvasGroup fadePanel;          // Kéo FadePanel vào đây
 
     [Header("Cài đặt chuyển đổi 2 Background")]
@@ -38,29 +38,56 @@ public class StorySceneController : MonoBehaviour
 
     private void Start()
     {
-        // 1. Nhận chỉ số màn từ màn chọn bài (0 = Màn 1, 1 = Màn 2, ...)
-        currentStageIndex = PlayerPrefs.GetInt("SelectedStageIndex", 0);
-
         if (stages == null || stages.Count == 0)
         {
-            Debug.LogError("Chưa cấu hình danh sách Stages trên Inspector!");
+            Debug.LogError("[StorySceneController] Chưa cấu hình danh sách Stages trên Inspector!");
             return;
         }
 
-        currentStageIndex = Mathf.Clamp(currentStageIndex, 0, stages.Count - 1);
-        currentStage = stages[currentStageIndex];
+        // 1. LẤY TÊN SCENE MỤC TIÊU ĐÃ ĐƯỢC CHỌN TỪ LOBBY
+        string targetSceneFromLobby = PlayerPrefs.GetString("SelectedSceneToPlay", "");
+        int indexFromLobby = PlayerPrefs.GetInt("SelectedStageIndex", 0);
 
-        // 2. Điền thông tin tiêu đề và cốt truyện
+        // 2. TỰ ĐỘNG TÌM ĐÚNG STAGE KHỚP THEO TÊN SCENE TRƯỚC (CHỐNG LỆCH INDEX)
+        int matchedIndex = -1;
+        if (!string.IsNullOrEmpty(targetSceneFromLobby))
+        {
+            for (int i = 0; i < stages.Count; i++)
+            {
+                if (stages[i] != null && !string.IsNullOrEmpty(stages[i].targetGameplayScene) &&
+                    stages[i].targetGameplayScene.Trim().Equals(targetSceneFromLobby.Trim(), System.StringComparison.OrdinalIgnoreCase))
+                {
+                    matchedIndex = i;
+                    break;
+                }
+            }
+        }
+
+        // Nếu tìm thấy khớp theo tên scene thì lấy, ngược lại mới fallback về index
+        if (matchedIndex != -1)
+        {
+            currentStageIndex = matchedIndex;
+        }
+        else
+        {
+            currentStageIndex = Mathf.Clamp(indexFromLobby, 0, stages.Count - 1);
+        }
+
+        currentStage = stages[currentStageIndex];
+        Debug.Log($"<color=green>[StorySceneController] Đang hiển thị Stage: {currentStage.stageTitle} -> Chuẩn bị vào: {currentStage.targetGameplayScene}</color>");
+
+        // 3. Điền thông tin tiêu đề và cốt truyện
         if (stageTitleText != null) stageTitleText.text = currentStage.stageTitle;
         if (storyContentText != null) storyContentText.text = currentStage.storyContent;
 
-        // 3. Khởi tạo hình nền và chạy vòng lặp đổi ảnh mượt
+        // 4. Khởi tạo hình nền và chạy vòng lặp đổi ảnh mượt
         InitBackgrounds();
         StartCoroutine(SmoothBackgroundLoopRoutine());
 
-        // 4. Lắng nghe sự kiện bấm nút Next
+        // 5. Lắng nghe sự kiện bấm nút Next
         if (nextButton != null)
         {
+            nextButton.onClick.RemoveAllListeners();
             nextButton.onClick.AddListener(OnNextButtonClicked);
         }
     }
@@ -84,7 +111,6 @@ public class StorySceneController : MonoBehaviour
     {
         while (true)
         {
-            // Giữ Background A
             yield return new WaitForSeconds(displayDuration);
 
             // Hiện mờ dần Background B lên đè lên A
@@ -98,7 +124,6 @@ public class StorySceneController : MonoBehaviour
             }
             if (backgroundB != null) backgroundB.color = Color.white;
 
-            // Giữ Background B
             yield return new WaitForSeconds(displayDuration);
 
             // Làm mờ Background B để lộ lại Background A
@@ -116,36 +141,43 @@ public class StorySceneController : MonoBehaviour
 
     public void OnNextButtonClicked()
     {
-        // 1. In log để kiểm tra chuột có chạm được vào nút hay không
-        Debug.Log(">>> [CLICK OK] Đã nhận lệnh bấm NEXT, đang chuyển Scene!");
+        if (isTransitioning) return;
+        isTransitioning = true;
 
-        // 2. Lấy tên scene mục tiêu từ cấu hình stage
+        // 1. Xác định Scene đích: Ưu tiên targetGameplayScene của currentStage, dự phòng bằng PlayerPrefs
         string targetScene = "Tutorial";
-        if (stages != null && stages.Count > currentStageIndex && !string.IsNullOrEmpty(stages[currentStageIndex].targetGameplayScene))
+        if (currentStage != null && !string.IsNullOrEmpty(currentStage.targetGameplayScene))
         {
-            targetScene = stages[currentStageIndex].targetGameplayScene;
+            targetScene = currentStage.targetGameplayScene;
+        }
+        else
+        {
+            targetScene = PlayerPrefs.GetString("SelectedSceneToPlay", "Man1");
         }
 
-        // 3. Chuyển thẳng vào Scene gameplay
-        UnityEngine.SceneManagement.SceneManager.LoadScene(targetScene);
-    }
-    private IEnumerator LoadGameplaySceneRoutine()
-    {
+        Debug.Log($"<color=yellow>>>> [CLICK OK] Đang chuyển vào Gameplay Scene: {targetScene}</color>");
+
+        // 2. Chuyển scene có hiệu ứng Fade (nếu có FadePanel) hoặc nạp thẳng
         if (fadePanel != null)
         {
-            fadePanel.gameObject.SetActive(true);
-            float timer = 0f;
-            while (timer < 0.4f)
-            {
-                timer += Time.deltaTime;
-                fadePanel.alpha = Mathf.Clamp01(timer / 0.4f);
-                yield return null;
-            }
+            StartCoroutine(LoadGameplaySceneRoutine(targetScene));
         }
+        else
+        {
+            SceneManager.LoadScene(targetScene);
+        }
+    }
 
-        string targetScene = string.IsNullOrEmpty(currentStage.targetGameplayScene)
-                             ? "Tutorial"
-                             : currentStage.targetGameplayScene;
+    private IEnumerator LoadGameplaySceneRoutine(string targetScene)
+    {
+        fadePanel.gameObject.SetActive(true);
+        float timer = 0f;
+        while (timer < 0.4f)
+        {
+            timer += Time.deltaTime;
+            fadePanel.alpha = Mathf.Clamp01(timer / 0.4f);
+            yield return null;
+        }
 
         SceneManager.LoadScene(targetScene);
     }

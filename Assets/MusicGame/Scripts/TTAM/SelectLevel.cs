@@ -9,7 +9,7 @@ using UnityEngine.UI;
 /// <summary>
 /// Quản lý màn chơi + carousel chọn màn:
 /// - Mở khóa dựa trên tiến trình Tutorial và màn trước.
-/// - Đồng bộ nút Play (khóa/mở) và quản lý tải Scene gameplay.
+/// - Đồng bộ lưu Scene mục tiêu sang Story và Gameplay.
 /// </summary>
 public class SelectLevel : MonoBehaviour,
     IBeginDragHandler,
@@ -49,14 +49,14 @@ public class SelectLevel : MonoBehaviour,
     [Tooltip("Tích chọn: Hoàn thành Tutorial sẽ mở khóa ngay toàn bộ cả 3 màn chơi.\nBỏ tích: Mở khóa tuần tự từng màn một.")]
     [SerializeField] private bool unlockAllAfterTutorial = true;
 
-    [Tooltip("Màn đầu tiên trong danh sách (Màn 1) luôn mở khóa nếu bỏ qua Tutorial.")]
+    [Tooltip("Màn đầu tiên trong danh sách luôn mở khóa nếu bỏ qua Tutorial.")]
     [SerializeField] private bool firstLevelAlwaysUnlocked = false;
 
     [Header("Character Select & Scene Routing")]
-    [Tooltip("Tên scene chọn nhân vật. Để trống = vào thẳng màn chơi gameplay.")]
-    [SerializeField] private string characterSelectScene = "SelectChar";
+    [Tooltip("Tên scene chọn nhân vật hoặc Story. Để trống = vào thẳng gameplay.")]
+    [SerializeField] private string characterSelectScene = "Story";
 
-    [Tooltip("Bật nếu muốn bỏ qua bước chọn nhân vật để vào thẳng màn chơi khi bấm Play.")]
+    [Tooltip("Bật nếu muốn bỏ qua bước Story/chọn tướng để vào thẳng gameplay.")]
     [SerializeField] private bool skipCharacterSelect = false;
 
     [Header("Levels List (Theo thứ tự chơi)")]
@@ -108,13 +108,11 @@ public class SelectLevel : MonoBehaviour,
     public static string CurrentLevelId { get; private set; }
     public static event Action OnProgressChanged;
 
-    /// <summary>Kiểm tra trạng thái hoàn thành Tutorial.</summary>
     public static bool IsTutorialCompleted()
     {
         return PlayerPrefs.GetInt(TutorialKey, 0) == 1;
     }
 
-    /// <summary>Gọi hàm này ở Scene Tutorial khi hoàn thành hướng dẫn.</summary>
     public static void SetTutorialDone(bool isDone = true)
     {
         PlayerPrefs.SetInt(TutorialKey, isDone ? 1 : 0);
@@ -122,13 +120,11 @@ public class SelectLevel : MonoBehaviour,
         OnProgressChanged?.Invoke();
     }
 
-    /// <summary>Kiểm tra màn chơi đã vượt qua chưa.</summary>
     public static bool IsDone(string levelId)
     {
         return PlayerPrefs.GetInt(KeyPrefix + levelId, 0) == 1;
     }
 
-    /// <summary>Gọi tại scene gameplay khi người chơi chiến thắng.</summary>
     public static void CompleteCurrentLevel()
     {
         if (string.IsNullOrEmpty(CurrentLevelId))
@@ -172,7 +168,6 @@ public class SelectLevel : MonoBehaviour,
 
     private void Update()
     {
-        // Phím nóng Debug hỗ trợ test nghiệm thu đồ án
         if (Input.GetKeyDown(KeyCode.G))
         {
             UnlockAllCheat();
@@ -211,19 +206,11 @@ public class SelectLevel : MonoBehaviour,
 
         LevelEntry entry = levels[index];
 
-        // 1. Luôn mở khóa nếu được đánh dấu ưu tiên
         if (entry.unlockedByDefault) return true;
-
-        // 2. Chặn nếu màn yêu cầu Tutorial nhưng chưa hoàn thành
         if (entry.requiresTutorial && !IsTutorialCompleted()) return false;
-
-        // 3. Nếu bật mở khóa tất cả các màn sau Tutorial
         if (unlockAllAfterTutorial && IsTutorialCompleted()) return true;
-
-        // 4. Màn đầu tiên trong danh sách (nếu không bắt buộc Tutorial)
         if (index == 0) return firstLevelAlwaysUnlocked;
 
-        // 5. Mở khóa tuần tự theo tiến độ màn trước đó
         return IsDone(GetLevelId(index - 1));
     }
 
@@ -481,15 +468,21 @@ public class SelectLevel : MonoBehaviour,
 
         CurrentLevelId = GetLevelId(currentIndex);
 
-        // Chuyển hướng sang màn chọn nhân vật hoặc vào thẳng màn chơi
+        // LƯU CẢ TÊN SCENE VÀ CHỈ SỐ MÀN VÀO PLAYERPREFS
+        PlayerPrefs.SetString("SelectedSceneToPlay", sceneToLoad);
+        PlayerPrefs.SetInt("SelectedStageIndex", currentIndex);
+        PlayerPrefs.Save();
+
+        Debug.Log($"<color=cyan>[SelectLevel] Đã chọn màn: {sceneToLoad} (Index: {currentIndex})</color>");
+
+        // Chuyển hướng sang màn chọn nhân vật/Story hoặc vào thẳng màn chơi
         if (!skipCharacterSelect && !string.IsNullOrEmpty(characterSelectScene))
         {
-            CharacterSelection.PendingScene = sceneToLoad;
-            SceneLoader.Load(characterSelectScene);
+            SceneManager.LoadScene(characterSelectScene);
         }
         else
         {
-            SceneLoader.Load(sceneToLoad);
+            SceneManager.LoadScene(sceneToLoad);
         }
     }
 
