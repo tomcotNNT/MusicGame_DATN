@@ -1347,7 +1347,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ParallaxLayer
   tileA: {fileID: 1366588954}
   tileB: {fileID: 2123253574}
-  speed: 1.5
+  speed: 2.2
 --- !u!1 &325852674
 GameObject:
   m_ObjectHideFlags: 0
@@ -2987,8 +2987,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 1000000
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
-  m_sharedMaterial: {fileID: -1467977752007274282, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -6217,7 +6217,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ParallaxLayer
   tileA: {fileID: 1598846126}
   tileB: {fileID: 512743149}
-  speed: 1
+  speed: 0.3
 --- !u!1 &1423575021
 GameObject:
   m_ObjectHideFlags: 0
@@ -7517,7 +7517,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ParallaxLayer
   tileA: {fileID: 283341699}
   tileB: {fileID: 475769636}
-  speed: 0.7
+  speed: 1
 --- !u!1 &1679399471
 GameObject:
   m_ObjectHideFlags: 0

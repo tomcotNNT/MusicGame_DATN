@@ -1185,12 +1185,12 @@ MonoBehaviour:
     storyContent: 
     background1: {fileID: 21300000, guid: 3e06c48674f5779478e2def1cf387132, type: 3}
     background2: {fileID: 21300000, guid: a68f8f9ceebc3004f90ad7535c25c175, type: 3}
-    targetGameplayScene: 
+    targetGameplayScene: Man2
   - stageTitle: 
     storyContent: 
-    background1: {fileID: 0}
-    background2: {fileID: 0}
-    targetGameplayScene: 
+    background1: {fileID: 21300000, guid: 2bd78ef93b759ed4fbe896fc3812b23b, type: 3}
+    background2: {fileID: 21300000, guid: b9f6c3eecc49a1246a99b29cb73f6345, type: 3}
+    targetGameplayScene: Man3
   - stageTitle: 
     storyContent: 
     background1: {fileID: 0}
