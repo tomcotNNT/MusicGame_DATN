@@ -12,32 +12,10 @@ public class TouchVFXController : MonoBehaviour
     // Mặt phẳng Z nơi VFX sẽ xuất hiện
     [SerializeField] private float vfxWorldZ = 0f;
 
-    [Header("Click Sound")]
-    [Tooltip("Bật/tắt âm thanh khi click/chạm")]
-    [SerializeField] private bool enableClickSound = true;
-
-    [SerializeField] private AudioClip clickSound;
-
-    [Range(0f, 1f)]
-    [SerializeField] private float clickVolume = 1f;
-
-    [Tooltip("Random pitch nhẹ để tiếng click đỡ nhàm chán")]
-    [SerializeField] private bool randomizePitch = false;
-
-    private AudioSource audioSource;
-
     private void Start()
     {
         if (targetCamera == null)
             targetCamera = Camera.main;
-
-        // Tự tạo AudioSource nếu chưa có
-        audioSource = GetComponent<AudioSource>();
-        if (audioSource == null)
-            audioSource = gameObject.AddComponent<AudioSource>();
-
-        audioSource.playOnAwake = false;
-        audioSource.spatialBlend = 0f; // 2D sound
     }
 
     private void Update()
@@ -70,9 +48,6 @@ public class TouchVFXController : MonoBehaviour
 
     private void SpawnTouchVFX(Vector2 screenPosition)
     {
-        // Phát âm thanh (độc lập với VFX)
-        PlayClickSound();
-
         if (touchVFXPrefab == null)
         {
             Debug.LogWarning("Touch VFX Prefab chưa được gán!");
@@ -113,15 +88,6 @@ public class TouchVFXController : MonoBehaviour
             vfx.gameObject,
             GetVFXDestroyTime(vfx)
         );
-    }
-
-    private void PlayClickSound()
-    {
-        if (!enableClickSound || clickSound == null || audioSource == null)
-            return;
-
-        audioSource.pitch = randomizePitch ? Random.Range(0.9f, 1.1f) : 1f;
-        audioSource.PlayOneShot(clickSound, clickVolume);
     }
 
     private float GetVFXDestroyTime(ParticleSystem vfx)

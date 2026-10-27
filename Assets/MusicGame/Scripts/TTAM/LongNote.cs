@@ -13,7 +13,6 @@ public class LongNote : MonoBehaviour
     }
 
     [Header("Timing")]
-    [Tooltip("Quá noteTime bao nhiêu giây mà chưa giữ được thì Miss")]
     [SerializeField] private float hitWindow = 0.22f;
     [SerializeField] private float releaseGrace = 0.12f;
     [SerializeField] private float endTolerance = 0.1f;
@@ -50,8 +49,11 @@ public class LongNote : MonoBehaviour
     [SerializeField] private float bodyStartOffset = 0f;
 
     [Header("Ride Player")]
-    [Tooltip("Giữ nốt TRÊN (Right): Player lướt lên và bám theo nốt đến hết, rồi rơi xuống đất.")]
+    [Tooltip("Player đang nhảy và ở gần nốt khi bắt đầu giữ -> bám theo nốt đến hết.")]
     [SerializeField] private bool ridePlayer = true;
+    [Tooltip("Chênh lệch độ cao tối đa (unit) giữa Player và nốt để tính là CHẠM nốt " +
+             "(dùng cho cả bắt đầu giữ lẫn bám theo).")]
+    [SerializeField] private float rideRange = 1.5f;
     [Tooltip("Player cao hơn/thấp hơn điểm nốt bao nhiêu khi bám.")]
     [SerializeField] private float rideYOffset = 0f;
 
@@ -67,16 +69,11 @@ public class LongNote : MonoBehaviour
 
     private static ScoreSystem scoreSystem;
     private static ComboSystem comboSystem;
-    private static PlayerController playerCtrl;
-
-    private static int activeHoldCount = 0;
-    private bool registeredHold = false;
+    private static FeverSystem feverSystem;
+    private static PlayerLaneController playerCtrl;
     private bool riding;
 
-    // true khi đầu nốt đang chồng lên hit point CÙNG lane
-    private bool onHitPoint;
-
-    // Giữ lại cho TutorialManager (không còn ảnh hưởng vì đã bỏ cơ chế bám nốt)
+    // Tutorial: bỏ điều kiện độ cao để người chơi mới vẫn giữ được nốt.
     private bool tutorialAssist;
     public void SetTutorialAssist(bool value) { tutorialAssist = value; }
     public bool IsWaiting() { return state == State.Waiting; }
@@ -109,8 +106,11 @@ public class LongNote : MonoBehaviour
         if (comboSystem == null)
             comboSystem = FindFirstObjectByType<ComboSystem>();
 
+        if (feverSystem == null)
+            feverSystem = FindFirstObjectByType<FeverSystem>();
+
         if (playerCtrl == null)
-            playerCtrl = FindFirstObjectByType<PlayerController>();
+            playerCtrl = FindFirstObjectByType<PlayerLaneController>();
     }
 
     private void OnEnable()
@@ -121,39 +121,37 @@ public class LongNote : MonoBehaviour
     private void OnDisable()
     {
         Active.Remove(this);
-
-
-        UnregisterHold();
-        StopRide();
-        StopHoldVfx();
-    }
-
-    // =========================================================
-    // HIT POINT (HitPoint.cs gọi vào đây)
-    // =========================================================
-
-    public void SetHitPoint(HitPoint hitPoint, bool inside)
-    {
-        // Chỉ hit point cùng type mới tính
-        if (hitPoint.Lane != lane)
-            return;
-
-        onHitPoint = inside;
+        StopRide(); // bị Destroy giữa chừng cũng phải nhả Player
+        StopHoldVfx(); 
     }
 
     // =========================================================
     // RIDE PLAYER
     // =========================================================
 
+    // Player có đang ở đúng độ cao của nốt (chạm nốt) không.
+    private bool IsPlayerNear()
+    {
+        if (tutorialAssist || playerCtrl == null)
+            return true; // tutorial hoặc không tìm thấy Player thì không chặn
+
+        float dy = Mathf.Abs(
+            playerCtrl.transform.position.y - (transform.position.y + rideYOffset)
+        );
+
+        return dy <= rideRange;
+    }
+
     private void TryRide()
     {
-        if (!ridePlayer || playerCtrl == null)
+        if (!ridePlayer || playerCtrl == null || playerCtrl.IsGround)
             return;
 
-        riding = true;
+        if (!IsPlayerNear())
+            return;
 
-        // Cho Player di chuyển lên và bám theo nốt dài.
         playerCtrl.AttachToLongNote(transform, rideYOffset);
+        riding = true;
     }
 
     private void StopRide()
@@ -167,34 +165,9 @@ public class LongNote : MonoBehaviour
             playerCtrl.DetachFromLongNote(transform);
     }
 
-    private void RegisterHold()
-    {
-        if (registeredHold)
-            return;
-
-        registeredHold = true;
-        activeHoldCount++;
-
-        if (activeHoldCount == 1 && playerCtrl != null)
-            playerCtrl.StartHoldAttack();
-    }
-
-    private void UnregisterHold()
-    {
-        if (!registeredHold)
-            return;
-
-        registeredHold = false;
-        activeHoldCount = Mathf.Max(0, activeHoldCount - 1);
-
-        // Chỉ tắt animation khi không còn nốt hold nào đang chạy.
-        if (activeHoldCount == 0 && playerCtrl != null)
-            playerCtrl.StopHoldAttack();
-    }
-
     // =========================================================
     // LANE BUSY
-    // true nếu lane đang giữ nốt dài, hoặc nốt dài sắp/đang tới hit point.
+    // true nếu lane đang giữ nốt dài, hoặc nốt dài sắp/đang tới Player.
     // =========================================================
 
     public static bool LaneBusy(Lanee lane, float songTime)
@@ -208,8 +181,7 @@ public class LongNote : MonoBehaviour
                 return true;
 
             if (n.state == State.Waiting &&
-                (n.onHitPoint ||
-                 Mathf.Abs(songTime - n.noteTime) <= n.hitWindow * 2f))
+                Mathf.Abs(songTime - n.noteTime) <= n.hitWindow * 2f)
                 return true;
         }
 
@@ -234,17 +206,16 @@ public class LongNote : MonoBehaviour
         this.duration = duration;
         this.endTime = noteTime + duration;
         this.speed = speed;
-        this.playerX = playerX; // X của hit point (spawner truyền vào)
+        this.playerX = playerX;
         this.dir = dir;
         this.spawner = spawner;
 
         state = State.Waiting;
-        onHitPoint = false;
 
         fullLength = speed * duration;
 
         UpdateHeadSprite();
-        UpdateBodySprite();
+        UpdateBodySprite();   
 
         SetBody(fullLength);
     }
@@ -342,7 +313,7 @@ public class LongNote : MonoBehaviour
 
         UpdatePosition(songTime);
         UpdateState(songTime);
-        UpdateHoldVfx();
+        UpdateHoldVfx(); 
 
         if (songTime > endTime + 1f)
             Destroy(gameObject);
@@ -361,7 +332,7 @@ public class LongNote : MonoBehaviour
 
     private void UpdateState(float songTime)
     {
-        bool autoHold = ItemDurationSystem.Instance != null && ItemDurationSystem.Instance.IsActive("Fever");
+        bool autoHold = feverSystem != null && feverSystem.isFever;
         bool held = autoHold || HoldInput.IsHeld(lane);
 
         switch (state)
@@ -378,14 +349,15 @@ public class LongNote : MonoBehaviour
 
     private void HandleWaiting(float songTime, bool held)
     {
-        // Đầu nốt chồng lên hit point cùng type + đang giữ đúng nút => bắt đầu giữ, tính điểm
-        if (held && onHitPoint)
+        float timeDifference = Mathf.Abs(songTime - noteTime);
+
+        // Vị trí nốt đã tính theo songTime nên chỉ cần đúng thời điểm + đang giữ nút.
+        if (held && timeDifference <= hitWindow && IsPlayerNear())
         {
             StartHold(songTime);
             return;
         }
 
-        // Đã qua hit point mà không giữ được
         if (songTime > noteTime + hitWindow)
             Miss();
     }
@@ -397,19 +369,17 @@ public class LongNote : MonoBehaviour
         lastHeldTime = songTime;
         nextTickTime = songTime + tickInterval;
 
-        // Nốt TRÊN: Player lướt lên và bám theo nốt đến hết
-        if (lane == Lanee.Right)
-            TryRide();
-
-        RegisterHold();
-
-        StartHoldVfx();
+        TryRide();
+        StartHoldVfx(); 
 
         if (scoreSystem != null)
             scoreSystem.AddScore(startScore);
 
         if (comboSystem != null)
             comboSystem.HitNote();
+
+        if (feverSystem != null)
+            feverSystem.AddFever();
 
         TutorialEvents.LongNoteStarted?.Invoke();
     }
@@ -451,63 +421,43 @@ public class LongNote : MonoBehaviour
 
     private void Miss()
     {
-        if (state == State.Missed ||
-            state == State.Completed ||
-            state == State.Broken)
+        if (state == State.Missed || state == State.Completed || state == State.Broken)
             return;
 
         state = State.Missed;
 
-        UnregisterHold();
-        StopHoldAttackSafe();
-        StopRide();
-        StopHoldVfx();
     }
 
     private void Complete()
     {
-        if (state == State.Completed ||
-            state == State.Missed ||
-            state == State.Broken)
+        if (state == State.Completed || state == State.Missed || state == State.Broken)
             return;
 
         state = State.Completed;
 
-        UnregisterHold();
         StopRide();
-        StopHoldVfx();
-        PlayCompleteVfx();
+        StopHoldVfx();       // <-- thêm
+        PlayCompleteVfx();   // <-- thêm
 
         TutorialEvents.LongNoteCompleted?.Invoke();
 
         if (scoreSystem != null)
             scoreSystem.AddScore(completeBonus);
 
-        if (FeverSystem.Instance != null)
-            FeverSystem.Instance.AddNote();
+        if (feverSystem != null)
+            feverSystem.AddFever();
 
         Destroy(gameObject);
     }
 
     private void Break()
     {
-        if (state == State.Broken ||
-            state == State.Completed ||
-            state == State.Missed)
+        if (state == State.Broken || state == State.Completed || state == State.Missed)
             return;
 
         state = State.Broken;
-
-        UnregisterHold();
-        StopHoldAttackSafe();
         StopRide();
-        StopHoldVfx();
-    }
-
-    private void StopHoldAttackSafe()
-    {
-        if (playerCtrl != null)
-            playerCtrl.StopHoldAttack();
+        StopHoldVfx();   
     }
 
     // Vị trí VFX: bám Player nếu có, không thì bám đầu nốt

@@ -7,9 +7,13 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /// <summary>
-/// Quản lý màn chơi + carousel chọn màn:
-/// - Mở khóa dựa trên tiến trình Tutorial và màn trước.
-/// - Đồng bộ lưu Scene mục tiêu sang Story và Gameplay.
+/// Quản lý màn chơi + hiển thị carousel chọn màn:
+/// - Danh sách màn (Levels), kéo/snap/scale/sắp xếp card.
+/// - Chơi xong màn nào thì tự tích done (PlayerPrefs) -> mở khóa màn sau.
+/// - Màn khóa: nút Play giảm alpha và không bấm được.
+///
+/// Gắn vào đúng object trước đây gắn ListSongControl (object nhận kéo thả).
+/// Ở scene gameplay chỉ cần gọi: SelectLevel.CompleteCurrentLevel();
 /// </summary>
 public class SelectLevel : MonoBehaviour,
     IBeginDragHandler,
@@ -19,64 +23,52 @@ public class SelectLevel : MonoBehaviour,
     [Serializable]
     public class LevelEntry
     {
-        [Tooltip("ID duy nhất của màn, dùng để lưu tiến trình. Để trống sẽ tự lấy sceneName.")]
+        [Tooltip("ID duy nhất của màn, dùng để lưu tiến trình. Để trống sẽ dùng Scene Name.")]
         public string levelId;
 
-        [Tooltip("Tên chính xác của file Scene trong Build Settings (VD: Man1, Man2, Man3).")]
+        [Tooltip("Tên scene của màn này (phải có trong Build Settings).")]
         public string sceneName;
 
-        [Tooltip("Card hiển thị của màn này trên Carousel.")]
+        [Tooltip("Card hiển thị của màn này.")]
         public SongItem item;
 
-        [Tooltip("Luôn mở khóa màn này, bỏ qua mọi điều kiện.")]
-        public bool unlockedByDefault = false;
+        [Tooltip("Luôn mở khóa, bất kể màn trước đã xong hay chưa.")]
+        public bool unlockedByDefault;
 
-        [Tooltip("Yêu cầu bắt buộc phải hoàn thành Tutorial trước khi mở màn này.")]
-        public bool requiresTutorial = true;
-
-        [Tooltip("Icon ổ khóa hiển thị trên card khi màn bị khóa (tùy chọn).")]
-        public GameObject lockIcon;
-
-        [Tooltip("Dấu tích hoàn thành khi đã vượt qua màn (tùy chọn).")]
+        [Tooltip("Dấu tích hoàn thành (tuỳ chọn).")]
         public GameObject doneMark;
     }
 
     // =====================================================
-    // INSPECTOR SETTINGS
+    // INSPECTOR
     // =====================================================
 
-    [Header("Progression Rules (Quy tắc mở khóa)")]
-    [Tooltip("Tích chọn: Hoàn thành Tutorial sẽ mở khóa ngay toàn bộ cả 3 màn chơi.\nBỏ tích: Mở khóa tuần tự từng màn một.")]
-    [SerializeField] private bool unlockAllAfterTutorial = true;
-
-    [Tooltip("Màn đầu tiên trong danh sách luôn mở khóa nếu bỏ qua Tutorial.")]
-    [SerializeField] private bool firstLevelAlwaysUnlocked = false;
-
-    [Header("Character Select & Scene Routing")]
-    [Tooltip("Tên scene chọn nhân vật hoặc Story. Để trống = vào thẳng gameplay.")]
-    [SerializeField] private string characterSelectScene = "Story";
-
-    [Tooltip("Bật nếu muốn bỏ qua bước Story/chọn tướng để vào thẳng gameplay.")]
-    [SerializeField] private bool skipCharacterSelect = false;
-
-    [Header("Levels List (Theo thứ tự chơi)")]
+    [Header("Levels (theo thứ tự chơi)")]
     [SerializeField] private List<LevelEntry> levels = new List<LevelEntry>();
 
-    [Header("Layout Settings")]
+    [Header("Layout")]
     [SerializeField] private float spacing = 450f;
     [SerializeField] private float centerScale = 1f;
     [SerializeField] private float sideScale = 0.75f;
     [SerializeField] private float farScale = 0.5f;
     [SerializeField] private int visibleRange = 2;
 
-    [Header("Snap & Drag")]
+    [Header("Snap")]
     [SerializeField] private float snapDuration = 0.25f;
+
+    [Header("Drag")]
     [SerializeField] private float dragThreshold = 100f;
 
-    [Header("Play Button & Visual Feedback")]
+    [Header("Play Button & Lock")]
     [SerializeField] private Button playButton;
-    [Range(0f, 1f)] [SerializeField] private float lockedAlpha = 0.4f;
-    [Range(0f, 1f)] [SerializeField] private float unlockedAlpha = 1f;
+
+    [Tooltip("Màn đầu tiên trong list luôn được mở khóa.")]
+    [SerializeField] private bool firstLevelAlwaysUnlocked = true;
+
+    [Range(0f, 1f)]
+    [SerializeField] private float lockedAlpha = 0.5f;
+    [Range(0f, 1f)]
+    [SerializeField] private float unlockedAlpha = 1f;
 
     // =====================================================
     // STATE
@@ -93,43 +85,35 @@ public class SelectLevel : MonoBehaviour,
     {
         get
         {
-            if (levels == null || levels.Count == 0) return null;
+            if (levels == null || levels.Count == 0)
+                return null;
             return levels[currentIndex].item;
         }
     }
 
     // =====================================================
-    // STATIC PROGRESSION API
+    // STATIC API (gọi từ bất kỳ scene nào)
     // =====================================================
 
-    public const string TutorialKey = "TutorialDone";
     private const string KeyPrefix = "LevelDone_";
 
+    /// <summary>ID của màn đang chơi (được set khi bấm Play).</summary>
     public static string CurrentLevelId { get; private set; }
+
+    /// <summary>Bắn ra mỗi khi tiến trình thay đổi.</summary>
     public static event Action OnProgressChanged;
-
-    public static bool IsTutorialCompleted()
-    {
-        return PlayerPrefs.GetInt(TutorialKey, 0) == 1;
-    }
-
-    public static void SetTutorialDone(bool isDone = true)
-    {
-        PlayerPrefs.SetInt(TutorialKey, isDone ? 1 : 0);
-        PlayerPrefs.Save();
-        OnProgressChanged?.Invoke();
-    }
 
     public static bool IsDone(string levelId)
     {
         return PlayerPrefs.GetInt(KeyPrefix + levelId, 0) == 1;
     }
 
+    /// <summary>Gọi ở scene gameplay khi người chơi thắng.</summary>
     public static void CompleteCurrentLevel()
     {
         if (string.IsNullOrEmpty(CurrentLevelId))
         {
-            Debug.LogWarning("SelectLevel: CurrentLevelId đang rỗng, không thể đánh dấu hoàn thành!");
+            Debug.LogWarning("LevelManager: CurrentLevelId rỗng, chưa vào màn từ scene chọn màn?");
             return;
         }
 
@@ -138,7 +122,8 @@ public class SelectLevel : MonoBehaviour,
 
     public static void CompleteLevel(string levelId)
     {
-        if (string.IsNullOrEmpty(levelId) || IsDone(levelId)) return;
+        if (string.IsNullOrEmpty(levelId) || IsDone(levelId))
+            return;
 
         PlayerPrefs.SetInt(KeyPrefix + levelId, 1);
         PlayerPrefs.Save();
@@ -162,27 +147,16 @@ public class SelectLevel : MonoBehaviour,
 
     private void Start()
     {
-        if (levels == null || levels.Count == 0) return;
+        if (levels == null || levels.Count == 0)
+            return;
+
         RefreshLayout();
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            UnlockAllCheat();
-        }
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            ResetProgress();
-        }
     }
 
     private void OnProgressChangedHandler()
     {
         UpdatePlayButtonState();
-        UpdateCardLockAndDoneMarks();
+        UpdateDoneMarks();
     }
 
     // =====================================================
@@ -191,36 +165,43 @@ public class SelectLevel : MonoBehaviour,
 
     public string GetLevelId(int index)
     {
-        if (index < 0 || index >= levels.Count) return "Level_" + index;
+        if (index < 0 || index >= levels.Count)
+            return "Level_" + index;
 
         LevelEntry entry = levels[index];
-        if (!string.IsNullOrEmpty(entry.levelId)) return entry.levelId;
-        if (!string.IsNullOrEmpty(entry.sceneName)) return entry.sceneName;
+
+        if (!string.IsNullOrEmpty(entry.levelId))
+            return entry.levelId;
+
+        if (!string.IsNullOrEmpty(entry.sceneName))
+            return entry.sceneName;
 
         return "Level_" + index;
     }
 
     public bool IsUnlocked(int index)
     {
-        if (index < 0 || index >= levels.Count) return false;
+        if (index < 0 || index >= levels.Count)
+            return false;
 
-        LevelEntry entry = levels[index];
+        if (levels[index].unlockedByDefault)
+            return true;
 
-        if (entry.unlockedByDefault) return true;
-        if (entry.requiresTutorial && !IsTutorialCompleted()) return false;
-        if (unlockAllAfterTutorial && IsTutorialCompleted()) return true;
-        if (index == 0) return firstLevelAlwaysUnlocked;
+        if (index == 0)
+            return firstLevelAlwaysUnlocked;
 
+        // Mở khóa khi màn ngay trước đã done
         return IsDone(GetLevelId(index - 1));
     }
 
     // =====================================================
-    // DRAG & CAROUSEL INTERACTIONS
+    // DRAG
     // =====================================================
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (levels.Count <= 1) return;
+        if (levels.Count <= 1)
+            return;
 
         if (snapCoroutine != null)
         {
@@ -234,7 +215,8 @@ public class SelectLevel : MonoBehaviour,
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (!isDragging || levels.Count <= 1) return;
+        if (!isDragging || levels.Count <= 1)
+            return;
 
         float deltaX = eventData.position.x - dragStartPosition.x;
         UpdateDragLayout(deltaX);
@@ -242,7 +224,8 @@ public class SelectLevel : MonoBehaviour,
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (!isDragging) return;
+        if (!isDragging)
+            return;
 
         isDragging = false;
         float deltaX = eventData.position.x - dragStartPosition.x;
@@ -258,23 +241,32 @@ public class SelectLevel : MonoBehaviour,
         }
     }
 
+    // =====================================================
+    // NEXT / PREVIOUS
+    // =====================================================
+
     public void NextLevel()
     {
         if (levels.Count <= 1) return;
-        currentIndex = (currentIndex + 1) % levels.Count;
+
+        currentIndex++;
+        if (currentIndex >= levels.Count) currentIndex = 0;
+
         SnapToCurrent();
     }
 
     public void PreviousLevel()
     {
         if (levels.Count <= 1) return;
+
         currentIndex--;
         if (currentIndex < 0) currentIndex = levels.Count - 1;
+
         SnapToCurrent();
     }
 
     // =====================================================
-    // LAYOUT CALCULATIONS
+    // LAYOUT
     // =====================================================
 
     private void UpdateDragLayout(float dragDelta)
@@ -287,6 +279,7 @@ public class SelectLevel : MonoBehaviour,
         for (int i = 0; i < levels.Count; i++)
         {
             float targetX = GetRelativeIndex(i) * spacing + dragDelta;
+
             if (Mathf.Abs(targetX) < minAbsX)
             {
                 minAbsX = Mathf.Abs(targetX);
@@ -303,6 +296,7 @@ public class SelectLevel : MonoBehaviour,
             float targetX = relativeIndex * spacing + dragDelta;
 
             item.SetPosition(targetX);
+
             float distance = Mathf.Abs(relativeIndex + dragDelta / spacing);
             item.SetScale(CalculateScale(distance));
             item.SetVisible(true);
@@ -317,6 +311,7 @@ public class SelectLevel : MonoBehaviour,
     private void SnapToCurrent()
     {
         if (levels.Count == 0) return;
+
         if (snapCoroutine != null) StopCoroutine(snapCoroutine);
         snapCoroutine = StartCoroutine(SnapAnimation());
     }
@@ -385,18 +380,19 @@ public class SelectLevel : MonoBehaviour,
         }
 
         UpdatePlayButtonState();
-        UpdateCardLockAndDoneMarks();
+        UpdateDoneMarks();
         UpdateSiblingOrder();
     }
 
     private void SetCardActive(SongItem item, bool active)
     {
         SongCardEffect effect = item.GetComponent<SongCardEffect>();
-        if (effect != null) effect.SetActiveCard(active);
+        if (effect != null)
+            effect.SetActiveCard(active);
     }
 
     // =====================================================
-    // PLAY BUTTON & LOCK STATUS
+    // PLAY BUTTON (KHÓA / MỞ KHÓA)
     // =====================================================
 
     private void UpdatePlayButtonState()
@@ -430,18 +426,12 @@ public class SelectLevel : MonoBehaviour,
         }
     }
 
-    private void UpdateCardLockAndDoneMarks()
+    private void UpdateDoneMarks()
     {
         for (int i = 0; i < levels.Count; i++)
         {
-            bool unlocked = IsUnlocked(i);
-            bool done = IsDone(GetLevelId(i));
-
             if (levels[i].doneMark != null)
-                levels[i].doneMark.SetActive(done);
-
-            if (levels[i].lockIcon != null)
-                levels[i].lockIcon.SetActive(!unlocked);
+                levels[i].doneMark.SetActive(IsDone(GetLevelId(i)));
         }
     }
 
@@ -454,7 +444,7 @@ public class SelectLevel : MonoBehaviour,
 
         if (!IsUnlocked(currentIndex))
         {
-            Debug.Log("<color=yellow>[SelectLevel] Màn chơi này đang bị khóa!</color>");
+            Debug.Log("Màn chơi này đang bị khóa!");
             return;
         }
 
@@ -462,32 +452,18 @@ public class SelectLevel : MonoBehaviour,
 
         if (string.IsNullOrEmpty(sceneToLoad))
         {
-            Debug.LogWarning($"[SelectLevel] Màn {currentIndex} chưa điền Scene Name!", this);
+            Debug.LogWarning($"SelectLevel: Màn {currentIndex} chưa điền Scene Name!", this);
             return;
         }
 
+        // Ghi nhớ màn đang chơi để scene gameplay biết đánh dấu done màn nào
         CurrentLevelId = GetLevelId(currentIndex);
 
-        // LƯU CẢ TÊN SCENE VÀ CHỈ SỐ MÀN VÀO PLAYERPREFS
-        PlayerPrefs.SetString("SelectedSceneToPlay", sceneToLoad);
-        PlayerPrefs.SetInt("SelectedStageIndex", currentIndex);
-        PlayerPrefs.Save();
-
-        Debug.Log($"<color=cyan>[SelectLevel] Đã chọn màn: {sceneToLoad} (Index: {currentIndex})</color>");
-
-        // Chuyển hướng sang màn chọn nhân vật/Story hoặc vào thẳng màn chơi
-        if (!skipCharacterSelect && !string.IsNullOrEmpty(characterSelectScene))
-        {
-            SceneManager.LoadScene(characterSelectScene);
-        }
-        else
-        {
-            SceneManager.LoadScene(sceneToLoad);
-        }
+        SceneLoader.Load(sceneToLoad);         // <-- thay bằng dòng này
     }
 
     // =====================================================
-    // HELPERS & SIBLING ORDER
+    // HELPERS
     // =====================================================
 
     private int GetRelativeIndex(int itemIndex)
@@ -514,46 +490,42 @@ public class SelectLevel : MonoBehaviour,
         if (levels.Count == 0) return;
 
         List<int> order = new List<int>();
-        for (int i = 0; i < levels.Count; i++) order.Add(i);
+        for (int i = 0; i < levels.Count; i++)
+            order.Add(i);
 
-        order.Sort((a, b) => Mathf.Abs(GetRelativeIndex(b)).CompareTo(Mathf.Abs(GetRelativeIndex(a))));
+        // Xa nhất ở dưới, gần giữa ở trên cùng
+        order.Sort((a, b) =>
+            Mathf.Abs(GetRelativeIndex(b)).CompareTo(Mathf.Abs(GetRelativeIndex(a))));
 
         for (int i = 0; i < order.Count; i++)
         {
             SongItem item = levels[order[i]].item;
-            if (item != null) item.transform.SetSiblingIndex(i);
+            if (item != null)
+                item.transform.SetSiblingIndex(i);
         }
     }
 
     // =====================================================
-    // DEBUG & CHEAT COMMANDS
+    // DEBUG
     // =====================================================
 
-    [ContextMenu("Unlock All (Cheat Key G)")]
-    public void UnlockAllCheat()
+    [ContextMenu("Reset Progress")]
+    public void ResetProgress()
     {
-        PlayerPrefs.SetInt(TutorialKey, 1);
         for (int i = 0; i < levels.Count; i++)
-        {
-            PlayerPrefs.SetInt(KeyPrefix + GetLevelId(i), 1);
-        }
-        PlayerPrefs.Save();
+            PlayerPrefs.DeleteKey(KeyPrefix + GetLevelId(i));
 
-        Debug.Log("<color=green>[CHEAT ACTIVE] Đã mở khóa Tutorial và toàn bộ các màn chơi!</color>");
+        PlayerPrefs.Save();
         OnProgressChanged?.Invoke();
     }
 
-    [ContextMenu("Reset Progress (Cheat Key R)")]
-    public void ResetProgress()
+    [ContextMenu("Complete All")]
+    private void CompleteAllDebug()
     {
-        PlayerPrefs.DeleteKey(TutorialKey);
         for (int i = 0; i < levels.Count; i++)
-        {
-            PlayerPrefs.DeleteKey(KeyPrefix + GetLevelId(i));
-        }
-        PlayerPrefs.Save();
+            PlayerPrefs.SetInt(KeyPrefix + GetLevelId(i), 1);
 
-        Debug.Log("<color=yellow>[RESET] Đã xóa toàn bộ tiến trình Tutorial và màn chơi!</color>");
+        PlayerPrefs.Save();
         OnProgressChanged?.Invoke();
     }
 }

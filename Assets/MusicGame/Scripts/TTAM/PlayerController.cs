@@ -1,79 +1,48 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
-using System.Collections.Generic;
 
-public class PlayerController : MonoBehaviour
+public class PlayerLaneController : MonoBehaviour
 {
-    private enum AirMode
-    {
-        None,
-        Dash,
-        Ride
-    }
-
     [Header("Player")]
     [SerializeField] private bool isGround = true;
+    [SerializeField] private float jumpForce = 2f;
 
-    [Header("Intro / Outro Movement")]
-    [SerializeField] private Transform startPoint;
-    [SerializeField] private Transform entryPoint;
-    [SerializeField] private float introMoveSpeed = 5f;
-    [SerializeField] private float outroMoveSpeed = 4f;
-
-    private bool sequenceStarted;
-    private bool gameEnded;
-
-    [Header("Lane Trên")]
-    [SerializeField] private float dashSpeed = 60f;
-    [SerializeField] private float hangTime = 0.15f;
-    [SerializeField] private float riseYOffset = 0f;
-
-    [Header("Attack (random)")]
-    [SerializeField] private string[] attackTriggers =
-        { "Attack1", "Attack2", "Attack3" };
-
-    [SerializeField] private bool avoidRepeat = true;
-
-    private int lastAttackIndex = -1;
-
-    public bool IsGround => isGround;
-    public bool IsRiding => mode == AirMode.Ride;
-
-    private AirMode mode = AirMode.None;
-    private float savedGravity = 1f;
-
-    private float dashTargetY;
-    private float hangTimer;
-    private bool reachedTarget;
-
+    private bool isRiding;
     private Transform rideTarget;
     private float rideYOffset;
+    private float savedGravity = 1f;
+
+    public bool IsGround => isGround;
+    public bool IsRiding => isRiding;
+
+    [Header("Swipe")]
+    [SerializeField] private float minSwipeDistance = 80f;   // quãng vuốt tối thiểu (pixel)
+    [SerializeField] private bool swipeOnRelease = false;    // true: nhảy khi thả tay, false: nhảy ngay khi vuốt đủ xa
+
+    private Vector2 swipeStartPos;
+    private bool isSwiping = false;
 
     [Header("Component")]
     private Animator animator;
     private Rigidbody2D rb;
-
     [SerializeField] private PianoKeySpawner pianoKeySpawner;
-
-    [SerializeField] private GameObject WinPanel;
+    public GameObject WinPanel;
 
     [Header("Result")]
     [SerializeField] private ResultSystem resultSystem;
     [SerializeField] private ScoreSystem scoreSystem;
 
-    [Header("Countdown UI")]
-    [SerializeField] private TMP_Text countdownText;
 
-    [Header("Countdown Timing")]
-    [Tooltip("Tổng thời gian từ lúc bắt đầu gõ READY tới lúc hiện GO! (giây)")]
-    [SerializeField] private float readyToGoTime = 3f;
-    [Tooltip("Thời gian chữ GO! hiện trên màn hình (giây)")]
-    [SerializeField] private float goDuration = 1f;
+    [Header("Countdown UI")]
+    [SerializeField] private TMP_Text countdownText;                            
 
     [Header("Countdown Animation")]
-    [Tooltip("Thời gian giữa mỗi chữ khi gõ READY (giây)")]
-    [SerializeField] private float letterDelay = 0.1f;
+    [SerializeField] private float letterDelay = 0.1f;      // thời gian giữa mỗi chữ
+    [SerializeField] private float readyHoldTime = 0.6f;    // giữ "Ready" sau khi gõ xong
+    [SerializeField] private float shrinkDuration = 0.2f;   // thời gian thu nhỏ khi chuyển chữ
+    [SerializeField] private float popDuration = 0.25f;     // thời gian "GO!" bật ra
+    [SerializeField] private float popOvershoot = 1.3f;     // độ nảy quá đà của "GO!"
 
     [Header("Countdown Sound")]
     [SerializeField] private AudioSource countdownAudio;
@@ -81,437 +50,225 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AudioClip goSound;
 
     [Header("Music")]
-    [Tooltip("AudioSource nhạc, nên dùng cùng AudioSource với PianoKeySpawner.")]
-    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioSource audioSource; // PHẢI là cùng AudioSource với Spawner
 
-    [Header("Hold Attack")]
-    [SerializeField] private string holdAttackTrigger = "Sing";
+    private bool canPlay = false;
+    private bool gameEnded = false;
 
-    private readonly HashSet<string> animParams = new HashSet<string>();
-    private readonly List<int> attackCandidates = new List<int>();
-
-    private Coroutine introCoroutine;
-    private Coroutine outroCoroutine;
+    public event System.Action SwipeUp;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
 
-        if (rb == null)
-        {
-            Debug.LogError("PlayerController: Thiếu Rigidbody2D!");
-            enabled = false;
-            return;
-        }
-
-        if (animator != null)
-        {
-            foreach (AnimatorControllerParameter p in animator.parameters)
-                animParams.Add(p.name);
-        }
-
         rb.interpolation = RigidbodyInterpolation2D.Interpolate;
-        savedGravity = rb.gravityScale;
     }
 
     private void OnEnable()
     {
-        SubscribeSongEnded();
+        if (pianoKeySpawner != null)
+            pianoKeySpawner.SongEnded += EndGame;
     }
 
     private void OnDisable()
-    {
-        UnsubscribeSongEnded();
-    }
-
-    private void SubscribeSongEnded()
-    {
-        if (pianoKeySpawner == null)
-            return;
-
-        pianoKeySpawner.SongEnded -= EndGame;
-        pianoKeySpawner.SongEnded += EndGame;
-    }
-
-    private void UnsubscribeSongEnded()
     {
         if (pianoKeySpawner != null)
             pianoKeySpawner.SongEnded -= EndGame;
     }
 
     private void Start()
-    {
-        // Phòng khi quay lại từ menu pause: WaitForSeconds sẽ đứng yên nếu timeScale = 0
-        Time.timeScale = 1f;
-
-        if (WinPanel != null)
+    {   
+        if(WinPanel != null)
             WinPanel.SetActive(false);
 
-        if (countdownText != null)
-        {
-            countdownText.gameObject.SetActive(true);
-            countdownText.text = "";
-        }
-
+        canPlay = false;
         gameEnded = false;
-        sequenceStarted = false;
 
         if (audioSource != null)
         {
             audioSource.Stop();
-
-            if (audioSource.clip != null)
-                audioSource.time = 0f;
+            audioSource.time = 0f;
         }
 
         rb.linearVelocity = Vector2.zero;
         rb.angularVelocity = 0f;
 
-        if (startPoint != null)
-        {
-            rb.position = startPoint.position;
-        }
-        else
-        {
-            Debug.LogWarning(
-                "PlayerController: Chưa gán Start Point."
-            );
-        }
-
-        // Đảm bảo đăng ký event nếu reference đã được gán.
-        SubscribeSongEnded();
-
-        introCoroutine = StartCoroutine(IntroSequence());
+        StartCoroutine(StartCountdown());
     }
 
     private void Update()
     {
-        if (animator != null)
-            animator.SetBool("IsGround", isGround);
+        animator.SetBool("IsGround", isGround);
+        HandleSwipeInput();
     }
 
-    // =====================================================
-    // INTRO
-    // =====================================================
-
-    private IEnumerator IntroSequence()
-    {
-        if (sequenceStarted)
-            yield break;
-
-        sequenceStarted = true;
-
-        if (countdownText != null)
-        {
-            countdownText.gameObject.SetActive(true);
-            countdownText.text = "";
-        }
-
-        if (entryPoint == null)
-        {
-            Debug.LogError(
-                "PlayerController: Chưa gán Entry Point!"
-            );
-            yield break;
-        }
-
-        yield return StartCoroutine(
-            MovePlayerTo(entryPoint.position, introMoveSpeed)
-        );
-
-        rb.linearVelocity = Vector2.zero;
-        rb.angularVelocity = 0f;
-
-        yield return new WaitForSeconds(0.3f);
-
-        // Chạy countdown sau khi Player tới nơi.
-        yield return StartCoroutine(StartCountdown());
-
-        introCoroutine = null;
-    }
-
-    // Chỉ di chuyển theo trục X, giữ nguyên Y để trọng lực tự đặt Player xuống đất.
-    // Có timeout để không bao giờ bị kẹt vô hạn.
-    private IEnumerator MovePlayerTo(Vector2 target, float moveSpeed)
-    {
-        if (moveSpeed <= 0f)
-        {
-            rb.position = new Vector2(target.x, rb.position.y);
-            rb.linearVelocity = Vector2.zero;
-            yield break;
-        }
-
-        const float timeout = 10f;
-        float elapsed = 0f;
-
-        while (Mathf.Abs(rb.position.x - target.x) > 0.03f && elapsed < timeout)
-        {
-            float x = Mathf.MoveTowards(
-                rb.position.x,
-                target.x,
-                moveSpeed * Time.fixedDeltaTime
-            );
-
-            rb.MovePosition(new Vector2(x, rb.position.y));
-
-            elapsed += Time.fixedDeltaTime;
-            yield return new WaitForFixedUpdate();
-        }
-
-        rb.MovePosition(new Vector2(target.x, rb.position.y));
-        rb.linearVelocity = Vector2.zero;
-        rb.angularVelocity = 0f;
-    }
-
-    // =====================================================
-    // RANDOM ATTACK
-    // =====================================================
-
-    public void PlayAttack()
-    {
-        if (gameEnded ||
-            animator == null ||
-            attackTriggers == null ||
-            attackTriggers.Length == 0)
-            return;
-
-        attackCandidates.Clear();
-
-        for (int i = 0; i < attackTriggers.Length; i++)
-        {
-            if (!string.IsNullOrEmpty(attackTriggers[i]) &&
-                animParams.Contains(attackTriggers[i]))
-            {
-                attackCandidates.Add(i);
-            }
-        }
-
-        if (attackCandidates.Count == 0)
-            return;
-
-        int pick = attackCandidates[
-            Random.Range(0, attackCandidates.Count)
-        ];
-
-        if (avoidRepeat && attackCandidates.Count > 1)
-        {
-            int safety = 0;
-
-            while (pick == lastAttackIndex && safety++ < 20)
-            {
-                pick = attackCandidates[
-                    Random.Range(0, attackCandidates.Count)
-                ];
-            }
-        }
-
-        lastAttackIndex = pick;
-
-        foreach (int i in attackCandidates)
-            animator.ResetTrigger(attackTriggers[i]);
-
-        animator.SetTrigger(attackTriggers[pick]);
-    }
-
-    // =====================================================
-    // HOLD ATTACK
-    // =====================================================
-
-    public void StartHoldAttack()
-    {
-        if (gameEnded || animator == null)
-            return;
-
-        if (animParams.Contains(holdAttackTrigger))
-            animator.SetBool(holdAttackTrigger, true);
-    }
-
-    public void StopHoldAttack()
-    {
-        if (animator == null)
-            return;
-
-        if (animParams.Contains(holdAttackTrigger))
-            animator.SetBool(holdAttackTrigger, false);
-    }
-
-    // =====================================================
-    // LANE / DASH / RIDE
-    // =====================================================
-
-    public void DashUp(float noteY)
-    {
-        if (gameEnded || mode == AirMode.Ride)
-            return;
-
-        if (mode == AirMode.None)
-            savedGravity = rb.gravityScale;
-
-        rb.gravityScale = 0f;
-        rb.linearVelocity = Vector2.zero;
-
-        mode = AirMode.Dash;
-        dashTargetY = noteY + riseYOffset;
-        reachedTarget = false;
-        hangTimer = 0f;
-    }
-
-    public void Drop()
-    {
-        if (mode == AirMode.Dash)
-            EndAir();
-    }
-
+    // Được LongNote gọi khi bắt đầu giữ nốt lúc Player đang ở trên không.
     public void AttachToLongNote(Transform target, float yOffset)
     {
         if (gameEnded || target == null)
             return;
 
-        if (mode == AirMode.None)
+        if (!isRiding)
             savedGravity = rb.gravityScale;
+
+        isRiding = true;
+        rideTarget = target;
+        rideYOffset = yOffset;
 
         rb.gravityScale = 0f;
         rb.linearVelocity = Vector2.zero;
-
-        mode = AirMode.Ride;
-        rideTarget = target;
-        rideYOffset = yOffset;
+        isGround = false;
     }
 
+    // Được LongNote gọi khi hết/đứt nốt. Chỉ nhả nếu đúng nốt đang bám.
     public void DetachFromLongNote(Transform target)
     {
-        if (mode != AirMode.Ride)
+        if (!isRiding)
             return;
 
         if (target != null && rideTarget != target)
             return;
 
-        EndAir();
+        ReleaseRide();
     }
 
-    private void EndAir()
+    private void ReleaseRide()
     {
-        mode = AirMode.None;
+        isRiding = false;
         rideTarget = null;
 
         rb.gravityScale = savedGravity;
-        rb.linearVelocity = Vector2.zero;
+        rb.linearVelocity = Vector2.zero;   // rơi tự do từ đứng yên
     }
 
     private void FixedUpdate()
     {
-        if (rb == null)
+        if (!isRiding)
             return;
 
-        switch (mode)
+        if (rideTarget == null)     // nốt bị Destroy
         {
-            case AirMode.Dash:
-                UpdateDash();
-                break;
-
-            case AirMode.Ride:
-                UpdateRide();
-                break;
-        }
-    }
-
-    private void UpdateDash()
-    {
-        rb.linearVelocity = Vector2.zero;
-
-        float y = Mathf.MoveTowards(
-            rb.position.y,
-            dashTargetY,
-            dashSpeed * Time.fixedDeltaTime
-        );
-
-        rb.MovePosition(new Vector2(rb.position.x, y));
-
-        if (!reachedTarget)
-        {
-            if (Mathf.Abs(y - dashTargetY) < 0.001f)
-                reachedTarget = true;
-
-            return;
-        }
-
-        hangTimer += Time.fixedDeltaTime;
-
-        if (hangTimer >= hangTime)
-            EndAir();
-    }
-
-    private void UpdateRide()
-    {
-        if (rideTarget == null)
-        {
-            EndAir();
+            ReleaseRide();
             return;
         }
 
         rb.linearVelocity = Vector2.zero;
-
-        float targetY = rideTarget.position.y + rideYOffset;
-
-        float y = Mathf.MoveTowards(
-            rb.position.y,
-            targetY,
-            dashSpeed * Time.fixedDeltaTime
-        );
-
-        rb.MovePosition(new Vector2(rb.position.x, y));
+        rb.MovePosition(new Vector2(
+            rb.position.x,
+            rideTarget.position.y + rideYOffset
+        ));
     }
 
-    // =====================================================
-    // COUNTDOWN: READY (gõ từng chữ) -> GO!, tổng readyToGoTime giây
-    // =====================================================
+    // =========================
+    // SWIPE INPUT
+    // =========================
+
+    private void HandleSwipeInput()
+    {
+        // ---- Cảm ứng (mobile) ----
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+
+            switch (touch.phase)
+            {
+                case TouchPhase.Began:
+                    StartSwipe(touch.position);
+                    break;
+
+                case TouchPhase.Moved:
+                case TouchPhase.Stationary:
+                    if (!swipeOnRelease)
+                        UpdateSwipe(touch.position);
+                    break;
+
+                case TouchPhase.Ended:
+                    if (swipeOnRelease)
+                        UpdateSwipe(touch.position);
+                    isSwiping = false;
+                    break;
+
+                case TouchPhase.Canceled:
+                    isSwiping = false;
+                    break;
+            }
+            return;
+        }
+
+        // ---- Chuột (test trên Editor) ----
+        if (Input.GetMouseButtonDown(0))
+        {
+            StartSwipe(Input.mousePosition);
+        }
+        else if (Input.GetMouseButton(0))
+        {
+            if (!swipeOnRelease)
+                UpdateSwipe(Input.mousePosition);
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            if (swipeOnRelease)
+                UpdateSwipe(Input.mousePosition);
+            isSwiping = false;
+        }
+    }
+
+    private void StartSwipe(Vector2 position)
+    {
+        swipeStartPos = position;
+        isSwiping = true;
+    }
+
+    private void UpdateSwipe(Vector2 currentPos)
+    {
+        if (!isSwiping)
+            return;
+
+        Vector2 delta = currentPos - swipeStartPos;
+
+        // Phải vuốt đủ xa, và hướng lên phải chiếm ưu thế (tránh vuốt chéo/ngang bị nhận nhầm)
+        if (delta.y >= minSwipeDistance && Mathf.Abs(delta.y) > Mathf.Abs(delta.x))
+        {
+            SwipeUp?.Invoke();
+            Jump();
+            isSwiping = false;
+        }
+    }
 
     private IEnumerator StartCountdown()
     {
-        if (countdownText == null)
-        {
-            Debug.LogError(
-                "PlayerController: Chưa gán Countdown Text trong Inspector!"
-            );
-            yield break;
-        }
+        float normalSize = countdownText.fontSize;   // lấy size đã set trong Inspector
 
-        float normalSize = countdownText.fontSize;
-
-        // READY: hiện từng chữ
-        countdownText.gameObject.SetActive(true);
+        // ---- READY: hiện từng chữ ----
         countdownText.fontSize = normalSize;
         countdownText.text = "";
-
         PlayCountdownSound(ReadySound);
 
-        float startTime = Time.time;
+        yield return StartCoroutine(TypeText("Ready", letterDelay));
+        yield return new WaitForSeconds(readyHoldTime);
 
-        yield return StartCoroutine(TypeText("READY", letterDelay));
+        // ---- Ready thu nhỏ size về 0 ----
+        yield return StartCoroutine(SizeOverTime(normalSize, 0f, shrinkDuration));
 
-        // Chờ cho đủ readyToGoTime tính từ lúc bắt đầu gõ
-        float remaining = readyToGoTime - (Time.time - startTime);
-        if (remaining > 0f)
-            yield return new WaitForSeconds(remaining);
-
-        // GO
+        // ---- GO!: size bật ra từ 0 ----
         countdownText.text = "GO!";
         PlayCountdownSound(goSound);
+  
 
-        // Bắt đầu gameplay sau khi hiện GO.
+        canPlay = true;
+
         if (pianoKeySpawner != null)
-        {
             pianoKeySpawner.StartSong();
-        }
         else
-        {
-            Debug.LogError(
-                "PlayerController: Chưa gán PianoKeySpawner!"
-            );
-        }
+            Debug.LogError("PlayerLaneController: chưa gán PianoKeySpawner -> không có nhạc/key!");
 
-        yield return new WaitForSeconds(goDuration);
+        yield return StartCoroutine(PopInSize(normalSize, popDuration, popOvershoot));
+
+        yield return new WaitForSeconds(0.3f);
+
+        // ---- GO! thu nhỏ rồi biến mất ----
+        yield return StartCoroutine(SizeOverTime(normalSize, 0f, shrinkDuration));
 
         countdownText.text = "";
         countdownText.fontSize = normalSize;
@@ -523,9 +280,53 @@ public class PlayerController : MonoBehaviour
 
         for (int i = 0; i < message.Length; i++)
         {
-            countdownText.text = message.Substring(0, i + 1);
+            countdownText.text += message[i];
             yield return new WaitForSeconds(delay);
         }
+    }
+
+    private IEnumerator SizeOverTime(float from, float to, float duration)
+    {
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float p = Mathf.Clamp01(elapsed / duration);
+            countdownText.fontSize = Mathf.Lerp(from, to, p * p); // ease-in
+            yield return null;
+        }
+
+        countdownText.fontSize = to;
+    }
+
+    private IEnumerator PopInSize(float normalSize, float duration, float overshoot)
+    {
+        countdownText.fontSize = 0f;
+
+        // Giai đoạn 1: 0 -> overshoot (70% thời gian)
+        float up = duration * 0.7f;
+        float elapsed = 0f;
+        while (elapsed < up)
+        {
+            elapsed += Time.deltaTime;
+            float p = Mathf.Clamp01(elapsed / up);
+            countdownText.fontSize = Mathf.Lerp(0f, normalSize * overshoot, p);
+            yield return null;
+        }
+
+        // Giai đoạn 2: overshoot -> bình thường (30% thời gian)
+        float down = duration * 0.3f;
+        elapsed = 0f;
+        while (elapsed < down)
+        {
+            elapsed += Time.deltaTime;
+            float p = Mathf.Clamp01(elapsed / down);
+            countdownText.fontSize = Mathf.Lerp(normalSize * overshoot, normalSize, p);
+            yield return null;
+        }
+
+        countdownText.fontSize = normalSize;
     }
 
     private void PlayCountdownSound(AudioClip clip)
@@ -534,9 +335,43 @@ public class PlayerController : MonoBehaviour
             countdownAudio.PlayOneShot(clip);
     }
 
-    // =====================================================
-    // END GAME / OUTRO
-    // =====================================================
+    // =========================
+    // JUMP
+    // =========================
+
+    public void Jump()
+    {
+
+        if (!canPlay || gameEnded || isRiding)
+            return;
+
+        if (!canPlay || gameEnded)
+            return;
+
+        if (isGround)
+        {
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+
+            isGround = false;
+
+            animator.SetBool("IsJump", true);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGround = true;
+
+            animator.SetBool("IsJump", false);
+            animator.SetBool("IsGround", true);
+        }
+    }
+
+    // =========================
+    // END GAME (được gọi bởi event SongEnded của spawner)
+    // =========================
 
     private void EndGame()
     {
@@ -544,11 +379,10 @@ public class PlayerController : MonoBehaviour
             return;
 
         gameEnded = true;
+        canPlay = false;
 
-        StopHoldAttack();
-
-        if (mode != AirMode.None)
-            EndAir();
+        if (isRiding)
+            ReleaseRide();
 
         rb.linearVelocity = Vector2.zero;
         rb.angularVelocity = 0f;
@@ -556,43 +390,8 @@ public class PlayerController : MonoBehaviour
         if (pianoKeySpawner != null)
             pianoKeySpawner.ClearAllKeys();
 
-        // Hủy countdown nếu nhạc kết thúc bất thường trong lúc đếm.
-        if (introCoroutine != null)
-        {
-            StopCoroutine(introCoroutine);
-            introCoroutine = null;
-        }
-
-        outroCoroutine = StartCoroutine(OutroSequence());
-    }
-
-    private IEnumerator OutroSequence()
-    {
-        yield return new WaitForSeconds(0.2f);
-
-        // Lùi về StartPoint.
-        if (startPoint != null)
-        {
-            yield return StartCoroutine(
-                MovePlayerTo(startPoint.position, outroMoveSpeed)
-            );
-        }
-
-        rb.linearVelocity = Vector2.zero;
-        rb.angularVelocity = 0f;
-
-        FinishGame();
-        outroCoroutine = null;
-    }
-
-    private void FinishGame()
-    {
         if (resultSystem != null && scoreSystem != null)
-            resultSystem.ShowResult(scoreSystem.GetScore());
-
-        if (WinPanel != null)
-            WinPanel.SetActive(true);
-
-        Debug.Log("WIN - Player đã lùi về vị trí ban đầu!");
+            resultSystem.ShowResult(scoreSystem.GetScore());  
+        Debug.Log("END GAME");
     }
 }
