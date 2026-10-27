@@ -1,6 +1,5 @@
 using System.IO;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class PlayerGameData
@@ -50,7 +49,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        // Nếu GameManager khác đã tồn tại thì hủy bản trùng
+        // Kiểm tra cơ chế Singleton: Nếu đã tồn tại một Instance khác, hủy bản sao mới này đi
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -58,22 +57,15 @@ public class GameManager : MonoBehaviour
         }
 
         Instance = this;
+
+        // Giữ lại GameManager không bị hủy khi chuyển Scene
         DontDestroyOnLoad(gameObject);
 
         savePath = Application.persistentDataPath + "/PlayerSaveData.json";
 
+        // Khôi phục dữ liệu ngay khi game khởi động ở Scene đầu tiên
         LoadGameData();
         LoadSettingsData();
-
-        // Theo dõi sự kiện chuyển Scene
-        SceneManager.sceneLoaded += OnSceneLoaded;
-
-        // Nếu khởi động trực tiếp ở Man1 thì tự hủy
-        if (SceneManager.GetActiveScene().name == "Man1")
-        {
-            Destroy(gameObject);
-            return;
-        }
     }
 
     private void Start()
@@ -120,37 +112,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        if (scene.name == "Man1")
-        {
-            if (Instance == this)
-            {
-                Instance = null;
-            }
-
-            SceneManager.sceneLoaded -= OnSceneLoaded;
-            Destroy(gameObject);
-        }
-        else if (scene.name == "Tutorial")
-        {
-            if (Instance == this)
-            {
-                Instance = null;
-            }
-
-            SceneManager.sceneLoaded -= OnSceneLoaded;
-            Destroy(gameObject);
-        }
-    }
+    
 
     public void PlayStartSound()
     {
         if (sfxStartSource != null) sfxStartSource.Play();
-    }
-
-    private void OnDestroy()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 }

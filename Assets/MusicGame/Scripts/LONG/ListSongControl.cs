@@ -54,7 +54,7 @@ public class ListSongControl : MonoBehaviour,
         RefreshLayout(true);
     }
     [Header("Scene Navigation")]
-    [SerializeField] private string selectSongSceneName = "SelectSong"; // Tên scene sảnh chọn bài
+    [SerializeField] private string selectSongSceneName = "SelectSong1"; // Tên scene sảnh chọn bài
 
     // Hàm gọi khi bấm nút mũi tên quay lại (Back)
     public void OnBackButtonClicked()
@@ -334,10 +334,7 @@ public class ListSongControl : MonoBehaviour,
             GameManager.Instance.PlayClickSound();
         }
 
-        PlayerPrefs.SetString("SelectedGameplayScene", gameplaySceneName);
-        PlayerPrefs.Save();
-
-        SceneManager.LoadScene(gameplaySceneName);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(gameplaySceneName);
     }
 
     // =========================================================

@@ -13,11 +13,10 @@ MonoBehaviour:
   m_Name: Level2
   m_EditorClassIdentifier: Assembly-CSharp::LevelData
   levelName: 
-  music: {fileID: 8300000, guid: febb3fa09ef8328419f26150b0a2a9d8, type: 3}
-  midiFileName: Baby Bash - Suga Suga (Rex Hooligan Bootleg) (Free Download) - RELEVANT
-    DNB-edited.mid
-  forcedTrackIndex: 1
+  music: {fileID: 8300000, guid: e68699572410439478f38a5f6db26866, type: 3}
+  midiFileName: Pirates of the Caribbean - He's a Pirate (3).mid
+  forcedTrackIndex: -1
   timeOffset: 0
   noteSpeed: 5
-  difficulty: 1
+  difficulty: 4
   minNoteDistanceOverride: 0

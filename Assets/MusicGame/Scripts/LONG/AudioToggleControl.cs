@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,31 +6,34 @@ public class AudioToggleControl : MonoBehaviour
     [Header("Music")]
     public Button musicButton;
     public Image musicImage;
-    public Sprite musicOnSprite;
-    public Sprite musicOffSprite;
 
     [Header("Sound")]
     public Button soundButton;
     public Image soundImage;
-    public Sprite soundOnSprite;
-    public Sprite soundOffSprite;
+
+    [Header("Colors")]
+    public Color onColor = Color.white;
+    public Color offColor = Color.gray;
 
     private bool musicOn = true;
     private bool soundOn = true;
 
     private void Start()
     {
+        // Gán sự kiện cho 2 Button
         musicButton.onClick.AddListener(ToggleMusic);
         soundButton.onClick.AddListener(ToggleSound);
 
-        UpdateMusicSprite();
-        UpdateSoundSprite();
+        // Cập nhật màu ban đầu
+        UpdateMusicColor();
+        UpdateSoundColor();
     }
 
     private void ToggleMusic()
     {
         musicOn = !musicOn;
-        UpdateMusicSprite();
+
+        UpdateMusicColor();
 
         Debug.Log("Music: " + (musicOn ? "ON" : "OFF"));
     }
@@ -39,18 +41,19 @@ public class AudioToggleControl : MonoBehaviour
     private void ToggleSound()
     {
         soundOn = !soundOn;
-        UpdateSoundSprite();
+
+        UpdateSoundColor();
 
         Debug.Log("Sound: " + (soundOn ? "ON" : "OFF"));
     }
 
-    private void UpdateMusicSprite()
+    private void UpdateMusicColor()
     {
-        musicImage.sprite = musicOn ? musicOnSprite : musicOffSprite;
+        musicImage.color = musicOn ? onColor : offColor;
     }
 
-    private void UpdateSoundSprite()
+    private void UpdateSoundColor()
     {
-        soundImage.sprite = soundOn ? soundOnSprite : soundOffSprite;
+        soundImage.color = soundOn ? onColor : offColor;
     }
 }

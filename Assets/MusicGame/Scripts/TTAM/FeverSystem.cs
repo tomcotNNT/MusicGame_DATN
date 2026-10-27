@@ -1,78 +1,105 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-// Gắn vào một object luôn bật (vd. Canvas), KHÔNG gắn vào chính object thanh Fever
 public class FeverSystem : MonoBehaviour
 {
-    public static FeverSystem Instance { get; private set; }
+    [Header("Fever UI")]
+    [SerializeField] private Image feverBar;
 
-    [Header("UI")]
-    [Tooltip("Object gốc của thanh Fever. Chỉ hiện khi có boss")]
-    [SerializeField] private GameObject feverBar;
-    [Tooltip("Image kiểu Filled (Horizontal) để chạy fillAmount")]
-    [SerializeField] private Image feverFill;
-    [Tooltip("Tốc độ thanh chạy mượt tới giá trị mới")]
-    [SerializeField] private float fillSmooth = 8f;
+    [Header("Fever Settings")]
+    [SerializeField] private float maxFever = 100f;
+    [SerializeField] private float feverDecreaseSpeed = 10f;
 
-    [Header("Luật")]
-    [Tooltip("Cần nhặt bao nhiêu note để đầy thanh")]
-    [SerializeField] private int notesToFill = 10;
-    [Tooltip("Đầy thì tự về 0 để nạp lại")]
-    [SerializeField] private bool resetWhenFull = true;
+    private float feveraddamount = 10f; // Số lượng tăng khi tích dc điểm
+    [Header("Game Speed")]
+    [SerializeField] private float normalSpeed = 5f;
+    [SerializeField] private float feverSpeed = 8f;
 
-    // Bắn ra mỗi lần thanh đầy
-    public event Action Filled;
+    private float currentFever;
+    public bool isFever;
 
-    public bool IsActive { get; private set; }
-    public float Value => value;
+    public float SpeedMultiplier { get; private set; } = 1f;
 
-    private float value;   // 0..1 thật
-    private float shown;   // 0..1 đang hiển thị (chạy mượt)
-
-    private void Awake()
+    private void Start()
     {
-        Instance = this;
-        Show(false);
+        currentFever = 0f;
+        isFever = false;
+
+        if (feverBar != null)
+        {
+            feverBar.fillAmount = 0f;
+        }
     }
 
     private void Update()
     {
-        if (!IsActive || feverFill == null)
-            return;
-
-        shown = Mathf.Lerp(shown, value, 1f - Mathf.Exp(-fillSmooth * Time.deltaTime));
-        feverFill.fillAmount = shown;
-    }
-
-    // Bật/tắt thanh (BossSpawner gọi). Mỗi lần bật là bắt đầu từ 0
-    public void Show(bool show)
-    {
-        IsActive = show;
-        value = 0f;
-        shown = 0f;
-
-        if (feverFill != null)
-            feverFill.fillAmount = 0f;
-
-        if (feverBar != null)
-            feverBar.SetActive(show);
-    }
-
-    // Gọi mỗi khi player nhặt 1 note. Ngoài lúc đánh boss thì bỏ qua
-    public void AddNote(int count = 1)
-    {
-        if (!IsActive)
-            return;
-
-        value = Mathf.Clamp01(value + count / (float)Mathf.Max(1, notesToFill));
-
-        if (value >= 1f)
+        if (!isFever)
         {
-            Filled?.Invoke();
 
-            if (resetWhenFull)
-                value = 0f;
+            if (currentFever >= maxFever)
+            {
+                currentFever = maxFever;
+                StartFever();
+            }
         }
+        else
+        {
+            // Khi Fever đầy thì giảm từ từ
+            currentFever -= feverDecreaseSpeed * Time.deltaTime;
+
+            if (currentFever <= 0f)
+            {
+                currentFever = 0f;
+                EndFever();
+            }
+        }
+
+        UpdateFeverBar();
+    }
+
+    private void UpdateFeverBar()
+    {
+        if (feverBar != null)
+        {
+            feverBar.fillAmount = currentFever / maxFever;
+        }
+    }
+
+    private void StartFever()
+    {
+        isFever = true;
+
+        // Tăng nhịp độ game
+        SpeedMultiplier = feverSpeed;
+
+        Debug.Log("FEVER ACTIVE!");
+    }
+
+    private void EndFever()
+    {
+        isFever = false;
+
+        // Trở về bình thường
+        SpeedMultiplier = normalSpeed;
+
+        Debug.Log("FEVER END!");
+    }
+
+    public void AddFever()
+    {
+        if (!isFever)
+        {
+            currentFever += feveraddamount;
+
+            if (currentFever > maxFever)
+            {
+                currentFever = maxFever;
+            }
+        }
+    }
+
+    public float GetSpeedMultiplier()
+    {
+        return SpeedMultiplier;
     }
 }
