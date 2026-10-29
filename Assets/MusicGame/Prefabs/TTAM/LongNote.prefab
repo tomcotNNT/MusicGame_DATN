@@ -27,8 +27,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.4979, y: 0.3185, z: 0}
-  m_LocalScale: {x: 2.0931013, y: 1.637, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.3, y: 0.23462792, z: 0.143328}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 8915486343453731290}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -81,7 +81,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: -2
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 6440633042031664583, guid: 6409d510a217095479b452754436ab83, type: 3}
+  m_Sprite: {fileID: 5976959727655363750, guid: 503786f4f02099147a1a4a7d18baffe7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -155,10 +155,10 @@ MonoBehaviour:
   bodyStartOffset: -1.43
   ridePlayer: 1
   rideYOffset: 0
-  leftHeadSprite: {fileID: -8099766543568734869, guid: 6409d510a217095479b452754436ab83, type: 3}
-  rightHeadSprite: {fileID: -2125896781090303688, guid: 6409d510a217095479b452754436ab83, type: 3}
-  leftBodySprite: {fileID: 6440633042031664583, guid: 6409d510a217095479b452754436ab83, type: 3}
-  rightBodySprite: {fileID: 8366579803326603716, guid: 6409d510a217095479b452754436ab83, type: 3}
+  leftHeadSprite: {fileID: 273574768078287076, guid: 6b745617898eb3543b4fece8db410633, type: 3}
+  rightHeadSprite: {fileID: 1618270601776245302, guid: 6b745617898eb3543b4fece8db410633, type: 3}
+  leftBodySprite: {fileID: 5976959727655363750, guid: 503786f4f02099147a1a4a7d18baffe7, type: 3}
+  rightBodySprite: {fileID: -776300595011290167, guid: 503786f4f02099147a1a4a7d18baffe7, type: 3}
 --- !u!61 &3032660149149162319
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -232,8 +232,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.7501, y: 0.3475, z: 0}
-  m_LocalScale: {x: 2.0250397, y: 2.061959, z: 2.577932}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.3, y: 0.30546945, z: 0.3819084}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 8915486343453731290}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -286,7 +286,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: -1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -8099766543568734869, guid: 6409d510a217095479b452754436ab83, type: 3}
+  m_Sprite: {fileID: 273574768078287076, guid: 6b745617898eb3543b4fece8db410633, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
