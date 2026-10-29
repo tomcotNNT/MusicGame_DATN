@@ -1,0 +1,559 @@
+fileFormatVersion: 2
+guid: e43c5353ed78feb4dad26dd843ef9fab
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 3399124021226697802
+    second: "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_0"
+  - first:
+      213: -4896827825198018205
+    second: "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_1"
+  - first:
+      213: -8110145551833552221
+    second: "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_2"
+  - first:
+      213: 4423999268440567515
+    second: "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_3"
+  - first:
+      213: 6679852923759468952
+    second: "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_4"
+  - first:
+      213: -2088213775938209523
+    second: "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_5"
+  - first:
+      213: -7479435019724120658
+    second: "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_6"
+  - first:
+      213: 4558999902405667226
+    second: "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_7"
+  - first:
+      213: -2009228814720660699
+    second: "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_8"
+  - first:
+      213: -629067370907654147
+    second: "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_9"
+  - first:
+      213: 168471857651399223
+    second: "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_10"
+  - first:
+      213: -296560861120560721
+    second: "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_11"
+  - first:
+      213: -8710996291667729944
+    second: "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_12"
+  - first:
+      213: 6807378995661629871
+    second: "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_13"
+  - first:
+      213: 8639883888443213379
+    second: "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_14"
+  - first:
+      213: -7715243516189717547
+    second: "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_15"
+  - first:
+      213: 9055458775965975587
+    second: "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_16"
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_0"
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 0
+        width: 1293
+        height: 1093
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a44f6b8b94d1c2f20800000000000000
+      internalID: 3399124021226697802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_1"
+      rect:
+        serializedVersion: 2
+        x: 1357
+        y: 766
+        width: 23
+        height: 92
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 361d2d89909fa0cb0800000000000000
+      internalID: -4896827825198018205
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_2"
+      rect:
+        serializedVersion: 2
+        x: 245
+        y: 539
+        width: 19
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3aa2f3a0799f27f80800000000000000
+      internalID: -8110145551833552221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_3"
+      rect:
+        serializedVersion: 2
+        x: 1215
+        y: 492
+        width: 13
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bdeecf135e3356d30800000000000000
+      internalID: 4423999268440567515
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_4"
+      rect:
+        serializedVersion: 2
+        x: 1251
+        y: 468
+        width: 6
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 891a980c7da93bc50800000000000000
+      internalID: 6679852923759468952
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_5"
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 441
+        width: 11
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d09302672ac2503e0800000000000000
+      internalID: -2088213775938209523
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_6"
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 423
+        width: 18
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ead1ab03a75b33890800000000000000
+      internalID: -7479435019724120658
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_7"
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 274
+        width: 25
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a992ee1b142d44f30800000000000000
+      internalID: 4558999902405667226
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_8"
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 215
+        width: 40
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 52b8812d909cd14e0800000000000000
+      internalID: -2009228814720660699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_9"
+      rect:
+        serializedVersion: 2
+        x: 1296
+        y: 181
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df7a2412f8a1547f0800000000000000
+      internalID: -629067370907654147
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_10"
+      rect:
+        serializedVersion: 2
+        x: 1257
+        y: 158
+        width: 8
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 73a36fd0348865200800000000000000
+      internalID: 168471857651399223
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_11"
+      rect:
+        serializedVersion: 2
+        x: 1221
+        y: 120
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa100a2d77762ebf0800000000000000
+      internalID: -296560861120560721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_12"
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 66
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e1666b86035c1780800000000000000
+      internalID: -8710996291667729944
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_13"
+      rect:
+        serializedVersion: 2
+        x: 782
+        y: 66
+        width: 12
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa9edd7212ba87e50800000000000000
+      internalID: 6807378995661629871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_14"
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 47
+        width: 17
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3464747de9807e770800000000000000
+      internalID: 8639883888443213379
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_15"
+      rect:
+        serializedVersion: 2
+        x: 788
+        y: 51
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5db40ed26e2fde490800000000000000
+      internalID: -7715243516189717547
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_16"
+      rect:
+        serializedVersion: 2
+        x: 736
+        y: 23
+        width: 7
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 32445a367c37bad70800000000000000
+      internalID: 9055458775965975587
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_0": 3399124021226697802
+      "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_1": -4896827825198018205
+      "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_10": 168471857651399223
+      "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_11": -296560861120560721
+      "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_12": -8710996291667729944
+      "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_13": 6807378995661629871
+      "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_14": 8639883888443213379
+      "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_15": -7715243516189717547
+      "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_16": 9055458775965975587
+      "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_2": -8110145551833552221
+      "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_3": 4423999268440567515
+      "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_4": 6679852923759468952
+      "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_5": -2088213775938209523
+      "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_6": -7479435019724120658
+      "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_7": 4558999902405667226
+      "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_8": -2009228814720660699
+      "N\u1ED1t nh\u1EA1c neon pixel xanh t\xEDm_9": -629067370907654147
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
