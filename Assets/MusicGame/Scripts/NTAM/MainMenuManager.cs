@@ -1,4 +1,5 @@
 using System.Collections;
+using System.IO; // Thêm thư viện để thao tác xóa file JSON trực tiếp
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,7 +8,7 @@ using TMPro;
 public class MainMenuManager : MonoBehaviour
 {
     [Header("Settings")]
-    [SerializeField] private string nextSceneName = "SelectSong"; // Cho phép nhập tên Scene tiếp theo trực tiếp trên Inspector
+    [SerializeField] private string nextSceneName = "Lobby";
 
     [Header("Hiệu ứng UI")]
     public TextMeshProUGUI tapToStartText;
@@ -22,23 +23,39 @@ public class MainMenuManager : MonoBehaviour
     [Header("UI Reset Dữ Liệu")]
     public GameObject resetConfirmPopup;
 
+    [Header("Tùy Chọn Reset")]
+    [Tooltip("Nếu tích chọn: Xóa sạch toàn bộ (Tiền, Tutorial, Tên). Nếu bỏ tích: Chỉ xóa tên.")]
+    [SerializeField] private bool resetAllGameData = true;
+
     [Header("Hiệu ứng Chuyển Cảnh")]
     public CanvasGroup fadeCanvasGroup;
-    public float transitionDelay = 1.5f;
+    public float transitionDelay = 1.2f;
     private bool isStarting = false;
 
     private void Start()
     {
+        // Khởi tạo trạng thái ban đầu của màn hình
         if (fadeCanvasGroup != null)
         {
             fadeCanvasGroup.alpha = 0f;
+            fadeCanvasGroup.blocksRaycasts = false;
             fadeCanvasGroup.gameObject.SetActive(false);
         }
 
+        CloseAllPopups();
+
+        // Lắng nghe sự kiện nhấn Enter trên bàn phím khi nhập tên xong
+        if (nameInputField != null)
+        {
+            nameInputField.onSubmit.AddListener(delegate { OnConfirmNameClicked(); });
+        }
+    }
+
+    private void CloseAllPopups()
+    {
         if (nameInputPopup != null) nameInputPopup.SetActive(false);
         if (dimBackgroundPanel != null) dimBackgroundPanel.SetActive(false);
         if (resetConfirmPopup != null) resetConfirmPopup.SetActive(false);
-
         if (errorText != null) errorText.text = "";
     }
 
@@ -50,56 +67,111 @@ public class MainMenuManager : MonoBehaviour
         }
     }
 
+    #region XỬ LÝ NÚT RESET DỮ LIỆU (NÚT HOME GÓC PHẢI)
+
     public void OnResetButtonClicked()
     {
         if (isStarting) return;
-        PlayClickSound(); if (resetConfirmPopup != null) resetConfirmPopup.SetActive(true);
+        PlayClickSound();
+
+        // Mở popup hỏi xác nhận và làm tối nền
+        if (dimBackgroundPanel != null) dimBackgroundPanel.SetActive(true);
+        if (resetConfirmPopup != null) resetConfirmPopup.SetActive(true);
     }
 
     public void OnCancelResetClicked()
     {
         PlayClickSound();
-        if (resetConfirmPopup != null) resetConfirmPopup.SetActive(false);
+        CloseAllPopups();
     }
 
+    /// <summary>
+    /// Xóa tận gốc dữ liệu JSON và PlayerPrefs để đưa game về trạng thái tân thủ tuyệt đối
+    /// </summary>
     public void OnConfirmResetClicked()
     {
         PlayClickSound();
-        PlayerPrefs.DeleteKey("PlayerName");
-        PlayerPrefs.Save();
-        if (resetConfirmPopup != null) resetConfirmPopup.SetActive(false);
+
+        if (resetAllGameData)
+        {
+            // 1. Reset dữ liệu trong bộ nhớ RAM và ghi đè file lưu qua GameManager
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.ResetNewPlayerData();
+            }
+
+            // 2. Xóa trực tiếp file JSON trên ổ đĩa (đảm bảo sạch hoàn toàn ngay cả khi chạy lẻ Scene này)
+            string savePath = Application.persistentDataPath + "/PlayerSaveData.json";
+            if (File.Exists(savePath))
+            {
+                File.Delete(savePath);
+                Debug.Log(">>> [RESET] Đã xóa file lưu JSON: " + savePath);
+            }
+
+            // 3. Xóa sạch PlayerPrefs (Tên nhân vật, cờ tân thủ TutorialCompleted, cài đặt tạm)
+            PlayerPrefs.DeleteAll();
+            PlayerPrefs.Save();
+
+            Debug.Log("<color=green>>>> [RESET] ĐÃ RESET TOÀN BỘ DỮ LIỆU GAME VỀ 0 (COIN = 0, DIAMOND = 0)!</color>");
+        }
+        else
+        {
+            // Chỉ xóa tên và tiến trình hướng dẫn
+            PlayerPrefs.DeleteKey("PlayerName");
+            PlayerPrefs.DeleteKey("TutorialCompleted");
+            PlayerPrefs.Save();
+
+            Debug.Log("<color=yellow>>>> [RESET] Chỉ xóa PlayerName và TutorialCompleted!</color>");
+        }
+
+        // Xóa sạch text trong ô input
+        if (nameInputField != null) nameInputField.text = "";
+
+        CloseAllPopups();
     }
+
+    #endregion
+
+    #region XỬ LÝ TAP TO START & ĐẶT TÊN
 
     public void OnTapToStartClicked()
     {
         if (isStarting) return;
 
+        // Nếu đang mở popup nào thì không nhận click Start
         if ((nameInputPopup != null && nameInputPopup.activeInHierarchy) ||
             (resetConfirmPopup != null && resetConfirmPopup.activeInHierarchy))
         {
             return;
         }
 
+        // Kiểm tra xem đã có tên người chơi chưa
         string savedPlayerName = PlayerPrefs.GetString("PlayerName", "");
 
         if (string.IsNullOrEmpty(savedPlayerName))
         {
+            // NGƯỜI CHƠI MỚI -> Mở bảng nhập tên
             PlayClickSound();
             OpenNameInputPopup();
-            return;
         }
         else
         {
+            // NGƯỜI CHƠI CŨ -> Vào game ngay
             ExecuteGameStart();
         }
     }
 
-    // Hàm mở bảng nhập tên (Đã tích hợp âm thanh mở popup hologram chuẩn)
     private void OpenNameInputPopup()
     {
         if (nameInputPopup != null) nameInputPopup.SetActive(true);
         if (dimBackgroundPanel != null) dimBackgroundPanel.SetActive(true);
         if (errorText != null) errorText.text = "";
+
+        if (nameInputField != null)
+        {
+            nameInputField.text = "";
+            nameInputField.ActivateInputField(); // Tự động focus con trỏ soạn thảo
+        }
 
         if (GameManager.Instance != null)
         {
@@ -110,8 +182,7 @@ public class MainMenuManager : MonoBehaviour
     public void OnReturnNameClicked()
     {
         PlayClickSound();
-        if (nameInputPopup != null) nameInputPopup.SetActive(false);
-        if (dimBackgroundPanel != null) dimBackgroundPanel.SetActive(false);
+        CloseAllPopups();
     }
 
     public void OnConfirmNameClicked()
@@ -120,30 +191,31 @@ public class MainMenuManager : MonoBehaviour
 
         string inputName = nameInputField.text.Trim();
 
+        // Kiểm tra độ dài từ 3 đến 12 ký tự
         if (inputName.Length < 3 || inputName.Length > 12)
         {
-            ShowError("The name must be between 3 and 12 characters long!");
+            ShowError("Tên phải từ 3 đến 12 ký tự!");
             return;
         }
 
+        // Kiểm tra ký tự đặc biệt (cho phép tiếng Việt có dấu, chữ cái, số và khoảng trắng)
         if (!Regex.IsMatch(inputName, @"^[a-zA-Z0-9À-ỹ\s]+$"))
         {
-            ShowError("Must not contain special characters!");
+            ShowError("Tên không được chứa ký tự đặc biệt!");
             return;
         }
 
+        // Lưu tên người chơi mới
         PlayerPrefs.SetString("PlayerName", inputName);
         PlayerPrefs.Save();
         PlayClickSound();
 
-        if (errorText != null) errorText.text = "";
-        if (nameInputPopup != null) nameInputPopup.SetActive(false);
-        if (dimBackgroundPanel != null) dimBackgroundPanel.SetActive(false);
+        CloseAllPopups();
 
+        // Bắt đầu vào game
         ExecuteGameStart();
     }
 
-    // Hàm báo lỗi (Đã tích hợp âm thanh cảnh báo lỗi riêng biệt)
     private void ShowError(string message)
     {
         if (GameManager.Instance != null)
@@ -156,6 +228,10 @@ public class MainMenuManager : MonoBehaviour
             errorText.text = message;
         }
     }
+
+    #endregion
+
+    #region HIỆU ỨNG VÀO GAME (TRANSITION)
 
     private void ExecuteGameStart()
     {
@@ -179,12 +255,11 @@ public class MainMenuManager : MonoBehaviour
     {
         float timer = 0f;
         Color startColor = tapToStartText.color;
-        Color targetColor = new Color(1f, 0.2f, 0.4f, 1f);
 
         while (timer < transitionDelay)
         {
             float t = Mathf.PingPong(Time.time * 8f, 1f);
-            tapToStartText.color = Color.Lerp(startColor, targetColor, t);
+            tapToStartText.color = Color.Lerp(startColor, clickedColor, t);
             timer += Time.deltaTime;
             yield return null;
         }
@@ -209,6 +284,7 @@ public class MainMenuManager : MonoBehaviour
         if (fadeCanvasGroup != null)
         {
             fadeCanvasGroup.gameObject.SetActive(true);
+            fadeCanvasGroup.blocksRaycasts = true;
             float timer = 0f;
             while (timer < transitionDelay)
             {
@@ -229,4 +305,6 @@ public class MainMenuManager : MonoBehaviour
 
         SceneManager.LoadScene(nextSceneName);
     }
+
+    #endregion
 }
