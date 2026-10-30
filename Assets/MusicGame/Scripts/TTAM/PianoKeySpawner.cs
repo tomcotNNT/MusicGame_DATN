@@ -23,6 +23,21 @@ public class PianoKeySpawner : MonoBehaviour
     [Header("Coin")]
     [SerializeField] private CoinSpawner coinSpawner;
 
+    [Header("Xen kẽ Item")]
+    [Tooltip("Danh sách item sẽ spawn xen kẽ giữa các nốt (nên có RhythmItem.cs trên prefab)")]
+    [SerializeField] private List<GameObject> itemPrefabs = new List<GameObject>();
+    [Tooltip("Cứ bao nhiêu nốt thường thì spawn 1 item (1 = sau mỗi nốt)")]
+    [SerializeField, Min(1)] private int itemEveryNotes = 2;
+    [Tooltip("Bật = chọn item ngẫu nhiên, tắt = lần lượt theo thứ tự trong list")]
+    [SerializeField] private bool randomItem = false;
+    [Tooltip("Item ở lane đối diện nốt vừa spawn (thường nốt ở lane này, item ở lane kia)")]
+    [SerializeField] private bool itemOppositeLane = false;
+    [Tooltip("Khoảng cách tối thiểu (unit) từ item tới nốt trước/sau nó")]
+    [SerializeField] private float itemMinGap = 1.5f;
+
+    private int notesSinceItem;
+    private int itemIndex;
+
 
     [Header("Boss")]
     [SerializeField] private BossSpawner bossSpawner;
@@ -273,9 +288,9 @@ public class PianoKeySpawner : MonoBehaviour
             bossSpawner.CurrentMusicAttack.ResetAttackState();
 
         nextNoteIndex = 0;
+        notesSinceItem = 0;
+        itemIndex = 0;  
         lastAcceptedNoteEnd = -999f;
-        songEnded = false;
-        paused = false;
 
         // Bài mới (vòng 1) thì boss được phép xuất hiện lại; các vòng sau thì không
         if (Round == 1)
@@ -414,11 +429,66 @@ public class PianoKeySpawner : MonoBehaviour
                 continue;
             }
 
-            lastAcceptedNoteEnd = note.time + (isLong ? note.duration : 0f);
+           lastAcceptedNoteEnd = note.time + (isLong ? note.duration : 0f);
 
             if (isLong) SpawnLongKey(note, travelTime, left);
             else        SpawnKey(note, travelTime, left);
+
+            // ---- Item xen kẽ ----
+            notesSinceItem++;
+            if (notesSinceItem >= itemEveryNotes)
+            {
+                if (TrySpawnItemAfter(note, isLong, left, now))
+                    notesSinceItem = 0;
+            }
         }
+    }
+
+    // Đặt item ở giữa "hết nốt này" và "nốt kế tiếp". Không đủ chỗ thì bỏ qua.
+    private bool TrySpawnItemAfter(MidiReader.RhythmNote note, bool isLong, bool noteLeft, float now)
+    {
+        if (itemPrefabs == null || itemPrefabs.Count == 0)
+            return false;
+
+        float noteEnd = note.time + (isLong ? note.duration : 0f);
+
+        // Nốt kế tiếp (nextNoteIndex đã được ++ nên đây chính là nốt sau)
+        float nextTime = nextNoteIndex < playNotes.Count
+            ? playNotes[nextNoteIndex].time
+            : noteEnd + 2f * itemMinGap / keySpeed + 0.5f;   // nốt cuối: tự đặt item sau đó một đoạn
+
+        float minGapTime = itemMinGap / keySpeed;
+        float free = nextTime - noteEnd;
+        if (free < minGapTime * 2f)
+            return false;                                     // không đủ chỗ giữa 2 nốt
+
+        float itemTime = noteEnd + free * 0.5f;               // chính giữa khoảng trống
+        float travelTime = itemTime - now;
+        if (travelTime <= 0f)
+            return false;
+
+        bool left = itemOppositeLane ? !noteLeft : noteLeft;
+
+        GameObject prefab = randomItem
+            ? itemPrefabs[Random.Range(0, itemPrefabs.Count)]
+            : itemPrefabs[itemIndex++ % itemPrefabs.Count];
+
+        if (prefab == null)
+            return false;
+
+        Vector3 pos = new Vector3(
+            GetSpawnX(left, travelTime),
+            GetLaneY(left, false),
+            spawnPoint.position.z);
+
+        GameObject obj = Instantiate(prefab, pos, Quaternion.identity);
+
+        RhythmItem item = obj.GetComponent<RhythmItem>();
+        if (item != null)
+            item.Init(this, itemTime, GetHitPoint(left));
+
+        activeKeys.Add(obj);   // để bị xoá khi hết vòng / ClearAllKeys
+        return true;
     }
 
     private void SpawnLongKey(MidiReader.RhythmNote note, float travelTime, bool left)
