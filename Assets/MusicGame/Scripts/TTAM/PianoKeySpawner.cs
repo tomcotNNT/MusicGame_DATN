@@ -103,6 +103,19 @@ public class PianoKeySpawner : MonoBehaviour
     [Tooltip("Bật = random Left/Right, tắt = theo lane của MIDI (cao/thấp)")]
     [SerializeField] private bool randomLane = false;
 
+    [Header("Item thay nốt")]
+    [Tooltip("Danh sách item. Một số nốt thường sẽ được đổi thành item này")]
+    [SerializeField] private List<GameObject> itemPrefabs = new List<GameObject>();
+    [Tooltip("Cứ N nốt thường thì 1 nốt đổi thành item. 4 = nốt thứ 4, 8, 12...")]
+    [SerializeField, Min(2)] private int itemEveryNNotes = 4;
+    [Tooltip("Bật = chọn item ngẫu nhiên, tắt = lần lượt theo list")]
+    [SerializeField] private bool itemRandomPick = false;
+    [Tooltip("Bật = nốt dài cũng có thể đổi thành item. Tắt = chỉ đổi nốt thường")]
+    [SerializeField] private bool itemCanReplaceLongNote = false;
+
+    private int itemIndex;
+    private int notesSinceItem;
+
     // ---- Hit point helpers ----
 
     // Trái = hit point dưới, Phải = hit point trên. Thiếu hit point thì dùng Player.
@@ -274,6 +287,8 @@ public class PianoKeySpawner : MonoBehaviour
 
         nextNoteIndex = 0;
         lastAcceptedNoteEnd = -999f;
+        itemIndex = 0;
+        notesSinceItem = 0;
         songEnded = false;
         paused = false;
 
@@ -403,7 +418,7 @@ public class PianoKeySpawner : MonoBehaviour
             if (travelTime <= 0f)
                 continue;
 
-            // Lane của nốt này (dùng chung cho nốt thường và đạn boss)
+            // Lane của nốt này (dùng chung cho nốt thường, item và đạn boss)
             bool left = randomLane ? Random.value < 0.5f : note.lane == 0;
 
             // Boss đang đánh: nốt được chọn sẽ thành đạn boss
@@ -414,11 +429,51 @@ public class PianoKeySpawner : MonoBehaviour
                 continue;
             }
 
+            // Đến lượt thì nốt này đổi thành item
+            bool canBeItem = itemPrefabs != null && itemPrefabs.Count > 0
+                             && (!isLong || itemCanReplaceLongNote);
+
+            if (canBeItem)
+            {
+                notesSinceItem++;
+                if (notesSinceItem >= itemEveryNNotes)
+                {
+                    notesSinceItem = 0;
+                    lastAcceptedNoteEnd = note.time;   // item không có đuôi dài
+                    SpawnItem(note.time, travelTime, left);
+                    continue;
+                }
+            }
+
             lastAcceptedNoteEnd = note.time + (isLong ? note.duration : 0f);
 
             if (isLong) SpawnLongKey(note, travelTime, left);
             else        SpawnKey(note, travelTime, left);
         }
+    }
+
+    private void SpawnItem(float noteTime, float travelTime, bool left)
+    {
+        GameObject prefab = itemRandomPick
+            ? itemPrefabs[Random.Range(0, itemPrefabs.Count)]
+            : itemPrefabs[itemIndex++ % itemPrefabs.Count];
+
+        if (prefab == null) return;
+
+        Vector3 pos = new Vector3(
+            GetSpawnX(left, travelTime),
+            GetLaneY(left, false),
+            spawnPoint.position.z);
+
+        GameObject obj = Instantiate(prefab, pos, Quaternion.identity);
+
+        RhythmItemm item = obj.GetComponent<RhythmItemm>();
+        if (item != null)
+            item.Setup(left, noteTime, GetHitPoint(left), keySpeed);
+        else
+            Debug.LogWarning("PianoKeySpawner: item prefab chưa có RhythmItemm.cs!");
+
+        activeKeys.Add(obj);
     }
 
     private void SpawnLongKey(MidiReader.RhythmNote note, float travelTime, bool left)
