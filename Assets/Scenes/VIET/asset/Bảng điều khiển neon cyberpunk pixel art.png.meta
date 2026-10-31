@@ -1,0 +1,377 @@
+fileFormatVersion: 2
+guid: 9d2a146799487b841b871178febff46f
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 2998425080132582905
+    second: "B\u1EA3ng \u0111i\u1EC1u khi\u1EC3n neon cyberpunk pixel art_0"
+  - first:
+      213: -7824498753243463171
+    second: "B\u1EA3ng \u0111i\u1EC1u khi\u1EC3n neon cyberpunk pixel art_1"
+  - first:
+      213: 1094818110787074614
+    second: "B\u1EA3ng \u0111i\u1EC1u khi\u1EC3n neon cyberpunk pixel art_2"
+  - first:
+      213: -7834361024528481581
+    second: "B\u1EA3ng \u0111i\u1EC1u khi\u1EC3n neon cyberpunk pixel art_3"
+  - first:
+      213: -7933193798405927283
+    second: "B\u1EA3ng \u0111i\u1EC1u khi\u1EC3n neon cyberpunk pixel art_4"
+  - first:
+      213: 9135185867683504341
+    second: "B\u1EA3ng \u0111i\u1EC1u khi\u1EC3n neon cyberpunk pixel art_5"
+  - first:
+      213: -2139060307855412869
+    second: "B\u1EA3ng \u0111i\u1EC1u khi\u1EC3n neon cyberpunk pixel art_6"
+  - first:
+      213: 6569847640156010713
+    second: "B\u1EA3ng \u0111i\u1EC1u khi\u1EC3n neon cyberpunk pixel art_7"
+  - first:
+      213: -3576184462267001274
+    second: "B\u1EA3ng \u0111i\u1EC1u khi\u1EC3n neon cyberpunk pixel art_8"
+  - first:
+      213: -5799607107012645241
+    second: "B\u1EA3ng \u0111i\u1EC1u khi\u1EC3n neon cyberpunk pixel art_9"
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: "B\u1EA3ng \u0111i\u1EC1u khi\u1EC3n neon cyberpunk pixel art_0"
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1473
+        height: 708
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9fdbcea59bb8c9920800000000000000
+      internalID: 2998425080132582905
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "B\u1EA3ng \u0111i\u1EC1u khi\u1EC3n neon cyberpunk pixel art_1"
+      rect:
+        serializedVersion: 2
+        x: 1166
+        y: 691
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df1cf6307dbc96390800000000000000
+      internalID: -7824498753243463171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "B\u1EA3ng \u0111i\u1EC1u khi\u1EC3n neon cyberpunk pixel art_2"
+      rect:
+        serializedVersion: 2
+        x: 1442
+        y: 329
+        width: 703
+        height: 387
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 63ab02b6543913f00800000000000000
+      internalID: 1094818110787074614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "B\u1EA3ng \u0111i\u1EC1u khi\u1EC3n neon cyberpunk pixel art_3"
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 609
+        width: 43
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d280da0822c64390800000000000000
+      internalID: -7834361024528481581
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "B\u1EA3ng \u0111i\u1EC1u khi\u1EC3n neon cyberpunk pixel art_4"
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 580
+        width: 37
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8eceafa542a7e190800000000000000
+      internalID: -7933193798405927283
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "B\u1EA3ng \u0111i\u1EC1u khi\u1EC3n neon cyberpunk pixel art_5"
+      rect:
+        serializedVersion: 2
+        x: 1400
+        y: 280
+        width: 9
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d0a1787523b6ce70800000000000000
+      internalID: 9135185867683504341
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "B\u1EA3ng \u0111i\u1EC1u khi\u1EC3n neon cyberpunk pixel art_6"
+      rect:
+        serializedVersion: 2
+        x: 1492
+        y: 0
+        width: 653
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b71f325bbf78052e0800000000000000
+      internalID: -2139060307855412869
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "B\u1EA3ng \u0111i\u1EC1u khi\u1EC3n neon cyberpunk pixel art_7"
+      rect:
+        serializedVersion: 2
+        x: 1028
+        y: 29
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d8ffe3ce99cc2b50800000000000000
+      internalID: 6569847640156010713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "B\u1EA3ng \u0111i\u1EC1u khi\u1EC3n neon cyberpunk pixel art_8"
+      rect:
+        serializedVersion: 2
+        x: 1070
+        y: 14
+        width: 21
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 646dd43dd27de5ec0800000000000000
+      internalID: -3576184462267001274
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "B\u1EA3ng \u0111i\u1EC1u khi\u1EC3n neon cyberpunk pixel art_9"
+      rect:
+        serializedVersion: 2
+        x: 1094
+        y: 0
+        width: 17
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 78e2ea55018a38fa0800000000000000
+      internalID: -5799607107012645241
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      "B\u1EA3ng \u0111i\u1EC1u khi\u1EC3n neon cyberpunk pixel art_0": 2998425080132582905
+      "B\u1EA3ng \u0111i\u1EC1u khi\u1EC3n neon cyberpunk pixel art_1": -7824498753243463171
+      "B\u1EA3ng \u0111i\u1EC1u khi\u1EC3n neon cyberpunk pixel art_2": 1094818110787074614
+      "B\u1EA3ng \u0111i\u1EC1u khi\u1EC3n neon cyberpunk pixel art_3": -7834361024528481581
+      "B\u1EA3ng \u0111i\u1EC1u khi\u1EC3n neon cyberpunk pixel art_4": -7933193798405927283
+      "B\u1EA3ng \u0111i\u1EC1u khi\u1EC3n neon cyberpunk pixel art_5": 9135185867683504341
+      "B\u1EA3ng \u0111i\u1EC1u khi\u1EC3n neon cyberpunk pixel art_6": -2139060307855412869
+      "B\u1EA3ng \u0111i\u1EC1u khi\u1EC3n neon cyberpunk pixel art_7": 6569847640156010713
+      "B\u1EA3ng \u0111i\u1EC1u khi\u1EC3n neon cyberpunk pixel art_8": -3576184462267001274
+      "B\u1EA3ng \u0111i\u1EC1u khi\u1EC3n neon cyberpunk pixel art_9": -5799607107012645241
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
