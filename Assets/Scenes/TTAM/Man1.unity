@@ -4179,8 +4179,7 @@ MonoBehaviour:
   hitPointTop: {fileID: 667812587}
   coinSpawner: {fileID: 625427041}
   bossSpawner: {fileID: 2135059614}
-  bossAppearAt: 0.522
-  bossReplacesNote: 1
+  bossAppearAt: 0.05
   keySpeed: 5.7
   loopWithSpeedUp: 1
   speedStep: 0.15
@@ -8984,6 +8983,11 @@ MonoBehaviour:
   dashSpeed: 60
   hangTime: 0.15
   riseYOffset: 0
+  enableFreeJump: 0
+  jumpKey: 97
+  jumpTarget: {fileID: 667812587}
+  jumpHeight: 2.5
+  requireGround: 1
   attackTriggers:
   - Attack1
   - Attack2
@@ -9635,9 +9639,7 @@ MonoBehaviour:
   stopPoint: {fileID: 909918463}
   damagePerAttack: 1
   retreatSpeed: 4
-  feverSystem: {fileID: 916470994}
   attackWhenFeverFull: 1
-  feverAlsoDamagesBoss: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

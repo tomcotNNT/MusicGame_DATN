@@ -29,9 +29,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float hangTime = 0.15f;
     [SerializeField] private float riseYOffset = 0f;
 
+    [Header("Nhảy tự do (A / chạm nửa trái màn hình)")]
+[SerializeField] private bool enableFreeJump = true;
+[SerializeField] private KeyCode jumpKey = KeyCode.A;
+[Tooltip("Nhảy tới độ cao của Transform này. Để trống = nhảy lên jumpHeight so với vị trí hiện tại")]
+[SerializeField] private Transform jumpTarget;
+[SerializeField] private float jumpHeight = 2.5f;
+[Tooltip("Bật = chỉ nhảy khi đang đứng đất (không nhảy liên tục giữa không trung)")]
+[SerializeField] private bool requireGround = true;
+
     [Header("Attack (random)")]
     [SerializeField] private string[] attackTriggers =
-        { "Attack1", "Attack2", "Attack3" };
+        { "Attack1", "Attack2", "Attack3" };                            
 
     [SerializeField] private bool avoidRepeat = true;
 
@@ -185,11 +194,63 @@ public class PlayerController : MonoBehaviour
         introCoroutine = StartCoroutine(IntroSequence());
     }
 
-    private void Update()
+private void Update()
+{
+    if (animator != null)
+        animator.SetBool("IsGround", isGround);
+
+    if (enableFreeJump && CanFreeJump() && IsJumpInput())
+        FreeJump();
+}
+
+private bool CanFreeJump()
+{
+    if (gameEnded || pianoKeySpawner == null) return false;
+    if (!pianoKeySpawner.IsPlaying || pianoKeySpawner.IsPaused) return false;
+    if (mode != AirMode.None) return false;          // đang dash/ride thì bỏ qua
+    if (requireGround && !isGround) return false;
+    return true;
+}
+
+private void FreeJump()
+{
+    float y = jumpTarget != null
+        ? jumpTarget.position.y
+        : rb.position.y + jumpHeight;
+
+    DashUp(y);
+}
+
+private bool IsJumpInput()
+{
+    if (Input.GetKeyDown(jumpKey))
+        return true;
+
+    // Cảm ứng: chạm nửa trái màn hình (bỏ qua khi chạm vào UI như nút Pause)
+    for (int i = 0; i < Input.touchCount; i++)
     {
-        if (animator != null)
-            animator.SetBool("IsGround", isGround);
+        Touch t = Input.GetTouch(i);
+        if (t.phase == TouchPhase.Began &&
+            t.position.x < Screen.width * 0.5f &&
+            !IsPointerOverUI(t.fingerId))
+            return true;
     }
+
+    // Chuột (test trên máy tính)
+    if (Input.touchCount == 0 &&
+        Input.GetMouseButtonDown(0) &&
+        Input.mousePosition.x < Screen.width * 0.5f &&
+        !IsPointerOverUI(-1))
+        return true;
+
+    return false;
+}
+
+private static bool IsPointerOverUI(int pointerId)
+{
+    return UnityEngine.EventSystems.EventSystem.current != null &&
+           UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject(pointerId);
+}
 
     // =====================================================
     // INTRO

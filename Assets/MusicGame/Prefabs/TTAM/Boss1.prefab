@@ -237,13 +237,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BossMusicAttack
   animator: {fileID: 4014512151806167505}
   firePoint: {fileID: 299571748144494783}
-  projectilePrefab: {fileID: 3058354825989423581, guid: 215a451ce0af40a46b791d590d8fbdea, type: 3}
   attackTrigger: Shoot
-  attackEveryN: 4
-  onlyLongNotes: 0
-  longNoteMinDuration: 0.5
-  minInterval: 0.8
+  attackEveryN: 1
+  minInterval: 0
+  firePrefabs:
+  - {fileID: 3058354825989423581, guid: 215a451ce0af40a46b791d590d8fbdea, type: 3}
+  itemPrefabs:
+  - {fileID: 3058354825989423581, guid: f2c311c7ecdfa424d86582d167ae3219, type: 3}
+  fireChance: 0.6
+  maxSameKindInRow: 3
+  firePickMode: 0
+  itemPickMode: 0
   travelTime: 0.9
+  forceFireBeforeHit: 0.25
 --- !u!114 &4112970757706191771
 MonoBehaviour:
   m_ObjectHideFlags: 0

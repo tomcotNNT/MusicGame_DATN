@@ -14,13 +14,8 @@ public class BossSpawner : MonoBehaviour
     [Tooltip("Tốc độ boss đi lùi về spawn point khi hết nhạc boss (unit/giây)")]
     [SerializeField] private float retreatSpeed = 4f;
 
-    [Header("Fever")]
-    [SerializeField] private FeverSystem feverSystem;
     [Tooltip("Thanh Fever đầy thì tự gây sát thương lên boss")]
     [SerializeField] private bool attackWhenFeverFull = true;
-
-    [Tooltip("Thanh Fever đầy thì ngoài Attack() còn trừ máu boss (tạm tắt để test log)")]
-    [SerializeField] private bool feverAlsoDamagesBoss = false;
 
     private Boss boss;
     private Coroutine retreatRoutine;
@@ -31,18 +26,6 @@ public class BossSpawner : MonoBehaviour
     public BossMusicAttack CurrentMusicAttack =>
         boss != null ? boss.GetComponent<BossMusicAttack>() : null;
 
-    private void OnEnable()
-    {
-        if (feverSystem != null)
-            feverSystem.Filled += OnFeverFilled;
-    }
-
-    private void OnDisable()
-    {
-        if (feverSystem != null)
-            feverSystem.Filled -= OnFeverFilled;
-    }
-
     private void OnFeverFilled()
     {
         if (boss == null || IsRetreating)
@@ -50,8 +33,6 @@ public class BossSpawner : MonoBehaviour
 
         boss.Attack();   // hiện tại chỉ Debug.Log
 
-        if (feverAlsoDamagesBoss)
-            boss.TakeDamage(damagePerAttack);
     }
 
     // Gọi khi hết nhạc đầu (PianoKeySpawner.NextRound): boss xuất hiện và đi vào vị trí đánh.
@@ -78,8 +59,7 @@ public class BossSpawner : MonoBehaviour
 
         boss = spawned;
 
-        if (feverSystem != null)
-            feverSystem.Show(true);
+    
 
         spawned.Begin(stopPoint.position);
 
@@ -89,8 +69,7 @@ public class BossSpawner : MonoBehaviour
             {
                 boss = null;
 
-                if (feverSystem != null)
-                    feverSystem.Show(false);
+              
             }
 
             onDefeated?.Invoke();
@@ -110,8 +89,7 @@ public class BossSpawner : MonoBehaviour
 
     public void RetreatBoss()
     {
-        if (feverSystem != null)
-            feverSystem.Show(false);
+       
 
         if (boss == null)
         {
@@ -176,7 +154,6 @@ public class BossSpawner : MonoBehaviour
         boss = null;
         hasSpawnedBoss = false;
 
-        if (feverSystem != null)
-            feverSystem.Show(false);
+       
     }
 }

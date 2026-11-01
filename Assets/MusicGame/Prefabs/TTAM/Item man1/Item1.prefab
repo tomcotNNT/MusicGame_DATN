@@ -157,8 +157,8 @@ MonoBehaviour:
   autoCollect: 0
   hitWindow: 0.8
   destroyAfterDistance: 8
-  addScore: 0
-  addCombo: 0
+  addScore: 1
+  addCombo: 1
   movePlayer: 0
   collectVfxPrefab: {fileID: 4306488877223958017, guid: 2fbb1969d46802e4485b17e89d3a86cb, type: 3}
   vfxLifetime: 1

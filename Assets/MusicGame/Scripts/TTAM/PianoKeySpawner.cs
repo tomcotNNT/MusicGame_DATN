@@ -23,15 +23,11 @@ public class PianoKeySpawner : MonoBehaviour
     [Header("Coin")]
     [SerializeField] private CoinSpawner coinSpawner;
 
-
     [Header("Boss")]
     [SerializeField] private BossSpawner bossSpawner;
     [Tooltip("Boss xuất hiện khi bài chạy tới tỉ lệ này (0.5 = giữa bài). Chỉ xuất hiện 1 lần")]
     [SerializeField, Range(0.05f, 0.95f)] private float bossAppearAt = 0.5f;
     private bool bossAppeared;
-
-    [Tooltip("Bật = nốt được boss chọn sẽ THAY bằng đạn boss. Tắt = vẫn spawn nốt thường song song với đạn")]
-    [SerializeField] private bool bossReplacesNote = true;
 
     public float SpawnDirection => spawnDirection;
     public float PlayerX => player.position.x;
@@ -88,7 +84,8 @@ public class PianoKeySpawner : MonoBehaviour
     private float tutorialClock;
 
     [Tooltip("Key xuất hiện trước thời điểm note bao nhiêu giây. " +
-             "Nên >= khoảng cách spawn / keySpeed")]
+             "Nên >= khoảng cách spawn / keySpeed. " +
+             "Cũng nên >= Travel Time của BossMusicAttack để boss kịp bắn.")]
     [SerializeField] private float spawnAheadTime = 2f;
 
     [Tooltip("Bật = tự tính spawnAheadTime = khoảng cách (SpawnPoint -> Player) / keySpeed")]
@@ -168,18 +165,12 @@ public class PianoKeySpawner : MonoBehaviour
         }
     }
 
-    // Boss đang đánh và chọn nốt này => true
-    private bool TryBossNote(MidiReader.RhythmNote note, bool left)
-    {
-        if (bossSpawner == null || !bossSpawner.IsFighting)
-            return false;
-
-        BossMusicAttack attack = bossSpawner.CurrentMusicAttack;
-        if (attack == null)
-            return false;
-
-        return attack.TryScheduleBossNote(note.time, note.duration, left);
-    }
+    // Boss đã xuất hiện và đang đánh => piano spawner ngừng hoạt động
+    private bool IsBossPhase =>
+        bossAppeared &&
+        bossSpawner != null &&
+        bossSpawner.IsFighting &&
+        bossSpawner.CurrentMusicAttack != null;
 
     // ---- State ----
     private double songStartDsp;
@@ -284,6 +275,10 @@ public class PianoKeySpawner : MonoBehaviour
         // Bắt đầu vòng mới: xoá hàng đợi tấn công cũ của boss
         if (bossSpawner != null && bossSpawner.CurrentMusicAttack != null)
             bossSpawner.CurrentMusicAttack.ResetAttackState();
+
+        // Reset thanh fever theo item
+        if (ItemFeverBar.Instance != null)
+            ItemFeverBar.Instance.ResetBar();
 
         nextNoteIndex = 0;
         lastAcceptedNoteEnd = -999f;
@@ -407,13 +402,6 @@ public class PianoKeySpawner : MonoBehaviour
 
             nextNoteIndex++;
 
-            bool isLong = longNotePrefab != null && note.duration >= longNoteMinDuration;
-
-            // Note phải cách điểm kết thúc của note trước (kể cả đuôi nốt dài) đủ xa
-            float minGapTime = minKeyGap / keySpeed;
-            if (note.time - lastAcceptedNoteEnd < minGapTime)
-                continue;
-
             float travelTime = note.time - now;
             if (travelTime <= 0f)
                 continue;
@@ -421,13 +409,23 @@ public class PianoKeySpawner : MonoBehaviour
             // Lane của nốt này (dùng chung cho nốt thường, item và đạn boss)
             bool left = randomLane ? Random.value < 0.5f : note.lane == 0;
 
-            // Boss đang đánh: nốt được chọn sẽ thành đạn boss
-            bool bossTook = TryBossNote(note, left);
-            if (bossTook && bossReplacesNote)
+            // ===== BOSS PHASE =====
+            // Boss đã xuất hiện và đang đánh: piano spawner ngừng hoạt động
+            // (không piano, không nốt dài, không item). Mỗi nốt MIDI = 1 phát bắn của boss.
+            if (IsBossPhase)
             {
+                bossSpawner.CurrentMusicAttack.ScheduleBeat(note.time, left);
                 lastAcceptedNoteEnd = note.time;
                 continue;
             }
+
+            // ===== PIANO BÌNH THƯỜNG =====
+            bool isLong = longNotePrefab != null && note.duration >= longNoteMinDuration;
+
+            // Note phải cách điểm kết thúc của note trước (kể cả đuôi nốt dài) đủ xa
+            float minGapTime = minKeyGap / keySpeed;
+            if (note.time - lastAcceptedNoteEnd < minGapTime)
+                continue;
 
             // Đến lượt thì nốt này đổi thành item
             bool canBeItem = itemPrefabs != null && itemPrefabs.Count > 0
@@ -549,6 +547,7 @@ public class PianoKeySpawner : MonoBehaviour
         // Hết nhạc boss: boss đi lùi về spawn point rồi biến mất
         if (bossSpawner != null)
             bossSpawner.RetreatBoss();
+
         SongEnded?.Invoke();
     }
 
