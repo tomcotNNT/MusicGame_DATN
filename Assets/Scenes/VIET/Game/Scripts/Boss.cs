@@ -6,11 +6,13 @@ public class Boss : MonoBehaviour
 {
     [SerializeField] private int maxHealth = 20;
     [SerializeField] private float enterSpeed = 4f;
-    [SerializeField] private Image healthFill;   // tùy chọn, Image Type = Filled
+    [SerializeField] private Image healthFill;
+    [SerializeField] private bool requireItemsToDefeat = true;
 
     public event Action Defeated;
+    public event Action Appeared;
     public bool IsReady { get; private set; }
-    [SerializeField] private bool requireItemsToDefeat = true;
+    public bool HasBegun { get; private set; }
 
     private int health;
     private Vector3 stopPosition;
@@ -23,35 +25,24 @@ public class Boss : MonoBehaviour
         stopPosition = stopPos;
         health = maxHealth;
         RefreshBar();
+        HasBegun = true;
+        Appeared?.Invoke(); // Boss bắt đầu xuất hiện => 3 loại item xuất hiện ngay
     }
 
     private void Update()
     {
-        if (IsReady || dead)
-            return;
-
-        // Đi vào vị trí đứng, tới nơi mới cho phép đánh.
-        transform.position = Vector3.MoveTowards(
-            transform.position, stopPosition, enterSpeed * Time.deltaTime);
-
+        if (!HasBegun || IsReady || dead) return;
+        transform.position = Vector3.MoveTowards(transform.position, stopPosition, enterSpeed * Time.deltaTime);
         if ((transform.position - stopPosition).sqrMagnitude < 0.01f)
             IsReady = true;
     }
 
     public void TakeDamage(int amount)
     {
-        if (!IsReady || dead || requireItemsToDefeat)
-            return;
-
+        if (!IsReady || dead || requireItemsToDefeat) return;
         health = Mathf.Max(0, health - amount);
         RefreshBar();
-
-        if (health <= 0)
-        {
-            dead = true;
-            Defeated?.Invoke();
-            Destroy(gameObject);
-        }
+        if (health <= 0) FinishByItems();
     }
 
     public void FinishByItems()
@@ -64,19 +55,14 @@ public class Boss : MonoBehaviour
         Destroy(gameObject);
     }
 
-    // Boss tấn công. Tạm thời chỉ log, sau này thêm animation/hiệu ứng/trừ máu player ở đây
     public void Attack()
     {
-        if (!IsReady || dead)
-            return;
-
+        if (!IsReady || dead) return;
         Debug.Log("Boss Attack!");
-        // TODO: animator.SetTrigger("Attack"); ...
     }
 
     private void RefreshBar()
     {
-        if (healthFill != null)
-            healthFill.fillAmount = (float)health / maxHealth;
+        if (healthFill != null) healthFill.fillAmount = maxHealth > 0 ? (float)health / maxHealth : 0f;
     }
 }
