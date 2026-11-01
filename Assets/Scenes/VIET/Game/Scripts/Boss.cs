@@ -10,6 +10,7 @@ public class Boss : MonoBehaviour
 
     public event Action Defeated;
     public bool IsReady { get; private set; }
+    [SerializeField] private bool requireItemsToDefeat = true;
 
     private int health;
     private Vector3 stopPosition;
@@ -17,6 +18,8 @@ public class Boss : MonoBehaviour
 
     public void Begin(Vector3 stopPos)
     {
+        IsReady = false;
+        dead = false;
         stopPosition = stopPos;
         health = maxHealth;
         RefreshBar();
@@ -37,7 +40,7 @@ public class Boss : MonoBehaviour
 
     public void TakeDamage(int amount)
     {
-        if (!IsReady || dead)
+        if (!IsReady || dead || requireItemsToDefeat)
             return;
 
         health = Mathf.Max(0, health - amount);
@@ -49,6 +52,16 @@ public class Boss : MonoBehaviour
             Defeated?.Invoke();
             Destroy(gameObject);
         }
+    }
+
+    public void FinishByItems()
+    {
+        if (dead) return;
+        dead = true;
+        health = 0;
+        RefreshBar();
+        Defeated?.Invoke();
+        Destroy(gameObject);
     }
 
     // Boss tấn công. Tạm thời chỉ log, sau này thêm animation/hiệu ứng/trừ máu player ở đây
