@@ -5,114 +5,69 @@ using UnityEngine.UI;
 public class BossItemBattleManager : MonoBehaviour
 {
     [SerializeField] private Boss boss;
-    [SerializeField] private BossItemSpawner itemSpawner;
     [SerializeField, Min(1)] private int requiredCombo = 10;
     [SerializeField] private GameObject itemPanel;
     [SerializeField] private Text comboText;
     [SerializeField] private Text selectedText;
     [SerializeField] private Image comboFill;
-    [Header("Optional end panels")]
-    [SerializeField] private GameObject gameOverPanel;
 
     public event Action Won;
     public event Action Lost;
     public bool IsActive { get; private set; }
-    public bool HasWon { get; private set; }
-    public bool HasLost { get; private set; }
     public int Combo { get; private set; }
     public BossItemType? SelectedType { get; private set; }
     private bool finished;
 
-    private void OnEnable()
-    {
-        if (boss != null) boss.Appeared += OnBossAppeared;
-    }
+    private void Start() { if (itemPanel != null) itemPanel.SetActive(false); }
 
-    private void OnDisable()
-    {
-        if (boss != null) boss.Appeared -= OnBossAppeared;
-    }
-
-    private void Start()
-    {
-        if (itemPanel != null) itemPanel.SetActive(false);
-        if (gameOverPanel != null) gameOverPanel.SetActive(false);
-        if (boss != null && boss.HasBegun) BeginBattle();
-    }
-
-    private void OnBossAppeared() => BeginBattle();
-
+    // Chi duoc goi tu PianoKeySpawner khi Boss xuat hien
     public void BeginBattle()
     {
         if (finished || IsActive) return;
-        if (itemSpawner == null)
-        {
-            Debug.LogError("BossItemBattleManager: chưa gắn ItemSpawner!", this);
-            return;
-        }
         IsActive = true;
         Combo = 0;
         SelectedType = null;
         if (itemPanel != null) itemPanel.SetActive(true);
         RefreshUI();
-        itemSpawner.StartSpawning(this);
+        Debug.Log("[BossItem] Battle started");
     }
 
     public void Collect(BossItemType type)
     {
         if (!IsActive) return;
-        if (!SelectedType.HasValue)
-        {
-            SelectedType = type;
-            Combo = 1;
-        }
-        else if (SelectedType.Value == type)
-            Combo++;
-        else
-        {
-            Combo = 0;
-            SelectedType = null;
-        }
+        if (!SelectedType.HasValue) { SelectedType = type; Combo = 1; }
+        else if (SelectedType.Value == type) Combo++;
+        else { SelectedType = null; Combo = 0; }
+        Debug.Log($"[BossItem] Hit {type} | Combo {Combo}/{requiredCombo}");
         RefreshUI();
         if (Combo >= requiredCombo) Win();
     }
 
-    // Gọi từ PlayerController.EndGame() hoặc sự kiện kết thúc bài nhạc.
-    public void OnSongFinished()
-    {
-        if (IsActive && Combo < requiredCombo) Lose();
-    }
+    public void OnSongFinished() { if (IsActive && Combo < requiredCombo) Lose(); }
 
     private void Win()
     {
         if (!IsActive) return;
-        HasWon = true;
-        EndBattle();
+        IsActive = false; finished = true;
+        if (itemPanel != null) itemPanel.SetActive(false);
         if (boss != null) boss.FinishByItems();
         Won?.Invoke();
+        Debug.Log("[BossItem] WIN");
     }
 
     private void Lose()
     {
         if (!IsActive) return;
-        HasLost = true;
-        EndBattle();
-        if (gameOverPanel != null) gameOverPanel.SetActive(true);
-        Lost?.Invoke();
-    }
-
-    private void EndBattle()
-    {
-        IsActive = false;
-        finished = true;
-        if (itemSpawner != null) itemSpawner.StopSpawning();
+        IsActive = false; finished = true;
         if (itemPanel != null) itemPanel.SetActive(false);
+        Lost?.Invoke();
+        Debug.Log("[BossItem] LOSE - chua du combo");
     }
 
     private void RefreshUI()
     {
         if (comboText != null) comboText.text = $"{Combo}/{requiredCombo}";
-        if (selectedText != null) selectedText.text = SelectedType.HasValue ? SelectedType.Value.ToString() : "Chưa chọn";
+        if (selectedText != null) selectedText.text = SelectedType.HasValue ? SelectedType.Value.ToString() : "Chua chon";
         if (comboFill != null) comboFill.fillAmount = Mathf.Clamp01((float)Combo / requiredCombo);
     }
 }

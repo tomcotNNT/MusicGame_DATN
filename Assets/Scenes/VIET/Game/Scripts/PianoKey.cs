@@ -46,6 +46,14 @@ public class PianoKey : MonoBehaviour
     [SerializeField] private GameObject keyRight;
 
     private KeyType keyType;
+    private BossItemBattleManager bossItemManager;
+    private BossItemType? bossItemType;
+
+    public void ConfigureBossItem(BossItemType type, BossItemBattleManager manager)
+    {
+        bossItemType = type;
+        bossItemManager = manager;
+    }
     private float targetTime;
     private float moveSpeed;
 
@@ -97,6 +105,8 @@ public class PianoKey : MonoBehaviour
         Transform playerTransform,
         float speed)
     {
+        bossItemType = null;
+        bossItemManager = null;
         keyType = type;
         targetTime = time;
         player = playerTransform;
@@ -199,12 +209,23 @@ public class PianoKey : MonoBehaviour
         PlayHitSfx();
         NoteHit?.Invoke(keyType);
 
-        if (scoreSystem != null) scoreSystem.AddScore();
-        if (comboSystem != null) comboSystem.HitNote();
-        if (FeverSystem.Instance != null)
-            FeverSystem.Instance.AddNote();
+        if (bossItemType.HasValue)
+{
+    if (bossItemManager != null)
+        bossItemManager.Collect(bossItemType.Value);
 
-        TutorialEvents.NormalNoteHit?.Invoke();
+    if (scoreSystem != null)
+        scoreSystem.AddScore();
+}
+else
+{
+    if (scoreSystem != null) scoreSystem.AddScore();
+    if (comboSystem != null) comboSystem.HitNote();
+    if (FeverSystem.Instance != null)
+        FeverSystem.Instance.AddNote();
+
+    TutorialEvents.NormalNoteHit?.Invoke();
+}
 
         // Trúng nốt trên => Player lướt lên rồi rơi xuống đất; nốt dưới => rơi xuống nếu đang lơ lửng
         if (playerCtrl != null)
@@ -225,13 +246,13 @@ public class PianoKey : MonoBehaviour
 
     private void SpawnHitVfx()
     {
-        if (hitVfxPrefab == null)
+        if (hitVfxPrefab == null && hitVfxPrefab2 == null)
             return;
 
-        GameObject vfx = Instantiate(
+        GameObject vfx = hitVfxPrefab != null ? Instantiate(
             hitVfxPrefab,
             transform.position + vfxOffset,
-            Quaternion.identity);
+            Quaternion.identity) : null;
 
         //vfx 2
         if (hitVfxPrefab2 != null)
@@ -243,7 +264,7 @@ public class PianoKey : MonoBehaviour
             Destroy(vfx2, vfxLifetime);
         }    
 
-        Destroy(vfx, vfxLifetime);
+        if (vfx != null) Destroy(vfx, vfxLifetime);
     }
 
     private void PlayHitSfx()
