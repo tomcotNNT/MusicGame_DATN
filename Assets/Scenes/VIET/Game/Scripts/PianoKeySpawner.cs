@@ -34,6 +34,10 @@ public class PianoKeySpawner : MonoBehaviour
     [SerializeField] private BossItemBattleManager bossItemManager;
     [Tooltip("3 prefab co PianoKey.cs: Blue, Purple, Gold")]
     [SerializeField] private GameObject[] bossKeyPrefabs = new GameObject[3];
+    [Header("Boss Item Speed") ]
+    [Tooltip("Toc do 3 item Boss so voi note thuong. Nhac va MIDI khong doi.")]
+    [SerializeField, Min(1f)] private float bossItemSpeedMultiplier = 1.5f;
+
     private bool bossItemMode;
     private int bossItemSequence;
 
@@ -451,7 +455,10 @@ public class PianoKeySpawner : MonoBehaviour
     {
         int index = bossItemSequence++ % 3;
         GameObject prefab = bossKeyPrefabs[index];
-        Vector3 pos = new Vector3(GetSpawnX(left, travelTime), GetLaneY(left, false), spawnPoint.position.z);
+        float bossKeySpeed = keySpeed * bossItemSpeedMultiplier;
+        // Vi tri spawn va toc do di chuyen phai dung cung he so de den hit point dung nhip MIDI.
+        float bossSpawnX = GetHitPoint(left).position.x + spawnDirection * bossKeySpeed * travelTime;
+        Vector3 pos = new Vector3(bossSpawnX, GetLaneY(left, false), spawnPoint.position.z);
         GameObject obj = Instantiate(prefab, pos, Quaternion.identity);
         PianoKey key = obj.GetComponent<PianoKey>();
         if (key == null)
@@ -461,7 +468,7 @@ public class PianoKeySpawner : MonoBehaviour
             return;
         }
         key.Setup(left ? PianoKey.KeyType.Left : PianoKey.KeyType.Right,
-                  note.time, GetHitPoint(left), keySpeed);
+                  note.time, GetHitPoint(left), bossKeySpeed);
         key.ConfigureBossItem((BossItemType)index, bossItemManager);
         activeKeys.Add(obj);
         Debug.Log($"[BossMode] Spawn {(BossItemType)index} / {(left ? "Bottom" : "Top")}");
