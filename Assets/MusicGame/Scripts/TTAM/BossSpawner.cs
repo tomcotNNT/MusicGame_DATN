@@ -25,15 +25,7 @@ public class BossSpawner : MonoBehaviour
     public bool IsFighting => boss != null && !IsRetreating;
     public BossMusicAttack CurrentMusicAttack =>
         boss != null ? boss.GetComponent<BossMusicAttack>() : null;
-
-    private void OnFeverFilled()
-    {
-        if (boss == null || IsRetreating)
-            return;
-
-        boss.Attack();   // hiện tại chỉ Debug.Log
-
-    }
+        
 
     // Gọi khi hết nhạc đầu (PianoKeySpawner.NextRound): boss xuất hiện và đi vào vị trí đánh.
     public void StartBossFight(Action onDefeated)

@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 6564330876801012052}
   - component: {fileID: 5465739825726271568}
   - component: {fileID: 4112970757706191771}
+  - component: {fileID: -4516628066161010300}
   m_Layer: 0
   m_Name: Boss1
   m_TagString: Untagged
@@ -239,7 +240,7 @@ MonoBehaviour:
   firePoint: {fileID: 299571748144494783}
   attackTrigger: Shoot
   attackEveryN: 1
-  minInterval: 0
+  minInterval: 1
   firePrefabs:
   - {fileID: 3058354825989423581, guid: 215a451ce0af40a46b791d590d8fbdea, type: 3}
   itemPrefabs:
@@ -248,6 +249,9 @@ MonoBehaviour:
   maxSameKindInRow: 3
   firePickMode: 0
   itemPickMode: 0
+  fireOppositeLane: 1
+  itemOppositeLane: 0
+  oppositeChance: 1
   travelTime: 0.9
   forceFireBeforeHit: 0.25
 --- !u!114 &4112970757706191771
@@ -265,3 +269,31 @@ MonoBehaviour:
   maxHealth: 20
   enterSpeed: 4
   healthFill: {fileID: 0}
+--- !u!114 &-4516628066161010300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7454973478734304312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a380bee76eb58b43a2a3888ff16ca04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossHealth
+  maxHealth: 50
+  hpBar: {fileID: 0}
+  animator: {fileID: 0}
+  hitTrigger: Hit
+  dieTrigger: Die
+  attack: {fileID: 0}
+  collidersToDisable: []
+  retreatOnDeath: 1
+  destroyTarget: {fileID: 0}
+  retreatPoint: {fileID: 0}
+  retreatDirection: {x: 1, y: 0}
+  retreatDistance: 6
+  retreatSpeed: 4
+  delayBeforeRetreat: 0.5
+  fadeOut: 1
+  destroyDelay: 0.1

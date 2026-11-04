@@ -1449,8 +1449,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Ready '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
-  m_sharedMaterial: {fileID: -1467977752007274282, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4283,7 +4283,6 @@ MonoBehaviour:
   coinSpawner: {fileID: 625427041}
   bossSpawner: {fileID: 2135059614}
   bossAppearAt: 0.522
-  bossReplacesNote: 1
   keySpeed: 5.7
   loopWithSpeedUp: 1
   speedStep: 0.15
@@ -4295,6 +4294,10 @@ MonoBehaviour:
   autoSpawnAhead: 1
   minKeyGap: 1.5
   randomLane: 0
+  itemPrefabs: []
+  itemEveryNNotes: 4
+  itemRandomPick: 0
+  itemCanReplaceLongNote: 0
   longNotePrefab: {fileID: 4216641539723573487, guid: 4b2aa78745d0e154fba2cf4af593d47e, type: 3}
   scoreSystem: {fileID: 230136156}
   longNoteMinDuration: 0.5
@@ -5675,8 +5678,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
-  m_sharedMaterial: {fileID: -1467977752007274282, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -6814,8 +6817,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 1000000
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
-  m_sharedMaterial: {fileID: -1467977752007274282, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -7618,8 +7621,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
-  m_sharedMaterial: {fileID: -1467977752007274282, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -7897,8 +7900,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
-  m_sharedMaterial: {fileID: -1467977752007274282, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -8450,8 +8453,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: SCORE
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
-  m_sharedMaterial: {fileID: -1467977752007274282, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -9409,8 +9412,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 1000000
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
-  m_sharedMaterial: {fileID: -1467977752007274282, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -9992,6 +9995,15 @@ MonoBehaviour:
   dashSpeed: 60
   hangTime: 0.15
   riseYOffset: 0
+  enableFreeJump: 1
+  jumpKey: 97
+  jumpTarget: {fileID: 0}
+  jumpHeight: 2.5
+  requireGround: 1
+  feverShooter: {fileID: 0}
+  leftKey: 97
+  rightKey: 100
+  comboWindow: 0.08
   attackTriggers:
   - Attack1
   - Attack2
@@ -10001,6 +10013,9 @@ MonoBehaviour:
   WinPanel: {fileID: 1544290757}
   resultSystem: {fileID: 1364280814}
   scoreSystem: {fileID: 230136156}
+  boss: {fileID: 0}
+  loseIfBossAliveAtEnd: 0
+  playerHealth: {fileID: 0}
   countdownText: {fileID: 325852676}
   readyToGoTime: 1.6
   goDuration: 1
@@ -10098,6 +10113,10 @@ MonoBehaviour:
   maxHealth: 50
   damagePerMiss: 10
   HPbar: {fileID: 0}
+  gameOverPanel: {fileID: 0}
+  gameOverDelay: 1
+  pauseAudioOnDeath: 1
+  menuSceneName: 
 --- !u!95 &2008411978
 Animator:
   serializedVersion: 7
@@ -10643,9 +10662,7 @@ MonoBehaviour:
   stopPoint: {fileID: 909918463}
   damagePerAttack: 1
   retreatSpeed: 4
-  feverSystem: {fileID: 916470994}
   attackWhenFeverFull: 1
-  feverAlsoDamagesBoss: 0
 --- !u!1 &2139959277
 GameObject:
   m_ObjectHideFlags: 0

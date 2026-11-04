@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform entryPoint;
     [SerializeField] private float introMoveSpeed = 5f;
     [SerializeField] private float outroMoveSpeed = 4f;
-
+    private static bool IsLeftHalf(float x) => x < Screen.width * 0.5f;
     private bool sequenceStarted;
     private bool gameEnded;
 
@@ -30,13 +30,25 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float riseYOffset = 0f;
 
     [Header("Nhảy tự do (A / chạm nửa trái màn hình)")]
-[SerializeField] private bool enableFreeJump = true;
-[SerializeField] private KeyCode jumpKey = KeyCode.A;
-[Tooltip("Nhảy tới độ cao của Transform này. Để trống = nhảy lên jumpHeight so với vị trí hiện tại")]
-[SerializeField] private Transform jumpTarget;
-[SerializeField] private float jumpHeight = 2.5f;
-[Tooltip("Bật = chỉ nhảy khi đang đứng đất (không nhảy liên tục giữa không trung)")]
-[SerializeField] private bool requireGround = true;
+    [SerializeField] private bool enableFreeJump = true;
+    [SerializeField] private KeyCode jumpKey = KeyCode.A;
+    [Tooltip("Nhảy tới độ cao của Transform này. Để trống = nhảy lên jumpHeight so với vị trí hiện tại")]
+    [SerializeField] private Transform jumpTarget;
+    [SerializeField] private float jumpHeight = 2.5f;
+    [Tooltip("Bật = chỉ nhảy khi đang đứng đất (không nhảy liên tục giữa không trung)")]    
+    [SerializeField] private bool requireGround = true;
+
+    [Header("Fever Attack (nhấn 2 bên cùng lúc / A + D)")]
+    [SerializeField] private PlayerFeverShooter feverShooter;
+    [SerializeField] private KeyCode leftKey = KeyCode.A;
+    [SerializeField] private KeyCode rightKey = KeyCode.D;
+    [Tooltip("2 lần nhấn cách nhau tối đa bao nhiêu giây thì tính là cùng lúc")]
+    [SerializeField] private float comboWindow = 0.08f;
+
+    private float lastLeftDownTime = -10f;
+    private float lastRightDownTime = -10f;
+    private bool jumpPending;
+    private float jumpPendingTime;
 
     [Header("Attack (random)")]
     [SerializeField] private string[] attackTriggers =
@@ -70,6 +82,17 @@ public class PlayerController : MonoBehaviour
     [Header("Result")]
     [SerializeField] private ResultSystem resultSystem;
     [SerializeField] private ScoreSystem scoreSystem;
+
+    [Header("Boss / Win Condition")]
+    [SerializeField] private BossHealth boss;
+    [Tooltip("Hết bài mà boss còn sống: bật = thua (Game Over), tắt = chờ tới khi boss chết")]
+    [SerializeField] private bool loseIfBossAliveAtEnd = false;
+    [SerializeField] private PlayerHealth playerHealth;
+
+    private bool songEnded;
+    private bool outroDone;
+    private bool bossDead;
+    private bool finished;
 
     [Header("Countdown UI")]
     [SerializeField] private TMP_Text countdownText;
@@ -127,11 +150,20 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         SubscribeSongEnded();
+
+        if (boss != null)
+        {
+            boss.Died -= OnBossDied;
+            boss.Died += OnBossDied;
+        }
     }
 
     private void OnDisable()
     {
         UnsubscribeSongEnded();
+
+        if (boss != null)
+            boss.Died -= OnBossDied;
     }
 
     private void SubscribeSongEnded()
@@ -164,6 +196,10 @@ public class PlayerController : MonoBehaviour
         }
 
         gameEnded = false;
+        songEnded = false;
+        outroDone = false;
+        finished = false;
+        bossDead = boss == null || boss.IsDead;   // không có boss thì coi như đã chết
         sequenceStarted = false;
 
         if (audioSource != null)
@@ -194,23 +230,124 @@ public class PlayerController : MonoBehaviour
         introCoroutine = StartCoroutine(IntroSequence());
     }
 
-private void Update()
-{
-    if (animator != null)
-        animator.SetBool("IsGround", isGround);
+    private void Update()
+    {
+        if (animator != null)
+            animator.SetBool("IsGround", isGround);
 
-    if (enableFreeJump && CanFreeJump() && IsJumpInput())
-        FreeJump();
-}
+        bool leftDown  = SideDown(true);
+        bool rightDown = SideDown(false);
 
-private bool CanFreeJump()
-{
-    if (gameEnded || pianoKeySpawner == null) return false;
-    if (!pianoKeySpawner.IsPlaying || pianoKeySpawner.IsPaused) return false;
-    if (mode != AirMode.None) return false;          // đang dash/ride thì bỏ qua
-    if (requireGround && !isGround) return false;
-    return true;
-}
+        if (leftDown)  lastLeftDownTime  = Time.time;
+        if (rightDown) lastRightDownTime = Time.time;
+
+        // 1) Combo: 2 bên cùng lúc -> bắn đạn fever
+        if ((leftDown || rightDown) && CanFeverAttack())
+        {
+            bool bothHeld = SideHeld(true) && SideHeld(false);
+            bool together = Mathf.Abs(lastLeftDownTime - lastRightDownTime) <= comboWindow;
+
+            if (bothHeld && together)
+            {
+                jumpPending = false;      // huỷ lệnh nhảy đang chờ
+                FeverAttack();
+                return;
+            }
+        }
+
+        // 2) Nhảy
+        if (enableFreeJump && CanFreeJump() && leftDown)
+        {
+            if (feverShooter != null && feverShooter.IsFever)
+            {
+                // Đang fever: chờ 1 chút xem có nhấn bên phải không
+                jumpPending = true;
+                jumpPendingTime = Time.time + comboWindow;
+            }
+            else
+            {
+                FreeJump();
+            }
+        }
+
+        // Hết thời gian chờ mà không có combo -> nhảy
+        if (jumpPending && Time.time >= jumpPendingTime)
+        {
+            jumpPending = false;
+            if (CanFreeJump())
+                FreeJump();
+        }
+    }
+
+    private void FeverAttack()
+    {
+        if (feverShooter.TryFireFever())
+            PlayAttack();   // chạy animation attack ngẫu nhiên
+    }
+
+    private bool CanFeverAttack()
+    {
+        if (gameEnded || pianoKeySpawner == null) return false;
+        if (!pianoKeySpawner.IsPlaying || pianoKeySpawner.IsPaused) return false;
+        return feverShooter != null && feverShooter.IsFever;
+    }
+
+
+    private bool CanFreeJump()
+    {
+        if (gameEnded || pianoKeySpawner == null) return false;
+        if (!pianoKeySpawner.IsPlaying || pianoKeySpawner.IsPaused) return false;
+        if (mode != AirMode.None) return false;          // đang dash/ride thì bỏ qua
+        if (requireGround && !isGround) return false;
+        return true;
+    }
+
+    // ---------- Input: vừa nhấn xuống (1 frame) ----------
+    private bool SideDown(bool left)
+    {
+        if (Input.GetKeyDown(left ? leftKey : rightKey))
+            return true;
+
+        for (int i = 0; i < Input.touchCount; i++)
+        {
+            Touch t = Input.GetTouch(i);
+            if (t.phase == TouchPhase.Began &&
+                IsLeftHalf(t.position.x) == left &&
+                !IsPointerOverUI(t.fingerId))
+                return true;
+        }
+
+        if (Input.touchCount == 0 &&
+            Input.GetMouseButtonDown(0) &&
+            IsLeftHalf(Input.mousePosition.x) == left &&
+            !IsPointerOverUI(-1))
+            return true;
+
+        return false;
+    }
+
+    // ---------- Input: đang giữ ----------
+    private bool SideHeld(bool left)
+    {
+        if (Input.GetKey(left ? leftKey : rightKey))
+            return true;
+
+        for (int i = 0; i < Input.touchCount; i++)
+        {
+            Touch t = Input.GetTouch(i);
+            if (t.phase != TouchPhase.Ended &&
+                t.phase != TouchPhase.Canceled &&
+                IsLeftHalf(t.position.x) == left)
+                return true;
+        }
+
+        if (Input.touchCount == 0 &&
+            Input.GetMouseButton(0) &&
+            IsLeftHalf(Input.mousePosition.x) == left)
+            return true;
+
+        return false;
+    }
 
 private void FreeJump()
 {
@@ -605,6 +742,7 @@ private static bool IsPointerOverUI(int pointerId)
             return;
 
         gameEnded = true;
+        songEnded = true;
 
         StopHoldAttack();
 
@@ -641,9 +779,36 @@ private static bool IsPointerOverUI(int pointerId)
 
         rb.linearVelocity = Vector2.zero;
         rb.angularVelocity = 0f;
-
-        FinishGame();
+        outroDone = true;
         outroCoroutine = null;
+        TryFinish();
+    }
+
+    private void OnBossDied()
+    {
+        bossDead = true;
+        TryFinish();
+    }
+
+    // Chỉ thắng khi: hết bài + player đã lùi về + boss chết
+    private void TryFinish()
+    {
+        if (finished || !songEnded || !outroDone)
+            return;
+
+        if (!bossDead)
+        {
+            // Hết bài mà boss còn sống
+            if (loseIfBossAliveAtEnd && playerHealth != null)
+            {
+                finished = true;
+                playerHealth.Die();
+            }
+            return;   // không thì chờ boss chết (OnBossDied sẽ gọi lại TryFinish)
+        }
+
+        finished = true;
+        FinishGame();
     }
 
     private void FinishGame()

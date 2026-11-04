@@ -29,6 +29,14 @@ public class BossMusicAttack : MonoBehaviour
     [Tooltip("Sequential = lần lượt từng item trong list, Random = ngẫu nhiên")]
     [SerializeField] private PickMode itemPickMode = PickMode.Random;
 
+    [Header("Lane ngược")]
+    [Tooltip("Fire bay sang lane NGƯỢC với nốt piano (tạo cảm giác né)")]
+    [SerializeField] private bool fireOppositeLane = true;
+    [Tooltip("Item bay sang lane ngược với nốt piano. Tắt = cùng lane với nốt")]
+    [SerializeField] private bool itemOppositeLane = false;
+    [Tooltip("Xác suất đảo lane (1 = luôn đảo, 0.7 = 70% đảo, 30% cùng lane cho khó đoán)")]
+    [SerializeField, Range(0f, 1f)] private float oppositeChance = 1f;
+
     [Header("Đạn")]
     [Tooltip("Boss bắt đầu animation trước nhịp bao nhiêu giây. " +
              "Càng lớn thì đạn bay càng chậm/dài. Nên 1.5 - 2.")]
@@ -108,7 +116,14 @@ public class BossMusicAttack : MonoBehaviour
 
         lastWasFire = isFire;
 
-        queue.Enqueue(new AttackRequest(noteTime, isLeft, isFire));
+               // Đảo lane so với nốt piano nếu cần
+        bool useOpposite = isFire ? fireOppositeLane : itemOppositeLane;
+        bool targetLeft = isLeft;
+
+        if (useOpposite && Random.value < oppositeChance)
+            targetLeft = !isLeft;
+
+        queue.Enqueue(new AttackRequest(noteTime, targetLeft, isFire));
     }
 
     private void Update()

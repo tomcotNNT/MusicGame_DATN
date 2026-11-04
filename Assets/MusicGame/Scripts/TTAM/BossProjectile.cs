@@ -7,6 +7,7 @@ public class BossProjectile : MonoBehaviour
     [Header("Loại")]
     [Tooltip("Item = người chơi nhặt. Fire = người chơi né")]
     [SerializeField] private ProjectileKind kind = ProjectileKind.Item;
+    private bool hitPlayer;
 
     [Header("Item (chỉ dùng khi Kind = Item)")]
     [Tooltip("Mỗi loại item một id riêng. Nhặt item khác id thì thanh fever tính lại từ đầu")]
@@ -18,6 +19,8 @@ public class BossProjectile : MonoBehaviour
     [Header("Fire (chỉ dùng khi Kind = Fire)")]
     [Tooltip("Số máu mất khi dính fire (cần nối với hệ thống máu, xem TODO)")]
     [SerializeField] private int fireDamage = 1;
+    [Tooltip("Lưới an toàn: sau targetTime bao nhiêu giây thì tự huỷ nếu chưa chạm tường")]
+    [SerializeField, Min(0.5f)] private float fireMaxLifetime = 5f;
 
     [Header("Visual")]
     [SerializeField] private GameObject hitVfxPrefab;
@@ -41,7 +44,8 @@ public class BossProjectile : MonoBehaviour
     private float travelTime;
 
     private bool playerOnKey;
-    private bool completed;
+    private bool completed;      // Item: đã nhặt/miss. Fire: đã bị dọn (chạm tường)
+    private bool fireResolved;   // Fire: đã kiểm tra dính/né, đạn vẫn bay tiếp
     private bool initialized;
 
     private static ScoreSystem scoreSystem;
@@ -93,6 +97,7 @@ public class BossProjectile : MonoBehaviour
         transform.position = startPosition;
 
         completed = false;
+        fireResolved = false;
         playerOnKey = false;
         initialized = true;
 
@@ -124,22 +129,28 @@ public class BossProjectile : MonoBehaviour
 
         float now = spawner.SongTime;
 
-        // Vị trí theo thời gian bài nhạc
-        float progress = Mathf.Clamp01(
-            (now - launchSongTime) / travelTime);
+        // Vị trí theo thời gian bài nhạc (không clamp -> đạn đi xuyên qua hit point)
+        float progress = (now - launchSongTime) / travelTime;
 
-        transform.position = Vector3.Lerp(
+        transform.position = Vector3.LerpUnclamped(
             startPosition,
             targetPosition,
             progress);
 
-        // ---------- FIRE: tới nhịp mà player còn trên hit point => dính ----------
+        // ---------- FIRE: bay xuyên, chỉ kiểm tra dính/né một lần ----------
         if (kind == ProjectileKind.Fire)
         {
-            if (now >= targetTime)
-                ResolveFire();
+            if (!fireResolved && now >= targetTime)
+                ResolveFire();   // chỉ kiểm tra dính hay không, KHÔNG Destroy
 
-            return;
+            // Lưới an toàn nếu thiếu tường ở phía xa của lane
+            if (now > targetTime + fireMaxLifetime)
+            {
+                completed = true;
+                Destroy(gameObject);
+            }
+
+            return;   // đạn vẫn tiếp tục bay, tường sẽ dọn nó
         }
 
         // ---------- ITEM: nhặt bằng input đúng lane ----------
@@ -149,9 +160,8 @@ public class BossProjectile : MonoBehaviour
             return;
         }
 
-        // Bỏ lỡ nếu đã qua thời điểm đánh nốt
-        if (now > targetTime + missTolerance)
-            Miss();
+        // if (now > targetTime + missTolerance)
+        //     Miss();
     }
 
     public void SetHitPoint(HitPoint point, bool inside)
@@ -176,18 +186,36 @@ public class BossProjectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+
+         if (kind == ProjectileKind.Fire && !hitPlayer && other.CompareTag("Player"))
+        {
+            hitPlayer = true;   // lửa bay xuyên nên chỉ tính một lần
+
+            PlayerHealth health = other.GetComponentInParent<PlayerHealth>();
+            if (health != null)
+                health.Die();   // hoặc health.Die()
+
+            if (hitVfxPrefab != null)
+            {
+                GameObject vfx = Instantiate(hitVfxPrefab, transform.position, Quaternion.identity);
+                Destroy(vfx, vfxLifetime);
+            }
+            return;
+        }
+
+
         if (!other.CompareTag("Wall"))
             return;
 
+        // Chạm tường chỉ dọn rác, miss đã do Update xử lý theo timing
         if (kind == ProjectileKind.Fire)
         {
-            // Fire chạm tường chỉ biến mất, không tính miss
             completed = true;
             Destroy(gameObject);
         }
-        else
+        else if (!completed)
         {
-            Miss();
+            Miss();   // chỉ còn là lưới an toàn khi đạn ra khỏi màn hình
         }
     }
 
@@ -195,10 +223,10 @@ public class BossProjectile : MonoBehaviour
 
     private void ResolveFire()
     {
-        if (completed)
+        if (fireResolved)
             return;
 
-        completed = true;
+        fireResolved = true;   // KHÔNG đặt completed, KHÔNG Destroy
 
         if (playerOnKey)
         {
@@ -209,19 +237,18 @@ public class BossProjectile : MonoBehaviour
             // TODO: trừ máu player, ví dụ:
             // FindFirstObjectByType<PlayerController>()?.TakeDamage(fireDamage);
 
-            if (hitVfxPrefab != null)
-            {
-                GameObject vfx = Instantiate(
-                    hitVfxPrefab,
-                    transform.position,
-                    Quaternion.identity);
+            // if (hitVfxPrefab != null)
+            // {
+            //     GameObject vfx = Instantiate(
+            //         hitVfxPrefab,
+            //         transform.position,
+            //         Quaternion.identity);
 
-                Destroy(vfx, vfxLifetime);
-            }
+            //     Destroy(vfx, vfxLifetime);
+            // }
         }
 
-        // Né được thì không bị phạt
-        Destroy(gameObject);
+        // Né được thì không bị phạt, đạn tiếp tục bay xuyên
     }
 
     // ================= ITEM =================

@@ -165,13 +165,6 @@ public class PianoKeySpawner : MonoBehaviour
         }
     }
 
-    // Boss đã xuất hiện và đang đánh => piano spawner ngừng hoạt động
-    private bool IsBossPhase =>
-        bossAppeared &&
-        bossSpawner != null &&
-        bossSpawner.IsFighting &&
-        bossSpawner.CurrentMusicAttack != null;
-
     // ---- State ----
     private double songStartDsp;
     private bool songStarted;
@@ -409,14 +402,14 @@ public class PianoKeySpawner : MonoBehaviour
             // Lane của nốt này (dùng chung cho nốt thường, item và đạn boss)
             bool left = randomLane ? Random.value < 0.5f : note.lane == 0;
 
-            // ===== BOSS PHASE =====
-            // Boss đã xuất hiện và đang đánh: piano spawner ngừng hoạt động
-            // (không piano, không nốt dài, không item). Mỗi nốt MIDI = 1 phát bắn của boss.
-            if (IsBossPhase)
+            // ===== BOSS =====
+            // Boss bắn theo nốt MIDI. KHÔNG có continue => piano vẫn spawn bình thường.
+            // Muốn boss bắn lane ngược piano thì đổi thành ScheduleBeat(note.time, !left)
+            if (bossAppeared && bossSpawner != null)
             {
-                bossSpawner.CurrentMusicAttack.ScheduleBeat(note.time, left);
-                lastAcceptedNoteEnd = note.time;
-                continue;
+                BossMusicAttack atk = bossSpawner.CurrentMusicAttack;
+                if (atk != null)
+                    atk.ScheduleBeat(note.time, left);
             }
 
             // ===== PIANO BÌNH THƯỜNG =====

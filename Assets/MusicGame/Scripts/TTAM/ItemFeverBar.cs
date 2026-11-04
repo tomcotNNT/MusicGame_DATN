@@ -11,6 +11,8 @@ public class ItemFeverBar : MonoBehaviour
     [Tooltip("(Tuỳ chọn) icon của item đang tích")]
     [SerializeField] private Image iconImage;
 
+    public GameObject Fever;
+
     [Header("Cấu hình")]
     [SerializeField, Min(1)] private int notesToFull = 5;
     [SerializeField] private float fillLerpSpeed = 10f;
@@ -31,6 +33,13 @@ public class ItemFeverBar : MonoBehaviour
     {
         Instance = this;
         ResetBar();
+    }
+
+    private void Start()
+    {
+        //an  fever
+        if (Fever != null)
+            Fever.SetActive(false);
     }
 
     private void OnDestroy()
@@ -57,6 +66,13 @@ public class ItemFeverBar : MonoBehaviour
         if (string.IsNullOrEmpty(itemId))
             return;
 
+        // Thanh đã đầy, chờ bắn rồi mới tích tiếp
+        if (IsFull)
+            return;
+
+        if (Fever != null)
+            Fever.SetActive(true);
+
         // Nhặt item khác id => tính lại từ đầu
         if (itemId != currentItemId)
         {
@@ -71,14 +87,13 @@ public class ItemFeverBar : MonoBehaviour
         currentCount++;
 
         if (currentCount >= notesToFull)
-        {
-            string fullId = currentItemId;
+            OnFull?.Invoke(currentItemId);   // KHÔNG reset ở đây
+    }
 
-            if (resetWhenFull)
-                currentCount = 0;
-
-            OnFull?.Invoke(fullId);
-        }
+    public void Consume()
+    {
+        ResetBar();
+        HideFever();
     }
 
     public void ResetBar()
@@ -89,5 +104,11 @@ public class ItemFeverBar : MonoBehaviour
 
         if (fillImage != null)
             fillImage.fillAmount = 0f;
+    }
+
+    public void HideFever()
+    {
+        if (Fever != null)
+            Fever.SetActive(false);
     }
 }
