@@ -11,8 +11,7 @@ GameObject:
   - component: {fileID: 2835554849172935919}
   - component: {fileID: 3605414833690369207}
   - component: {fileID: 3956645784216788990}
-  - component: {fileID: 6680894361184226627}
-  - component: {fileID: -3333118391170022671}
+  - component: {fileID: 2350132865132213073}
   m_Layer: 0
   m_Name: Golditem
   m_TagString: Untagged
@@ -130,7 +129,7 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 3.6599998
---- !u!114 &6680894361184226627
+--- !u!114 &2350132865132213073
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -139,26 +138,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 6888662824463576929}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e7543452eb21d249a666fd2e8587a52, type: 3}
+  m_Script: {fileID: 11500000, guid: 7b5f0dd1b4d619640b6eda641f82bedf, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BossCollectible
-  itemType: 2
-  collectVfxPrefab: {fileID: 3586783676955513028, guid: 8b22428d0d58c2c42af8a9057c319963, type: 3}
-  collectVfxPrefab2: {fileID: 4306488877223958017, guid: 2fbb1969d46802e4485b17e89d3a86cb, type: 3}
-  collectSfx: {fileID: 8300000, guid: d850257c70836db408639fb2f787f9b1, type: 3}
-  collectVolume: 1
+  m_EditorClassIdentifier: Assembly-CSharp::PianoKey
+  hitVfxPrefab: {fileID: 3586783676955513028, guid: 8b22428d0d58c2c42af8a9057c319963, type: 3}
+  hitVfxPrefab2: {fileID: 4306488877223958017, guid: 2fbb1969d46802e4485b17e89d3a86cb, type: 3}
   vfxLifetime: 1
---- !u!114 &-3333118391170022671
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6888662824463576929}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d4d86b1e7039f042b7178a142887512, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BossItemMovement
-  moveSpeed: 5
-  destroyX: -15
+  vfxOffset: {x: 0, y: 0, z: 0}
+  leftHitClip: {fileID: 8300000, guid: d850257c70836db408639fb2f787f9b1, type: 3}
+  rightHitClip: {fileID: 8300000, guid: d850257c70836db408639fb2f787f9b1, type: 3}
+  hitVolume: 1
+  movePlayer: 1
+  keyLeft: {fileID: 6888662824463576929}
+  keyRight: {fileID: 6888662824463576929}

@@ -58,6 +58,13 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private GameObject WinPanel;
 
+    [Header("Boss Battle Result")]
+    [SerializeField] private BossItemBattleManager bossItemManager;
+    [SerializeField] private GameObject gameOverPanel;
+    private bool bossBattleStarted;
+    private bool bossBattleWon;
+    private bool bossBattleLost;
+
     [Header("Result")]
     [SerializeField] private ResultSystem resultSystem;
     [SerializeField] private ScoreSystem scoreSystem;
@@ -118,11 +125,13 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         SubscribeSongEnded();
+        SubscribeBossEvents();
     }
 
     private void OnDisable()
     {
         UnsubscribeSongEnded();
+        UnsubscribeBossEvents();
     }
 
     private void SubscribeSongEnded()
@@ -140,6 +149,38 @@ public class PlayerController : MonoBehaviour
             pianoKeySpawner.SongEnded -= EndGame;
     }
 
+    private void SubscribeBossEvents()
+    {
+        if (bossItemManager == null) return;
+        bossItemManager.Won -= OnBossWon;
+        bossItemManager.Lost -= OnBossLost;
+        bossItemManager.Won += OnBossWon;
+        bossItemManager.Lost += OnBossLost;
+    }
+
+    private void UnsubscribeBossEvents()
+    {
+        if (bossItemManager == null) return;
+        bossItemManager.Won -= OnBossWon;
+        bossItemManager.Lost -= OnBossLost;
+    }
+
+    private void OnBossWon()
+    {
+        bossBattleStarted = true;
+        bossBattleWon = true;
+        bossBattleLost = false;
+        EndGame();
+    }
+
+    private void OnBossLost()
+    {
+        bossBattleStarted = true;
+        bossBattleLost = true;
+        bossBattleWon = false;
+        EndGame();
+    }
+
     private void Start()
     {
         // Phòng khi quay lại từ menu pause: WaitForSeconds sẽ đứng yên nếu timeScale = 0
@@ -147,6 +188,12 @@ public class PlayerController : MonoBehaviour
 
         if (WinPanel != null)
             WinPanel.SetActive(false);
+        if (gameOverPanel != null)
+            gameOverPanel.SetActive(false);
+        bossBattleStarted = false;
+        bossBattleWon = false;
+        bossBattleLost = false;
+        SubscribeBossEvents();
 
         if (countdownText != null)
         {
@@ -543,6 +590,21 @@ public class PlayerController : MonoBehaviour
         if (gameEnded)
             return;
 
+        // SongEnded can fire while the Boss battle is active.
+        // Ask the manager to resolve Win/Lose before ending the level.
+        if (!bossBattleWon && !bossBattleLost && bossItemManager != null && bossItemManager.IsActive)
+        {
+            bossBattleStarted = true;
+            bossItemManager.OnSongFinished();
+            // OnSongFinished normally raises Lost, which calls EndGame again.
+            if (gameEnded) return;
+            if (!bossBattleWon && !bossBattleLost)
+            {
+                Debug.LogWarning("Boss battle ended without Won/Lost; treating as loss.");
+                bossBattleLost = true;
+            }
+        }
+
         gameEnded = true;
 
         StopHoldAttack();
@@ -590,9 +652,14 @@ public class PlayerController : MonoBehaviour
         if (resultSystem != null && scoreSystem != null)
             resultSystem.ShowResult(scoreSystem.GetScore());
 
+        bool lost = bossBattleLost;
         if (WinPanel != null)
-            WinPanel.SetActive(true);
+            WinPanel.SetActive(!lost);
+        if (gameOverPanel != null)
+            gameOverPanel.SetActive(lost);
+        else if (lost)
+            Debug.LogWarning("PlayerController: Chua gan Game Over Panel trong Inspector. ResultSystem van duoc goi.");
 
-        Debug.Log("WIN - Player đã lùi về vị trí ban đầu!");
+        Debug.Log(lost ? "[BossItem] GAME OVER - Show result" : "[Game] WIN - Show result");
     }
 }
