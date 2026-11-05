@@ -109,7 +109,6 @@ public class PianoKeySpawner : MonoBehaviour
     [SerializeField] private bool itemRandomPick = false;
     [Tooltip("Bật = nốt dài cũng có thể đổi thành item. Tắt = chỉ đổi nốt thường")]
     [SerializeField] private bool itemCanReplaceLongNote = false;
-
     private int itemIndex;
     private int notesSinceItem;
 

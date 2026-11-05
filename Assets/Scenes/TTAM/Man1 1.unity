@@ -4580,7 +4580,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PianoKeySpawner
   midiReader: {fileID: 459371224}
-  pianoKeyPrefab: {fileID: 5717739272137354105, guid: 6b21b1bf2119c2245babedf915e8b394, type: 3}
+  pianoKeyPrefab: {fileID: 5717739272137354105, guid: bcca0e4a6abedc0468a8bea7770e5b75, type: 3}
   audioSource: {fileID: 459371225}
   player: {fileID: 2008411973}
   spawnPoint: {fileID: 983721398}
@@ -4589,7 +4589,7 @@ MonoBehaviour:
   hitPointTop: {fileID: 667812587}
   coinSpawner: {fileID: 625427041}
   bossSpawner: {fileID: 2135059614}
-  bossAppearAt: 0.513
+  bossAppearAt: 0.05
   keySpeed: 5.7
   loopWithSpeedUp: 1
   speedStep: 0.15
@@ -11351,7 +11351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31e80eccb3f643642b30f734b1f6778e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossSpawner
-  bossPrefab: {fileID: 4112970757706191771, guid: b9219202a4bee31439127479a212027c, type: 3}
+  bossPrefab: {fileID: 169438679427344733, guid: 3de13f2d3908d2949a1090adc56b5f0b, type: 3}
   spawnPoint: {fileID: 1906374409}
   stopPoint: {fileID: 909918463}
   damagePerAttack: 1
