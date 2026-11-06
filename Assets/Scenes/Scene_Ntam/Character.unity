@@ -3443,7 +3443,7 @@ MonoBehaviour:
     displayName: RAMONA
     unlockType: 0
     unlockPriceDiamond: 0
-    collectWord: 
+    collectWord: RAMONA
   - characterID: Scott
     displayName: SCOTT
     unlockType: 1
@@ -10887,18 +10887,51 @@ MonoBehaviour:
   - letter: 70
     neonSprite: {fileID: 0}
     graySprite: {fileID: 0}
-  - letter: 83
-    neonSprite: {fileID: -4787385571625552421, guid: 35d79fc910a2847418c47dbbed37b96b, type: 3}
-    graySprite: {fileID: 8838196322933395665, guid: 1b663a2cb8b00984f9f558c9f8e0f336, type: 3}
+  - letter: 71
+    neonSprite: {fileID: -7165468222573433130, guid: 35d79fc910a2847418c47dbbed37b96b, type: 3}
+    graySprite: {fileID: -532857912664725428, guid: 1b663a2cb8b00984f9f558c9f8e0f336, type: 3}
+  - letter: 72
+    neonSprite: {fileID: 1270936444382421866, guid: 35d79fc910a2847418c47dbbed37b96b, type: 3}
+    graySprite: {fileID: -5033509132999262322, guid: 1b663a2cb8b00984f9f558c9f8e0f336, type: 3}
+  - letter: 73
+    neonSprite: {fileID: -811842639433806326, guid: 35d79fc910a2847418c47dbbed37b96b, type: 3}
+    graySprite: {fileID: -5004037255922090091, guid: 1b663a2cb8b00984f9f558c9f8e0f336, type: 3}
+  - letter: 74
+    neonSprite: {fileID: 4418784825639939333, guid: 35d79fc910a2847418c47dbbed37b96b, type: 3}
+    graySprite: {fileID: 7733988224980440262, guid: 1b663a2cb8b00984f9f558c9f8e0f336, type: 3}
+  - letter: 75
+    neonSprite: {fileID: 4438649251881161347, guid: 35d79fc910a2847418c47dbbed37b96b, type: 3}
+    graySprite: {fileID: -8576153974214928588, guid: 1b663a2cb8b00984f9f558c9f8e0f336, type: 3}
+  - letter: 76
+    neonSprite: {fileID: 691119403628660068, guid: 35d79fc910a2847418c47dbbed37b96b, type: 3}
+    graySprite: {fileID: -5649839766690689504, guid: 1b663a2cb8b00984f9f558c9f8e0f336, type: 3}
+  - letter: 77
+    neonSprite: {fileID: -4715956486970550027, guid: 35d79fc910a2847418c47dbbed37b96b, type: 3}
+    graySprite: {fileID: -6960524054709589693, guid: 1b663a2cb8b00984f9f558c9f8e0f336, type: 3}
+  - letter: 78
+    neonSprite: {fileID: 7515751365113581194, guid: 35d79fc910a2847418c47dbbed37b96b, type: 3}
+    graySprite: {fileID: -9119821747673722682, guid: 1b663a2cb8b00984f9f558c9f8e0f336, type: 3}
   - letter: 79
     neonSprite: {fileID: -5293141435025306825, guid: 1b663a2cb8b00984f9f558c9f8e0f336, type: 3}
     graySprite: {fileID: -3221811652018944860, guid: 35d79fc910a2847418c47dbbed37b96b, type: 3}
+  - letter: 80
+    neonSprite: {fileID: 6982418831938290488, guid: 35d79fc910a2847418c47dbbed37b96b, type: 3}
+    graySprite: {fileID: 4173161920121353068, guid: 1b663a2cb8b00984f9f558c9f8e0f336, type: 3}
+  - letter: 81
+    neonSprite: {fileID: -1560980200362987770, guid: 35d79fc910a2847418c47dbbed37b96b, type: 3}
+    graySprite: {fileID: -623958195420367774, guid: 1b663a2cb8b00984f9f558c9f8e0f336, type: 3}
+  - letter: 82
+    neonSprite: {fileID: -5740912960293241403, guid: 35d79fc910a2847418c47dbbed37b96b, type: 3}
+    graySprite: {fileID: -890519512975898641, guid: 1b663a2cb8b00984f9f558c9f8e0f336, type: 3}
+  - letter: 83
+    neonSprite: {fileID: -4787385571625552421, guid: 35d79fc910a2847418c47dbbed37b96b, type: 3}
+    graySprite: {fileID: 8838196322933395665, guid: 1b663a2cb8b00984f9f558c9f8e0f336, type: 3}
   - letter: 84
     neonSprite: {fileID: 1626508733587311540, guid: 35d79fc910a2847418c47dbbed37b96b, type: 3}
     graySprite: {fileID: -2519509594293809807, guid: 1b663a2cb8b00984f9f558c9f8e0f336, type: 3}
-  - letter: 77
-    neonSprite: {fileID: 0}
-    graySprite: {fileID: 0}
+  - letter: 85
+    neonSprite: {fileID: 1081902758691077823, guid: 35d79fc910a2847418c47dbbed37b96b, type: 3}
+    graySprite: {fileID: 6651641338554212097, guid: 1b663a2cb8b00984f9f558c9f8e0f336, type: 3}
   letterSlots:
   - {fileID: 2019118793}
   - {fileID: 1003135153}
