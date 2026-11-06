@@ -20,7 +20,7 @@ public class CharacterProfile
 
     [Header("Cấu hình Chữ Cái & Kim Cương (NV2, NV3)")]
     public int unlockPriceDiamond = 999;
-    public string collectWord = "SCOTT"; // Từ khóa cần gom đủ để nhận miễn phí
+    public string collectWord = "SCOTT";
 }
 
 public class CharacterSystemManager : MonoBehaviour
@@ -33,30 +33,30 @@ public class CharacterSystemManager : MonoBehaviour
     [SerializeField] private Button actionButton;
     [SerializeField] private Image actionButtonBg;
     [SerializeField] private TextMeshProUGUI actionButtonText;
-    [SerializeField] private GameObject selectButtonObj;       // Ảnh SELECT đè lên (nếu dùng sprite riêng)
-    [SerializeField] private GameObject playIcon;              // Icon tam giác / nốt nhạc
+    [SerializeField] private GameObject selectButtonObj;
+    [SerializeField] private GameObject playIcon;
 
     [Header("3. UI Mua Kim Cương (Khung Trái)")]
-    [SerializeField] private GameObject diamondBuyPanel;       // Khung Diamond Panel bên trái
-    [SerializeField] private TextMeshProUGUI priceDiamondText; // Text số tiền 999
+    [SerializeField] private GameObject diamondBuyPanel;
+    [SerializeField] private TextMeshProUGUI priceDiamondText;
 
     [Header("4. Dãy Chữ Cái Tên Nhân Vật (Khung Phải)")]
-    [SerializeField] private CharacterNameDisplay nameDisplay; // Script quản lý 7 slot chữ cái
+    [SerializeField] private CharacterNameDisplay nameDisplay;
 
     [Header("5. Tutorial Tân Thủ (Ramona)")]
     [SerializeField] private GameObject tutorialOverlay;
     [SerializeField] private RectTransform handPointer;
     [SerializeField] private Button backButton;
-    [SerializeField] private GameObject ramonaObject;          // Char_01
-    [SerializeField] private GameObject ramonaGlowEffect;      // GlowEffect sau lưng Char_01
+    [SerializeField] private GameObject ramonaObject;
+    [SerializeField] private GameObject ramonaGlowEffect;
     [SerializeField] private string tutorialNextScene = "Story";
     [SerializeField] private string normalNextScene = "LobbyNT";
 
     [Header("6. Bảng Màu Trạng Thái Nút")]
     [SerializeField] private Color playColor = new Color(0.2f, 0.6f, 1f);     // Xanh biển (PLAY)
-    [SerializeField] private Color selectColor = new Color(0f, 0.95f, 0.85f); // Xanh Cyan sáng (SELECT)
-    [SerializeField] private Color claimColor = new Color(0f, 1f, 0.5f);      // Xanh lá neon (CLAIM)
-    [SerializeField] private Color lockedColor = new Color(0.3f, 0.3f, 0.35f);// Xám đen mờ (LOCKED)
+    [SerializeField] private Color selectColor = new Color(0f, 0.95f, 0.85f); // Xanh Cyan (SELECT)
+    [SerializeField] private Color claimColor = new Color(0f, 1f, 0.5f);      // Xanh lá (CLAIM)
+    [SerializeField] private Color lockedColor = new Color(0.3f, 0.3f, 0.35f);// Xám đen (LOCKED)
 
     private int activeIndex = 0;
     private bool isTutorial = false;
@@ -67,7 +67,6 @@ public class CharacterSystemManager : MonoBehaviour
 
     private void Awake()
     {
-        // NV1 (Ramona) luôn luôn mở khóa
         PlayerPrefs.SetInt("Unlocked_Ramona", 1);
 
         if (handPointer != null)
@@ -80,7 +79,7 @@ public class CharacterSystemManager : MonoBehaviour
 
         if (isTutorial)
         {
-            activeIndex = 0; // Cố định Ramona cho tân thủ
+            activeIndex = 0;
             SaveCharacterSelection(0, "Ramona");
 
             if (tutorialOverlay != null) tutorialOverlay.SetActive(true);
@@ -100,7 +99,6 @@ public class CharacterSystemManager : MonoBehaviour
 
             ResetRamonaHighlight();
 
-            // Khôi phục nhân vật đang trang bị từ trước
             string equipped = PlayerPrefs.GetString("EquippedCharacter", "Ramona");
             for (int i = 0; i < characters.Length; i++)
             {
@@ -115,7 +113,6 @@ public class CharacterSystemManager : MonoBehaviour
 
     private void Start()
     {
-        // 1. Tự động gắn sự kiện click mua kim cương vào chính Diamond Panel
         if (diamondBuyPanel != null)
         {
             Button buyBtn = diamondBuyPanel.GetComponent<Button>();
@@ -126,7 +123,6 @@ public class CharacterSystemManager : MonoBehaviour
             }
         }
 
-        // 2. Gắn sự kiện cho nút Action và Back
         if (actionButton != null)
         {
             actionButton.onClick.RemoveAllListeners();
@@ -144,6 +140,13 @@ public class CharacterSystemManager : MonoBehaviour
 
     private void Update()
     {
+        // 1. TỰ ĐỘNG ĐỒNG BỘ: Phát hiện người chơi vừa vuốt sang nhân vật mới
+        if (swipeControl != null && swipeControl.CurrentIndex != activeIndex)
+        {
+            OnCharacterSwiped(swipeControl.CurrentIndex);
+        }
+
+        // 2. Xử lý hiệu ứng nhấp nhô khi ở Tutorial
         if (isTutorial)
         {
             if (handPointer != null && handPointer.gameObject.activeInHierarchy)
@@ -160,36 +163,34 @@ public class CharacterSystemManager : MonoBehaviour
         }
     }
 
-    // Được gọi tự động từ ListCharSwipeControl khi người chơi vuốt xong
     public void OnCharacterSwiped(int index)
     {
-        if (index < 0 || index >= characters.Length) return;
+        if (characters == null || index < 0 || index >= characters.Length) return;
         activeIndex = index;
         UpdateUIByCharacter(activeIndex);
     }
 
     public void UpdateUIByCharacter(int index)
     {
+        if (characters == null || index < 0 || index >= characters.Length) return;
         CharacterProfile cur = characters[index];
 
         bool isUnlocked = (cur.unlockType == UnlockType.Default) ||
                           PlayerPrefs.GetInt("Unlocked_" + cur.characterID, 0) == 1;
         string equipped = PlayerPrefs.GetString("EquippedCharacter", "Ramona");
 
-        // 1. Cập nhật Dãy Chữ Cái (sáng Neon hoặc tối Xám dựa vào kho đồ)
+        // Đồng bộ dãy chữ cái tên nhân vật
         if (nameDisplay != null)
         {
             nameDisplay.DisplayWord(cur.collectWord, isUnlocked);
         }
 
-        // Nếu đang trong Tutorial tân thủ: ẩn toàn bộ khung mua bán
         if (isTutorial)
         {
             if (diamondBuyPanel != null) diamondBuyPanel.SetActive(false);
             return;
         }
 
-        // 2. Trạng thái ĐÃ SỞ HỮU (Áp dụng cho mọi nhân vật đã mở khóa)
         if (isUnlocked)
         {
             if (diamondBuyPanel != null) diamondBuyPanel.SetActive(false);
@@ -205,37 +206,34 @@ public class CharacterSystemManager : MonoBehaviour
             return;
         }
 
-        // 3. Trạng thái CHƯA SỞ HỮU: Phân nhánh theo cơ chế mở khóa
+        // Chưa mở khóa: xử lý theo loại mở khóa
         switch (cur.unlockType)
         {
-            case UnlockType.LettersOrDiamond: // NV2 (Scott) & NV3 (Stephen)
+            case UnlockType.LettersOrDiamond:
                 if (diamondBuyPanel != null)
                 {
                     diamondBuyPanel.SetActive(true);
                     if (priceDiamondText != null) priceDiamondText.text = cur.unlockPriceDiamond.ToString();
                 }
 
-                // Kiểm tra xem túi đồ chữ cái đã đủ ghép thành từ chưa
                 bool hasFullLetters = LetterInventoryManager.HasEnoughLettersForWord(cur.collectWord);
 
                 if (hasFullLetters)
                 {
-                    // Đã đủ chữ -> Nút giữa biến thành CLAIM màu xanh sáng để nhận miễn phí
                     SetButtonVisual(ActionState.Claim, "CLAIM", claimColor, false);
                 }
                 else
                 {
-                    // Chưa đủ chữ -> Nút giữa tạm khóa (người chơi có thể bấm khung Diamond Panel bên trái để mua thẳng)
                     SetButtonVisual(ActionState.Locked, "LOCKED", lockedColor, false);
                 }
                 break;
 
-            case UnlockType.Achievement: // NV4: Knives Chau
+            case UnlockType.Achievement:
                 if (diamondBuyPanel != null) diamondBuyPanel.SetActive(false);
                 SetButtonVisual(ActionState.Locked, "QUEST", lockedColor, false);
                 break;
 
-            case UnlockType.GachaWheel:  // NV5: Kim Pine / Mystery
+            case UnlockType.GachaWheel:
                 if (diamondBuyPanel != null) diamondBuyPanel.SetActive(false);
                 SetButtonVisual(ActionState.Locked, "LUCKY", lockedColor, false);
                 break;
@@ -252,7 +250,12 @@ public class CharacterSystemManager : MonoBehaviour
         }
         if (actionButtonBg != null) actionButtonBg.color = color;
         if (actionButtonText != null) actionButtonText.text = label;
-        if (playIcon != null) playIcon.SetActive(showPlayIcon);
+
+        // Cơ chế phòng thủ: Không ẩn nếu playIcon bị kéo nhầm chính actionButton
+        if (playIcon != null && (actionButton == null || playIcon != actionButton.gameObject))
+        {
+            playIcon.SetActive(showPlayIcon);
+        }
 
         if (selectButtonObj != null)
         {
@@ -260,13 +263,11 @@ public class CharacterSystemManager : MonoBehaviour
         }
     }
 
-    // Xử lý khi bấm nút Action Button ở giữa màn hình
     public void OnActionButtonClick()
     {
         PlayClickSFX();
         CharacterProfile cur = characters[activeIndex];
 
-        // --- Xử lý Tutorial tân thủ ---
         if (isTutorial)
         {
             if (currentActionState == ActionState.Select)
@@ -286,7 +287,6 @@ public class CharacterSystemManager : MonoBehaviour
             return;
         }
 
-        // --- Xử lý chế độ thường ---
         switch (currentActionState)
         {
             case ActionState.Select:
@@ -299,20 +299,14 @@ public class CharacterSystemManager : MonoBehaviour
                 break;
 
             case ActionState.Claim:
-                // 1. Trừ chính xác số lượng chữ cái tương ứng trong túi đồ
                 LetterInventoryManager.ConsumeLettersForWord(cur.collectWord);
-
-                // 2. Lưu trạng thái mở khóa và trang bị nhân vật
                 PlayerPrefs.SetInt("Unlocked_" + cur.characterID, 1);
                 SaveCharacterSelection(activeIndex, cur.characterID);
-
-                // 3. Vẽ lại giao diện (Nút chuyển ngay sang PLAY)
                 UpdateUIByCharacter(activeIndex);
                 break;
         }
     }
 
-    // Xử lý khi bấm trực tiếp vào khung Diamond Panel bên trái
     public void OnDirectBuyWithDiamonds()
     {
         PlayClickSFX();
@@ -325,7 +319,6 @@ public class CharacterSystemManager : MonoBehaviour
             PlayerPrefs.SetInt("UserDiamonds", currentDiamond);
             PlayerPrefs.SetInt("Unlocked_" + cur.characterID, 1);
             SaveCharacterSelection(activeIndex, cur.characterID);
-
             UpdateUIByCharacter(activeIndex);
         }
         else
