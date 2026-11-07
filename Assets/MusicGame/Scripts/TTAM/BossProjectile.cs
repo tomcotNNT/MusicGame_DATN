@@ -191,9 +191,10 @@ public class BossProjectile : MonoBehaviour
         {
             hitPlayer = true;   // lửa bay xuyên nên chỉ tính một lần
 
-            PlayerHealth health = other.GetComponentInParent<PlayerHealth>();
-            if (health != null)
-                health.Die();   // hoặc health.Die()
+            //giảm thanh fever item
+            ItemFeverBar itemFever = ItemFeverBar.Instance;
+            if (itemFever != null)
+                itemFever.MinusBar();
 
             if (hitVfxPrefab != null)
             {
