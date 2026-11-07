@@ -129,6 +129,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f4a71efb76787b418ef0f2a2c6b6aeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossProjectile
+  kind: 1
+  itemId: item_default
+  itemIcon: {fileID: 3932649933090223144, guid: 85b6ce807940a8849a9539bcb234ad47, type: 3}
+  resetItemBarOnMiss: 0
+  fireDamage: 1
+  fireMaxLifetime: 5
   hitVfxPrefab: {fileID: 4306488877223958017, guid: 2fbb1969d46802e4485b17e89d3a86cb, type: 3}
   vfxLifetime: 1
   missTolerance: 0.12

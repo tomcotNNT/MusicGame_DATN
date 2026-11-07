@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 7338209364204905597}
   - component: {fileID: 8258896862940595547}
   - component: {fileID: 169438679427344733}
+  - component: {fileID: 3022872360175188609}
   m_Layer: 0
   m_Name: Boss2
   m_TagString: Untagged
@@ -237,13 +238,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BossMusicAttack
   animator: {fileID: 556989867250427379}
   firePoint: {fileID: 4568238296954764653}
-  projectilePrefab: {fileID: 412996690738100735, guid: 0c81ba69538a09d4c9e5f900b2b5e0e3, type: 3}
   attackTrigger: Attack1
   attackEveryN: 4
-  onlyLongNotes: 0
-  longNoteMinDuration: 0.5
   minInterval: 0.8
+  firePrefabs:
+  - {fileID: 937662737765964282, guid: e1954d8b2a7324249b76deea88366471, type: 3}
+  itemPrefabs:
+  - {fileID: 3058354825989423581, guid: f2c311c7ecdfa424d86582d167ae3219, type: 3}
+  fireChance: 0.5
+  maxSameKindInRow: 2
+  firePickMode: 0
+  itemPickMode: 0
+  fireOppositeLane: 1
+  itemOppositeLane: 0
+  oppositeChance: 1
   travelTime: 0.9
+  forceFireBeforeHit: 0.25
 --- !u!114 &169438679427344733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,3 +269,31 @@ MonoBehaviour:
   maxHealth: 20
   enterSpeed: 4
   healthFill: {fileID: 0}
+--- !u!114 &3022872360175188609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5543959379653018894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a380bee76eb58b43a2a3888ff16ca04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossHealth
+  maxHealth: 60
+  hpBar: {fileID: 0}
+  animator: {fileID: 0}
+  hitTrigger: Hit
+  dieTrigger: Die
+  attack: {fileID: 8258896862940595547}
+  collidersToDisable: []
+  retreatOnDeath: 1
+  destroyTarget: {fileID: 0}
+  retreatPoint: {fileID: 0}
+  retreatDirection: {x: 1, y: 0}
+  retreatDistance: 6
+  retreatSpeed: 4
+  delayBeforeRetreat: 0.5
+  fadeOut: 1
+  destroyDelay: 0.1

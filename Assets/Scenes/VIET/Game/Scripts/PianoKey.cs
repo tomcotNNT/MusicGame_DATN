@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public class PianoKey : MonoBehaviour
 {
@@ -44,6 +45,27 @@ public class PianoKey : MonoBehaviour
     [Header("Visual")]
     [SerializeField] private GameObject keyLeft;
     [SerializeField] private GameObject keyRight;
+
+    [Header("Kick Effect")]
+    [Tooltip("Bật = trúng nốt thì nốt bị đá văng ra thay vì biến mất ngay")]
+    [SerializeField] private bool kickOnHit = true;
+    [Tooltip("Vận tốc đá. X là hướng văng ra phía ngược với người chơi, Y là hướng lên")]
+    [SerializeField] private Vector2 kickVelocity = new Vector2(6f, 7f);
+    [Tooltip("Ngẫu nhiên thêm bớt vận tốc cho tự nhiên (0.2 = ±20%)")]
+    [SerializeField, Range(0f, 0.5f)] private float kickRandomness = 0.2f;
+    [SerializeField] private float kickGravity = 20f;
+    [Tooltip("Tốc độ xoay (độ/giây)")]
+    [SerializeField] private float kickSpin = 720f;
+    [SerializeField] private float kickDuration = 0.6f;
+
+    [Header("Random Sprite")]
+    [Tooltip("Bật = mỗi nốt lấy 1 sprite ngẫu nhiên trong list")]
+    [SerializeField] private bool randomSprite = true;
+    [SerializeField] private List<Sprite> sprites = new List<Sprite>();
+    [Tooltip("Bật = 2 nốt liên tiếp không trùng sprite")]
+    [SerializeField] private bool avoidRepeat = true;
+
+    private static int lastSpriteIndex = -1;
 
     private KeyType keyType;
     private BossItemBattleManager bossItemManager;
@@ -123,6 +145,8 @@ public class PianoKey : MonoBehaviour
 
         if (keyRight != null)
             keyRight.SetActive(type == KeyType.Right);
+
+        ApplyRandomSprite();      
     }
 
     // =====================================================
@@ -161,6 +185,62 @@ public class PianoKey : MonoBehaviour
             Complete();
     }
 
+    private void StartKick()
+{
+    // Tắt collider để không còn dính Wall / HitPoint nữa
+    foreach (Collider2D c in GetComponentsInChildren<Collider2D>())
+        c.enabled = false;
+
+    // Không còn là key đang chờ bấm
+    PlayerOnKey = false;
+    ActiveKeys.Remove(this);
+
+    StartCoroutine(KickRoutine());
+}
+
+    private IEnumerator KickRoutine()
+    {
+        float rand = 1f + Random.Range(-kickRandomness, kickRandomness);
+
+        // direction: +1 nghĩa là key đến từ bên phải => bị đá ngược về bên phải
+        Vector2 vel = new Vector2(direction * kickVelocity.x, kickVelocity.y) * rand;
+        float spin = kickSpin * (Random.value < 0.5f ? -1f : 1f) * rand;
+
+        SpriteRenderer[] renderers = GetComponentsInChildren<SpriteRenderer>();
+        Color[] startColors = new Color[renderers.Length];
+        for (int i = 0; i < renderers.Length; i++)
+            startColors[i] = renderers[i].color;
+
+        Vector3 startScale = transform.localScale;
+        float t = 0f;
+
+        while (t < kickDuration)
+        {
+            float dt = Time.deltaTime;
+            t += dt;
+            float k = Mathf.Clamp01(t / kickDuration);
+
+            vel.y -= kickGravity * dt;
+            transform.position += (Vector3)(vel * dt);
+            transform.Rotate(0f, 0f, spin * dt);
+            transform.localScale = startScale * Mathf.Lerp(1f, 0.6f, k);
+
+            // Mờ dần, bắt đầu mờ từ giữa hiệu ứng
+            float alpha = 1f - Mathf.Clamp01((k - 0.4f) / 0.6f);
+            for (int i = 0; i < renderers.Length; i++)
+            {
+                if (renderers[i] == null) continue;
+                Color c = startColors[i];
+                c.a = startColors[i].a * alpha;
+                renderers[i].color = c;
+            }
+
+            yield return null;
+        }
+
+        Destroy(gameObject);
+    }
+
     // =====================================================
     // GET DATA
     // =====================================================
@@ -180,6 +260,34 @@ public class PianoKey : MonoBehaviour
             return;
 
         PlayerOnKey = inside;
+    }
+
+    private void ApplyRandomSprite()
+    {
+        if (!randomSprite || sprites == null || sprites.Count == 0)
+            return;
+
+        int index = Random.Range(0, sprites.Count);
+
+        if (avoidRepeat && sprites.Count > 1)
+        {
+            while (index == lastSpriteIndex)
+                index = Random.Range(0, sprites.Count);
+        }
+        lastSpriteIndex = index;
+
+        if (sprites[index] == null)
+            return;
+
+        // Chỉ đổi sprite của visual đang bật (Left hoặc Right)
+        GameObject visual = keyType == KeyType.Left ? keyLeft : keyRight;
+
+        SpriteRenderer sr = visual != null
+            ? visual.GetComponentInChildren<SpriteRenderer>()
+            : GetComponentInChildren<SpriteRenderer>();
+
+        if (sr != null)
+            sr.sprite = sprites[index];
     }
 
     // =====================================================
@@ -241,7 +349,10 @@ else
             playerCtrl.PlayAttack();
         }
 
-        Destroy(gameObject);
+        if (kickOnHit)
+            StartKick();
+        else
+            Destroy(gameObject);
     }
 
     private void SpawnHitVfx()

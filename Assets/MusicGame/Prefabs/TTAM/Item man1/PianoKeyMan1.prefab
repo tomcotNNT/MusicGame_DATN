@@ -195,7 +195,7 @@ GameObject:
   - component: {fileID: 6896539473384915555}
   - component: {fileID: 5862540432827857619}
   m_Layer: 0
-  m_Name: PianoKey
+  m_Name: PianoKeyMan1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -211,7 +211,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.74732, y: -4.99, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3771703239212036105}
@@ -345,3 +345,11 @@ MonoBehaviour:
   movePlayer: 1
   keyLeft: {fileID: 5649146341775402379}
   keyRight: {fileID: 991127301677762403}
+  randomSprite: 1
+  sprites:
+  - {fileID: 21300000, guid: 42b18c96a000595478e4c63d83861bd0, type: 3}
+  - {fileID: 21300000, guid: 274800454ba400a4e9da27415c80c81d, type: 3}
+  - {fileID: 21300000, guid: bd642191d6dca7543897b907f1343665, type: 3}
+  - {fileID: 21300000, guid: 605b7344703c4ed43a8f07441f34cb5a, type: 3}
+  - {fileID: 21300000, guid: 95edd70103e8b244aa41000c718d49e2, type: 3}
+  avoidRepeat: 1
