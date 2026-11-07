@@ -84,6 +84,6 @@ qldatn-vscode-install_*.mjs
 *.csproj
 *.sln
 *.slnx
-#.qldatn/
+.qldatn/
 
 .fake
