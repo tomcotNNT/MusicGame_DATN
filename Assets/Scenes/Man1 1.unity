@@ -8975,6 +8975,15 @@ MonoBehaviour:
   dashSpeed: 60
   hangTime: 0.15
   riseYOffset: 0
+  enableFreeJump: 1
+  jumpKey: 97
+  jumpTarget: {fileID: 0}
+  jumpHeight: 2.5
+  requireGround: 1
+  feverShooter: {fileID: 0}
+  leftKey: 97
+  rightKey: 100
+  comboWindow: 0.08
   attackTriggers:
   - Attack1
   - Attack2
@@ -8984,6 +8993,9 @@ MonoBehaviour:
   WinPanel: {fileID: 1544290757}
   resultSystem: {fileID: 1364280814}
   scoreSystem: {fileID: 230136156}
+  boss: {fileID: 0}
+  loseIfBossAliveAtEnd: 0
+  playerHealth: {fileID: 0}
   countdownText: {fileID: 325852676}
   readyToGoTime: 1.6
   goDuration: 1
@@ -9081,6 +9093,10 @@ MonoBehaviour:
   maxHealth: 50
   damagePerMiss: 10
   HPbar: {fileID: 0}
+  gameOverPanel: {fileID: 0}
+  gameOverDelay: 1
+  pauseAudioOnDeath: 1
+  menuSceneName: 
 --- !u!95 &2008411978
 Animator:
   serializedVersion: 7
@@ -9626,9 +9642,7 @@ MonoBehaviour:
   stopPoint: {fileID: 909918463}
   damagePerAttack: 1
   retreatSpeed: 4
-  feverSystem: {fileID: 916470994}
   attackWhenFeverFull: 1
-  feverAlsoDamagesBoss: 0
 --- !u!1001 &7410850446802365196
 PrefabInstance:
   m_ObjectHideFlags: 0
