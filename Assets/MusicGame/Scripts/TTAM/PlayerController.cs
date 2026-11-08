@@ -256,7 +256,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // 2) Nhảy
-        if (enableFreeJump && CanFreeJump() && leftDown)
+        if (enableFreeJump && CanFreeJump() && rightDown)
         {
             if (feverShooter != null && feverShooter.IsFever)
             {

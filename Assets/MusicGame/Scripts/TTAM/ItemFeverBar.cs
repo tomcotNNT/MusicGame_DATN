@@ -106,6 +106,16 @@ public class ItemFeverBar : MonoBehaviour
             fillImage.fillAmount = 0f;
     }
 
+    //trừ fever
+    public void MinusBar()
+    {
+        if (currentCount > 0)
+            currentCount--;
+
+        if (currentCount <= 0)
+            HideFever();
+    }
+
     public void HideFever()
     {
         if (Fever != null)

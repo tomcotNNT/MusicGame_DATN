@@ -2425,7 +2425,7 @@ MonoBehaviour:
   hitPointTop: {fileID: 667812587}
   coinSpawner: {fileID: 625427041}
   bossSpawner: {fileID: 2135059614}
-  bossAppearAt: 0.513
+  bossAppearAt: 0.05
   keySpeed: 5.7
   loopWithSpeedUp: 1
   speedStep: 0.15
@@ -2435,7 +2435,7 @@ MonoBehaviour:
   isTutorial: 0
   spawnAheadTime: 2
   autoSpawnAhead: 1
-  minKeyGap: 1
+  minKeyGap: 2
   randomLane: 0
   itemPrefabs:
   - {fileID: 342349606016470801, guid: 807e627281e397343a068443b7014de3, type: 3}
