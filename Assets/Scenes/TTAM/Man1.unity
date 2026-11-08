@@ -2425,7 +2425,7 @@ MonoBehaviour:
   hitPointTop: {fileID: 667812587}
   coinSpawner: {fileID: 625427041}
   bossSpawner: {fileID: 2135059614}
-  bossAppearAt: 0.05
+  bossAppearAt: 0.426
   keySpeed: 5.7
   loopWithSpeedUp: 1
   speedStep: 0.15
@@ -5107,10 +5107,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2264886818353411054, guid: 23e1ff0d9a034d041b57c472032ff43b, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: LobbyNT
-      objectReference: {fileID: 0}
     - target: {fileID: 2399311753280227124, guid: 23e1ff0d9a034d041b57c472032ff43b, type: 3}
       propertyPath: m_Pivot.x
       value: 0

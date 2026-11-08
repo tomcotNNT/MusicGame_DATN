@@ -272,72 +272,12 @@ MonoBehaviour:
       delay: 1
     sequential: 1
     pauseAfter: 0
-  - instruction: "\u1EA4n gi\u1EEF b\xEAn tr\xE1i m\xE0n h\xECnh \u0111\u1EC3 nh\u1EB7t
-      n\u1ED1t d\xE0i ph\xEDa d\u01B0\u1EDBi"
-    successText: "Gi\u1ECFi!"
-    notes:
-    - left: 1
-      isLong: 1
-      duration: 1
-      delay: 1
-    sequential: 1
-    pauseAfter: 0
-  - instruction: "\u1EA4n gi\u1EEF b\xEAn tr\xE1i m\xE0n h\xECnh \u0111\u1EC3 nh\u1EB7t
-      n\u1ED1t d\xE0i ph\xEDa d\u01B0\u1EDBi"
-    successText: "Gi\u1ECFi!"
-    notes:
-    - left: 1
-      isLong: 1
-      duration: 1
-      delay: 1
-    sequential: 1
-    pauseAfter: 0
-  - instruction: "\u1EA4n gi\u1EEF b\xEAn tr\xE1i m\xE0n h\xECnh \u0111\u1EC3 nh\u1EB7t
-      n\u1ED1t d\xE0i ph\xEDa d\u01B0\u1EDBi"
-    successText: "Gi\u1ECFi!"
-    notes:
-    - left: 1
-      isLong: 1
-      duration: 1
-      delay: 1
-    sequential: 1
-    pauseAfter: 0
-  - instruction: "\u1EA4n gi\u1EEF b\xEAn ph\u1EA3i m\xE0n h\xECnh \u0111\u1EC3 nh\u1EB7t
-      n\u1ED1t d\xE0i ph\xEDa tr\xEAn"
-    successText: "Gi\u1ECFi!"
-    notes:
-    - left: 0
-      isLong: 1
-      duration: 1
-      delay: 1
-    sequential: 1
-    pauseAfter: 0
-  - instruction: "\u1EA4n gi\u1EEF b\xEAn ph\u1EA3i m\xE0n h\xECnh \u0111\u1EC3 nh\u1EB7t
-      n\u1ED1t d\xE0i ph\xEDa tr\xEAn"
-    successText: "Gi\u1ECFi!"
-    notes:
-    - left: 0
-      isLong: 1
-      duration: 1
-      delay: 1
-    sequential: 1
-    pauseAfter: 0
-  - instruction: "\u1EA4n gi\u1EEF b\xEAn ph\u1EA3i m\xE0n h\xECnh \u0111\u1EC3 nh\u1EB7t
-      n\u1ED1t d\xE0i ph\xEDa tr\xEAn"
-    successText: "Gi\u1ECFi!"
-    notes:
-    - left: 0
-      isLong: 1
-      duration: 1
-      delay: 1
-    sequential: 1
-    pauseAfter: 0
   retryText: "Ch\u01B0a \u0111\xFAng, th\u1EED l\u1EA1i nh\xE9!"
   completeText: "Ho\xE0n th\xE0nh h\u01B0\u1EDBng d\u1EABn!"
   startDelay: 1
   autoStartSong: 0
   finishDelay: 2
-  nextSceneName: LobbyNT
+  nextSceneName: Man1
   onCompleted:
     m_PersistentCalls:
       m_Calls: []
@@ -4270,7 +4210,12 @@ MonoBehaviour:
   autoSpawnAhead: 1
   minKeyGap: 1.5
   randomLane: 0
-  itemPrefabs: []
+  itemPrefabs:
+  - {fileID: 342349606016470801, guid: 4b1605be2bd0f474f9d48f3e1d5d1e94, type: 3}
+  - {fileID: 342349606016470801, guid: 66e58505711bd4e45af5d9d79e284a0a, type: 3}
+  - {fileID: 342349606016470801, guid: 349ab7a900d857647af22f0eb1ec8ec4, type: 3}
+  - {fileID: 342349606016470801, guid: 0234e2fa37e80a34293073fcc00ef172, type: 3}
+  - {fileID: 342349606016470801, guid: 807e627281e397343a068443b7014de3, type: 3}
   itemEveryNNotes: 4
   itemRandomPick: 0
   itemCanReplaceLongNote: 0
@@ -9486,7 +9431,7 @@ MonoBehaviour:
   dashSpeed: 60
   hangTime: 0.15
   riseYOffset: 0
-  enableFreeJump: 1
+  enableFreeJump: 0
   jumpKey: 97
   jumpTarget: {fileID: 0}
   jumpHeight: 2.5
