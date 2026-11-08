@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Hướng dẫn chơi: spawn nốt tới 2 hit point (dưới = trái, trên = phải),
 /// khi người chơi ấn đúng hết các nốt của bước đó thì chuyển sang bước tiếp theo,
 /// đồng thời đổi dòng chữ hướng dẫn.
-/// Đồng bộ chuẩn tiến trình tân thủ với Lobby và CharacterSceneManager.
+///
+/// Yêu cầu: PianoKeySpawner trong scene tutorial phải tick "Is Tutorial".
 /// </summary>
 public class TutorialFlow : MonoBehaviour
 {
@@ -61,6 +61,7 @@ public class TutorialFlow : MonoBehaviour
         Both
     }
 
+    // Phần giới thiệu 2 hit point, chạy TRƯỚC khi spawn nốt
     [System.Serializable]
     public class IntroStep
     {
@@ -117,20 +118,18 @@ public class TutorialFlow : MonoBehaviour
     [Header("Timing")]
     [Tooltip("Chờ bao nhiêu giây sau khi bài bắt đầu rồi mới tới bước đầu tiên.")]
     [SerializeField] private float startDelay = 1f;
-    [Tooltip("Bật = script này tự gọi spawner.StartSong(). Tắt = chờ script khác gọi.")]
+    [Tooltip("Bật = script này tự gọi spawner.StartSong(). Tắt = chờ script khác (vd. PlayerController đếm ngược) gọi.")]
     [SerializeField] private bool autoStartSong = false;
 
     [Header("When Completed")]
-    [Tooltip("Sau khi xong, đợi bao nhiêu giây rồi mới chuyển Scene.")]
+    [Tooltip("Sau khi xong, đợi bao nhiêu giây rồi mới làm tiếp.")]
     [SerializeField] private float finishDelay = 2f;
-    [Tooltip("Scene sẽ vào sau khi xong hướng dẫn. Mặc định là LobbyNT.")]
-    [SerializeField] private string nextSceneName = "LobbyNT";
+    [Tooltip("Scene sẽ vào sau khi xong hướng dẫn. Để trống = không chuyển scene.")]
+    [SerializeField] private string nextSceneName = "";
     [SerializeField] private UnityEvent onCompleted;
 
-    // ĐỒNG BỘ CẢ 2 KEY CHO TOÀN BỘ CÁC SCENE
     public const string DoneKey = "TutorialDone";
-    public const string CompletedKey = "TutorialCompleted";
-    public static bool IsDone => PlayerPrefs.GetInt(CompletedKey, 0) == 1 || PlayerPrefs.GetInt(DoneKey, 0) == 1;
+    public static bool IsDone => PlayerPrefs.GetInt(DoneKey, 0) == 1;
 
     // =====================================================
     // STATE
@@ -143,6 +142,7 @@ public class TutorialFlow : MonoBehaviour
     private Vector3 topBaseScale = Vector3.one;
     private bool baseScalesCaptured;
 
+    // Các nốt của vòng hiện tại. Nốt bị Destroy (trúng hoặc trượt) => coi như đã xử lý xong.
     private readonly List<Object> spawned = new List<Object>();
 
     // =====================================================
@@ -194,11 +194,13 @@ public class TutorialFlow : MonoBehaviour
         if (autoStartSong)
             spawner.StartSong();
 
+        // Chờ bài (tutorial) bắt đầu
         while (!spawner.IsPlaying)
             yield return null;
 
         yield return new WaitForSeconds(startDelay);
 
+        // Giới thiệu 2 hit point trước, xong mới spawn nốt
         if (playIntro)
         {
             if (introSteps == null || introSteps.Count == 0)
@@ -222,7 +224,7 @@ public class TutorialFlow : MonoBehaviour
     }
 
     // =====================================================
-    // STEP EXECUTION
+    // STEP
     // =====================================================
 
     private IEnumerator RunStep(TutorialStep step)
@@ -234,6 +236,7 @@ public class TutorialFlow : MonoBehaviour
 
         if (step.sequential)
         {
+            // Lần lượt từng nốt: nốt sau chỉ spawn khi nốt trước đã được ấn đúng
             foreach (TutorialNote note in step.notes)
                 yield return StartCoroutine(RunSingleNote(step, note));
         }
@@ -242,10 +245,12 @@ public class TutorialFlow : MonoBehaviour
             yield return StartCoroutine(RunAllAtOnce(step));
         }
 
+        // Ấn đúng hết => chuyển bước, đổi chữ
         SetText(step.successText);
         yield return new WaitForSeconds(step.pauseAfter);
     }
 
+    // Spawn 1 nốt, chờ người chơi ấn. Trượt thì thử lại đúng nốt đó.
     private IEnumerator RunSingleNote(TutorialStep step, TutorialNote note)
     {
         if (note.delay > 0f)
@@ -270,23 +275,28 @@ public class TutorialFlow : MonoBehaviour
 
             spawned.Add(obj);
 
+            // Chờ tới khi nốt xử lý xong (trúng hoặc trượt)
             while (!AllResolved())
                 yield return null;
 
+            // Cho event cuối cùng kịp ghi nhận
             yield return null;
             roundActive = false;
 
             if (hitsThisRound >= 1)
                 yield break;
 
+            // Trượt => nhắc rồi spawn lại nốt này
             SetText(retryText);
             yield return new WaitForSeconds(1.2f);
             SetText(step.instruction);
         }
     }
 
+    // Spawn tất cả nốt của bước theo Delay (không chờ từng nốt), phải ấn đúng hết mới qua
     private IEnumerator RunAllAtOnce(TutorialStep step)
     {
+        // Lặp lại vòng cho tới khi người chơi ấn đúng hết các nốt
         while (true)
         {
             hitsThisRound = 0;
@@ -300,6 +310,7 @@ public class TutorialFlow : MonoBehaviour
                 if (note.delay > 0f)
                     yield return new WaitForSeconds(note.delay);
 
+                // Pause thì chờ
                 while (spawner.IsPaused)
                     yield return null;
 
@@ -318,15 +329,18 @@ public class TutorialFlow : MonoBehaviour
                 yield break;
             }
 
+            // Chờ tới khi mọi nốt đã xử lý xong (trúng hoặc trượt)
             while (!AllResolved())
                 yield return null;
 
+            // Cho event cuối cùng kịp ghi nhận
             yield return null;
             roundActive = false;
 
             if (hitsThisRound >= expectedHits)
                 break;
 
+            // Chưa ấn đúng hết => thử lại
             SetText(retryText);
             yield return new WaitForSeconds(1.2f);
             SetText(step.instruction);
@@ -353,33 +367,26 @@ public class TutorialFlow : MonoBehaviour
     }
 
     // =====================================================
-    // FINISH & SCENE TRANSITION
+    // FINISH
     // =====================================================
 
     private IEnumerator Finish()
     {
         SetText(completeText);
 
-        // LƯU ĐỒNG THỜI CẢ 2 KEY ĐỂ ĐỒNG BỘ TOÀN DỰ ÁN
         PlayerPrefs.SetInt(DoneKey, 1);
-        PlayerPrefs.SetInt(CompletedKey, 1);
         PlayerPrefs.Save();
-
-        Debug.Log("<color=green>[TutorialFlow] Hoàn thành Tutorial! Đã lưu TutorialCompleted = 1.</color>");
 
         onCompleted?.Invoke();
 
         yield return new WaitForSeconds(finishDelay);
 
         if (!string.IsNullOrEmpty(nextSceneName))
-        {
-            // Tải scene đích qua SceneLoader hoặc SceneManager chuẩn
-            SceneManager.LoadScene(nextSceneName);
-        }
+            SceneLoader.Load(nextSceneName);
     }
 
     // =====================================================
-    // INTRO LOGIC
+    // INTRO: giới thiệu hit point
     // =====================================================
 
     private IEnumerator RunIntro(IntroStep step)
@@ -397,6 +404,8 @@ public class TutorialFlow : MonoBehaviour
         if (step.waitForTap)
         {
             ShowTapHint(step.highlight);
+
+            // Bỏ qua lần chạm của frame hiện tại rồi mới nhận lần chạm mới
             yield return null;
 
             while (!TapMatches(step.highlight))
@@ -409,6 +418,7 @@ public class TutorialFlow : MonoBehaviour
         ClearHighlight();
     }
 
+    // Hit point dưới => chạm NỬA TRÁI, hit point trên => chạm NỬA PHẢI, còn lại => chạm bất kỳ đâu
     private static bool TapMatches(HitPointTarget target)
     {
         switch (target)
@@ -450,6 +460,7 @@ public class TutorialFlow : MonoBehaviour
         if (topPointer != null) topPointer.SetActive(top);
     }
 
+    // Hit point được chọn sẽ nhấp nháy phóng to / thu nhỏ
     private IEnumerator PulseRoutine(HitPointTarget target)
     {
         bool bottom = target == HitPointTarget.Bottom || target == HitPointTarget.Both;
@@ -473,8 +484,10 @@ public class TutorialFlow : MonoBehaviour
         }
     }
 
+    // Trả hit point về kích thước ban đầu và ẩn mũi tên
     private void ClearHighlight()
     {
+        // Chỉ trả scale khi đã lưu scale gốc (tránh ghi đè khi chưa chạy intro)
         if (baseScalesCaptured)
         {
             if (hitPointBottom != null) hitPointBottom.localScale = bottomBaseScale;
@@ -487,6 +500,10 @@ public class TutorialFlow : MonoBehaviour
         HideTapHint();
     }
 
+    // =====================================================
+    // HELPERS
+    // =====================================================
+
     private void SetText(string message)
     {
         if (instructionText != null)
@@ -497,17 +514,24 @@ public class TutorialFlow : MonoBehaviour
     {
         return new List<TutorialStep>
         {
+            // Lần lượt từng nốt: dưới -> trên -> xen kẽ -> nốt dài
             new TutorialStep
             {
                 instruction = "Nốt tới vòng tròn DƯỚI:\nchạm NỬA TRÁI màn hình",
                 successText = "Tốt lắm!",
-                notes = new List<TutorialNote> { new TutorialNote { left = true } }
+                notes = new List<TutorialNote>
+                {
+                    new TutorialNote { left = true }
+                }
             },
             new TutorialStep
             {
                 instruction = "Nốt tới vòng tròn TRÊN:\nchạm NỬA PHẢI màn hình",
                 successText = "Chính xác!",
-                notes = new List<TutorialNote> { new TutorialNote { left = false } }
+                notes = new List<TutorialNote>
+                {
+                    new TutorialNote { left = false }
+                }
             },
             new TutorialStep
             {
@@ -534,6 +558,7 @@ public class TutorialFlow : MonoBehaviour
         };
     }
 
+    // Mở đầu: 2 hit point cùng nháy kèm một dòng hướng dẫn, sau đó mới spawn nốt
     private static List<IntroStep> BuildDefaultIntro()
     {
         return new List<IntroStep>
@@ -546,28 +571,6 @@ public class TutorialFlow : MonoBehaviour
                 waitForTap = false
             }
         };
-    }
-
-    // =====================================================
-    // CHEAT & RESET TIẾN TRÌNH (CONTEXT MENU TRÊN INSPECTOR)
-    // =====================================================
-
-    [ContextMenu("Reset Tutorial Progress")]
-    public void ResetTutorialProgress()
-    {
-        PlayerPrefs.DeleteKey(DoneKey);
-        PlayerPrefs.DeleteKey(CompletedKey);
-        PlayerPrefs.Save();
-        Debug.Log("<color=yellow>[TutorialFlow] Đã xóa tiến trình Tutorial (Key: TutorialDone & TutorialCompleted)!</color>");
-    }
-
-    [ContextMenu("Complete Tutorial (Cheat)")]
-    public void CompleteTutorialCheat()
-    {
-        PlayerPrefs.SetInt(DoneKey, 1);
-        PlayerPrefs.SetInt(CompletedKey, 1);
-        PlayerPrefs.Save();
-        Debug.Log("<color=green>[TutorialFlow] Đã kích hoạt hoàn thành Tutorial (Cheat)!</color>");
     }
 
     [ContextMenu("Fill Default Intro")]
