@@ -1158,7 +1158,8 @@ MonoBehaviour:
   displayDuration: 4
   fadeDuration: 1.5
   stages:
-  - stageTitle: Tutorial
+  - stageID: Man1
+    stageTitle: Tutorial
     storyContent: "Ch\xE0o m\u1EEBng \u0111\u1EBFn v\u1EDBi Tutorial City.Nh\u1EEFng
       d\u1EA3i t\u1EA7n s\u1ED1 \xE2m thanh \u0111\u1EA7u ti\xEAn \u0111\xE3 th\u1EE9c
       t\u1EC9nh tr\xEAn b\u1EA7u tr\u1EDDi th\xE0nh ph\u1ED1.\n\nH\xE3y l\xE0m quen
@@ -1169,7 +1170,8 @@ MonoBehaviour:
     background1: {fileID: 21300000, guid: a92357b50e7cc6347abdd05f6fc3e833, type: 3}
     background2: {fileID: 21300000, guid: 54e68cda7ed7d264f9a4e4c7ddc0dee6, type: 3}
     targetGameplayScene: Tutorial
-  - stageTitle: 1.New York City
+  - stageID: Man1
+    stageTitle: 1.New York City
     storyContent: "Th\xE0nh ph\u1ED1 New York t\u01B0\u01A1ng lai \u0111ang b\u1ECB
       bao ph\u1EE7 b\u1EDFi nh\u1EEFng \u0111\u1EE3t s\xF3ng \xE2m h\u1ED7n lo\u1EA1n.\n\nV\u1EDBi
       t\u01B0 c\xE1ch l\xE0 m\u1ED9t Beat Runner, nhi\u1EC7m v\u1EE5 c\u1EE7a b\u1EA1n
@@ -1180,18 +1182,21 @@ MonoBehaviour:
       \u0111ua!"
     background1: {fileID: 21300000, guid: b75c4d643bcd95e4bafa6b07f27eb5a8, type: 3}
     background2: {fileID: 21300000, guid: 65c6cfceeb66d1a43a7bb944f8c68454, type: 3}
-    targetGameplayScene: Tutorial
-  - stageTitle: 
+    targetGameplayScene: Man1
+  - stageID: Man1
+    stageTitle: 
     storyContent: 
     background1: {fileID: 21300000, guid: 3e06c48674f5779478e2def1cf387132, type: 3}
     background2: {fileID: 21300000, guid: a68f8f9ceebc3004f90ad7535c25c175, type: 3}
     targetGameplayScene: Man2
-  - stageTitle: 
+  - stageID: Man1
+    stageTitle: 
     storyContent: 
     background1: {fileID: 21300000, guid: 2bd78ef93b759ed4fbe896fc3812b23b, type: 3}
     background2: {fileID: 21300000, guid: b9f6c3eecc49a1246a99b29cb73f6345, type: 3}
     targetGameplayScene: Man3
-  - stageTitle: 
+  - stageID: Man1
+    stageTitle: 
     storyContent: 
     background1: {fileID: 0}
     background2: {fileID: 0}

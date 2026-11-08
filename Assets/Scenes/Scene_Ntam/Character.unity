@@ -3896,13 +3896,14 @@ MonoBehaviour:
   popupMessageText: {fileID: 1076708023}
   popupConfirmButton: {fileID: 476944557}
   popupCancelButton: {fileID: 1842342627}
+  backSceneName: LobbyNT
+  tutorialNextScene: Story
+  normalNextScene: Story
   tutorialOverlay: {fileID: 1156199884}
   handPointer: {fileID: 832757350}
   backButton: {fileID: 318963255}
   ramonaObject: {fileID: 319027342}
   ramonaGlowEffect: {fileID: 1678611780}
-  tutorialNextScene: Story
-  normalNextScene: LobbyNT
   playColor: {r: 0.2, g: 0.6, b: 1, a: 1}
   selectActiveColor: {r: 0, g: 0.95, b: 0.85, a: 1}
   selectDimmedColor: {r: 0.3, g: 0.35, b: 0.4, a: 0.45}
@@ -12319,8 +12320,8 @@ MonoBehaviour:
     neonSprite: {fileID: 7515751365113581194, guid: 35d79fc910a2847418c47dbbed37b96b, type: 3}
     graySprite: {fileID: -9119821747673722682, guid: 1b663a2cb8b00984f9f558c9f8e0f336, type: 3}
   - letter: 79
-    neonSprite: {fileID: -5293141435025306825, guid: 1b663a2cb8b00984f9f558c9f8e0f336, type: 3}
-    graySprite: {fileID: -3221811652018944860, guid: 35d79fc910a2847418c47dbbed37b96b, type: 3}
+    neonSprite: {fileID: -3221811652018944860, guid: 35d79fc910a2847418c47dbbed37b96b, type: 3}
+    graySprite: {fileID: -5293141435025306825, guid: 1b663a2cb8b00984f9f558c9f8e0f336, type: 3}
   - letter: 80
     neonSprite: {fileID: 6982418831938290488, guid: 35d79fc910a2847418c47dbbed37b96b, type: 3}
     graySprite: {fileID: 4173161920121353068, guid: 1b663a2cb8b00984f9f558c9f8e0f336, type: 3}

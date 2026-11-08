@@ -10,81 +10,64 @@ public class StorySceneController : MonoBehaviour
     [System.Serializable]
     public class StageData
     {
-        public string stageTitle = "1. TOKYO";
+        public string stageID = "Man1";                     // Định danh: Tutorial, Man1, Man2, Man3...
+        public string stageTitle = "1. NEW YORK CITY";
         [TextArea(2, 4)] public string storyContent = "Nội dung cốt truyện màn chơi...";
         public Sprite background1;
         public Sprite background2;
-        public string targetGameplayScene = "Tutorial";
+        public string targetGameplayScene = "Man1";         // Tên file Scene gameplay thực tế
     }
 
-    [Header("UI Tham Chiếu")]
-    [SerializeField] private Image backgroundA;              // Kéo Background (1) vào đây
-    [SerializeField] private Image backgroundB;              // Kéo Background (2) vào đây
-    [SerializeField] private TextMeshProUGUI stageTitleText; // Kéo TitleStoryText vào đây
-    [SerializeField] private TextMeshProUGUI storyContentText;// Kéo StoryContextText vào đây
-    [SerializeField] private Button nextButton;              // Kéo NextText / NextBUTTON vào đây
-    [SerializeField] private CanvasGroup fadePanel;          // Kéo FadePanel vào đây
+    [Header("1. UI Tham Chiếu")]
+    [SerializeField] private Image backgroundA;              // Background (1)
+    [SerializeField] private Image backgroundB;              // Background (2)
+    [SerializeField] private TextMeshProUGUI stageTitleText; // TitleStoryText
+    [SerializeField] private TextMeshProUGUI storyContentText;// StoryContextText
+    [SerializeField] private Button nextButton;              // NextBUTTON
+    [SerializeField] private CanvasGroup fadePanel;          // FadePanel
 
-    [Header("Cài đặt chuyển đổi 2 Background")]
-    [SerializeField] private float displayDuration = 4.0f;   // Thời gian giữ 1 ảnh (giây)
-    [SerializeField] private float fadeDuration = 1.5f;      // Thời gian chuyển mờ nhẹ giữa 2 ảnh
+    [Header("2. Cài Đặt Chuyển Đổi Background")]
+    [SerializeField] private float displayDuration = 4.0f;
+    [SerializeField] private float fadeDuration = 1.5f;
 
-    [Header("Dữ liệu 5 Màn Chơi (10 Backgrounds)")]
+    [Header("3. Dữ Liệu Các Màn Chơi")]
     [SerializeField] private List<StageData> stages = new List<StageData>();
 
     private int currentStageIndex = 0;
     private StageData currentStage;
     private bool isTransitioning = false;
+    private Coroutine bgLoopCoroutine;
 
     private void Start()
     {
         if (stages == null || stages.Count == 0)
         {
-            Debug.LogError("[StorySceneController] Chưa cấu hình danh sách Stages trên Inspector!");
+            Debug.LogError("[StorySceneController] Danh sách Stages trên Inspector đang trống!");
             return;
         }
 
-        // 1. LẤY TÊN SCENE MỤC TIÊU ĐÃ ĐƯỢC CHỌN TỪ LOBBY
-        string targetSceneFromLobby = PlayerPrefs.GetString("SelectedSceneToPlay", "");
-        int indexFromLobby = PlayerPrefs.GetInt("SelectedStageIndex", 0);
+        // 1. ĐỌC DỮ LIỆU ĐƯỢC CHỌN TỪ LOBBY
+        string targetSceneFromLobby = PlayerPrefs.GetString("SelectedSceneToPlay", "").Trim();
+        int indexFromLobby = PlayerPrefs.GetInt("SelectedStageIndex", -1);
 
-        // 2. TỰ ĐỘNG TÌM ĐÚNG STAGE KHỚP THEO TÊN SCENE TRƯỚC (CHỐNG LỆCH INDEX)
-        int matchedIndex = -1;
-        if (!string.IsNullOrEmpty(targetSceneFromLobby))
-        {
-            for (int i = 0; i < stages.Count; i++)
-            {
-                if (stages[i] != null && !string.IsNullOrEmpty(stages[i].targetGameplayScene) &&
-                    stages[i].targetGameplayScene.Trim().Equals(targetSceneFromLobby.Trim(), System.StringComparison.OrdinalIgnoreCase))
-                {
-                    matchedIndex = i;
-                    break;
-                }
-            }
-        }
+        Debug.Log($"[StorySceneController] Nhận từ Lobby -> Scene: '{targetSceneFromLobby}' | Index: {indexFromLobby}");
 
-        // Nếu tìm thấy khớp theo tên scene thì lấy, ngược lại mới fallback về index
-        if (matchedIndex != -1)
-        {
-            currentStageIndex = matchedIndex;
-        }
-        else
-        {
-            currentStageIndex = Mathf.Clamp(indexFromLobby, 0, stages.Count - 1);
-        }
-
+        // 2. TÌM KIẾM STAGE PHÙ HỢP
+        currentStageIndex = ResolveStageIndex(targetSceneFromLobby, indexFromLobby);
         currentStage = stages[currentStageIndex];
-        Debug.Log($"<color=green>[StorySceneController] Đang hiển thị Stage: {currentStage.stageTitle} -> Chuẩn bị vào: {currentStage.targetGameplayScene}</color>");
 
-        // 3. Điền thông tin tiêu đề và cốt truyện
+        Debug.Log($"<color=cyan>[StorySceneController] Kích hoạt hiển thị: {currentStage.stageTitle} (Index: {currentStageIndex})</color>");
+
+        // 3. HIỂN THỊ NỘI DUNG LÊN UI
         if (stageTitleText != null) stageTitleText.text = currentStage.stageTitle;
         if (storyContentText != null) storyContentText.text = currentStage.storyContent;
 
-        // 4. Khởi tạo hình nền và chạy vòng lặp đổi ảnh mượt
+        // 4. KHỞI TẠO VÀ CHẠY CHUYỂN ẢNH NỀN
         InitBackgrounds();
-        StartCoroutine(SmoothBackgroundLoopRoutine());
+        if (bgLoopCoroutine != null) StopCoroutine(bgLoopCoroutine);
+        bgLoopCoroutine = StartCoroutine(SmoothBackgroundLoopRoutine());
 
-        // 5. Lắng nghe sự kiện bấm nút Next
+        // 5. GẮN SỰ KIỆN NÚT NEXT
         if (nextButton != null)
         {
             nextButton.onClick.RemoveAllListeners();
@@ -92,28 +75,80 @@ public class StorySceneController : MonoBehaviour
         }
     }
 
+    private int ResolveStageIndex(string targetScene, int lobbyIndex)
+    {
+        // Cách 1: So khớp trực tiếp theo tên file Scene gameplay
+        if (!string.IsNullOrEmpty(targetScene))
+        {
+            for (int i = 0; i < stages.Count; i++)
+            {
+                if (stages[i] != null && !string.IsNullOrEmpty(stages[i].targetGameplayScene))
+                {
+                    if (stages[i].targetGameplayScene.Trim().Equals(targetScene, System.StringComparison.OrdinalIgnoreCase))
+                    {
+                        return i;
+                    }
+                }
+            }
+
+            // Cách 1b: So khớp theo stageID hoặc stageTitle (phòng hờ targetGameplayScene bị điền nhầm)
+            for (int i = 0; i < stages.Count; i++)
+            {
+                if (stages[i] != null)
+                {
+                    if (stages[i].stageID.Trim().Equals(targetScene, System.StringComparison.OrdinalIgnoreCase) ||
+                        stages[i].stageTitle.ToLower().Contains(targetScene.ToLower()))
+                    {
+                        return i;
+                    }
+                }
+            }
+        }
+
+        // Cách 2: Phân giải theo Index từ Lobby (nếu Index 0 ở Lobby là Màn 1 còn Element 0 của Story là Tutorial)
+        if (lobbyIndex >= 0)
+        {
+            // Nếu Element 0 là Tutorial và lobby chọn Index 0 ứng với Màn 1 -> lấy phần tử số 1
+            if (stages.Count > 1 && stages[0].targetGameplayScene.ToLower().Contains("tutorial") && lobbyIndex == 0 && targetScene.ToLower().Contains("man1"))
+            {
+                return 1;
+            }
+
+            if (lobbyIndex < stages.Count)
+            {
+                return lobbyIndex;
+            }
+        }
+
+        // Fallback an toàn: nếu có Màn 1 (Element 1) thì trả về 1, ngược lại về 0
+        return (stages.Count > 1) ? 1 : 0;
+    }
+
     private void InitBackgrounds()
     {
-        if (backgroundA != null && currentStage.background1 != null)
+        if (backgroundA != null)
         {
             backgroundA.sprite = currentStage.background1;
             backgroundA.color = Color.white;
         }
 
-        if (backgroundB != null && currentStage.background2 != null)
+        if (backgroundB != null)
         {
             backgroundB.sprite = currentStage.background2;
-            backgroundB.color = new Color(1f, 1f, 1f, 0f); // Ẩn ban đầu để chuyển mờ
+            backgroundB.color = new Color(1f, 1f, 1f, 0f);
         }
     }
 
     private IEnumerator SmoothBackgroundLoopRoutine()
     {
+        // Nếu không có đủ 2 ảnh nền thì không cần chạy vòng lặp fade
+        if (currentStage.background1 == null || currentStage.background2 == null) yield break;
+
         while (true)
         {
             yield return new WaitForSeconds(displayDuration);
 
-            // Hiện mờ dần Background B lên đè lên A
+            // Hiện dần B đè lên A
             float timer = 0f;
             while (timer < fadeDuration)
             {
@@ -126,7 +161,7 @@ public class StorySceneController : MonoBehaviour
 
             yield return new WaitForSeconds(displayDuration);
 
-            // Làm mờ Background B để lộ lại Background A
+            // Làm mờ B để hiển thị lại A
             timer = 0f;
             while (timer < fadeDuration)
             {
@@ -144,20 +179,22 @@ public class StorySceneController : MonoBehaviour
         if (isTransitioning) return;
         isTransitioning = true;
 
-        // 1. Xác định Scene đích: Ưu tiên targetGameplayScene của currentStage, dự phòng bằng PlayerPrefs
-        string targetScene = "Tutorial";
-        if (currentStage != null && !string.IsNullOrEmpty(currentStage.targetGameplayScene))
+        if (GlobalAudioManager.Instance != null)
         {
-            targetScene = currentStage.targetGameplayScene;
-        }
-        else
-        {
-            targetScene = PlayerPrefs.GetString("SelectedSceneToPlay", "Man1");
+            GlobalAudioManager.Instance.PlaySFX(UISfxType.Click);
         }
 
-        Debug.Log($"<color=yellow>>>> [CLICK OK] Đang chuyển vào Gameplay Scene: {targetScene}</color>");
+        // ƯU TIÊN TUYỆT ĐỐI: Lấy tên Scene đã lưu từ Lobby, nếu trống mới lấy từ data của Stage
+        string targetScene = PlayerPrefs.GetString("SelectedSceneToPlay", "");
+        if (string.IsNullOrEmpty(targetScene) || targetScene.ToLower().Contains("tutorial"))
+        {
+            targetScene = (currentStage != null && !string.IsNullOrEmpty(currentStage.targetGameplayScene))
+                          ? currentStage.targetGameplayScene
+                          : "Man1";
+        }
 
-        // 2. Chuyển scene có hiệu ứng Fade (nếu có FadePanel) hoặc nạp thẳng
+        Debug.Log($"<color=yellow>[StorySceneController] Chuyển tiếp vào Gameplay: {targetScene}</color>");
+
         if (fadePanel != null)
         {
             StartCoroutine(LoadGameplaySceneRoutine(targetScene));
@@ -180,5 +217,10 @@ public class StorySceneController : MonoBehaviour
         }
 
         SceneManager.LoadScene(targetScene);
+    }
+
+    private void OnDestroy()
+    {
+        if (bgLoopCoroutine != null) StopCoroutine(bgLoopCoroutine);
     }
 }
