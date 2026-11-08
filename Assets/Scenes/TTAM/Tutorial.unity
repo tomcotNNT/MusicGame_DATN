@@ -272,66 +272,6 @@ MonoBehaviour:
       delay: 1
     sequential: 1
     pauseAfter: 0
-  - instruction: "\u1EA4n gi\u1EEF b\xEAn tr\xE1i m\xE0n h\xECnh \u0111\u1EC3 nh\u1EB7t
-      n\u1ED1t d\xE0i ph\xEDa d\u01B0\u1EDBi"
-    successText: "Gi\u1ECFi!"
-    notes:
-    - left: 1
-      isLong: 1
-      duration: 1
-      delay: 1
-    sequential: 1
-    pauseAfter: 0
-  - instruction: "\u1EA4n gi\u1EEF b\xEAn tr\xE1i m\xE0n h\xECnh \u0111\u1EC3 nh\u1EB7t
-      n\u1ED1t d\xE0i ph\xEDa d\u01B0\u1EDBi"
-    successText: "Gi\u1ECFi!"
-    notes:
-    - left: 1
-      isLong: 1
-      duration: 1
-      delay: 1
-    sequential: 1
-    pauseAfter: 0
-  - instruction: "\u1EA4n gi\u1EEF b\xEAn tr\xE1i m\xE0n h\xECnh \u0111\u1EC3 nh\u1EB7t
-      n\u1ED1t d\xE0i ph\xEDa d\u01B0\u1EDBi"
-    successText: "Gi\u1ECFi!"
-    notes:
-    - left: 1
-      isLong: 1
-      duration: 1
-      delay: 1
-    sequential: 1
-    pauseAfter: 0
-  - instruction: "\u1EA4n gi\u1EEF b\xEAn ph\u1EA3i m\xE0n h\xECnh \u0111\u1EC3 nh\u1EB7t
-      n\u1ED1t d\xE0i ph\xEDa tr\xEAn"
-    successText: "Gi\u1ECFi!"
-    notes:
-    - left: 0
-      isLong: 1
-      duration: 1
-      delay: 1
-    sequential: 1
-    pauseAfter: 0
-  - instruction: "\u1EA4n gi\u1EEF b\xEAn ph\u1EA3i m\xE0n h\xECnh \u0111\u1EC3 nh\u1EB7t
-      n\u1ED1t d\xE0i ph\xEDa tr\xEAn"
-    successText: "Gi\u1ECFi!"
-    notes:
-    - left: 0
-      isLong: 1
-      duration: 1
-      delay: 1
-    sequential: 1
-    pauseAfter: 0
-  - instruction: "\u1EA4n gi\u1EEF b\xEAn ph\u1EA3i m\xE0n h\xECnh \u0111\u1EC3 nh\u1EB7t
-      n\u1ED1t d\xE0i ph\xEDa tr\xEAn"
-    successText: "Gi\u1ECFi!"
-    notes:
-    - left: 0
-      isLong: 1
-      duration: 1
-      delay: 1
-    sequential: 1
-    pauseAfter: 0
   retryText: "Ch\u01B0a \u0111\xFAng, th\u1EED l\u1EA1i nh\xE9!"
   completeText: "Ho\xE0n th\xE0nh h\u01B0\u1EDBng d\u1EABn!"
   startDelay: 1
@@ -1102,6 +1042,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ScoreSystem
   scorePerNote: 100
   scoreText: {fileID: 1896015188}
+  popupText: {fileID: 0}
+  player: {fileID: 0}
+  worldCamera: {fileID: 0}
+  canvas: {fileID: 0}
+  playerWorldOffset: {x: 0, y: 1, z: 0}
+  startXOffset: 60
+  startYOffset: -20
+  riseDistance: 90
+  popupPrefix: +
+  popAnimationDuration: 0.12
+  popupHideDelay: 0.5
 --- !u!1 &234829890
 GameObject:
   m_ObjectHideFlags: 0
@@ -4026,10 +3977,8 @@ MonoBehaviour:
   worldCamera: {fileID: 519420031}
   canvas: {fileID: 1627216513}
   playerWorldOffset: {x: 0, y: 2.79, z: 0}
-  minRadius: 62
-  maxRadius: 135
-  judgmentMaxRotation: 12
-  minDistanceFromLast: 120
+  startYOffset: -20
+  riseDistance: 90
   numberPopScale: 1.5
   numberPopDuration: 0.2
   waveAmplitude: 8
@@ -4250,7 +4199,6 @@ MonoBehaviour:
   coinSpawner: {fileID: 625427041}
   bossSpawner: {fileID: 2135059614}
   bossAppearAt: 0.199
-  bossReplacesNote: 1
   keySpeed: 8
   loopWithSpeedUp: 1
   speedStep: 0.15
@@ -4262,6 +4210,15 @@ MonoBehaviour:
   autoSpawnAhead: 1
   minKeyGap: 1.5
   randomLane: 0
+  itemPrefabs:
+  - {fileID: 342349606016470801, guid: 4b1605be2bd0f474f9d48f3e1d5d1e94, type: 3}
+  - {fileID: 342349606016470801, guid: 66e58505711bd4e45af5d9d79e284a0a, type: 3}
+  - {fileID: 342349606016470801, guid: 349ab7a900d857647af22f0eb1ec8ec4, type: 3}
+  - {fileID: 342349606016470801, guid: 0234e2fa37e80a34293073fcc00ef172, type: 3}
+  - {fileID: 342349606016470801, guid: 807e627281e397343a068443b7014de3, type: 3}
+  itemEveryNNotes: 4
+  itemRandomPick: 0
+  itemCanReplaceLongNote: 0
   longNotePrefab: {fileID: 4216641539723573487, guid: 4b2aa78745d0e154fba2cf4af593d47e, type: 3}
   scoreSystem: {fileID: 230136156}
   longNoteMinDuration: 0.5
@@ -9474,6 +9431,15 @@ MonoBehaviour:
   dashSpeed: 60
   hangTime: 0.15
   riseYOffset: 0
+  enableFreeJump: 0
+  jumpKey: 97
+  jumpTarget: {fileID: 0}
+  jumpHeight: 2.5
+  requireGround: 1
+  feverShooter: {fileID: 0}
+  leftKey: 97
+  rightKey: 100
+  comboWindow: 0.08
   attackTriggers:
   - Attack1
   - Attack2
@@ -9483,6 +9449,9 @@ MonoBehaviour:
   WinPanel: {fileID: 1544290757}
   resultSystem: {fileID: 1364280814}
   scoreSystem: {fileID: 230136156}
+  boss: {fileID: 0}
+  loseIfBossAliveAtEnd: 0
+  playerHealth: {fileID: 0}
   countdownText: {fileID: 325852676}
   readyToGoTime: 1.6
   goDuration: 1
@@ -9580,6 +9549,10 @@ MonoBehaviour:
   maxHealth: 50
   damagePerMiss: 10
   HPbar: {fileID: 0}
+  gameOverPanel: {fileID: 0}
+  gameOverDelay: 1
+  pauseAudioOnDeath: 1
+  menuSceneName: 
 --- !u!95 &2008411978
 Animator:
   serializedVersion: 7
@@ -9614,13 +9587,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fc649c3e14455249b56c58b42038bfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
-  animator: {fileID: 2008411978}
-  separateLanes: 0
-  attackTrigger: Attack
-  attackLeftTrigger: AttackLeft
-  attackRightTrigger: AttackRight
-  alternate: 0
-  attack2Trigger: Attack2
 --- !u!82 &2008411980
 AudioSource:
   m_ObjectHideFlags: 0
@@ -10124,9 +10090,7 @@ MonoBehaviour:
   stopPoint: {fileID: 909918463}
   damagePerAttack: 1
   retreatSpeed: 4
-  feverSystem: {fileID: 916470994}
   attackWhenFeverFull: 1
-  feverAlsoDamagesBoss: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
