@@ -7,9 +7,10 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /// <summary>
-/// Quản lý màn chơi + carousel chọn màn:
-/// - Mở khóa dựa trên tiến trình Tutorial và màn trước.
-/// - Đồng bộ lưu Scene mục tiêu sang Story và Gameplay.
+/// Quản lý chọn màn tại Lobby:
+/// - Đồng bộ chuẩn tiến trình Tutorial (Key: TutorialCompleted).
+/// - Luồng chuyển cảnh chuẩn: Lobby -> Character -> Story -> Gameplay.
+/// - Đồng bộ Index (+1) để khớp danh sách Stage bên StorySceneController.
 /// </summary>
 public class SelectLevel : MonoBehaviour,
     IBeginDragHandler,
@@ -45,35 +46,35 @@ public class SelectLevel : MonoBehaviour,
     // INSPECTOR SETTINGS
     // =====================================================
 
-    [Header("Progression Rules (Quy tắc mở khóa)")]
-    [Tooltip("Tích chọn: Hoàn thành Tutorial sẽ mở khóa ngay toàn bộ cả 3 màn chơi.\nBỏ tích: Mở khóa tuần tự từng màn một.")]
+    [Header("1. Progression Rules (Quy tắc mở khóa)")]
+    [Tooltip("Tích chọn: Hoàn thành Tutorial sẽ mở khóa ngay toàn bộ các màn chơi.\nBỏ tích: Mở khóa tuần tự từng màn một.")]
     [SerializeField] private bool unlockAllAfterTutorial = true;
 
     [Tooltip("Màn đầu tiên trong danh sách luôn mở khóa nếu bỏ qua Tutorial.")]
     [SerializeField] private bool firstLevelAlwaysUnlocked = false;
 
-    [Header("Character Select & Scene Routing")]
-    [Tooltip("Tên scene chọn nhân vật hoặc Story. Để trống = vào thẳng gameplay.")]
-    [SerializeField] private string characterSelectScene = "Story";
+    [Header("2. Scene Routing (Lobby -> Character -> Story -> Gameplay)")]
+    [Tooltip("Scene tiếp theo sau khi chọn màn. Chuẩn luồng game là vào scene chọn nhân vật.")]
+    [SerializeField] private string characterSelectScene = "Character";
 
-    [Tooltip("Bật nếu muốn bỏ qua bước Story/chọn tướng để vào thẳng gameplay.")]
+    [Tooltip("Bật nếu muốn bỏ qua bước chọn tướng/Story để vào thẳng gameplay.")]
     [SerializeField] private bool skipCharacterSelect = false;
 
-    [Header("Levels List (Theo thứ tự chơi)")]
+    [Header("3. Levels List (Theo thứ tự từ Màn 1 đến Màn 3...)")]
     [SerializeField] private List<LevelEntry> levels = new List<LevelEntry>();
 
-    [Header("Layout Settings")]
+    [Header("4. Layout Settings")]
     [SerializeField] private float spacing = 450f;
     [SerializeField] private float centerScale = 1f;
     [SerializeField] private float sideScale = 0.75f;
     [SerializeField] private float farScale = 0.5f;
     [SerializeField] private int visibleRange = 2;
 
-    [Header("Snap & Drag")]
+    [Header("5. Snap & Drag")]
     [SerializeField] private float snapDuration = 0.25f;
     [SerializeField] private float dragThreshold = 100f;
 
-    [Header("Play Button & Visual Feedback")]
+    [Header("6. Play Button & Visual Feedback")]
     [SerializeField] private Button playButton;
     [Range(0f, 1f)] [SerializeField] private float lockedAlpha = 0.4f;
     [Range(0f, 1f)] [SerializeField] private float unlockedAlpha = 1f;
@@ -99,10 +100,12 @@ public class SelectLevel : MonoBehaviour,
     }
 
     // =====================================================
-    // STATIC PROGRESSION API
+    // STATIC PROGRESSION API (ĐỒNG BỘ CHUNG TOÀN GAME)
     // =====================================================
 
-    public const string TutorialKey = "TutorialDone";
+    // Đồng bộ key Tutorial chuẩn hóa với CharacterSystemManager và TutorialFlow
+    public const string TutorialKey = "TutorialCompleted";
+    private const string BackupTutorialKey = "TutorialDone";
     private const string KeyPrefix = "LevelDone_";
 
     public static string CurrentLevelId { get; private set; }
@@ -110,12 +113,14 @@ public class SelectLevel : MonoBehaviour,
 
     public static bool IsTutorialCompleted()
     {
-        return PlayerPrefs.GetInt(TutorialKey, 0) == 1;
+        return PlayerPrefs.GetInt(TutorialKey, 0) == 1 || PlayerPrefs.GetInt(BackupTutorialKey, 0) == 1;
     }
 
     public static void SetTutorialDone(bool isDone = true)
     {
-        PlayerPrefs.SetInt(TutorialKey, isDone ? 1 : 0);
+        int val = isDone ? 1 : 0;
+        PlayerPrefs.SetInt(TutorialKey, val);
+        PlayerPrefs.SetInt(BackupTutorialKey, val);
         PlayerPrefs.Save();
         OnProgressChanged?.Invoke();
     }
@@ -168,11 +173,13 @@ public class SelectLevel : MonoBehaviour,
 
     private void Update()
     {
+        // Phím cheat G: Mở khóa toàn bộ màn
         if (Input.GetKeyDown(KeyCode.G))
         {
             UnlockAllCheat();
         }
 
+        // Phím cheat R: Reset tiến trình về ban đầu
         if (Input.GetKeyDown(KeyCode.R))
         {
             ResetProgress();
@@ -468,14 +475,19 @@ public class SelectLevel : MonoBehaviour,
 
         CurrentLevelId = GetLevelId(currentIndex);
 
-        // LƯU CẢ TÊN SCENE VÀ CHỈ SỐ MÀN VÀO PLAYERPREFS
+        // 1. LƯU TÊN SCENE THỰC TẾ CẦN CHƠI (VD: Man1, Man2, Man3)
         PlayerPrefs.SetString("SelectedSceneToPlay", sceneToLoad);
-        PlayerPrefs.SetInt("SelectedStageIndex", currentIndex);
+
+        // 2. ĐỒNG BỘ INDEX SANG STORY CONTROLLER:
+        // Danh sách Story có Element 0 là Tutorial, Element 1 là Màn 1.
+        // Lobby bắt đầu từ Màn 1 (Index 0) nên cộng thêm 1 để khớp chính xác.
+        int mappedStoryIndex = currentIndex + 1;
+        PlayerPrefs.SetInt("SelectedStageIndex", mappedStoryIndex);
         PlayerPrefs.Save();
 
-        Debug.Log($"<color=cyan>[SelectLevel] Đã chọn màn: {sceneToLoad} (Index: {currentIndex})</color>");
+        Debug.Log($"<color=cyan>[SelectLevel] Đã chọn màn: {sceneToLoad} (Lobby Index: {currentIndex} -> Story Index: {mappedStoryIndex})</color>");
 
-        // Chuyển hướng sang màn chọn nhân vật/Story hoặc vào thẳng màn chơi
+        // 3. ĐIỀU HƯỚNG: Chuyển sang Scene chọn nhân vật (Character)
         if (!skipCharacterSelect && !string.IsNullOrEmpty(characterSelectScene))
         {
             SceneManager.LoadScene(characterSelectScene);
@@ -532,7 +544,7 @@ public class SelectLevel : MonoBehaviour,
     [ContextMenu("Unlock All (Cheat Key G)")]
     public void UnlockAllCheat()
     {
-        PlayerPrefs.SetInt(TutorialKey, 1);
+        SetTutorialDone(true);
         for (int i = 0; i < levels.Count; i++)
         {
             PlayerPrefs.SetInt(KeyPrefix + GetLevelId(i), 1);
@@ -547,6 +559,7 @@ public class SelectLevel : MonoBehaviour,
     public void ResetProgress()
     {
         PlayerPrefs.DeleteKey(TutorialKey);
+        PlayerPrefs.DeleteKey(BackupTutorialKey);
         for (int i = 0; i < levels.Count; i++)
         {
             PlayerPrefs.DeleteKey(KeyPrefix + GetLevelId(i));
