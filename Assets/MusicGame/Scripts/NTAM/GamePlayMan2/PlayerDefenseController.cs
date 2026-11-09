@@ -2,153 +2,197 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum HitAccuracy { Perfect, Good, Miss }
+
 public class PlayerDefenseController : MonoBehaviour
 {
-    [Header("Original Center Position")]
-    public Vector3 originPosition = new Vector3(0f, -1.8f, 0f);
+    [Header("Position Cố Định")]
+    public Vector3 originPosition = new Vector3(0f, -2.6f, 0f);
 
-    [Header("Dash Speed (Lướt tới mục tiêu)")]
-    public float dashSpeed = 35f;
-    public float returnSpeed = 30f;
-    private bool isDashing = false;
+    [Header("2 Checkpoints (HitZones X = +-2.5)")]
+    public Transform hitZoneLeft;
+    public Transform hitZoneRight;
 
-    [Header("Checkpoints (HitPoints)")]
-    public Transform cpLeftTop;
-    public Transform cpLeftBottom;
-    public Transform cpRightTop;
-    public Transform cpRightBottom;
+    [Header("Phạm Vi Phân Loại Nhịp (Khoảng cách tới Checkpoint)")]
+    public float perfectWindow = 0.4f; // Khoảng cách lý tưởng
+    public float goodWindow = 1.0f;    // Khoảng cách chấp nhận được
 
-    [Header("Miss Cooldown (Phạt bấm hụt)")]
-    public float missCooldown = 0.35f;
+    [Header("Hiệu Ứng VFX Đánh Trúng")]
+    public GameObject vfxPerfectPrefab; // Kéo Prefab tia chém/nổ vàng rực
+    public GameObject vfxGoodPrefab;    // Kéo Prefab nổ nhẹ màu xanh lá/trắng
+
+    [Header("Hệ Thống Combo & Điểm")]
+    public int currentCombo = 0;
+    public int maxCombo = 0;
+    public int currentScore = 0;
+    public float missCooldown = 0.25f;
     private float cooldownTimer = 0f;
 
-    [Header("Danh sách quái theo 2 cánh")]
+    [Header("Danh Sách Quái")]
     public List<OFDP_Enemy> leftEnemies = new List<OFDP_Enemy>();
     public List<OFDP_Enemy> rightEnemies = new List<OFDP_Enemy>();
 
-    private SpriteRenderer spriteRenderer;
     private Animator animator;
+    private float originalScaleX;
 
     void Awake()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         originPosition = transform.position;
+        originalScaleX = Mathf.Abs(transform.localScale.x);
     }
 
     void Update()
     {
+        transform.position = originPosition;
+
         if (cooldownTimer > 0)
         {
             cooldownTimer -= Time.deltaTime;
             return;
         }
 
-        // CHỈ CẦN 2 NÚT DUY NHẤT: BÊN TRÁI VÀ BÊN PHẢI
-        // Bấm Bên Trái: Nút A, Mũi tên Trái, hoặc Chuột Trái
-        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetMouseButtonDown(0))
+        bool pressLeft = Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow);
+        bool pressRight = Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow);
+
+        if (Input.GetMouseButtonDown(0))
         {
-            HandleAttackInput(isLeft: true);
+            if (Input.mousePosition.x < Screen.width / 2f) pressLeft = true;
+            else pressRight = true;
         }
-        // Bấm Bên Phải: Nút D, Mũi tên Phải, hoặc Chuột Phải
-        else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetMouseButtonDown(1))
+
+        if (pressLeft)
         {
-            HandleAttackInput(isLeft: false);
+            HandleAttack(isLeft: true);
+        }
+        else if (pressRight)
+        {
+            HandleAttack(isLeft: false);
         }
     }
 
-    void HandleAttackInput(bool isLeft)
+    void HandleAttack(bool isLeft)
     {
-        // 1. Quay mặt theo hướng đánh
-        if (spriteRenderer != null)
+        // 1. Lật mặt đúng hướng bấm (ảnh gốc nhìn Phải)
+        Vector3 currentScale = transform.localScale;
+        currentScale.x = isLeft ? -originalScaleX : originalScaleX;
+        transform.localScale = currentScale;
+
+        // 2. Xác định tâm Checkpoint tương ứng
+        Transform targetZone = isLeft ? hitZoneLeft : hitZoneRight;
+        Vector3 checkCenter = targetZone != null ? targetZone.position : (originPosition + new Vector3(isLeft ? -2.5f : 2.5f, 0, 0));
+
+        // 3. Tìm quái gần Checkpoint nhất và đánh giá độ chuẩn xác
+        OFDP_Enemy target = FindBestTarget(isLeft, checkCenter, out HitAccuracy accuracy);
+
+        if (accuracy != HitAccuracy.Miss && target != null)
         {
-            spriteRenderer.flipX = !isLeft; // Tùy sprite gốc quay hướng nào, điều chỉnh lật mặt sang bên đánh
+            // === ĐÁNH TRÚNG QUÁI (PERFECT HOẶC GOOD) ===
+            if (isLeft) leftEnemies.Remove(target);
+            else rightEnemies.Remove(target);
+
+            currentCombo++;
+            if (currentCombo > maxCombo) maxCombo = currentCombo;
+
+            Vector3 hitPos = target.transform.position;
+
+            if (accuracy == HitAccuracy.Perfect)
+            {
+                currentScore += 100;
+                Debug.Log($"<color=#FFE600><b>[PERFECT!!!]</b></color> <color=#00FF66>COMBO x{currentCombo}</color> | Score: {currentScore}");
+                SpawnVFX(vfxPerfectPrefab, hitPos);
+            }
+            else // Good
+            {
+                currentScore += 50;
+                Debug.Log($"<color=#00E5FF><b>[GOOD!]</b></color> <color=#00FF66>COMBO x{currentCombo}</color> | Score: {currentScore}");
+                SpawnVFX(vfxGoodPrefab, hitPos);
+            }
+
+            PlayRandomAttack();
+            target.OnHit();
         }
+        else
+        {
+            // === MISS: BẤM TRƯỢT HOẶC QUÁI CHƯA TỚI ===
+            cooldownTimer = missCooldown;
+            currentCombo = 0;
+            Debug.Log("<color=red><b>[MISS!] ĐỨT CHUỖI COMBO! KHÓA PHÍM 0.25S</b></color>");
 
-        List<OFDP_Enemy> targetList = isLeft ? leftEnemies : rightEnemies;
-        targetList.RemoveAll(e => e == null);
+            // Kích hoạt Checkpoint nháy đỏ cảnh báo
+            if (targetZone != null)
+            {
+                LaneTrigger lt = targetZone.GetComponent<LaneTrigger>();
+                if (lt != null) lt.FlashMiss();
+            }
+        }
+    }
 
-        // Tìm con quái gần nhất đang trong vùng tầm đánh Checkpoint
-        OFDP_Enemy target = null;
+    OFDP_Enemy FindBestTarget(bool isLeft, Vector3 zonePos, out HitAccuracy accuracy)
+    {
+        accuracy = HitAccuracy.Miss;
+        List<OFDP_Enemy> list = isLeft ? leftEnemies : rightEnemies;
+        list.RemoveAll(e => e == null);
+
+        // Gom danh sách quái quanh vùng Checkpoint
+        Collider2D[] cols = Physics2D.OverlapCircleAll(zonePos, goodWindow + 0.5f);
+        OFDP_Enemy closestEnemy = null;
         float minDistance = float.MaxValue;
 
-        foreach (var enemy in targetList)
+        foreach (var c in cols)
         {
-            if (enemy.isInAttackRange)
+            OFDP_Enemy e = c.GetComponent<OFDP_Enemy>();
+            if (e != null && e.isFromLeft == isLeft)
             {
-                float dist = Vector3.Distance(transform.position, enemy.transform.position);
+                float dist = Mathf.Abs(e.transform.position.x - zonePos.x);
                 if (dist < minDistance)
                 {
                     minDistance = dist;
-                    target = enemy;
+                    closestEnemy = e;
                 }
             }
         }
 
-        if (target != null)
+        if (closestEnemy != null)
         {
-            // ĐÁNH TRÚNG QUÁI!
-            targetList.Remove(target);
-
-            // Xác định điểm Checkpoint cần bay tới dựa vào làn của con quái đó
-            Transform targetCheckpoint = null;
-            if (isLeft)
+            if (minDistance <= perfectWindow)
             {
-                targetCheckpoint = target.isHighLane ? cpLeftTop : cpLeftBottom;
+                accuracy = HitAccuracy.Perfect;
             }
-            else
+            else if (minDistance <= goodWindow)
             {
-                targetCheckpoint = target.isHighLane ? cpRightTop : cpRightBottom;
+                accuracy = HitAccuracy.Good;
             }
-
-            // Kích hoạt animation tương ứng
-            if (animator != null)
-            {
-                animator.SetTrigger(target.isHighLane ? "AttackHigh" : "AttackLow");
-            }
-
-            // Bay tới vị trí Checkpoint chém quái rồi giật về giữa
-            StopAllCoroutines();
-            StartCoroutine(DashAttackRoutine(targetCheckpoint.position, target));
         }
-        else
+
+        return closestEnemy;
+    }
+
+    void SpawnVFX(GameObject prefab, Vector3 pos)
+    {
+        if (prefab != null)
         {
-            // BẤM HỤT (Không có quái nào trong vùng Checkpoint)
-            cooldownTimer = missCooldown;
-            Debug.Log("<color=red>BẤM HỤT! Bị khóa đòn đánh trong thời gian ngắn!</color>");
+            GameObject vfx = Instantiate(prefab, pos, Quaternion.identity);
+            Destroy(vfx, 0.6f); // Tự hủy sau 0.6 giây
         }
     }
 
-    IEnumerator DashAttackRoutine(Vector3 targetPos, OFDP_Enemy enemy)
+    void PlayRandomAttack()
     {
-        isDashing = true;
+        if (animator == null) return;
+        animator.ResetTrigger("Attack1");
+        animator.ResetTrigger("Attack2");
+        animator.ResetTrigger("Attack3");
+        animator.ResetTrigger("AttackLow");
 
-        // 1. Lướt siêu tốc tới Checkpoint
-        while (Vector3.Distance(transform.position, targetPos) > 0.1f)
+        int rand = Random.Range(0, 4);
+        switch (rand)
         {
-            transform.position = Vector3.MoveTowards(transform.position, targetPos, dashSpeed * Time.deltaTime);
-            yield return null;
+            case 0: animator.SetTrigger("Attack1"); break;
+            case 1: animator.SetTrigger("Attack2"); break;
+            case 2: animator.SetTrigger("Attack3"); break;
+            case 3: animator.SetTrigger("AttackLow"); break;
         }
-        transform.position = targetPos;
-
-        // 2. Chém tiêu diệt quái tại Checkpoint
-        if (enemy != null)
-        {
-            enemy.OnHit();
-        }
-
-        // Chờ 0.05s để tạo cảm giác chém trúng lực (Hitstop)
-        yield return new WaitForSeconds(0.05f);
-
-        // 3. Giật lùi về tâm (0, -1.8, 0)
-        while (Vector3.Distance(transform.position, originPosition) > 0.1f)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, originPosition, returnSpeed * Time.deltaTime);
-            yield return null;
-        }
-        transform.position = originPosition;
-
-        isDashing = false;
     }
 
     public void RegisterEnemy(OFDP_Enemy enemy, bool isLeft)
@@ -165,7 +209,26 @@ public class PlayerDefenseController : MonoBehaviour
 
     public void TakeDamage()
     {
+        currentCombo = 0;
         if (animator != null) animator.SetTrigger("Hurt");
-        Debug.Log("<color=red>PLAYER DÍNH ĐÒN!</color>");
+        Debug.Log("<color=red><b>PLAYER BỊ ĐÁNH TRÚNG! RESET COMBO VỀ 0!</b></color>");
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (hitZoneLeft != null)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(hitZoneLeft.position, perfectWindow);
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawWireSphere(hitZoneLeft.position, goodWindow);
+        }
+        if (hitZoneRight != null)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(hitZoneRight.position, perfectWindow);
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawWireSphere(hitZoneRight.position, goodWindow);
+        }
     }
 }

@@ -79,8 +79,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1671400121
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 33657c7a8345b174f8b1a8c89cc6e23b, type: 3}
@@ -127,7 +127,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eeb3f63200ee4fb4aada81e533a8e480, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OFDP_Enemy
-  moveSpeed: 5
+  moveSpeed: 3
   isFromLeft: 1
   isHighLane: 0
+  defaultFacingLeft: 1
   isInAttackRange: 0

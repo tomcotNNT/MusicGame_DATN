@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.834, y: 1.589, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 1}
+  m_LocalScale: {x: 5, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -81,8 +81,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1671400121
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -3297650188656544483, guid: 0bcdf9b86ee58b744b6d364d19b382c1, type: 3}
@@ -129,9 +129,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eeb3f63200ee4fb4aada81e533a8e480, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OFDP_Enemy
-  moveSpeed: 5
+  moveSpeed: 2
   isFromLeft: 1
   isHighLane: 0
+  defaultFacingLeft: 1
   isInAttackRange: 0
 --- !u!50 &4902556152568151657
 Rigidbody2D:

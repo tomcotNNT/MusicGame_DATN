@@ -4,22 +4,25 @@ public class OFDP_Enemy : MonoBehaviour
 {
     [Header("Movement")]
     public float moveSpeed = 5f;
-    public bool isFromLeft = true; // true: từ trái sang, false: từ phải sang
+    public bool isFromLeft = true;
+    public bool isHighLane = false;
 
-    [Header("Lane & State")]
-    public bool isHighLane = false; // false: Làn dưới, true: Làn trên
+    [Header("Sprite Direction")]
+    [Tooltip("Tích chọn nếu hình vẽ gốc trong ảnh sprite của con này quay mặt sang TRÁI (như Bat). Bỏ tích nếu gốc quay sang PHẢI.")]
+    public bool defaultFacingLeft = true;
+
+    [Header("State")]
     [HideInInspector] public bool isInAttackRange = false;
+    private bool isMissedAndAttackingPlayer = false;
 
     private SpriteRenderer sr;
-    private Animator anim;
-    private Collider2D col;
-    private bool isDead = false;
+    private Transform playerTransform;
 
     void Awake()
     {
-        if (sr == null) sr = GetComponent<SpriteRenderer>();
-        anim = GetComponent<Animator>();
-        col = GetComponent<Collider2D>();
+        sr = GetComponent<SpriteRenderer>();
+        GameObject p = GameObject.FindGameObjectWithTag("Player");
+        if (p != null) playerTransform = p.transform;
     }
 
     public void Init(bool fromLeft, bool isHigh, float speed)
@@ -29,61 +32,63 @@ public class OFDP_Enemy : MonoBehaviour
         moveSpeed = speed;
 
         if (sr == null) sr = GetComponent<SpriteRenderer>();
-        if (sr != null)
+        UpdateFacing();
+    }
+
+    void UpdateFacing()
+    {
+        if (sr == null) return;
+        // Đảm bảo mặt luôn hướng về tâm (X = 0)
+        if (isFromLeft)
         {
-            // Sprite gốc nhìn sang trái: nếu từ trái qua thì flipX = true, từ phải qua thì flipX = false
-            sr.flipX = fromLeft; 
+            // Đi từ Trái sang Phải: Cần nhìn sang Phải
+            sr.flipX = defaultFacingLeft;
+        }
+        else
+        {
+            // Đi từ Phải sang Trái: Cần nhìn sang Trái
+            sr.flipX = !defaultFacingLeft;
         }
     }
 
     void Update()
     {
-        // Khi đã bị chém trúng thì đứng yên tại chỗ để rơi/chết, không trượt tới trước nữa
-        if (isDead) return;
+        if (isMissedAndAttackingPlayer && playerTransform != null)
+        {
+            // Lao thẳng vào người Player khi người chơi bấm trượt / bỏ lỡ
+            transform.position = Vector3.MoveTowards(transform.position, playerTransform.position, (moveSpeed * 1.5f) * Time.deltaTime);
+            return;
+        }
 
-        float direction = isFromLeft ? 1f : -1f;
-        transform.position += Vector3.right * direction * moveSpeed * Time.deltaTime;
+        // Di chuyển bình thường về tâm
+        float dir = isFromLeft ? 1f : -1f;
+        transform.position += Vector3.right * dir * moveSpeed * Time.deltaTime;
 
-        // Tự hủy nếu bay quá xa màn hình (ngoài phạm vi X = +-16)
+        // Tự hủy nếu bay quá xa
         if (Mathf.Abs(transform.position.x) > 16f)
         {
             Destroy(gameObject);
         }
     }
 
-    // Được gọi khi người chơi bấm nút chém trúng quái
-    public void OnHit()
+    /// <summary>
+    /// Kích hoạt khi người chơi bỏ lỡ nhịp (Miss): Quái lao thẳng vào cắn Player
+    /// </summary>
+    public void TriggerMissRush()
     {
-        if (isDead) return;
-        isDead = true;
-
-        // 1. Tắt Collider để không còn va chạm hay gây sát thương cho player
-        if (col != null) col.enabled = false;
-
-        // 2. Kích hoạt Animation chết
-        if (anim != null)
-        {
-            anim.SetTrigger("Die");
-        }
-        else
-        {
-            // Đề phòng quái chưa gán Animator thì hủy luôn
-            Destroy(gameObject);
-        }
+        if (isMissedAndAttackingPlayer) return;
+        isMissedAndAttackingPlayer = true;
     }
 
-    // Hàm này sẽ được Animation Event gọi ở cuối frame 0:08
-    public void OnDeathComplete()
+    public void OnHit()
     {
         Destroy(gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (isDead) return;
-
-        // Chạm vào Player hoặc Hitbox khi người chơi không bấm kịp
-        if (collision.CompareTag("Player") || collision.name == "Hitbox" || collision.GetComponent<PlayerDefenseController>() != null)
+        // Chạm vào thân Player
+        if (collision.CompareTag("Player") || collision.name == "Hitbox")
         {
             PlayerDefenseController player = collision.GetComponentInParent<PlayerDefenseController>();
             if (player != null)
