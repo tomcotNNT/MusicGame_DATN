@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 // Gắn vào 2 hit point: dưới = Left, trên = Right.

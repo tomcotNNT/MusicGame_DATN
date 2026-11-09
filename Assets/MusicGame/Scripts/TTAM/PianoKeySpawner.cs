@@ -23,15 +23,11 @@ public class PianoKeySpawner : MonoBehaviour
     [Header("Coin")]
     [SerializeField] private CoinSpawner coinSpawner;
 
-
     [Header("Boss")]
     [SerializeField] private BossSpawner bossSpawner;
     [Tooltip("Boss xuất hiện khi bài chạy tới tỉ lệ này (0.5 = giữa bài). Chỉ xuất hiện 1 lần")]
     [SerializeField, Range(0.05f, 0.95f)] private float bossAppearAt = 0.5f;
     private bool bossAppeared;
-
-    [Tooltip("Bật = nốt được boss chọn sẽ THAY bằng đạn boss. Tắt = vẫn spawn nốt thường song song với đạn")]
-    [SerializeField] private bool bossReplacesNote = true;
 
     public float SpawnDirection => spawnDirection;
     public float PlayerX => player.position.x;
@@ -88,7 +84,8 @@ public class PianoKeySpawner : MonoBehaviour
     private float tutorialClock;
 
     [Tooltip("Key xuất hiện trước thời điểm note bao nhiêu giây. " +
-             "Nên >= khoảng cách spawn / keySpeed")]
+             "Nên >= khoảng cách spawn / keySpeed. " +
+             "Cũng nên >= Travel Time của BossMusicAttack để boss kịp bắn.")]
     [SerializeField] private float spawnAheadTime = 2f;
 
     [Tooltip("Bật = tự tính spawnAheadTime = khoảng cách (SpawnPoint -> Player) / keySpeed")]
@@ -102,6 +99,18 @@ public class PianoKeySpawner : MonoBehaviour
     [Header("Lane")]
     [Tooltip("Bật = random Left/Right, tắt = theo lane của MIDI (cao/thấp)")]
     [SerializeField] private bool randomLane = false;
+
+    [Header("Item thay nốt")]
+    [Tooltip("Danh sách item. Một số nốt thường sẽ được đổi thành item này")]
+    [SerializeField] private List<GameObject> itemPrefabs = new List<GameObject>();
+    [Tooltip("Cứ N nốt thường thì 1 nốt đổi thành item. 4 = nốt thứ 4, 8, 12...")]
+    [SerializeField, Min(2)] private int itemEveryNNotes = 4;
+    [Tooltip("Bật = chọn item ngẫu nhiên, tắt = lần lượt theo list")]
+    [SerializeField] private bool itemRandomPick = false;
+    [Tooltip("Bật = nốt dài cũng có thể đổi thành item. Tắt = chỉ đổi nốt thường")]
+    [SerializeField] private bool itemCanReplaceLongNote = false;
+    private int itemIndex;
+    private int notesSinceItem;
 
     // ---- Hit point helpers ----
 
@@ -153,19 +162,6 @@ public class PianoKeySpawner : MonoBehaviour
             bossAppeared = true;
             bossSpawner.StartBossFight(OnBossDefeated);
         }
-    }
-
-    // Boss đang đánh và chọn nốt này => true
-    private bool TryBossNote(MidiReader.RhythmNote note, bool left)
-    {
-        if (bossSpawner == null || !bossSpawner.IsFighting)
-            return false;
-
-        BossMusicAttack attack = bossSpawner.CurrentMusicAttack;
-        if (attack == null)
-            return false;
-
-        return attack.TryScheduleBossNote(note.time, note.duration, left);
     }
 
     // ---- State ----
@@ -272,8 +268,14 @@ public class PianoKeySpawner : MonoBehaviour
         if (bossSpawner != null && bossSpawner.CurrentMusicAttack != null)
             bossSpawner.CurrentMusicAttack.ResetAttackState();
 
+        // Reset thanh fever theo item
+        if (ItemFeverBar.Instance != null)
+            ItemFeverBar.Instance.ResetBar();
+
         nextNoteIndex = 0;
         lastAcceptedNoteEnd = -999f;
+        itemIndex = 0;
+        notesSinceItem = 0;
         songEnded = false;
         paused = false;
 
@@ -392,6 +394,24 @@ public class PianoKeySpawner : MonoBehaviour
 
             nextNoteIndex++;
 
+            float travelTime = note.time - now;
+            if (travelTime <= 0f)
+                continue;
+
+            // Lane của nốt này (dùng chung cho nốt thường, item và đạn boss)
+            bool left = randomLane ? Random.value < 0.5f : note.lane == 0;
+
+            // ===== BOSS =====
+            // Boss bắn theo nốt MIDI. KHÔNG có continue => piano vẫn spawn bình thường.
+            // Muốn boss bắn lane ngược piano thì đổi thành ScheduleBeat(note.time, !left)
+            if (bossAppeared && bossSpawner != null)
+            {
+                BossMusicAttack atk = bossSpawner.CurrentMusicAttack;
+                if (atk != null)
+                    atk.ScheduleBeat(note.time, left);
+            }
+
+            // ===== PIANO BÌNH THƯỜNG =====
             bool isLong = longNotePrefab != null && note.duration >= longNoteMinDuration;
 
             // Note phải cách điểm kết thúc của note trước (kể cả đuôi nốt dài) đủ xa
@@ -399,19 +419,20 @@ public class PianoKeySpawner : MonoBehaviour
             if (note.time - lastAcceptedNoteEnd < minGapTime)
                 continue;
 
-            float travelTime = note.time - now;
-            if (travelTime <= 0f)
-                continue;
+            // Đến lượt thì nốt này đổi thành item
+            bool canBeItem = itemPrefabs != null && itemPrefabs.Count > 0
+                             && (!isLong || itemCanReplaceLongNote);
 
-            // Lane của nốt này (dùng chung cho nốt thường và đạn boss)
-            bool left = randomLane ? Random.value < 0.5f : note.lane == 0;
-
-            // Boss đang đánh: nốt được chọn sẽ thành đạn boss
-            bool bossTook = TryBossNote(note, left);
-            if (bossTook && bossReplacesNote)
+            if (canBeItem)
             {
-                lastAcceptedNoteEnd = note.time;
-                continue;
+                notesSinceItem++;
+                if (notesSinceItem >= itemEveryNNotes)
+                {
+                    notesSinceItem = 0;
+                    lastAcceptedNoteEnd = note.time;   // item không có đuôi dài
+                    SpawnItem(note.time, travelTime, left);
+                    continue;
+                }
             }
 
             lastAcceptedNoteEnd = note.time + (isLong ? note.duration : 0f);
@@ -419,6 +440,30 @@ public class PianoKeySpawner : MonoBehaviour
             if (isLong) SpawnLongKey(note, travelTime, left);
             else        SpawnKey(note, travelTime, left);
         }
+    }
+
+    private void SpawnItem(float noteTime, float travelTime, bool left)
+    {
+        GameObject prefab = itemRandomPick
+            ? itemPrefabs[Random.Range(0, itemPrefabs.Count)]
+            : itemPrefabs[itemIndex++ % itemPrefabs.Count];
+
+        if (prefab == null) return;
+
+        Vector3 pos = new Vector3(
+            GetSpawnX(left, travelTime),
+            GetLaneY(left, false),
+            spawnPoint.position.z);
+
+        GameObject obj = Instantiate(prefab, pos, Quaternion.identity);
+
+        RhythmItemm item = obj.GetComponent<RhythmItemm>();
+        if (item != null)
+            item.Setup(left, noteTime, GetHitPoint(left), keySpeed);
+        else
+            Debug.LogWarning("PianoKeySpawner: item prefab chưa có RhythmItemm.cs!");
+
+        activeKeys.Add(obj);
     }
 
     private void SpawnLongKey(MidiReader.RhythmNote note, float travelTime, bool left)
@@ -494,6 +539,7 @@ public class PianoKeySpawner : MonoBehaviour
         // Hết nhạc boss: boss đi lùi về spawn point rồi biến mất
         if (bossSpawner != null)
             bossSpawner.RetreatBoss();
+
         SongEnded?.Invoke();
     }
 

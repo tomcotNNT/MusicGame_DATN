@@ -165,7 +165,7 @@ MonoBehaviour:
   animator: {fileID: 7823930178333199129}
   firePoint: {fileID: 4552849062229849705}
   projectilePrefab: {fileID: 7010576806649070283, guid: 121870afeb2e52a40a97e2035b484b5c, type: 3}
-  attackTrigger: Attack
+  attackTrigger: Attack1
   attackEveryN: 4
   onlyLongNotes: 0
   longNoteMinDuration: 0.5

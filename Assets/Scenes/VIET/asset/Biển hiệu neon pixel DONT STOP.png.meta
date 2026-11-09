@@ -1,0 +1,715 @@
+fileFormatVersion: 2
+guid: 3f668de88b25df342bc85ccef5bb459d
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -1463521209427708726
+    second: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_0"
+  - first:
+      213: 6723306564369326085
+    second: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_1"
+  - first:
+      213: -1158670492757764222
+    second: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_2"
+  - first:
+      213: -6034189032767093300
+    second: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_3"
+  - first:
+      213: 3008007528366715112
+    second: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_4"
+  - first:
+      213: -1647137832655138964
+    second: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_5"
+  - first:
+      213: -7616729809094861399
+    second: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_6"
+  - first:
+      213: 715636982725017410
+    second: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_7"
+  - first:
+      213: -5914190314412064951
+    second: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_8"
+  - first:
+      213: -1640134097332452901
+    second: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_9"
+  - first:
+      213: -4141596626085245699
+    second: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_10"
+  - first:
+      213: 3998060079572990055
+    second: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_11"
+  - first:
+      213: -8904424787020754096
+    second: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_12"
+  - first:
+      213: -4110680497039798128
+    second: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_13"
+  - first:
+      213: 3915036379358184056
+    second: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_14"
+  - first:
+      213: -1405797862700892728
+    second: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_15"
+  - first:
+      213: -4215482405936249047
+    second: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_16"
+  - first:
+      213: -317354127764613262
+    second: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_17"
+  - first:
+      213: 4460886545811372961
+    second: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_18"
+  - first:
+      213: -4739910290781986381
+    second: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_19"
+  - first:
+      213: -412971746824781033
+    second: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_20"
+  - first:
+      213: -3949662406203152015
+    second: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_21"
+  - first:
+      213: 5203951083982867970
+    second: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_22"
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_0"
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 0
+        width: 2150
+        height: 706
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac4bfcec63780bbe0800000000000000
+      internalID: -1463521209427708726
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_1"
+      rect:
+        serializedVersion: 2
+        x: 796
+        y: 693
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 500294dd2bbfd4d50800000000000000
+      internalID: 6723306564369326085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_2"
+      rect:
+        serializedVersion: 2
+        x: 1102
+        y: 667
+        width: 11
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 287527363539befe0800000000000000
+      internalID: -1158670492757764222
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_3"
+      rect:
+        serializedVersion: 2
+        x: 2081
+        y: 675
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc50c529b01424ca0800000000000000
+      internalID: -6034189032767093300
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_4"
+      rect:
+        serializedVersion: 2
+        x: 2086
+        y: 675
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e0bff1f8e69eb920800000000000000
+      internalID: 3008007528366715112
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_5"
+      rect:
+        serializedVersion: 2
+        x: 2088
+        y: 673
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c6fcb7c3ed03429e0800000000000000
+      internalID: -1647137832655138964
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_6"
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 663
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ad95c20890fb4690800000000000000
+      internalID: -7616729809094861399
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_7"
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 660
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 24ff47f4b047ee900800000000000000
+      internalID: 715636982725017410
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_8"
+      rect:
+        serializedVersion: 2
+        x: 2087
+        y: 665
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 94fb9676e339ceda0800000000000000
+      internalID: -5914190314412064951
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_9"
+      rect:
+        serializedVersion: 2
+        x: 2089
+        y: 653
+        width: 18
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd14e707ab21d39e0800000000000000
+      internalID: -1640134097332452901
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_10"
+      rect:
+        serializedVersion: 2
+        x: 1070
+        y: 643
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dfc8b3bcfc71686c0800000000000000
+      internalID: -4141596626085245699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_11"
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 425
+        width: 5
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7683e91b576fb7730800000000000000
+      internalID: 3998060079572990055
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_12"
+      rect:
+        serializedVersion: 2
+        x: 348
+        y: 41
+        width: 11
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 053d17875d02d6480800000000000000
+      internalID: -8904424787020754096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_13"
+      rect:
+        serializedVersion: 2
+        x: 559
+        y: 51
+        width: 11
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 09011d40edde3f6c0800000000000000
+      internalID: -4110680497039798128
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_14"
+      rect:
+        serializedVersion: 2
+        x: 748
+        y: 49
+        width: 11
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 872406228d0055630800000000000000
+      internalID: 3915036379358184056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_15"
+      rect:
+        serializedVersion: 2
+        x: 1382
+        y: 47
+        width: 34
+        height: 57
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8cdb5b7ca4a9d7ce0800000000000000
+      internalID: -1405797862700892728
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_16"
+      rect:
+        serializedVersion: 2
+        x: 1419
+        y: 42
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 927c24d16199f75c0800000000000000
+      internalID: -4215482405936249047
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_17"
+      rect:
+        serializedVersion: 2
+        x: 1502
+        y: 47
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 277169a2a18889bf0800000000000000
+      internalID: -317354127764613262
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_18"
+      rect:
+        serializedVersion: 2
+        x: 1687
+        y: 49
+        width: 13
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1abf76abda048ed30800000000000000
+      internalID: 4460886545811372961
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_19"
+      rect:
+        serializedVersion: 2
+        x: 1701
+        y: 31
+        width: 30
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b1a8b224b4783eb0800000000000000
+      internalID: -4739910290781986381
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_20"
+      rect:
+        serializedVersion: 2
+        x: 1414
+        y: 17
+        width: 13
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7138c306264d44af0800000000000000
+      internalID: -412971746824781033
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_21"
+      rect:
+        serializedVersion: 2
+        x: 2041
+        y: 22
+        width: 21
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 179eb8fb7faff29c0800000000000000
+      internalID: -3949662406203152015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_22"
+      rect:
+        serializedVersion: 2
+        x: 1719
+        y: 7
+        width: 16
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20ece4d60f5283840800000000000000
+      internalID: 5203951083982867970
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_0": -1463521209427708726
+      "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_1": 6723306564369326085
+      "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_10": -4141596626085245699
+      "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_11": 3998060079572990055
+      "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_12": -8904424787020754096
+      "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_13": -4110680497039798128
+      "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_14": 3915036379358184056
+      "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_15": -1405797862700892728
+      "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_16": -4215482405936249047
+      "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_17": -317354127764613262
+      "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_18": 4460886545811372961
+      "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_19": -4739910290781986381
+      "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_2": -1158670492757764222
+      "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_20": -412971746824781033
+      "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_21": -3949662406203152015
+      "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_22": 5203951083982867970
+      "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_3": -6034189032767093300
+      "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_4": 3008007528366715112
+      "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_5": -1647137832655138964
+      "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_6": -7616729809094861399
+      "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_7": 715636982725017410
+      "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_8": -5914190314412064951
+      "Bi\u1EC3n hi\u1EC7u neon pixel DONT STOP_9": -1640134097332452901
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
