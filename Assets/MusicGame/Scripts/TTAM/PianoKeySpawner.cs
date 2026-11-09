@@ -20,8 +20,29 @@ public class PianoKeySpawner : MonoBehaviour
     [Tooltip("Hit point TRÊN: nốt PHẢI (lane 1)")]
     [SerializeField] private Transform hitPointTop;
 
-    [Header("Coin")]
-    [SerializeField] private CoinSpawner coinSpawner;
+    [Header("Màn 2 (enemy spawn trái / phải)")]
+    [Tooltip("Bật = màn 2: mỗi nốt MIDI spawn 1 enemy từ Spawn Left / Spawn Right rồi bay về Player " +
+             "(thay cho nốt piano trên/dưới). Lane 0 = trái, lane 1 = phải.")]
+    [SerializeField] private bool man2 = false;
+    [SerializeField] private EnemyMan2 enemyPrefab;
+    [Tooltip("Điểm spawn bên TRÁI (lane 0)")]
+    [SerializeField] private Transform spawnLeft;
+    [Tooltip("Điểm spawn bên PHẢI (lane 1)")]
+    [SerializeField] private Transform spawnRight;
+    [Tooltip("Enemy bay bao nhiêu giây từ điểm spawn tới Player")]
+    [SerializeField] private float man2TravelTime = 1.5f;
+    [Tooltip("Khoảng cách tối thiểu (giây) giữa 2 enemy cùng bên. Chặn nốt chồng / hợp âm")]
+    [SerializeField] private float man2MinInterval = 0.15f;
+
+    // Cho LevelManager bật/tắt theo level: PianoKeySpawner.Instance.Man2 = true;
+    public bool Man2
+    {
+        get => man2;
+        set => man2 = value;
+    }
+
+    private readonly float[] man2LastTimeOnSide = { -999f, -999f };
+    private bool man2Warned;
 
     [Header("Boss")]
     [SerializeField] private BossSpawner bossSpawner;
@@ -91,6 +112,10 @@ public class PianoKeySpawner : MonoBehaviour
     [Tooltip("Bật = tự tính spawnAheadTime = khoảng cách (SpawnPoint -> Player) / keySpeed")]
     [SerializeField] private bool autoSpawnAhead = true;
 
+    // Thời gian spawn trước nốt: màn thường = spawnAheadTime;
+    // màn 2 = max(spawnAheadTime, man2TravelTime) để boss vẫn kịp bắn và enemy đủ thời gian bay.
+    private float AheadTime => man2 ? Mathf.Max(spawnAheadTime, man2TravelTime) : spawnAheadTime;
+
     [Header("Overlap")]
     [Tooltip("Khoảng cách tối thiểu giữa 2 key (unit). Nên >= chiều rộng prefab key. " +
              "Note nào sát hơn mức này sẽ bị bỏ.")]
@@ -142,7 +167,7 @@ public class PianoKeySpawner : MonoBehaviour
         return GetHitPoint(isLeft);
     }
 
-    // Đạn boss đăng ký để spawner quản lý vòng đời (xoá khi hết vòng, tính vào "còn key")
+    // Đạn boss / enemy đăng ký để spawner quản lý vòng đời (xoá khi hết vòng, tính vào "còn key")
     public void RegisterActiveKey(GameObject obj)
     {
         if (obj != null && !activeKeys.Contains(obj))
@@ -234,14 +259,21 @@ public class PianoKeySpawner : MonoBehaviour
             return;
         }
 
-        if (midiReader == null || audioSource == null ||
-            player == null || spawnPoint == null || pianoKeyPrefab == null)
+        // Màn thường cần spawnPoint + pianoKeyPrefab; màn 2 cần enemyPrefab + spawnLeft + spawnRight
+        if (midiReader == null || audioSource == null || player == null ||
+            (!man2 && (spawnPoint == null || pianoKeyPrefab == null)))
         {
             Debug.LogError("PianoKeySpawner: thiếu reference!");
             return;
         }
 
-        if (hitPointBottom == null || hitPointTop == null)
+        if (man2 && (enemyPrefab == null || spawnLeft == null || spawnRight == null))
+        {
+            Debug.LogError("PianoKeySpawner (Màn 2): thiếu Enemy Prefab / Spawn Left / Spawn Right!");
+            return;
+        }
+
+        if (!man2 && (hitPointBottom == null || hitPointTop == null))
             Debug.LogWarning("PianoKeySpawner: chưa gán đủ HitPointBottom / HitPointTop, tạm dùng Player.");
 
         // Key bay nhanh theo vòng => khoảng cách giữa các key trên màn hình giữ nguyên
@@ -249,7 +281,7 @@ public class PianoKeySpawner : MonoBehaviour
         RecalculateSpawnAhead();
 
         if (leadIn < 0f)
-            leadIn = spawnAheadTime;
+            leadIn = AheadTime;
 
         // Note của vòng này: thời gian chia cho roundSpeed (không sửa Notes gốc)
         playNotes = midiReader.GetNotesWithSpeed(roundSpeed);
@@ -260,7 +292,7 @@ public class PianoKeySpawner : MonoBehaviour
         if (audioSource.clip == null)
             Debug.LogError("PianoKeySpawner: AudioSource chưa có clip nhạc!");
 
-        Debug.Log($"StartSong: Round {Round} | x{roundSpeed:F2} | {playNotes.Count} notes, leadIn = {leadIn}");
+        Debug.Log($"StartSong: Round {Round} | x{roundSpeed:F2} | {playNotes.Count} notes, leadIn = {leadIn} | Man2 = {man2}");
 
         ClearAllKeys();
 
@@ -274,6 +306,7 @@ public class PianoKeySpawner : MonoBehaviour
 
         nextNoteIndex = 0;
         lastAcceptedNoteEnd = -999f;
+        man2LastTimeOnSide[0] = man2LastTimeOnSide[1] = -999f;
         itemIndex = 0;
         notesSinceItem = 0;
         songEnded = false;
@@ -284,18 +317,8 @@ public class PianoKeySpawner : MonoBehaviour
             bossAppeared = false;
 
         // Hướng key bay: từ spawnPoint về phía player
-        spawnDirection = spawnPoint.position.x >= player.position.x ? 1f : -1f;
-
-        if (coinSpawner != null)
-        {
-            coinSpawner.Build(
-                playNotes,
-                minKeyGap,
-                keySpeed,
-                longNotePrefab != null ? longNoteMinDuration : float.MaxValue,
-                spawnPoint.position.y,
-                spawnPoint.position.y + longNoteYOffset);
-        }
+        if (spawnPoint != null)
+            spawnDirection = spawnPoint.position.x >= player.position.x ? 1f : -1f;
 
         // Nhạc phát sau leadIn giây; trong lúc đó SongTime < 0 và key vẫn spawn
         songStartDsp = AudioSettings.dspTime + leadIn;
@@ -344,8 +367,6 @@ public class PianoKeySpawner : MonoBehaviour
         Round++;
 
         ClearAllKeys();
-        if (coinSpawner != null)
-            coinSpawner.ClearAll();
 
         RoundStarted?.Invoke(Round, roundSpeed);
 
@@ -384,12 +405,13 @@ public class PianoKeySpawner : MonoBehaviour
     {
         float now = SongTime;
         List<MidiReader.RhythmNote> notes = playNotes;
+        float ahead = AheadTime;
 
         while (nextNoteIndex < notes.Count)
         {
             MidiReader.RhythmNote note = notes[nextNoteIndex];
 
-            if (note.time > now + spawnAheadTime)
+            if (note.time > now + ahead)
                 break;
 
             nextNoteIndex++;
@@ -398,7 +420,7 @@ public class PianoKeySpawner : MonoBehaviour
             if (travelTime <= 0f)
                 continue;
 
-            // Lane của nốt này (dùng chung cho nốt thường, item và đạn boss)
+            // Lane của nốt này (dùng chung cho nốt thường, item, đạn boss và enemy màn 2)
             bool left = randomLane ? Random.value < 0.5f : note.lane == 0;
 
             // ===== BOSS =====
@@ -409,6 +431,14 @@ public class PianoKeySpawner : MonoBehaviour
                 BossMusicAttack atk = bossSpawner.CurrentMusicAttack;
                 if (atk != null)
                     atk.ScheduleBeat(note.time, left);
+            }
+
+            // ===== MÀN 2: ENEMY TRÁI / PHẢI =====
+            // Mỗi nốt MIDI = 1 enemy từ spawnLeft (lane 0) hoặc spawnRight (lane 1) bay về Player.
+            if (man2)
+            {
+                SpawnEnemyMan2(now, note.time, left);
+                continue;
             }
 
             // ===== PIANO BÌNH THƯỜNG =====
@@ -440,6 +470,34 @@ public class PianoKeySpawner : MonoBehaviour
             if (isLong) SpawnLongKey(note, travelTime, left);
             else        SpawnKey(note, travelTime, left);
         }
+    }
+
+    // Màn 2: spawn 1 enemy từ điểm trái/phải, chạm Player đúng lúc hitTime
+    private void SpawnEnemyMan2(float now, float hitTime, bool left)
+    {
+        Transform point = left ? spawnLeft : spawnRight;
+
+        if (point == null || enemyPrefab == null || player == null)
+        {
+            if (!man2Warned)
+            {
+                man2Warned = true;
+                Debug.LogError("PianoKeySpawner (Màn 2): thiếu Spawn Left/Right, Enemy Prefab hoặc Player!");
+            }
+            return;
+        }
+
+        // Chặn enemy chồng nhau cùng bên (hợp âm / nốt quá sát)
+        int side = left ? 0 : 1;
+        if (hitTime - man2LastTimeOnSide[side] < man2MinInterval)
+            return;
+        man2LastTimeOnSide[side] = hitTime;
+
+        EnemyMan2 enemy = Instantiate(enemyPrefab, point.position, Quaternion.identity);
+        enemy.Init(this, player, now, hitTime);
+
+        // Để ClearAllKeys / EndSong dọn và tính vào "còn key" khi kết thúc vòng
+        activeKeys.Add(enemy.gameObject);
     }
 
     private void SpawnItem(float noteTime, float travelTime, bool left)
@@ -528,8 +586,6 @@ public class PianoKeySpawner : MonoBehaviour
         songEnded = true;
 
         ClearAllKeys();
-        if (coinSpawner != null)
-            coinSpawner.ClearAll();
 
         if (audioSource != null)
             audioSource.pitch = 1f;
