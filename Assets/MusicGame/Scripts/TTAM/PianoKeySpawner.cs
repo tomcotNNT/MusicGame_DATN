@@ -494,7 +494,6 @@ public class PianoKeySpawner : MonoBehaviour
         man2LastTimeOnSide[side] = hitTime;
 
         EnemyMan2 enemy = Instantiate(enemyPrefab, point.position, Quaternion.identity);
-        enemy.Init(this, player, now, hitTime);
 
         // Để ClearAllKeys / EndSong dọn và tính vào "còn key" khi kết thúc vòng
         activeKeys.Add(enemy.gameObject);
