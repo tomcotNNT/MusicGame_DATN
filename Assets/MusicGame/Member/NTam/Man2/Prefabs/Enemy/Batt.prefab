@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8472262593291071888}
   - component: {fileID: 6589684653541255451}
   - component: {fileID: 3854759587781706085}
+  - component: {fileID: 8285530974489805128}
   m_Layer: 0
   m_Name: Batt
   m_TagString: Untagged
@@ -114,3 +115,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8285530974489805128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1522294427717803596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eeb3f63200ee4fb4aada81e533a8e480, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OFDP_Enemy
+  moveSpeed: 5
+  isFromLeft: 1
+  isHighLane: 0
+  isInAttackRange: 0
