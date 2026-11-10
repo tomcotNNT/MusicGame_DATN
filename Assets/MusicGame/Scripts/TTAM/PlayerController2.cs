@@ -9,6 +9,12 @@ public class PlayerController2 : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Animator animator;
 
+    [Header("Hit Points")]
+    [SerializeField] private Transform hitPointL;
+    [SerializeField] private Transform hitPointR;
+    [SerializeField] private float hitRadius = 0.5f;
+    [SerializeField] private LayerMask enemyLayer;
+
     [Header("Attack")]
     [SerializeField] private string[] attackTriggers =
     {
@@ -17,15 +23,10 @@ public class PlayerController2 : MonoBehaviour
         "Attack3"
     };
 
-    [SerializeField] private bool faceEnemyWhenAttack = true;
-
     [Header("Score & Combo")]
     [SerializeField] private ScoreSystem scoreSystem;
     [SerializeField] private ComboSystem comboSystem;
     [SerializeField] private int scorePerEnemy = 100;
-
-    private bool isAttacking;
-    private int facingDirection = 1; // 1 = phải, -1 = trái
 
     private void Awake()
     {
@@ -38,21 +39,21 @@ public class PlayerController2 : MonoBehaviour
         if (animator == null)
             animator = GetComponentInChildren<Animator>();
 
-        // Khóa di chuyển vật lý
+        // Player đứng yên
         rb.linearVelocity = Vector2.zero;
         rb.bodyType = RigidbodyType2D.Kinematic;
     }
 
     private void Update()
     {
-        // PC: A = trái, D = phải
+        // PC
         if (Input.GetKeyDown(KeyCode.A))
-            AttackDirection(-1);
+            AttackLeft();
 
         if (Input.GetKeyDown(KeyCode.D))
-            AttackDirection(1);
+            AttackRight();
 
-        // Mobile: chạm nửa trái/phải màn hình
+        // Mobile
         if (Input.touchCount > 0)
         {
             foreach (Touch touch in Input.touches)
@@ -60,32 +61,34 @@ public class PlayerController2 : MonoBehaviour
                 if (touch.phase != TouchPhase.Began)
                     continue;
 
-                int direction = touch.position.x < Screen.width / 2f
-                    ? -1 : 1;
-
-                AttackDirection(direction);
+                if (touch.position.x < Screen.width / 2f)
+                    AttackLeft();
+                else
+                    AttackRight();
             }
         }
     }
 
-    private void AttackDirection(int direction)
+    // Attack bên trái
+    private void AttackLeft()
     {
-        facingDirection = direction;
-
-        // Lật Sprite
-        Flip(direction);
-
-        // Chạy animation Attack ngẫu nhiên
+        Flip(-1);
         PlayAttack();
+        CheckHitPoint(hitPointL);
+    }
+
+    // Attack bên phải
+    private void AttackRight()
+    {
+        Flip(1);
+        PlayAttack();
+        CheckHitPoint(hitPointR);
     }
 
     private void Flip(int direction)
     {
-        if (spriteRenderer == null)
-            return;
-
-        // Sprite mặc định quay phải
-        spriteRenderer.flipX = direction < 0;
+        if (spriteRenderer != null)
+            spriteRenderer.flipX = direction < 0;
     }
 
     private void PlayAttack()
@@ -99,56 +102,52 @@ public class PlayerController2 : MonoBehaviour
         animator.SetTrigger(attackTriggers[randomIndex]);
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    // Kiểm tra Enemy có đang chạm HitPoint không
+    private void CheckHitPoint(Transform hitPoint)
     {
-        TryAttack(other.transform);
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        TryAttack(collision.transform);
-    }
-
-    private void TryAttack(Transform target)
-    {
-        if (target == null)
+        if (hitPoint == null)
             return;
 
-        EnemyHit enemy = target.GetComponentInParent<EnemyHit>();
+        Collider2D[] hits = Physics2D.OverlapCircleAll(
+            hitPoint.position,
+            hitRadius,
+            enemyLayer
+        );
 
-        if (enemy == null || !enemy.CompareTag("Enemy"))
-            return;
-
-        // Kiểm tra hướng đánh
-        if (faceEnemyWhenAttack)
+        foreach (Collider2D hit in hits)
         {
-            float direction = enemy.transform.position.x - transform.position.x;
+            EnemyHit enemy = hit.GetComponentInParent<EnemyHit>();
 
-            if (Mathf.Sign(direction) != facingDirection)
-                return;
+            if (enemy == null)
+                continue;
+
+            // Chỉ nhận một lần trên mỗi Enemy
+            if (!enemy.CompareTag("Enemy"))
+                continue;
+
+            if (!enemy.TryReceiveHit())
+                continue;
+
+            // Cộng điểm
+            if (scoreSystem != null)
+                scoreSystem.AddScore(scorePerEnemy);
+
+            // Tăng Combo
+            if (comboSystem != null)
+                comboSystem.HitNote();
+
+            Debug.Log("Hit Enemy! +" + scorePerEnemy);
         }
-
-        // Enemy chỉ được tính điểm một lần
-        if (!enemy.TryReceiveHit())
-            return;
-
-        if (scoreSystem != null)
-            scoreSystem.AddScore(scorePerEnemy);
-
-        if (comboSystem != null)
-            comboSystem.HitNote();
-
-        Debug.Log("Enemy Hit! Score +" + scorePerEnemy);
     }
 
-    // Gọi bằng Animation Event nếu cần
-    public void StartAttack()
+    private void OnDrawGizmosSelected()
     {
-        isAttacking = true;
-    }
+        Gizmos.color = Color.green;
 
-    public void EndAttack()
-    {
-        isAttacking = false;
+        if (hitPointL != null)
+            Gizmos.DrawWireSphere(hitPointL.position, hitRadius);
+
+        if (hitPointR != null)
+            Gizmos.DrawWireSphere(hitPointR.position, hitRadius);
     }
 }
