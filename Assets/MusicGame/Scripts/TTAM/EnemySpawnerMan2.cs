@@ -6,7 +6,8 @@ public class EnemySpawnerMan2 : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private MidiReader midiReader;
-    [SerializeField] private GameObject enemyPrefab;
+[Header("Enemy Prefabs")]
+    [SerializeField] private List<GameObject> enemyPrefabs = new List<GameObject>();
     [SerializeField] private Transform player;
 
     [Header("Spawn Points")]
@@ -43,9 +44,31 @@ public class EnemySpawnerMan2 : MonoBehaviour
             StartSpawner();
     }
 
+    private GameObject GetRandomEnemy()
+    {
+        if (enemyPrefabs == null || enemyPrefabs.Count == 0)
+        {
+            Debug.LogError("EnemySpawnerMan2: Enemy Prefabs List đang trống!");
+            return null;
+        }
+
+        // Lọc những prefab hợp lệ
+        List<GameObject> validEnemies = enemyPrefabs.FindAll(
+            enemy => enemy != null
+        );
+
+        if (validEnemies.Count == 0)
+            return null;
+
+        int randomIndex = Random.Range(0, validEnemies.Count);
+
+        return validEnemies[randomIndex];
+    }
+
     public void StartSpawner(float leadIn = 3f)
     {
-        if (midiReader == null || enemyPrefab == null ||
+        if (midiReader == null || enemyPrefabs == null ||
+            enemyPrefabs.Count == 0 ||
             player == null || spawnLeft == null || spawnRight == null)
         {
             Debug.LogError("EnemySpawnerMan2: Thiếu reference!");
@@ -115,45 +138,51 @@ public class EnemySpawnerMan2 : MonoBehaviour
     }
 
     private void SpawnEnemy(bool left, float hitTime, float now)
+{
+    int side = left ? 0 : 1;
+
+    if (hitTime - lastSpawnTime[side] < minInterval)
+        return;
+
+    lastSpawnTime[side] = hitTime;
+
+    Transform spawnPoint = left ? spawnLeft : spawnRight;
+
+    // Random enemy
+    GameObject selectedEnemy = GetRandomEnemy();
+
+    if (selectedEnemy == null)
+        return;
+
+    GameObject enemy = Instantiate(
+        selectedEnemy,
+        spawnPoint.position,
+        Quaternion.identity
+    );
+
+    EnemyMan2 movement = enemy.GetComponent<EnemyMan2>();
+
+    if (movement != null)
     {
-        int side = left ? 0 : 1;
-
-        if (hitTime - lastSpawnTime[side] < minInterval)
-            return;
-
-        lastSpawnTime[side] = hitTime;
-
-        Transform spawnPoint = left ? spawnLeft : spawnRight;
-
-        GameObject enemy = Instantiate(
-            enemyPrefab,
-            spawnPoint.position,
-            Quaternion.identity
-        );
-
-        // Khởi tạo enemy
-        EnemyMan2 movement = enemy.GetComponent<EnemyMan2>();
-
-        if (movement != null)
-        {
-           movement.Init(
-                player,
-                now,
-                hitTime,
-                () => SongTime
-            );
-        }
-        else
-        {
-            Debug.LogWarning(
-                "Enemy Prefab chưa có EnemyMan2 component!"
-            );
-        }
-
-        Debug.Log(
-            $"Spawn Enemy {(left ? "LEFT" : "RIGHT")} | Hit: {hitTime:F2}"
+        movement.Init(
+            player,
+            now,
+            hitTime,
+            () => SongTime
         );
     }
+    else
+    {
+        Debug.LogWarning(
+            $"{selectedEnemy.name} chưa có EnemyMan2 component!"
+        );
+    }
+
+    Debug.Log(
+        $"Spawn {selectedEnemy.name} | " +
+        $"{(left ? "LEFT" : "RIGHT")} | Hit: {hitTime:F2}"
+    );
+}
 
     public void StopSpawner()
     {

@@ -8,6 +8,13 @@ public class PlayerController2 : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Animator animator;
+    [Header("Hit VFX & Sound")]
+[SerializeField] private GameObject hitVFXPrefab;
+[SerializeField] private AudioSource hitAudioSource;
+[SerializeField] private AudioClip hitSound;
+
+[SerializeField] private float vfxDestroyTime = 1.5f;
+[SerializeField] private Vector3 vfxOffset = Vector3.zero;
 
     [Header("Hit Points")]
     [SerializeField] private Transform hitPointL;
