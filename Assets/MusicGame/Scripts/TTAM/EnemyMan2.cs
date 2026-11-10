@@ -9,6 +9,10 @@ public class EnemyMan2 : MonoBehaviour
     private Transform target;
     private Vector3 startPos;
 
+    [Header("Sprite Flip")]             
+[SerializeField] private SpriteRenderer spriteRenderer;
+[SerializeField] private bool facePlayer = true;
+
     private Func<float> getSongTime;
 
     private float spawnTime;
@@ -30,6 +34,9 @@ public class EnemyMan2 : MonoBehaviour
 
     private void Update()
     {
+
+        UpdateSpriteDirection();
+
         if (target == null || getSongTime == null)
         {
             Destroy(gameObject);
@@ -44,6 +51,8 @@ public class EnemyMan2 : MonoBehaviour
             songTime
         );
 
+
+
         Vector3 end = target.position;
         end.z = startPos.z;
 
@@ -55,4 +64,13 @@ public class EnemyMan2 : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    private void UpdateSpriteDirection()
+{
+    if (!facePlayer || target == null || spriteRenderer == null)
+        return;
+
+    // Player ở bên phải Enemy
+    spriteRenderer.flipX = target.position.x < transform.position.x;
+}
 }
