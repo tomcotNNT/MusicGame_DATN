@@ -1,0 +1,403 @@
+fileFormatVersion: 2
+guid: 5e98927193546fa4a869ee564c47a2b5
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -814786822798439023
+    second: "Tr\xE1i tim pixel neon l\u1EA5p l\xE1nh_0"
+  - first:
+      213: 4067001854061013748
+    second: "Tr\xE1i tim pixel neon l\u1EA5p l\xE1nh_1"
+  - first:
+      213: -8075998122467360776
+    second: "Tr\xE1i tim pixel neon l\u1EA5p l\xE1nh_2"
+  - first:
+      213: 479311281627460437
+    second: "Tr\xE1i tim pixel neon l\u1EA5p l\xE1nh_3"
+  - first:
+      213: 3169829812146641787
+    second: "Tr\xE1i tim pixel neon l\u1EA5p l\xE1nh_4"
+  - first:
+      213: -2490972391821187345
+    second: "Tr\xE1i tim pixel neon l\u1EA5p l\xE1nh_5"
+  - first:
+      213: 7623255898935023881
+    second: "Tr\xE1i tim pixel neon l\u1EA5p l\xE1nh_6"
+  - first:
+      213: -6822022377504105957
+    second: "Tr\xE1i tim pixel neon l\u1EA5p l\xE1nh_7"
+  - first:
+      213: -3637295997931289458
+    second: "Tr\xE1i tim pixel neon l\u1EA5p l\xE1nh_8"
+  - first:
+      213: 8699658654205720475
+    second: "Tr\xE1i tim pixel neon l\u1EA5p l\xE1nh_9"
+  - first:
+      213: -3484009199072791853
+    second: "Tr\xE1i tim pixel neon l\u1EA5p l\xE1nh_10"
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: "Tr\xE1i tim pixel neon l\u1EA5p l\xE1nh_0"
+      rect:
+        serializedVersion: 2
+        x: 414
+        y: 839
+        width: 205
+        height: 169
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 19d0e6b93bb41b4f0800000000000000
+      internalID: -814786822798439023
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Tr\xE1i tim pixel neon l\u1EA5p l\xE1nh_1"
+      rect:
+        serializedVersion: 2
+        x: 726
+        y: 839
+        width: 73
+        height: 151
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4fa692c63a4e07830800000000000000
+      internalID: 4067001854061013748
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Tr\xE1i tim pixel neon l\u1EA5p l\xE1nh_2"
+      rect:
+        serializedVersion: 2
+        x: 902
+        y: 967
+        width: 43
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ff7c9ffe7a4cef80800000000000000
+      internalID: -8075998122467360776
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Tr\xE1i tim pixel neon l\u1EA5p l\xE1nh_3"
+      rect:
+        serializedVersion: 2
+        x: 590
+        y: 854
+        width: 11
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 553fd36321bd6a600800000000000000
+      internalID: 479311281627460437
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Tr\xE1i tim pixel neon l\u1EA5p l\xE1nh_4"
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 855
+        width: 79
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b7b917f6b6f7dfb20800000000000000
+      internalID: 3169829812146641787
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Tr\xE1i tim pixel neon l\u1EA5p l\xE1nh_5"
+      rect:
+        serializedVersion: 2
+        x: 732
+        y: 847
+        width: 19
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fe66130bec94e6dd0800000000000000
+      internalID: -2490972391821187345
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Tr\xE1i tim pixel neon l\u1EA5p l\xE1nh_6"
+      rect:
+        serializedVersion: 2
+        x: 750
+        y: 847
+        width: 15
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9095cefa9de3bc960800000000000000
+      internalID: 7623255898935023881
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Tr\xE1i tim pixel neon l\u1EA5p l\xE1nh_7"
+      rect:
+        serializedVersion: 2
+        x: 870
+        y: 847
+        width: 71
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b1a1a13dace4351a0800000000000000
+      internalID: -6822022377504105957
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Tr\xE1i tim pixel neon l\u1EA5p l\xE1nh_8"
+      rect:
+        serializedVersion: 2
+        x: 990
+        y: 837
+        width: 19
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e840b54af8ab58dc0800000000000000
+      internalID: -3637295997931289458
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Tr\xE1i tim pixel neon l\u1EA5p l\xE1nh_9"
+      rect:
+        serializedVersion: 2
+        x: 1038
+        y: 855
+        width: 59
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b97b51704756bb870800000000000000
+      internalID: 8699658654205720475
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Tr\xE1i tim pixel neon l\u1EA5p l\xE1nh_10"
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 17
+        width: 1357
+        height: 825
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d2b21fa71056afc0800000000000000
+      internalID: -3484009199072791853
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      "Tr\xE1i tim pixel neon l\u1EA5p l\xE1nh_0": -814786822798439023
+      "Tr\xE1i tim pixel neon l\u1EA5p l\xE1nh_1": 4067001854061013748
+      "Tr\xE1i tim pixel neon l\u1EA5p l\xE1nh_10": -3484009199072791853
+      "Tr\xE1i tim pixel neon l\u1EA5p l\xE1nh_2": -8075998122467360776
+      "Tr\xE1i tim pixel neon l\u1EA5p l\xE1nh_3": 479311281627460437
+      "Tr\xE1i tim pixel neon l\u1EA5p l\xE1nh_4": 3169829812146641787
+      "Tr\xE1i tim pixel neon l\u1EA5p l\xE1nh_5": -2490972391821187345
+      "Tr\xE1i tim pixel neon l\u1EA5p l\xE1nh_6": 7623255898935023881
+      "Tr\xE1i tim pixel neon l\u1EA5p l\xE1nh_7": -6822022377504105957
+      "Tr\xE1i tim pixel neon l\u1EA5p l\xE1nh_8": -3637295997931289458
+      "Tr\xE1i tim pixel neon l\u1EA5p l\xE1nh_9": 8699658654205720475
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
