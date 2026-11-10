@@ -1,4 +1,4 @@
-﻿<Solution>
+<Solution>
   <Project Path="Unity.Timeline.csproj" />
   <Project Path="Unity.InputSystem.csproj" />
   <Project Path="Unity.RenderPipelines.GPUDriven.Runtime.csproj" />
@@ -15,6 +15,7 @@
   <Project Path="UnityEngine.UI.csproj" />
   <Project Path="Unity.RenderPipelines.Universal.2D.Runtime.csproj" />
   <Project Path="Unity.Collections.csproj" />
+  <Project Path="Assembly-CSharp-Editor.csproj" />
   <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Unity.RenderPipelines.Core.Editor.csproj" />
   <Project Path="Unity.2D.IK.Runtime.csproj" />

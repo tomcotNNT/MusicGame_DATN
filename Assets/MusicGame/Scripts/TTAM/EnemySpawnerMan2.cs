@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,196 +7,309 @@ public class EnemySpawnerMan2 : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private MidiReader midiReader;
-[Header("Enemy Prefabs")]
-    [SerializeField] private List<GameObject> enemyPrefabs = new List<GameObject>();
+    [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] private List<GameObject> enemyPrefabs;
     [SerializeField] private Transform player;
 
     [Header("Spawn Points")]
     [SerializeField] private Transform spawnLeft;
     [SerializeField] private Transform spawnRight;
 
+    [Header("Music")]
+    [SerializeField] private AudioSource musicSource;
+    [SerializeField] private float leadIn = 3f;
+
+    [Header("Sequence Grouping")]
+    [Tooltip("Khoảng cách tối đa giữa hai nốt trong cùng một Enemy")]
+    [SerializeField] private float phraseGapThreshold = 0.8f;
+
     [Header("Spawn Settings")]
     [SerializeField] private float spawnAheadTime = 1.5f;
-    [SerializeField] private float minInterval = 0.15f;
-    [SerializeField] private float speedMultiplier = 1f;
-
-    [Header("Options")]
     [SerializeField] private bool randomLane = false;
     [SerializeField] private bool spawnOnStart = false;
 
-    [Header("Audio")]
-    [SerializeField] private AudioSource audioSource;
+    private class MidiEventData
+    {
+        public float time;
+        public int lane;
+    }
 
-    private List<MidiReader.RhythmNote> notes =
-        new List<MidiReader.RhythmNote>();
+    private class EnemyGroup
+    {
+        public List<float> noteTimes = new List<float>();
+        public int lane;
 
-    private readonly float[] lastSpawnTime = { -999f, -999f };
+        public float StartTime => noteTimes[0];
+    }
 
-    private int nextNoteIndex;
+    private readonly List<EnemyGroup> groups = new();
+    private readonly List<EnemyRhythmController> activeEnemies = new();
+
+    private int nextGroupIndex;
     private double songStartDsp;
-    private bool isSpawning;
+    private bool isPlaying;
 
-    private float SongTime =>
-        (float)(AudioSettings.dspTime - songStartDsp);
+    public float SongTime
+    {
+        get
+        {
+            if (!isPlaying)
+                return 0f;
+
+            return (float)(AudioSettings.dspTime - songStartDsp);
+        }
+    }
 
     private void Start()
     {
         if (spawnOnStart)
-            StartSpawner();
+            StartSpawner(leadIn);
     }
 
-    private GameObject GetRandomEnemy()
+    public void StartSpawner(float countdown = 3f)
     {
-        if (enemyPrefabs == null || enemyPrefabs.Count == 0)
+        if (isPlaying)
+            return;
+
+        if (midiReader == null ||
+            musicSource == null ||
+            musicSource.clip == null ||
+            player == null ||
+            spawnLeft == null ||
+            spawnRight == null)
         {
-            Debug.LogError("EnemySpawnerMan2: Enemy Prefabs List đang trống!");
-            return null;
+            Debug.LogError("EnemySpawnerMan2: Missing references!");
+            return;
         }
 
-        // Lọc những prefab hợp lệ
-        List<GameObject> validEnemies = enemyPrefabs.FindAll(
-            enemy => enemy != null
-        );
+        BuildEnemyGroups();
 
-        if (validEnemies.Count == 0)
-            return null;
+        if (groups.Count == 0)
+        {
+            Debug.LogError("No MIDI enemy groups found!");
+            return;
+        }
 
-        int randomIndex = Random.Range(0, validEnemies.Count);
+        nextGroupIndex = 0;
 
-        return validEnemies[randomIndex];
+        songStartDsp = AudioSettings.dspTime + countdown;
+
+        musicSource.PlayScheduled(songStartDsp);
+
+        isPlaying = true;
     }
 
-    public void StartSpawner(float leadIn = 3f)
+    private void BuildEnemyGroups()
     {
-        if (midiReader == null || enemyPrefabs == null ||
-            enemyPrefabs.Count == 0 ||
-            player == null || spawnLeft == null || spawnRight == null)
+        groups.Clear();
+
+        // Tương thích API MidiReader hiện tại.
+        var midiNotes = midiReader.GetNotesWithSpeed(1);
+
+        List<MidiEventData> notes = new List<MidiEventData>();
+
+        foreach (var note in midiNotes)
         {
-            Debug.LogError("EnemySpawnerMan2: Thiếu reference!");
-            return;
+            notes.Add(new MidiEventData
+            {
+                time = (float)note.time,
+                lane = note.lane
+            });
         }
 
-        if (midiReader.Notes == null || midiReader.Notes.Count == 0)
-        {
-            Debug.LogError("EnemySpawnerMan2: MIDI chưa có notes!");
+        notes.Sort((a, b) => a.time.CompareTo(b.time));
+
+        if (notes.Count == 0)
             return;
+
+        EnemyGroup currentGroup = new EnemyGroup();
+
+        currentGroup.lane = notes[0].lane;
+        currentGroup.noteTimes.Add(notes[0].time);
+
+        for (int i = 1; i < notes.Count; i++)
+        {
+            MidiEventData previous = notes[i - 1];
+            MidiEventData current = notes[i];
+
+            float gap = current.time - previous.time;
+
+            // Tách nhóm nếu khoảng cách quá lớn
+            // hoặc lane thay đổi.
+            bool newGroup =
+                gap > phraseGapThreshold ||
+                current.lane != currentGroup.lane;
+
+            if (newGroup)
+            {
+                groups.Add(currentGroup);
+
+                currentGroup = new EnemyGroup();
+                currentGroup.lane = current.lane;
+            }
+
+            currentGroup.noteTimes.Add(current.time);
         }
 
-        if (audioSource == null || audioSource.clip == null)
+        if (currentGroup.noteTimes.Count > 0)
+            groups.Add(currentGroup);
+
+        Debug.Log("MIDI Notes: " + notes.Count);
+        Debug.Log("Enemy Groups: " + groups.Count);
+
+        foreach (EnemyGroup group in groups)
         {
-            Debug.LogError("EnemySpawnerMan2: Chưa gán AudioSource hoặc AudioClip!");
-            return;
+            Debug.Log(
+                "Enemy Group | Lane: " + group.lane +
+                " | Notes: " + group.noteTimes.Count +
+                " | Start: " + group.StartTime
+            );
         }
-
-        speedMultiplier = Mathf.Max(0.1f, speedMultiplier);
-        notes = midiReader.GetNotesWithSpeed(speedMultiplier);
-
-        nextNoteIndex = 0;
-        lastSpawnTime[0] = -999f;
-        lastSpawnTime[1] = -999f;
-
-        songStartDsp = AudioSettings.dspTime + leadIn;
-
-        audioSource.Stop();
-        audioSource.pitch = 1f;
-        audioSource.PlayScheduled(songStartDsp);
-
-        isSpawning = true;
-
-        Debug.Log($"EnemySpawnerMan2: Started - {notes.Count} notes");
     }
 
     private void Update()
     {
-        if (!isSpawning)
+        if (!isPlaying)
             return;
 
+        SpawnUpcomingEnemies();
+
+        activeEnemies.RemoveAll(
+            enemy => enemy == null
+        );
+    }
+
+    private void SpawnUpcomingEnemies()
+    {
         float now = SongTime;
 
-        while (nextNoteIndex < notes.Count)
+        while (nextGroupIndex < groups.Count)
         {
-            MidiReader.RhythmNote note = notes[nextNoteIndex];
+            EnemyGroup group = groups[nextGroupIndex];
 
-            float travelTime = note.time - now;
+            float timeUntilHit = group.StartTime - now;
 
-            if (travelTime > spawnAheadTime)
+            if (timeUntilHit > spawnAheadTime)
                 break;
 
-            nextNoteIndex++;
+            SpawnEnemy(group, now);
 
-            if (travelTime <= 0f)
-                continue;
+            nextGroupIndex++;
+        }
+    }
 
-            bool left = randomLane
-                ? Random.value < 0.5f
-                : note.lane == 0;
+    private GameObject GetRandomPrefab()
+    {
+        if (enemyPrefabs != null && enemyPrefabs.Count > 0)
+        {
+            List<GameObject> validPrefabs =
+                enemyPrefabs.FindAll(p => p != null);
 
-            SpawnEnemy(left, note.time, now);
+            if (validPrefabs.Count > 0)
+            {
+                return validPrefabs[
+                    UnityEngine.Random.Range(0, validPrefabs.Count)
+                ];
+            }
         }
 
-        if (nextNoteIndex >= notes.Count)
-            isSpawning = false;
+        return enemyPrefab;
     }
 
-    private void SpawnEnemy(bool left, float hitTime, float now)
-{
-    int side = left ? 0 : 1;
-
-    if (hitTime - lastSpawnTime[side] < minInterval)
-        return;
-
-    lastSpawnTime[side] = hitTime;
-
-    Transform spawnPoint = left ? spawnLeft : spawnRight;
-
-    // Random enemy
-    GameObject selectedEnemy = GetRandomEnemy();
-
-    if (selectedEnemy == null)
-        return;
-
-    GameObject enemy = Instantiate(
-        selectedEnemy,
-        spawnPoint.position,
-        Quaternion.identity
-    );
-
-    EnemyMan2 movement = enemy.GetComponent<EnemyMan2>();
-
-    if (movement != null)
+    private void SpawnEnemy(EnemyGroup group, float now)
     {
-        movement.Init(
-            player,
-            now,
-            hitTime,
+        bool isLeft = randomLane
+            ? UnityEngine.Random.value < 0.5f
+            : group.lane == 0;
+
+        Transform spawnPoint = isLeft
+            ? spawnLeft
+            : spawnRight;
+
+        GameObject prefab = GetRandomPrefab();
+
+        if (prefab == null)
+        {
+            Debug.LogError("Enemy prefab is missing!");
+            return;
+        }
+
+        GameObject obj = Instantiate(
+            prefab,
+            spawnPoint.position,
+            Quaternion.identity
+        );
+
+        // Enemy movement hiện tại của project.
+        EnemyMan2 movement = obj.GetComponent<EnemyMan2>();
+
+        if (movement != null)
+        {
+            movement.Init(
+                player,
+                now,
+                group.StartTime,
+                () => SongTime
+            );
+        }
+        else
+        {
+            Debug.LogError(
+                "Enemy prefab needs EnemyMan2 component!"
+            );
+        }
+
+        // Khởi tạo rhythm sequence.
+        EnemyRhythmController rhythm =
+            obj.GetComponent<EnemyRhythmController>();
+
+        if (rhythm == null)
+        {
+            Debug.LogError(
+                "Enemy prefab needs EnemyRhythmController!"
+            );
+
+            return;
+        }
+
+        rhythm.Initialize(
+            group.noteTimes.ToArray(),
+            isLeft,
             () => SongTime
         );
-    }
-    else
-    {
-        Debug.LogWarning(
-            $"{selectedEnemy.name} chưa có EnemyMan2 component!"
-        );
+
+        activeEnemies.Add(rhythm);
     }
 
-    Debug.Log(
-        $"Spawn {selectedEnemy.name} | " +
-        $"{(left ? "LEFT" : "RIGHT")} | Hit: {hitTime:F2}"
-    );
-}
-
-    public void StopSpawner()
+    public bool TryHit(bool isLeft)
     {
-        isSpawning = false;
-    }
+        EnemyRhythmController target = null;
+        float bestError = float.MaxValue;
 
-    public void ResetSpawner()
-    {
-        isSpawning = false;
-        nextNoteIndex = 0;
-        notes.Clear();
+        // Chọn Enemy cùng hướng có timing gần nhất.
+        foreach (EnemyRhythmController enemy in activeEnemies)
+        {
+            if (enemy == null || enemy.IsCompleted)
+                continue;
 
-        lastSpawnTime[0] = -999f;
-        lastSpawnTime[1] = -999f;
+            if (enemy.IsLeft != isLeft)
+                continue;
+
+            if (!enemy.CanHitNow())
+                continue;
+
+            if (enemy.TimingError < bestError)
+            {
+                bestError = enemy.TimingError;
+                target = enemy;
+            }
+        }
+
+        if (target == null)
+            return false;
+
+        EnemyRhythmController.HitGrade grade;
+
+        return target.TryHit(out grade);
     }
 }
