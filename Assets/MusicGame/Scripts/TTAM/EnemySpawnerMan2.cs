@@ -39,8 +39,8 @@ public class EnemySpawnerMan2 : MonoBehaviour
 
     private void Start()
     {
-        if (spawnOnStart)
-            StartSpawner();
+        // if (spawnOnStart)
+        //  StartSpawner();
     }
 
     public void StartSpawner(float leadIn = 3f)
@@ -84,6 +84,15 @@ public class EnemySpawnerMan2 : MonoBehaviour
 
     private void Update()
     {
+        // === ĐOẠN CODE TỰ ĐO OFFSET (BẤM SPACE ĐỂ LẤY SỐ) ===
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (audioSource != null && audioSource.isPlaying && notes != null && notes.Count > 0)
+            {
+                float autoOffset = audioSource.time - notes[0].time;
+                Debug.Log($"<color=yellow>[AUTO-OFFSET]</color> Offset chuẩn xác là: <b>{autoOffset:F2}</b> (Hãy điền số này vào Time Offset của LevelData)");
+            }
+        }
         if (!isSpawning)
             return;
 
@@ -136,12 +145,12 @@ public class EnemySpawnerMan2 : MonoBehaviour
 
         if (movement != null)
         {
-           movement.Init(
-                player,
-                now,
-                hitTime,
-                () => SongTime
-            );
+            movement.Init(
+                 player,
+                 now,
+                 hitTime,
+                 () => SongTime
+             );
         }
         else
         {
