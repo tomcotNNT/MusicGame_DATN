@@ -3,13 +3,9 @@ using UnityEngine;
 public class OFDP_Enemy : MonoBehaviour
 {
     [Header("Movement")]
-    public float moveSpeed = 5f;
+    public float moveSpeed = 3.5f;
     public bool isFromLeft = true;
     public bool isHighLane = false;
-
-    [Header("Sprite Direction")]
-    [Tooltip("Tích chọn nếu hình vẽ gốc trong ảnh sprite của con này quay mặt sang TRÁI (như Bat). Bỏ tích nếu gốc quay sang PHẢI.")]
-    public bool defaultFacingLeft = true;
 
     [Header("State")]
     [HideInInspector] public bool isInAttackRange = false;
@@ -25,6 +21,12 @@ public class OFDP_Enemy : MonoBehaviour
         if (p != null) playerTransform = p.transform;
     }
 
+    void Start()
+    {
+        // Tự động kiểm tra vị trí lúc vừa xuất hiện trên Scene
+        ApplyFacing();
+    }
+
     public void Init(bool fromLeft, bool isHigh, float speed)
     {
         isFromLeft = fromLeft;
@@ -32,48 +34,47 @@ public class OFDP_Enemy : MonoBehaviour
         moveSpeed = speed;
 
         if (sr == null) sr = GetComponent<SpriteRenderer>();
-        UpdateFacing();
+        ApplyFacing();
     }
 
-    void UpdateFacing()
+    public void ApplyFacing()
     {
-        if (sr == null) return;
-        // Đảm bảo mặt luôn hướng về tâm (X = 0)
-        if (isFromLeft)
+        if (sr == null) sr = GetComponent<SpriteRenderer>();
+
+        // Kiểm tra xem quái đang nằm ở bên Trái (X < 0) hay bên Phải (X > 0)
+        // Nếu biến isFromLeft đã gán thì dùng isFromLeft, nếu chưa thì so sánh theo tọa độ X
+        bool fromLeftSide = (transform.position.x < 0) || isFromLeft;
+
+        // ANIMATION GỐC QUAY SANG PHẢI:
+        // - Đi từ TRÁI qua: Nhìn sang phải -> flipX = FALSE (Không lật)
+        // - Đi từ PHẢI qua: Cần nhìn sang trái -> flipX = TRUE (Lật sang trái)
+        if (sr != null)
         {
-            // Đi từ Trái sang Phải: Cần nhìn sang Phải
-            sr.flipX = defaultFacingLeft;
+            sr.flipX = !fromLeftSide;
         }
-        else
-        {
-            // Đi từ Phải sang Trái: Cần nhìn sang Trái
-            sr.flipX = !defaultFacingLeft;
-        }
+
+        // Cập nhật lại hướng di chuyển để quái luôn lao về tâm (X = 0)
+        isFromLeft = fromLeftSide;
     }
 
     void Update()
     {
         if (isMissedAndAttackingPlayer && playerTransform != null)
         {
-            // Lao thẳng vào người Player khi người chơi bấm trượt / bỏ lỡ
             transform.position = Vector3.MoveTowards(transform.position, playerTransform.position, (moveSpeed * 1.5f) * Time.deltaTime);
             return;
         }
 
-        // Di chuyển bình thường về tâm
+        // Di chuyển về tâm: từ trái thì +X, từ phải thì -X
         float dir = isFromLeft ? 1f : -1f;
         transform.position += Vector3.right * dir * moveSpeed * Time.deltaTime;
 
-        // Tự hủy nếu bay quá xa
         if (Mathf.Abs(transform.position.x) > 16f)
         {
             Destroy(gameObject);
         }
     }
 
-    /// <summary>
-    /// Kích hoạt khi người chơi bỏ lỡ nhịp (Miss): Quái lao thẳng vào cắn Player
-    /// </summary>
     public void TriggerMissRush()
     {
         if (isMissedAndAttackingPlayer) return;
@@ -87,7 +88,6 @@ public class OFDP_Enemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Chạm vào thân Player
         if (collision.CompareTag("Player") || collision.name == "Hitbox")
         {
             PlayerDefenseController player = collision.GetComponentInParent<PlayerDefenseController>();
