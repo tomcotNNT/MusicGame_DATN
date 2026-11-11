@@ -13,10 +13,10 @@ GameObject:
   - component: {fileID: 5143127090504089280}
   - component: {fileID: 1976181669973442268}
   - component: {fileID: 5253447075516481218}
-  - component: {fileID: 224798526205360880}
-  m_Layer: 0
+  - component: {fileID: -5922218095666726266}
+  m_Layer: 6
   m_Name: Bat
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -173,7 +173,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 387972873043260757}
   m_BodyType: 1
   m_Simulated: 1
-  m_UseFullKinematicContacts: 0
+  m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDamping: 0
@@ -189,8 +189,8 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!114 &224798526205360880
+  m_Constraints: 4
+--- !u!114 &-5922218095666726266
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -199,11 +199,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 387972873043260757}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eeb3f63200ee4fb4aada81e533a8e480, type: 3}
+  m_Script: {fileID: 11500000, guid: f8f062aff00de324b98cba0ce37494a6, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::OFDP_Enemy
-  moveSpeed: 3
-  isFromLeft: 1
+  m_EditorClassIdentifier: Assembly-CSharp::NTEnemyMan2
+  spriteRenderer: {fileID: 0}
+  facePlayer: 1
+  defaultFacingLeft: 0
   isHighLane: 1
-  defaultFacingLeft: 1
-  isInAttackRange: 0
+  highLaneYOffset: 1.4
+  hitVfxPrefab: {fileID: 0}

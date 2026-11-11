@@ -1581,8 +1581,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: LOADING...
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 58ce5fe5fd1911b4e819881a5ece5582, type: 2}
-  m_sharedMaterial: {fileID: 7148952429060436824, guid: 58ce5fe5fd1911b4e819881a5ece5582, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
+  m_sharedMaterial: {fileID: 2147374, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1862,8 +1862,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "1.Ti\xEAu \u0111\u1EC1 m\xE0n ch\u01A1i 1:"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 58ce5fe5fd1911b4e819881a5ece5582, type: 2}
-  m_sharedMaterial: {fileID: 7148952429060436824, guid: 58ce5fe5fd1911b4e819881a5ece5582, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
+  m_sharedMaterial: {fileID: 2147374, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1999,8 +1999,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Next...
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
+  m_sharedMaterial: {fileID: 2147374, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2024,7 +2024,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 44.75
+  m_fontSize: 36
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2111,7 +2111,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 100, y: 22}
+  m_AnchoredPosition: {x: 12, y: 22}
   m_SizeDelta: {x: 400, y: 200}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1891329916
@@ -2136,8 +2136,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "N\u1ED9i dung m\xE0n ch\u01A1i ...................................................................."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 58ce5fe5fd1911b4e819881a5ece5582, type: 2}
-  m_sharedMaterial: {fileID: 7148952429060436824, guid: 58ce5fe5fd1911b4e819881a5ece5582, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2161,11 +2161,11 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
+  m_fontSize: 28
   m_fontSizeBase: 64
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 24
+  m_fontSizeMin: 28
   m_fontSizeMax: 32
   m_fontStyle: 3
   m_HorizontalAlignment: 1

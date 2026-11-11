@@ -2,7 +2,7 @@
 - Project name: MusicGame_DATN
 - Unity version: Unity 6000.3.24f1
 - Active scene:
-  - Name: Man2
+  - Name: TEST MAN2
   - Tags:
     - Untagged, Respawn, Finish, EditorOnly, MainCamera, Player, GameController, Note, Wall, Ground, HitPointTop, HitPointBottom, BossAttackPosition, Enemy
   - Layers:
