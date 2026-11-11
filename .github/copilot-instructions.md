@@ -4,11 +4,11 @@
 - Active scene:
   - Name: TEST MAN2
   - Tags:
-    - Untagged, Respawn, Finish, EditorOnly, MainCamera, Player, GameController, Note, Wall, Ground, HitPointTop, HitPointBottom, BossAttackPosition, Enemy
+    - Untagged, Respawn, Finish, EditorOnly, MainCamera, Player, GameController
   - Layers:
-    - Default, TransparentFX, Ignore Raycast, Water, UI, Enemy
+    - Default, TransparentFX, Ignore Raycast, Water, UI
 - Active game object:
-  - Name: System
-  - Tag: Untagged
-  - Layer: Default
+  - Name: Evil1
+  - Tag: Enemy
+  - Layer: 6
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->
