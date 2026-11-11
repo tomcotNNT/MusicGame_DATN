@@ -11,12 +11,12 @@ GameObject:
   - component: {fileID: 3208307278090469245}
   - component: {fileID: 2343680565404013908}
   - component: {fileID: 1363573784956730389}
-  - component: {fileID: 2187225440444726575}
   - component: {fileID: 6592004823326891635}
   - component: {fileID: 8950263897245541302}
-  m_Layer: 0
+  - component: {fileID: 8386507072499018939}
+  m_Layer: 6
   m_Name: Rat
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -117,23 +117,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &2187225440444726575
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5651690090897271163}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eeb3f63200ee4fb4aada81e533a8e480, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::OFDP_Enemy
-  moveSpeed: 2
-  isFromLeft: 1
-  isHighLane: 0
-  defaultFacingLeft: 1
-  isInAttackRange: 0
 --- !u!61 &6592004823326891635
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -190,7 +173,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 5651690090897271163}
   m_BodyType: 1
   m_Simulated: 1
-  m_UseFullKinematicContacts: 0
+  m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDamping: 0
@@ -206,4 +189,22 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
+--- !u!114 &8386507072499018939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5651690090897271163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8f062aff00de324b98cba0ce37494a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NTEnemyMan2
+  spriteRenderer: {fileID: 0}
+  facePlayer: 1
+  defaultFacingLeft: 0
+  isHighLane: 0
+  highLaneYOffset: 1.4
+  hitVfxPrefab: {fileID: 0}

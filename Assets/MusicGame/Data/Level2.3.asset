@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Level2.3
   m_EditorClassIdentifier: Assembly-CSharp::LevelData
   levelName: Level 2
-  music: {fileID: 8300000, guid: b2405dbc63080b34c9800cad22296aa5, type: 3}
-  midiFileName: Doraemon_Clean.mid
+  music: {fileID: 8300000, guid: 6528c912196069047ad0e7fff0530a1e, type: 3}
+  midiFileName: Conan.mid
   forcedTrackIndex: 1
-  timeOffset: 2
+  timeOffset: 0.7
   noteSpeed: 5
   difficulty: 1
   minNoteDistanceOverride: 0
