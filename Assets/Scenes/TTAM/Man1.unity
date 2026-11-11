@@ -1054,7 +1054,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.545
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -2423,7 +2423,12 @@ MonoBehaviour:
   longNoteYOffset: 0
   hitPointBottom: {fileID: 633655436}
   hitPointTop: {fileID: 667812587}
-  coinSpawner: {fileID: 625427041}
+  man2: 0
+  enemyPrefab: {fileID: 0}
+  spawnLeft: {fileID: 0}
+  spawnRight: {fileID: 0}
+  man2TravelTime: 1.5
+  man2MinInterval: 0.15
   bossSpawner: {fileID: 2135059614}
   bossAppearAt: 0.426
   keySpeed: 5.7
@@ -4615,6 +4620,9 @@ MonoBehaviour:
   goSound: {fileID: 8300000, guid: dc7f9a1a0b188014b8b41eb4aa7fc724, type: 3}
   audioSource: {fileID: 2008411980}
   holdAttackTrigger: Sing
+  hitAudioSource: {fileID: 2008411980}
+  hitSound: {fileID: 0}
+  hitVolume: 1
 --- !u!50 &2008411975
 Rigidbody2D:
   serializedVersion: 5

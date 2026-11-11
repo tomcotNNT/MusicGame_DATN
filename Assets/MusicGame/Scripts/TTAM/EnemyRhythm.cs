@@ -14,17 +14,15 @@ public class EnemyRhythmController : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private Animator animator;
-    [SerializeField] private AudioSource audioSource;
     [SerializeField] private EnemyRhythmTimelineUI timelineUI;
+
+    [Header("Combo")]
+    [SerializeField] private ComboSystem comboSystem;
 
     [Header("Attack")]
     [SerializeField] private string attackTrigger = "Attack";
     [SerializeField] private GameObject hitVFX;
     [SerializeField] private Transform vfxPoint;
-    [SerializeField] private AudioClip hitSound;
-
-    [Header("Death")]
-    [SerializeField] private GameObject deathVFX;
 
     [Header("Timing")]
     [SerializeField] private float perfectWindow = 0.10f;
@@ -64,7 +62,9 @@ public class EnemyRhythmController : MonoBehaviour
     }
 
     public float TimingError =>
-        Mathf.Abs(getSongTime() - CurrentTargetTime);
+        getSongTime == null
+            ? float.MaxValue
+            : Mathf.Abs(getSongTime() - CurrentTargetTime);
 
     public void Initialize(
         float[] times,
@@ -77,6 +77,12 @@ public class EnemyRhythmController : MonoBehaviour
             return;
         }
 
+        if (songTimeProvider == null)
+        {
+            Debug.LogError("SongTimeProvider is null!", this);
+            return;
+        }
+
         noteTimes = times;
         isLeft = left;
         getSongTime = songTimeProvider;
@@ -86,9 +92,13 @@ public class EnemyRhythmController : MonoBehaviour
         initialized = true;
 
         if (timelineUI != null)
-        {
             timelineUI.Setup(noteTimes.Length, isLeft);
-        }
+    }
+
+    private void Awake()
+    {
+        if (comboSystem == null)
+            comboSystem = FindFirstObjectByType<ComboSystem>();
     }
 
     private void Update()
@@ -101,12 +111,8 @@ public class EnemyRhythmController : MonoBehaviour
 
         float now = getSongTime();
 
-        // Người chơi không đánh đúng thời gian:
-        // tự động bỏ qua nốt và ghi nhận Miss.
         if (now > CurrentTargetTime + goodWindow)
-        {
             RegisterMiss();
-        }
     }
 
     public bool CanHitNow()
@@ -117,9 +123,7 @@ public class EnemyRhythmController : MonoBehaviour
         if (currentIndex >= noteTimes.Length)
             return false;
 
-        float error = TimingError;
-
-        return error <= goodWindow;
+        return TimingError <= goodWindow;
     }
 
     public bool TryHit(out HitGrade grade)
@@ -131,10 +135,9 @@ public class EnemyRhythmController : MonoBehaviour
 
         float error = TimingError;
 
-        if (error <= perfectWindow)
-            grade = HitGrade.Perfect;
-        else
-            grade = HitGrade.Good;
+        grade = error <= perfectWindow
+            ? HitGrade.Perfect
+            : HitGrade.Good;
 
         RegisterHit(grade);
 
@@ -147,11 +150,10 @@ public class EnemyRhythmController : MonoBehaviour
             ? perfectScore
             : goodScore;
 
-        // Animation
         if (animator != null)
             animator.SetTrigger(attackTrigger);
 
-        // VFX
+        // Hit VFX
         if (hitVFX != null)
         {
             Vector3 position = vfxPoint != null
@@ -161,9 +163,8 @@ public class EnemyRhythmController : MonoBehaviour
             Instantiate(hitVFX, position, Quaternion.identity);
         }
 
-        // Sound
-        if (audioSource != null && hitSound != null)
-            audioSource.PlayOneShot(hitSound);
+        // Hit Sound
+       
 
         onNoteHit?.Invoke(score);
 
@@ -173,14 +174,24 @@ public class EnemyRhythmController : MonoBehaviour
             timelineUI.UpdateProgress(currentIndex, noteTimes.Length);
 
         if (currentIndex >= noteTimes.Length)
-        {
             CompleteSequence();
-        }
     }
+
+   
 
     private void RegisterMiss()
     {
         currentIndex++;
+
+        // Reset combo khi hụt nốt
+        if (comboSystem != null)
+        {
+            comboSystem.MissNote();
+        }
+        else
+        {
+            Debug.LogWarning("EnemyRhythmController: Không tìm thấy ComboSystem!");
+        }
 
         onMiss?.Invoke();
 
@@ -188,9 +199,7 @@ public class EnemyRhythmController : MonoBehaviour
             timelineUI.UpdateProgress(currentIndex, noteTimes.Length);
 
         if (currentIndex >= noteTimes.Length)
-        {
             FailSequence();
-        }
     }
 
     private void CompleteSequence()
@@ -199,9 +208,7 @@ public class EnemyRhythmController : MonoBehaviour
 
         onCompleted?.Invoke();
 
-        if (deathVFX != null)
-            Instantiate(deathVFX, transform.position, Quaternion.identity);
-
+        // Không còn Death VFX.
         Destroy(gameObject);
     }
 
@@ -209,8 +216,6 @@ public class EnemyRhythmController : MonoBehaviour
     {
         completed = true;
 
-        // Enemy vẫn tồn tại khi người chơi đánh trượt.
-        // Có thể nối sự kiện này với hệ thống Enemy Attack.
         Debug.Log("Enemy sequence failed: " + gameObject.name);
     }
 }

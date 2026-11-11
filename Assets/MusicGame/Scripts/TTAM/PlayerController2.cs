@@ -8,19 +8,23 @@ public class PlayerController2 : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Animator animator;
-    [Header("Hit VFX & Sound")]
-[SerializeField] private GameObject hitVFXPrefab;
-[SerializeField] private AudioSource hitAudioSource;
-[SerializeField] private AudioClip hitSound;
 
-[SerializeField] private float vfxDestroyTime = 1.5f;
-[SerializeField] private Vector3 vfxOffset = Vector3.zero;
+    [Header("Hit VFX & Sound")]
+    [SerializeField] private GameObject hitVFXPrefab;
+    [SerializeField] private AudioSource hitAudioSource;
+    [SerializeField] private AudioClip hitSound;
+    [SerializeField] private float vfxDestroyTime = 1.5f;
+    [SerializeField] private Vector3 vfxOffset = Vector3.zero;
 
     [Header("Hit Points")]
     [SerializeField] private Transform hitPointL;
     [SerializeField] private Transform hitPointR;
     [SerializeField] private float hitRadius = 0.5f;
     [SerializeField] private LayerMask enemyLayer;
+
+    [Header("Attack Sound")]
+    [SerializeField] private AudioSource attackAudioSource;
+    [SerializeField] private AudioClip attackHitSound;
 
     [Header("Attack")]
     [SerializeField] private string[] attackTriggers =
@@ -46,7 +50,6 @@ public class PlayerController2 : MonoBehaviour
         if (animator == null)
             animator = GetComponentInChildren<Animator>();
 
-        // Player đứng yên
         rb.linearVelocity = Vector2.zero;
         rb.bodyType = RigidbodyType2D.Kinematic;
     }
@@ -76,7 +79,6 @@ public class PlayerController2 : MonoBehaviour
         }
     }
 
-    // Attack bên trái
     private void AttackLeft()
     {
         Flip(-1);
@@ -84,7 +86,6 @@ public class PlayerController2 : MonoBehaviour
         CheckHitPoint(hitPointL);
     }
 
-    // Attack bên phải
     private void AttackRight()
     {
         Flip(1);
@@ -105,11 +106,31 @@ public class PlayerController2 : MonoBehaviour
 
         int randomIndex = Random.Range(0, attackTriggers.Length);
 
-        animator.ResetTrigger(attackTriggers[randomIndex]);
         animator.SetTrigger(attackTriggers[randomIndex]);
     }
 
-    // Kiểm tra Enemy có đang chạm HitPoint không
+    private void PlayAttackSound()
+    {
+        if (attackAudioSource != null && attackHitSound != null)
+        {
+            attackAudioSource.PlayOneShot(attackHitSound);
+        }
+    }
+
+    private void SpawnHitVFX(Vector3 position)
+    {
+        if (hitVFXPrefab == null)
+            return;
+
+        GameObject vfx = Instantiate(
+            hitVFXPrefab,
+            position + vfxOffset,
+            Quaternion.identity
+        );
+
+        Destroy(vfx, vfxDestroyTime);
+    }
+
     private void CheckHitPoint(Transform hitPoint)
     {
         if (hitPoint == null)
@@ -128,12 +149,17 @@ public class PlayerController2 : MonoBehaviour
             if (enemy == null)
                 continue;
 
-            // Chỉ nhận một lần trên mỗi Enemy
             if (!enemy.CompareTag("Enemy"))
                 continue;
 
             if (!enemy.TryReceiveHit())
                 continue;
+
+            // Phát âm thanh khi đánh trúng
+            PlayAttackSound();
+
+            // VFX tại vị trí Enemy
+            SpawnHitVFX(enemy.transform.position);
 
             // Cộng điểm
             if (scoreSystem != null)

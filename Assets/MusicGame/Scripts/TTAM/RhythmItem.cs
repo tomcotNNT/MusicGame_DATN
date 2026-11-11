@@ -36,6 +36,7 @@ public class RhythmItemm : MonoBehaviour
     [Tooltip("Bật = bỏ lỡ item làm mất combo như nốt thường")]
     [SerializeField] private bool missBreaksCombo = false;
     [SerializeField] private UnityEvent onMissed;
+    [SerializeField] private AudioSource collectAudioSource;
 
     private static ScoreSystem scoreSystem;
     private static ComboSystem comboSystem;
@@ -118,23 +119,32 @@ public class RhythmItemm : MonoBehaviour
             Destroy(vfx, vfxLifetime);
         }
 
-        if (collectClip != null)
+        if (collectAudioSource != null && collectClip != null)
         {
-            Vector3 at = Camera.main != null ? Camera.main.transform.position : transform.position;
-            AudioSource.PlayClipAtPoint(collectClip, at, collectVolume);
+            collectAudioSource.PlayOneShot(collectClip, collectVolume);
+        }
+        else if (collectClip != null)
+        {
+            AudioSource.PlayClipAtPoint(
+                collectClip,
+                transform.position,
+                collectVolume
+            );
         }
 
         if (addScore && scoreSystem != null) scoreSystem.AddScore();
         if (addCombo && comboSystem != null) comboSystem.HitNote();
 
-        if (playerCtrl != null)
+       if (playerCtrl != null)
         {
             if (movePlayer)
             {
                 if (!isLeft) playerCtrl.DashUp(transform.position.y);
                 else         playerCtrl.Drop();
             }
+
             playerCtrl.PlayAttack();
+            playerCtrl.PlayHitSound();
         }
 
         onCollected?.Invoke();
