@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: -7264943136182696120}
   - component: {fileID: 4157966311386490187}
   - component: {fileID: -8890618044226664555}
+  - component: {fileID: 3013534453225988454}
   m_Layer: 6
   m_Name: Batyellow
   m_TagString: Enemy
@@ -130,6 +131,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b7bd48bf68c6db4198367afbcc3daa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMan2
+  chaseSpeed: 8
+  hitGraceTime: 0.25
+  hitDistance: 0.2
+  maxChaseDuration: 6
   spriteRenderer: {fileID: 7331835229772165423}
   facePlayer: 1
 --- !u!114 &-7264943136182696120
@@ -217,3 +222,33 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &3013534453225988454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5511675757634665384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83532fed75de9c244a48d9b77a35f4c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyRhythmController
+  animator: {fileID: 0}
+  timelineUI: {fileID: 0}
+  attackTrigger: Attack
+  hitVFX: {fileID: 4306488877223958017, guid: 2fbb1969d46802e4485b17e89d3a86cb, type: 3}
+  vfxPoint: {fileID: 3522111243133052081}
+  perfectWindow: 0.1
+  goodWindow: 0.2
+  perfectScore: 100
+  goodScore: 50
+  onNoteHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onMiss:
+    m_PersistentCalls:
+      m_Calls: []
+  onCompleted:
+    m_PersistentCalls:
+      m_Calls: []
