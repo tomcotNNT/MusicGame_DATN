@@ -10,6 +10,7 @@ TagManager:
   - HitPointTop
   - HitPointBottom
   - BossAttackPosition
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Enemy
   - 
   - 
   - 

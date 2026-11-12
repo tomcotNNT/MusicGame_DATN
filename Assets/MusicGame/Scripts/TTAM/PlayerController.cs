@@ -125,10 +125,26 @@ public class PlayerController : MonoBehaviour
     private Coroutine introCoroutine;
     private Coroutine outroCoroutine;
 
+    [Header("Hit Sound")]
+    [SerializeField] private AudioSource hitAudioSource;
+    [SerializeField] private AudioClip hitSound;
+    [Range(0f, 1f)]
+    [SerializeField] private float hitVolume = 1f;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+
+        hitAudioSource = GetComponent<AudioSource>();
+
+        if (hitAudioSource == null)
+        {
+            hitAudioSource = gameObject.AddComponent<AudioSource>();
+        }
+
+        hitAudioSource.playOnAwake = false;
+        hitAudioSource.spatialBlend = 0f;
 
         if (rb == null)
         {
@@ -284,6 +300,20 @@ public class PlayerController : MonoBehaviour
         if (feverShooter.TryFireFever())
             PlayAttack();   // chạy animation attack ngẫu nhiên
     }
+
+    public void PlayHitSound()
+    {
+            if (hitSound == null)
+            {
+                Debug.LogWarning("PlayerController: Chưa gán Hit Sound!");
+                return;
+            }
+
+            if (hitAudioSource == null)
+                return;
+
+            hitAudioSource.PlayOneShot(hitSound, hitVolume);
+        }
 
     private bool CanFeverAttack()
     {
