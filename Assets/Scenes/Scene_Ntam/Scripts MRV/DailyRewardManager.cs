@@ -17,8 +17,9 @@ public class DailyRewardManager : MonoBehaviour
     public Image[] dayImages = new Image[7];
 
     [Header("Lobby Currency Display")]
-public LobbyCoinDisplay coinUI;
-public LobbyDiamondDisplay diamondUI;
+    public LobbyCoinDisplay coinUI;
+    public LobbyDiamondDisplay diamondUI;
+    public LobbyHeartDisplay heartUI;
 
     [Header("Reward Amounts")]
     public int[] rewardAmounts =
@@ -149,14 +150,13 @@ public LobbyDiamondDisplay diamondUI;
         // Update coin text immediately
         // Cập nhật cả Coin và Diamond trên Lobby
 if (coinUI != null)
-{
     coinUI.UpdateCoinUI();
-}
 
 if (diamondUI != null)
-{
     diamondUI.UpdateDiamondUI();
-}
+
+if (heartUI != null)
+    heartUI.UpdateHeartUI();
 
         // Fade the claimed image
         RefreshUI();
