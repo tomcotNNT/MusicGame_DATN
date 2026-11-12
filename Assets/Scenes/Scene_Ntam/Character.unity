@@ -2231,6 +2231,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 320488880}
+  - component: {fileID: 320488881}
   m_Layer: 5
   m_Name: Gold
   m_TagString: Untagged
@@ -2259,6 +2260,19 @@ RectTransform:
   m_AnchoredPosition: {x: -675.00006, y: 335}
   m_SizeDelta: {x: 262.86, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &320488881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 320488879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc01829afde8cae488232eeec49d6241, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LobbyCoinDisplay
+  coinText: {fileID: 654291658}
 --- !u!1 &334516541
 GameObject:
   m_ObjectHideFlags: 0
@@ -3526,10 +3540,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 9999
+  m_text: '0
+
+'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
+  m_sharedMaterial: {fileID: 2147374, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3559,7 +3575,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -3815,10 +3831,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 9999
+  m_text: '0
+
+'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
+  m_sharedMaterial: {fileID: 2147374, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3848,7 +3866,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -5363,7 +5381,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '/20
+  m_text: '/10
 
 '
   m_isRightToLeft: 0
@@ -5899,8 +5917,9 @@ GameObject:
   - component: {fileID: 907149557}
   - component: {fileID: 907149559}
   - component: {fileID: 907149558}
+  - component: {fileID: 907149560}
   m_Layer: 5
-  m_Name: Khung
+  m_Name: Khungtraitim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5965,6 +5984,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 907149556}
   m_CullTransparentMesh: 1
+--- !u!114 &907149560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 907149556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a3c22c8acdc9da4e95e24c3f45aa278, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LobbyHeartDisplay
+  heartText: {fileID: 1721859494}
 --- !u!1 &909991465
 GameObject:
   m_ObjectHideFlags: 0
@@ -10561,6 +10593,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1688117587}
+  - component: {fileID: 1688117588}
   m_Layer: 5
   m_Name: Diamond
   m_TagString: Untagged
@@ -10589,6 +10622,19 @@ RectTransform:
   m_AnchoredPosition: {x: -405, y: 335}
   m_SizeDelta: {x: 262.86, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1688117588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688117586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a01d7e8ff0c843d409e69353a822259c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LobbyDiamondDisplay
+  diamondText: {fileID: 561379825}
 --- !u!1 &1699871471
 GameObject:
   m_ObjectHideFlags: 0
@@ -17155,7 +17201,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1818974527
 MonoBehaviour:
   m_ObjectHideFlags: 0
