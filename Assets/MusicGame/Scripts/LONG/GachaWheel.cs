@@ -1,23 +1,65 @@
 
 using System;
 using System.Collections;
+using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GachaWheel : MonoBehaviour
 {
+    public enum RewardType
+    {
+        Coin,
+        Diamond,
+        Heart,
+        Nothing
+    }
+
+    [Serializable]
+    public class GachaReward
+    {
+        public RewardType type;
+        public int amount = 50;
+
+        [Min(0)]
+        public float weight = 10f;
+    }
+
     [Header("Wheel")]
     [SerializeField] private RectTransform wheel;
     [SerializeField] private float spinDuration = 4f;
     [SerializeField] private int minFullRotations = 4;
     [SerializeField] private int maxFullRotations = 7;
 
+    [Header("Wheel Alignment")]
+    [Tooltip("8 equal slots, clockwise from slot 1")]
+    [SerializeField] private float firstSlotAngle = 90f;
+    [SerializeField] private float pointerAngle = 180f;
+    [SerializeField] private bool clockwise = true;
+
+    [Header("Rewards - Clockwise Order")]
+    [SerializeField] private GachaReward[] rewards =
+    {
+        new GachaReward { type = RewardType.Coin, amount = 100, weight = 20 },
+        new GachaReward { type = RewardType.Diamond, amount = 50, weight = 10 },
+        new GachaReward { type = RewardType.Heart, amount = 5, weight = 15 },
+        new GachaReward { type = RewardType.Nothing, amount = 0, weight = 25 },
+        new GachaReward { type = RewardType.Coin, amount = 200, weight = 15 },
+        new GachaReward { type = RewardType.Diamond, amount = 100, weight = 5 },
+        new GachaReward { type = RewardType.Heart, amount = 10, weight = 5 },
+        new GachaReward { type = RewardType.Coin, amount = 500, weight = 5 }
+    };
+
     [Header("Buttons")]
     [SerializeField] private Button x1Button;
     [SerializeField] private Button x5Button;
     [SerializeField] private Button adsFreeButton;
     [SerializeField] private Button okButton;
+
+    [Header("Spin Costs")]
+    [SerializeField] private int x1DiamondCost = 50;
+    [SerializeField] private int x5DiamondCost = 200;
 
     [Header("Notice Panel")]
     [SerializeField] private GameObject noticePanel;
@@ -26,7 +68,6 @@ public class GachaWheel : MonoBehaviour
     [Header("Rewarded Ads")]
     [SerializeField] private RewardedAdsManager adsManager;
 
-    // TMP tên Notice nằm dưới ADSFreeButton trong Hierarchy.
     [Header("ADS Button Counter")]
     [SerializeField] private TMP_Text adsNotice;
 
@@ -51,37 +92,65 @@ public class GachaWheel : MonoBehaviour
 
     private void Start()
     {
-        x1Button.onClick.AddListener(SpinX1);
-        x5Button.onClick.AddListener(SpinX5);
-        adsFreeButton.onClick.AddListener(SpinWithRewardedAd);
-        okButton.onClick.AddListener(CloseNotice);
+        Debug.Log(
+        "GameManager Instance: " +
+        (GameManager.Instance == null
+            ? "NULL"
+            : "FOUND")
+    );
+        if (x1Button != null)
+            x1Button.onClick.AddListener(SpinX1);
 
-        noticePanel.SetActive(false);
+        if (x5Button != null)
+            x5Button.onClick.AddListener(SpinX5);
 
-        currentAngle = wheel.localEulerAngles.z;
+        if (adsFreeButton != null)
+            adsFreeButton.onClick.AddListener(SpinWithRewardedAd);
+
+        if (okButton != null)
+            okButton.onClick.AddListener(CloseNotice);
+
+        if (noticePanel != null)
+            noticePanel.SetActive(false);
+
+        if (wheel != null)
+            currentAngle = wheel.localEulerAngles.z;
 
         LoadAdsState();
         RefreshUI();
     }
 
+    private void OnDestroy()
+    {
+        if (x1Button != null)
+            x1Button.onClick.RemoveListener(SpinX1);
+
+        if (x5Button != null)
+            x5Button.onClick.RemoveListener(SpinX5);
+
+        if (adsFreeButton != null)
+            adsFreeButton.onClick.RemoveListener(SpinWithRewardedAd);
+
+        if (okButton != null)
+            okButton.onClick.RemoveListener(CloseNotice);
+    }
+
     private void Update()
     {
-        // Nhấn F6 để reset lượt quay ADS
+        // Test ADS reset in Editor only.
+#if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.F6))
         {
             adsUses = MaxAdsSpins;
             cooldownUntil = 0;
             refillUntil = 0;
-
             SaveAdsState();
-            RefreshUI();
-
-            Debug.Log("ADS spins reset to 5/5!");
         }
+#endif
 
-        // Hết 24 giờ: khôi phục 5 lượt.
-        if (adsUses <= 0 && refillUntil > 0
-            && Now >= refillUntil)
+        if (adsUses <= 0 &&
+            refillUntil > 0 &&
+            Now >= refillUntil)
         {
             adsUses = MaxAdsSpins;
             cooldownUntil = 0;
@@ -92,78 +161,90 @@ public class GachaWheel : MonoBehaviour
         RefreshUI();
     }
 
-    private void LoadAdsState()
-    {
-        adsUses = PlayerPrefs.GetInt(UsesKey, MaxAdsSpins);
-        cooldownUntil = long.Parse(
-            PlayerPrefs.GetString(CooldownKey, "0")
-        );
-        refillUntil = long.Parse(
-            PlayerPrefs.GetString(RefillKey, "0")
-        );
-
-        adsUses = Mathf.Clamp(adsUses, 0, MaxAdsSpins);
-    }
-
-    private void SaveAdsState()
-    {
-        PlayerPrefs.SetInt(UsesKey, adsUses);
-        PlayerPrefs.SetString(
-            CooldownKey, cooldownUntil.ToString()
-        );
-        PlayerPrefs.SetString(
-            RefillKey, refillUntil.ToString()
-        );
-        PlayerPrefs.Save();
-    }
-
     private bool IsBusy()
     {
-        return isSpinning
-            || isWaitingForAd
-            || noticePanel.activeSelf;
+        return isSpinning ||
+               isWaitingForAd ||
+               (noticePanel != null && noticePanel.activeSelf);
+    }
+
+    private bool ValidateWheel()
+    {
+        if (wheel == null)
+        {
+            Debug.LogError("Wheel is not assigned!");
+            return false;
+        }
+
+        if (rewards == null || rewards.Length != 8)
+        {
+            Debug.LogError("Gacha requires exactly 8 rewards!");
+            return false;
+        }
+
+        float totalWeight = 0f;
+
+        foreach (GachaReward reward in rewards)
+        {
+            if (reward == null)
+                return false;
+
+            if (reward.type != RewardType.Nothing &&
+                reward.amount <= 0)
+                return false;
+
+            totalWeight += Mathf.Max(0f, reward.weight);
+        }
+
+        return totalWeight > 0f;
     }
 
     public void SpinX1()
     {
-        if (IsBusy())
-            return;
-
-        StartCoroutine(SpinRoutine());
+        StartPaidSpin(1, x1DiamondCost);
     }
 
     public void SpinX5()
     {
-        if (IsBusy())
+        StartPaidSpin(5, x5DiamondCost);
+    }
+
+    private void StartPaidSpin(int count, int cost)
+    {
+        if (IsBusy() || !ValidateWheel())
             return;
 
-        // Giữ nguyên cơ chế quay hiện tại của bạn:
-        // x5 cũng kích hoạt một lần quay.
-        StartCoroutine(SpinRoutine());
+        if (GameManager.Instance == null)
+        {
+            Debug.LogError("GameManager not found!");
+            return;
+        }
+
+        if (cost < 0)
+            return;
+
+        // SpendDiamonds must exist in your GameManager.
+        if (cost > 0 &&
+            !GameManager.Instance.SpendDiamonds(cost))
+        {
+            ShowNotice("Not enough Diamonds!");
+            return;
+        }
+
+        StartCoroutine(SpinSequence(count));
     }
 
     public void SpinWithRewardedAd()
     {
-        if (IsBusy())
+        if (IsBusy() || !ValidateWheel())
             return;
 
-        if (adsUses <= 0)
-        {
-            RefreshUI();
+        if (adsUses <= 0 || Now < cooldownUntil)
             return;
-        }
-
-        if (Now < cooldownUntil)
-        {
-            RefreshUI();
-            return;
-        }
 
         if (adsManager == null)
         {
-            Debug.LogError(
-                "RewardedAdsManager is not assigned."
-            );
+            Debug.LogError("RewardedAdsManager is missing!");
             return;
         }
 
@@ -187,8 +268,6 @@ public class GachaWheel : MonoBehaviour
             return;
 
         isWaitingForAd = false;
-
-        // Chỉ trừ lượt sau khi xác nhận nhận thưởng.
         adsUses--;
 
         if (adsUses <= 0)
@@ -203,38 +282,126 @@ public class GachaWheel : MonoBehaviour
         }
 
         SaveAdsState();
-        RefreshUI();
-
-        // Sau khi nhận thưởng mới bắt đầu quay.
-        StartCoroutine(SpinRoutine());
+        StartCoroutine(SpinSequence(1));
     }
 
-    private IEnumerator SpinRoutine()
+    private int ChooseReward()
+    {
+        float total = 0f;
+
+        foreach (GachaReward reward in rewards)
+            total += Mathf.Max(0f, reward.weight);
+
+        float random = UnityEngine.Random.Range(0f, total);
+
+        for (int i = 0; i < rewards.Length; i++)
+        {
+            random -= Mathf.Max(0f, rewards[i].weight);
+
+            if (random < 0f && rewards[i].weight > 0f)
+                return i;
+        }
+
+        for (int i = rewards.Length - 1; i >= 0; i--)
+        {
+            if (rewards[i].weight > 0f)
+                return i;
+        }
+
+        return 0;
+    }
+
+    private IEnumerator SpinSequence(int count)
     {
         isSpinning = true;
         RefreshUI();
 
-        int fullRotations = UnityEngine.Random.Range(
+        StringBuilder result = new StringBuilder();
+
+        for (int i = 0; i < count; i++)
+        {
+            int selectedIndex = ChooseReward();
+
+            yield return StartCoroutine(
+                SpinToReward(selectedIndex)
+            );
+
+            GachaReward reward = rewards[selectedIndex];
+
+            GiveReward(reward);
+
+            if (reward.type == RewardType.Nothing)
+            {
+                result.AppendLine(
+                    "Chúc bạn may mắn lần sau!"
+                );
+            }
+            else
+            {
+                result.AppendLine(
+                    "Nhận được " + reward.amount +
+                    " " + reward.type
+                );
+            }
+        }
+
+        isSpinning = false;
+        ShowNotice(result.ToString().TrimEnd());
+        RefreshUI();
+    }
+
+    private IEnumerator SpinToReward(int index)
+    {
+        float slotAngle = 360f / rewards.Length;
+
+        float selectedSlotAngle =
+            firstSlotAngle - index * slotAngle;
+
+        float targetAngle = Mathf.Repeat(
+            pointerAngle - selectedSlotAngle,
+            360f
+        );
+
+        float startAngle = currentAngle;
+        float startNormalized = Mathf.Repeat(startAngle, 360f);
+
+        float remaining;
+
+        if (clockwise)
+        {
+            remaining = Mathf.Repeat(
+                startNormalized - targetAngle, 360f
+            );
+        }
+        else
+        {
+            remaining = Mathf.Repeat(
+                targetAngle - startNormalized, 360f
+            );
+        }
+
+        int rotations = UnityEngine.Random.Range(
             minFullRotations,
             maxFullRotations + 1
         );
 
-        float finalAngle = UnityEngine.Random.Range(0f, 360f);
-        float startAngle = currentAngle;
         float totalRotation =
-            fullRotations * 360f + finalAngle;
+            rotations * 360f + remaining;
+
+        float direction = clockwise ? -1f : 1f;
 
         float elapsed = 0f;
+        float duration = Mathf.Max(0.1f, spinDuration);
 
-        while (elapsed < spinDuration)
+        while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
 
-            float t = Mathf.Clamp01(elapsed / spinDuration);
-            float easedT = 1f - Mathf.Pow(1f - t, 4f);
+            float t = Mathf.Clamp01(elapsed / duration);
+            float eased = 1f - Mathf.Pow(1f - t, 4f);
 
             currentAngle =
-                startAngle + totalRotation * easedT;
+                startAngle + direction * totalRotation * eased;
 
             wheel.localRotation = Quaternion.Euler(
                 0f, 0f, currentAngle
@@ -243,18 +410,52 @@ public class GachaWheel : MonoBehaviour
             yield return null;
         }
 
-        currentAngle = startAngle + totalRotation;
+        currentAngle =
+            startAngle + direction * totalRotation;
 
         wheel.localRotation = Quaternion.Euler(
             0f, 0f, currentAngle
         );
 
-        isSpinning = false;
+        // Prevent angle values from growing indefinitely.
+        currentAngle = Mathf.Repeat(currentAngle, 360f);
+    }
 
-        noticeText.text = "You received ...";
-        noticePanel.SetActive(true);
+    private void GiveReward(GachaReward reward)
+    {
+        if (reward.type == RewardType.Nothing)
+            return;
 
-        RefreshUI();
+        switch (reward.type)
+        {
+            case RewardType.Coin:
+                GameManager.Instance.AddCoins(reward.amount);
+                break;
+
+            case RewardType.Diamond:
+                GameManager.Instance.AddDiamonds(reward.amount);
+                break;
+
+            case RewardType.Heart:
+                // Temporary PlayerPrefs storage.
+                // Replace with GameManager.AddHearts when integrated.
+                int hearts = PlayerPrefs.GetInt("Heart", 0);
+                PlayerPrefs.SetInt(
+                    "Heart",
+                    hearts + reward.amount
+                );
+                PlayerPrefs.Save();
+                break;
+        }
+    }
+
+    private void ShowNotice(string message)
+    {
+        if (noticeText != null)
+            noticeText.text = message;
+
+        if (noticePanel != null)
+            noticePanel.SetActive(true);
     }
 
     public void CloseNotice()
@@ -262,15 +463,48 @@ public class GachaWheel : MonoBehaviour
         if (isSpinning)
             return;
 
-        noticePanel.SetActive(false);
+        if (noticePanel != null)
+            noticePanel.SetActive(false);
+
         RefreshUI();
+    }
+
+    private void LoadAdsState()
+    {
+        adsUses = PlayerPrefs.GetInt(
+            UsesKey, MaxAdsSpins
+        );
+
+        long.TryParse(
+            PlayerPrefs.GetString(CooldownKey, "0"),
+            out cooldownUntil
+        );
+
+        long.TryParse(
+            PlayerPrefs.GetString(RefillKey, "0"),
+            out refillUntil
+        );
+
+        adsUses = Mathf.Clamp(
+            adsUses, 0, MaxAdsSpins
+        );
+    }
+
+    private void SaveAdsState()
+    {
+        PlayerPrefs.SetInt(UsesKey, adsUses);
+        PlayerPrefs.SetString(
+            CooldownKey, cooldownUntil.ToString()
+        );
+        PlayerPrefs.SetString(
+            RefillKey, refillUntil.ToString()
+        );
+        PlayerPrefs.Save();
     }
 
     private void RefreshUI()
     {
-        bool busy = isSpinning
-            || isWaitingForAd
-            || (noticePanel != null && noticePanel.activeSelf);
+        bool busy = IsBusy();
 
         if (x1Button != null)
             x1Button.interactable = !busy;
@@ -278,18 +512,19 @@ public class GachaWheel : MonoBehaviour
         if (x5Button != null)
             x5Button.interactable = !busy;
 
-        if (okButton != null && noticePanel != null)
-            okButton.interactable = noticePanel.activeSelf
-                && !isSpinning;
+        if (okButton != null)
+            okButton.interactable =
+                noticePanel != null &&
+                noticePanel.activeSelf &&
+                !isSpinning;
 
         if (adsFreeButton != null)
         {
-            bool canUseAds = adsUses > 0
-                && Now >= cooldownUntil
-                && !busy
-                && adsManager != null;
-
-            adsFreeButton.interactable = canUseAds;
+            adsFreeButton.interactable =
+                !busy &&
+                adsUses > 0 &&
+                Now >= cooldownUntil &&
+                adsManager != null;
         }
 
         if (adsNotice != null)
@@ -300,15 +535,20 @@ public class GachaWheel : MonoBehaviour
     {
         if (adsUses <= 0)
         {
-            long remaining = Math.Max(0, refillUntil - Now);
-            return "ADS: 0/5\nRefill in " + FormatTime(remaining);
+            long remaining = Math.Max(
+                0, refillUntil - Now
+            );
+
+            return "ADS: 0/5\nRefill in " +
+                   FormatTime(remaining);
         }
 
         if (Now < cooldownUntil)
         {
             long remaining = cooldownUntil - Now;
-            return "ADS: " + adsUses + "/5\nNext in "
-                + FormatTime(remaining);
+
+            return "ADS: " + adsUses +
+                   "/5\nNext in " + FormatTime(remaining);
         }
 
         return "ADS: " + adsUses + "/5";
