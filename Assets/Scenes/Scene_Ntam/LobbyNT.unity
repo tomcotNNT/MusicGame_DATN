@@ -1568,10 +1568,40 @@ MonoBehaviour:
   spinDuration: 4
   minFullRotations: 4
   maxFullRotations: 7
+  firstSlotAngle: 90
+  pointerAngle: 180
+  clockwise: 1
+  rewards:
+  - type: 0
+    amount: 100
+    weight: 20
+  - type: 1
+    amount: 50
+    weight: 10
+  - type: 2
+    amount: 5
+    weight: 15
+  - type: 3
+    amount: 0
+    weight: 25
+  - type: 0
+    amount: 200
+    weight: 15
+  - type: 1
+    amount: 100
+    weight: 5
+  - type: 2
+    amount: 10
+    weight: 5
+  - type: 0
+    amount: 500
+    weight: 5
   x1Button: {fileID: 950598450}
   x5Button: {fileID: 434094706}
   adsFreeButton: {fileID: 181275796}
   okButton: {fileID: 1626331318}
+  x1DiamondCost: 0
+  x5DiamondCost: 0
   noticePanel: {fileID: 539121986}
   noticeText: {fileID: 691819916}
   adsManager: {fileID: 988521554}
@@ -2265,7 +2295,7 @@ GameObject:
   - component: {fileID: 110295372}
   - component: {fileID: 110295374}
   m_Layer: 5
-  m_Name: MissionPanel
+  m_Name: Daily Gift
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6303,6 +6333,7 @@ GameObject:
   - component: {fileID: 334491535}
   - component: {fileID: 334491534}
   - component: {fileID: 334491533}
+  - component: {fileID: 334491536}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -6352,6 +6383,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &334491536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 334491532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3375bca03805ba4f87ed76dd088370a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  playerData:
+    totalCoins: 0
+    totalDiamonds: 0
+    highestScore: 0
+    gameVolume: 1
+    audioOffset: 0
 --- !u!1 &337540182
 GameObject:
   m_ObjectHideFlags: 0
@@ -10533,8 +10582,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'YOU RECEIVED '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
-  m_sharedMaterial: {fileID: -1467977752007274282, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -16721,8 +16770,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: OK
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
-  m_sharedMaterial: {fileID: -1467977752007274282, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -18275,8 +18324,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: cff795b62545af9429319060574f9291, type: 2}
-  m_sharedMaterial: {fileID: -1067818911978945230, guid: cff795b62545af9429319060574f9291, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -23787,7 +23836,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1527605973
 RectTransform:
   m_ObjectHideFlags: 0
@@ -34938,7 +34987,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 99
+  m_text: '0
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
   m_sharedMaterial: {fileID: 2147374, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
@@ -35590,8 +35641,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
-  m_sharedMaterial: {fileID: -1467977752007274282, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
