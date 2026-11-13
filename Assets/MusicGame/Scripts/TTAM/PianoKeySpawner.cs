@@ -9,14 +9,49 @@ public class PianoKeySpawner : MonoBehaviour
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private Transform player;
     [SerializeField] private Transform spawnPoint;
-    [SerializeField] private float longNoteYOffset = -1.2f;
-
-    [Header("Coin")]
-    [SerializeField] private CoinSpawner coinSpawner;
-
+    [Tooltip("Offset Y thêm cho nốt dài so với hit point. Đặt 0 nếu muốn nốt dài ngang hit point.")]
+    [SerializeField] private float longNoteYOffset = 0f;
     public float KeySpeed => keySpeed;
+    public IReadOnlyList<MidiReader.RhythmNote> PlayNotes => playNotes;
+
+    [Header("Hit Points")]
+    [Tooltip("Hit point DƯỚI: nốt TRÁI (lane 0)")]
+    [SerializeField] private Transform hitPointBottom;
+    [Tooltip("Hit point TRÊN: nốt PHẢI (lane 1)")]
+    [SerializeField] private Transform hitPointTop;
+
+    [Header("Màn 2 (enemy spawn trái / phải)")]
+    [Tooltip("Bật = màn 2: mỗi nốt MIDI spawn 1 enemy từ Spawn Left / Spawn Right rồi bay về Player " +
+             "(thay cho nốt piano trên/dưới). Lane 0 = trái, lane 1 = phải.")]
+    [SerializeField] private bool man2 = false;
+    [SerializeField] private EnemyMan2 enemyPrefab;
+    [Tooltip("Điểm spawn bên TRÁI (lane 0)")]
+    [SerializeField] private Transform spawnLeft;
+    [Tooltip("Điểm spawn bên PHẢI (lane 1)")]
+    [SerializeField] private Transform spawnRight;
+    [Tooltip("Enemy bay bao nhiêu giây từ điểm spawn tới Player")]
+    [SerializeField] private float man2TravelTime = 1.5f;
+    [Tooltip("Khoảng cách tối thiểu (giây) giữa 2 enemy cùng bên. Chặn nốt chồng / hợp âm")]
+    [SerializeField] private float man2MinInterval = 0.15f;
+
+    // Cho LevelManager bật/tắt theo level: PianoKeySpawner.Instance.Man2 = true;
+    public bool Man2
+    {
+        get => man2;
+        set => man2 = value;
+    }
+
+    private readonly float[] man2LastTimeOnSide = { -999f, -999f };
+    private bool man2Warned;
+
+    [Header("Boss")]
+    [SerializeField] private BossSpawner bossSpawner;
+    [Tooltip("Boss xuất hiện khi bài chạy tới tỉ lệ này (0.5 = giữa bài). Chỉ xuất hiện 1 lần")]
+    [SerializeField, Range(0.05f, 0.95f)] private float bossAppearAt = 0.5f;
+    private bool bossAppeared;
+
     public float SpawnDirection => spawnDirection;
-public float PlayerX => player.position.x;
+    public float PlayerX => player.position.x;
 
     private bool paused;
     private double pauseStartDsp;
@@ -33,8 +68,33 @@ public float PlayerX => player.position.x;
             : (float)(AudioSettings.dspTime - songStartDsp));
 
     [Header("Rhythm Settings")]
-    [Tooltip("Tốc độ key (unit/giây) - cố định cho cả bài")]
+    [Tooltip("Tốc độ key (unit/giây) của vòng hiện tại (= tốc độ gốc x roundSpeed)")]
     [SerializeField] private float keySpeed = 8f;
+
+    [Header("Loop tăng tốc")]
+    [Tooltip("Hết bài thì phát lại với tốc độ cao hơn")]
+    [SerializeField] private bool loopWithSpeedUp = true;
+    [Tooltip("Mỗi vòng nhanh thêm bao nhiêu (0.15 = +15%)")]
+    [SerializeField] private float speedStep = 0.15f;
+    [Tooltip("Tốc độ tối đa. Đạt mức này thì vòng kế tiếp là vòng cuối, hết là EndSong")]
+    [SerializeField] private float maxSpeed = 2.5f;
+    [Tooltip("Số giây chờ giữa 2 vòng trước khi nhạc phát lại")]
+    [SerializeField] private float nextRoundLeadIn = 1.5f;
+    [Tooltip("Tổng số vòng nhạc. 1 = chỉ phát bài một lần rồi kết thúc (không lặp lại)")]
+    [SerializeField, Min(1)] private int maxRounds = 1;
+
+    // Còn vòng kế tiếp không: chưa tới maxRounds và chưa chạm tốc độ tối đa
+    private bool CanLoop => loopWithSpeedUp && Round < maxRounds && roundSpeed < maxSpeed;
+
+    public int Round { get; private set; } = 1;
+    public float RoundSpeed => roundSpeed;
+
+    // (số vòng, hệ số tốc độ) - dùng cho UI "Vòng 2 - x1.15"
+    public event System.Action<int, float> RoundStarted;
+
+    private float roundSpeed = 1f;
+    private float baseKeySpeed;
+    private List<MidiReader.RhythmNote> playNotes = new List<MidiReader.RhythmNote>();
 
     [Header("Tutorial")]
     [Tooltip("Tick = scene tutorial: không dùng MIDI/nhạc, nốt do TutorialManager spawn thủ công.")]
@@ -45,22 +105,89 @@ public float PlayerX => player.position.x;
     private float tutorialClock;
 
     [Tooltip("Key xuất hiện trước thời điểm note bao nhiêu giây. " +
-             "Nên >= khoảng cách spawn / keySpeed")]
+             "Nên >= khoảng cách spawn / keySpeed. " +
+             "Cũng nên >= Travel Time của BossMusicAttack để boss kịp bắn.")]
     [SerializeField] private float spawnAheadTime = 2f;
 
     [Tooltip("Bật = tự tính spawnAheadTime = khoảng cách (SpawnPoint -> Player) / keySpeed")]
     [SerializeField] private bool autoSpawnAhead = true;
+
+    // Thời gian spawn trước nốt: màn thường = spawnAheadTime;
+    // màn 2 = max(spawnAheadTime, man2TravelTime) để boss vẫn kịp bắn và enemy đủ thời gian bay.
+    private float AheadTime => man2 ? Mathf.Max(spawnAheadTime, man2TravelTime) : spawnAheadTime;
 
     [Header("Overlap")]
     [Tooltip("Khoảng cách tối thiểu giữa 2 key (unit). Nên >= chiều rộng prefab key. " +
              "Note nào sát hơn mức này sẽ bị bỏ.")]
     [SerializeField] private float minKeyGap = 1.5f;
 
-    private float lastAcceptedNoteTime = -999f;
-
     [Header("Lane")]
     [Tooltip("Bật = random Left/Right, tắt = theo lane của MIDI (cao/thấp)")]
     [SerializeField] private bool randomLane = false;
+
+    [Header("Item thay nốt")]
+    [Tooltip("Danh sách item. Một số nốt thường sẽ được đổi thành item này")]
+    [SerializeField] private List<GameObject> itemPrefabs = new List<GameObject>();
+    [Tooltip("Cứ N nốt thường thì 1 nốt đổi thành item. 4 = nốt thứ 4, 8, 12...")]
+    [SerializeField, Min(2)] private int itemEveryNNotes = 4;
+    [Tooltip("Bật = chọn item ngẫu nhiên, tắt = lần lượt theo list")]
+    [SerializeField] private bool itemRandomPick = false;
+    [Tooltip("Bật = nốt dài cũng có thể đổi thành item. Tắt = chỉ đổi nốt thường")]
+    [SerializeField] private bool itemCanReplaceLongNote = false;
+    private int itemIndex;
+    private int notesSinceItem;
+
+    // ---- Hit point helpers ----
+
+    // Trái = hit point dưới, Phải = hit point trên. Thiếu hit point thì dùng Player.
+    private Transform GetHitPoint(bool left)
+    {
+        Transform hp = left ? hitPointBottom : hitPointTop;
+        return hp != null ? hp : player;
+    }
+
+    private float GetLaneY(bool left, bool isLong)
+    {
+        float y = GetHitPoint(left).position.y;
+        if (isLong) y += longNoteYOffset;
+        return y;
+    }
+
+    // Vị trí X để nốt tới đúng hit point sau travelTime giây
+    private float GetSpawnX(bool left, float travelTime)
+    {
+        return GetHitPoint(left).position.x + spawnDirection * keySpeed * travelTime;
+    }
+
+    // ---- Boss hooks (BossMusicAttack / BossProjectile dùng) ----
+
+    // Điểm đích của đạn boss: cùng hit point với nốt cùng lane
+    public Transform GetBossHitPoint(bool isLeft)
+    {
+        return GetHitPoint(isLeft);
+    }
+
+    // Đạn boss / enemy đăng ký để spawner quản lý vòng đời (xoá khi hết vòng, tính vào "còn key")
+    public void RegisterActiveKey(GameObject obj)
+    {
+        if (obj != null && !activeKeys.Contains(obj))
+            activeKeys.Add(obj);
+    }
+
+    // Tới giữa bài (bossAppearAt) thì boss xuất hiện, chỉ 1 lần
+    private void TrySpawnBoss()
+    {
+        if (bossAppeared || bossSpawner == null || audioSource == null || audioSource.clip == null)
+            return;
+
+        float songLength = audioSource.clip.length / roundSpeed;
+
+        if (SongTime >= songLength * bossAppearAt)
+        {
+            bossAppeared = true;
+            bossSpawner.StartBossFight(OnBossDefeated);
+        }
+    }
 
     // ---- State ----
     private double songStartDsp;
@@ -79,11 +206,12 @@ public float PlayerX => player.position.x;
     [Tooltip("Note có duration >= giá trị này (giây) sẽ thành nốt dài")]
     [SerializeField] private float longNoteMinDuration = 0.5f;
 
-    private float lastAcceptedNoteEnd = -999f;   // thay cho lastAcceptedNoteTime
+    private float lastAcceptedNoteEnd = -999f;
 
     private void Awake()
     {
         Instance = this;
+        baseKeySpeed = keySpeed;
     }
 
     // =============================================
@@ -92,14 +220,26 @@ public float PlayerX => player.position.x;
 
     public event System.Action SongEnded;
 
-    // Gọi từ LevelManager sau khi nạp level
+    // Gọi từ LevelManager sau khi nạp level (bắt đầu bài mới => reset vòng)
     public void SetLevel(LevelData level)
     {
         if (level == null)
             return;
 
-        keySpeed = level.noteSpeed;
+        baseKeySpeed = level.noteSpeed;
+        ResetRounds();
         RecalculateSpawnAhead();
+    }
+
+    // Đưa về vòng 1, tốc độ gốc
+    public void ResetRounds()
+    {
+        roundSpeed = 1f;
+        Round = 1;
+        keySpeed = baseKeySpeed;
+
+        if (audioSource != null)
+            audioSource.pitch = 1f;
     }
 
     private void RecalculateSpawnAhead()
@@ -119,48 +259,71 @@ public float PlayerX => player.position.x;
             return;
         }
 
-        RecalculateSpawnAhead();
-
-        if (leadIn < 0f)
-            leadIn = spawnAheadTime;
-        if (midiReader == null || audioSource == null ||
-            player == null || spawnPoint == null || pianoKeyPrefab == null)
+        // Màn thường cần spawnPoint + pianoKeyPrefab; màn 2 cần enemyPrefab + spawnLeft + spawnRight
+        if (midiReader == null || audioSource == null || player == null ||
+            (!man2 && (spawnPoint == null || pianoKeyPrefab == null)))
         {
             Debug.LogError("PianoKeySpawner: thiếu reference!");
             return;
         }
 
-        if (midiReader.Notes.Count == 0)
+        if (man2 && (enemyPrefab == null || spawnLeft == null || spawnRight == null))
+        {
+            Debug.LogError("PianoKeySpawner (Màn 2): thiếu Enemy Prefab / Spawn Left / Spawn Right!");
+            return;
+        }
+
+        if (!man2 && (hitPointBottom == null || hitPointTop == null))
+            Debug.LogWarning("PianoKeySpawner: chưa gán đủ HitPointBottom / HitPointTop, tạm dùng Player.");
+
+        // Key bay nhanh theo vòng => khoảng cách giữa các key trên màn hình giữ nguyên
+        keySpeed = baseKeySpeed * roundSpeed;
+        RecalculateSpawnAhead();
+
+        if (leadIn < 0f)
+            leadIn = AheadTime;
+
+        // Note của vòng này: thời gian chia cho roundSpeed (không sửa Notes gốc)
+        playNotes = midiReader.GetNotesWithSpeed(roundSpeed);
+
+        if (playNotes.Count == 0)
             Debug.LogError("PianoKeySpawner: Notes rỗng! Chưa gọi MidiReader.LoadMidi() hoặc MIDI không có note.");
 
         if (audioSource.clip == null)
             Debug.LogError("PianoKeySpawner: AudioSource chưa có clip nhạc!");
 
-        Debug.Log($"StartSong: {midiReader.Notes.Count} notes, leadIn = {leadIn}");
+        Debug.Log($"StartSong: Round {Round} | x{roundSpeed:F2} | {playNotes.Count} notes, leadIn = {leadIn} | Man2 = {man2}");
 
         ClearAllKeys();
 
+        // Bắt đầu vòng mới: xoá hàng đợi tấn công cũ của boss
+        if (bossSpawner != null && bossSpawner.CurrentMusicAttack != null)
+            bossSpawner.CurrentMusicAttack.ResetAttackState();
+
+        // Reset thanh fever theo item
+        if (ItemFeverBar.Instance != null)
+            ItemFeverBar.Instance.ResetBar();
+
         nextNoteIndex = 0;
         lastAcceptedNoteEnd = -999f;
+        man2LastTimeOnSide[0] = man2LastTimeOnSide[1] = -999f;
+        itemIndex = 0;
+        notesSinceItem = 0;
         songEnded = false;
+        paused = false;
+
+        // Bài mới (vòng 1) thì boss được phép xuất hiện lại; các vòng sau thì không
+        if (Round == 1)
+            bossAppeared = false;
 
         // Hướng key bay: từ spawnPoint về phía player
-        spawnDirection = spawnPoint.position.x >= player.position.x ? 1f : -1f;
-
-        if (coinSpawner != null)
-        {
-            coinSpawner.Build(  
-                midiReader.Notes,
-                minKeyGap,
-                keySpeed,
-                longNotePrefab != null ? longNoteMinDuration : float.MaxValue,
-                spawnPoint.position.y,
-                spawnPoint.position.y + longNoteYOffset);
-        }
+        if (spawnPoint != null)
+            spawnDirection = spawnPoint.position.x >= player.position.x ? 1f : -1f;
 
         // Nhạc phát sau leadIn giây; trong lúc đó SongTime < 0 và key vẫn spawn
         songStartDsp = AudioSettings.dspTime + leadIn;
         audioSource.Stop();
+        audioSource.pitch = roundSpeed;
         audioSource.PlayScheduled(songStartDsp);
 
         songStarted = true;
@@ -181,15 +344,57 @@ public float PlayerX => player.position.x;
         activeKeys.RemoveAll(k => k == null);
 
         SpawnKeys();
+        TrySpawnBoss();
 
-        // Hết bài: đã spawn hết note, không còn key và nhạc đã dừng
-        if (nextNoteIndex >= midiReader.Notes.Count &&
+        // Hết vòng: đã spawn hết note, không còn key và nhạc đã dừng
+        // (nhạc phát nhanh x roundSpeed nên độ dài thực = clip.length / roundSpeed)
+        if (nextNoteIndex >= playNotes.Count &&
             activeKeys.Count == 0 &&
             audioSource.clip != null &&
-            SongTime >= audioSource.clip.length)
+            SongTime >= audioSource.clip.length / roundSpeed)
         {
-            EndSong();
+            if (CanLoop)
+                NextRound();
+            else
+                EndSong();
         }
+    }
+
+    // Sang vòng mới: nhanh hơn, giữ nguyên điểm số
+    private void NextRound()
+    {
+        roundSpeed = Mathf.Min(roundSpeed + speedStep, maxSpeed);
+        Round++;
+
+        ClearAllKeys();
+
+        RoundStarted?.Invoke(Round, roundSpeed);
+
+        StartSong(nextRoundLeadIn);
+    }
+
+    // Gắn vào Button "Skip" trên UI: bỏ qua phần nhạc còn lại của vòng này
+    public void SkipSong()
+    {
+        if (isTutorial || !songStarted || songEnded)
+            return;
+
+        // Đang đếm ngược trước khi nhạc phát: bỏ qua để tránh bấm đúp nhảy 2 vòng
+        if (SongTime < 0f)
+            return;
+
+        audioSource.Stop();
+
+        if (CanLoop)
+            NextRound();
+        else
+            EndSong();
+    }
+
+    private void OnBossDefeated()
+    {
+        Debug.Log($"Boss vòng {Round} bị hạ!");
+        // TODO: thưởng điểm/coin, hồi máu... tuỳ game của bạn
     }
 
     // =============================================
@@ -199,17 +404,44 @@ public float PlayerX => player.position.x;
     private void SpawnKeys()
     {
         float now = SongTime;
-        List<MidiReader.RhythmNote> notes = midiReader.Notes;
+        List<MidiReader.RhythmNote> notes = playNotes;
+        float ahead = AheadTime;
 
         while (nextNoteIndex < notes.Count)
         {
             MidiReader.RhythmNote note = notes[nextNoteIndex];
 
-            if (note.time > now + spawnAheadTime)
+            if (note.time > now + ahead)
                 break;
 
             nextNoteIndex++;
 
+            float travelTime = note.time - now;
+            if (travelTime <= 0f)
+                continue;
+
+            // Lane của nốt này (dùng chung cho nốt thường, item, đạn boss và enemy màn 2)
+            bool left = randomLane ? Random.value < 0.5f : note.lane == 0;
+
+            // ===== BOSS =====
+            // Boss bắn theo nốt MIDI. KHÔNG có continue => piano vẫn spawn bình thường.
+            // Muốn boss bắn lane ngược piano thì đổi thành ScheduleBeat(note.time, !left)
+            if (bossAppeared && bossSpawner != null)
+            {
+                BossMusicAttack atk = bossSpawner.CurrentMusicAttack;
+                if (atk != null)
+                    atk.ScheduleBeat(note.time, left);
+            }
+
+            // ===== MÀN 2: ENEMY TRÁI / PHẢI =====
+            // Mỗi nốt MIDI = 1 enemy từ spawnLeft (lane 0) hoặc spawnRight (lane 1) bay về Player.
+            if (man2)
+            {
+                SpawnEnemyMan2(now, note.time, left);
+                continue;
+            }
+
+            // ===== PIANO BÌNH THƯỜNG =====
             bool isLong = longNotePrefab != null && note.duration >= longNoteMinDuration;
 
             // Note phải cách điểm kết thúc của note trước (kể cả đuôi nốt dài) đủ xa
@@ -217,33 +449,92 @@ public float PlayerX => player.position.x;
             if (note.time - lastAcceptedNoteEnd < minGapTime)
                 continue;
 
-            float travelTime = note.time - now;
-            if (travelTime <= 0f)
-                continue;
+            // Đến lượt thì nốt này đổi thành item
+            bool canBeItem = itemPrefabs != null && itemPrefabs.Count > 0
+                             && (!isLong || itemCanReplaceLongNote);
+
+            if (canBeItem)
+            {
+                notesSinceItem++;
+                if (notesSinceItem >= itemEveryNNotes)
+                {
+                    notesSinceItem = 0;
+                    lastAcceptedNoteEnd = note.time;   // item không có đuôi dài
+                    SpawnItem(note.time, travelTime, left);
+                    continue;
+                }
+            }
 
             lastAcceptedNoteEnd = note.time + (isLong ? note.duration : 0f);
 
-            if (isLong) SpawnLongKey(note, travelTime);
-            else        SpawnKey(note, travelTime);
+            if (isLong) SpawnLongKey(note, travelTime, left);
+            else        SpawnKey(note, travelTime, left);
         }
     }
-    private void SpawnLongKey(MidiReader.RhythmNote note, float travelTime)
+
+    // Màn 2: spawn 1 enemy từ điểm trái/phải, chạm Player đúng lúc hitTime
+    private void SpawnEnemyMan2(float now, float hitTime, bool left)
     {
-        float spawnX =
-            player.position.x + spawnDirection * keySpeed * travelTime;
+        Transform point = left ? spawnLeft : spawnRight;
+
+        if (point == null || enemyPrefab == null || player == null)
+        {
+            if (!man2Warned)
+            {
+                man2Warned = true;
+                Debug.LogError("PianoKeySpawner (Màn 2): thiếu Spawn Left/Right, Enemy Prefab hoặc Player!");
+            }
+            return;
+        }
+
+        // Chặn enemy chồng nhau cùng bên (hợp âm / nốt quá sát)
+        int side = left ? 0 : 1;
+        if (hitTime - man2LastTimeOnSide[side] < man2MinInterval)
+            return;
+        man2LastTimeOnSide[side] = hitTime;
+
+        EnemyMan2 enemy = Instantiate(enemyPrefab, point.position, Quaternion.identity);
+
+        // Để ClearAllKeys / EndSong dọn và tính vào "còn key" khi kết thúc vòng
+        activeKeys.Add(enemy.gameObject);
+    }
+
+    private void SpawnItem(float noteTime, float travelTime, bool left)
+    {
+        GameObject prefab = itemRandomPick
+            ? itemPrefabs[Random.Range(0, itemPrefabs.Count)]
+            : itemPrefabs[itemIndex++ % itemPrefabs.Count];
+
+        if (prefab == null) return;
 
         Vector3 pos = new Vector3(
-            spawnX,
-            spawnPoint.position.y + longNoteYOffset,
+            GetSpawnX(left, travelTime),
+            GetLaneY(left, false),
+            spawnPoint.position.z);
+
+        GameObject obj = Instantiate(prefab, pos, Quaternion.identity);
+
+        RhythmItemm item = obj.GetComponent<RhythmItemm>();
+        if (item != null)
+            item.Setup(left, noteTime, GetHitPoint(left), keySpeed);
+        else
+            Debug.LogWarning("PianoKeySpawner: item prefab chưa có RhythmItemm.cs!");
+
+        activeKeys.Add(obj);
+    }
+
+    private void SpawnLongKey(MidiReader.RhythmNote note, float travelTime, bool left)
+    {
+        Lanee lane = left ? Lanee.Left : Lanee.Right;
+        Transform hitPoint = GetHitPoint(left);
+
+        Vector3 pos = new Vector3(
+            GetSpawnX(left, travelTime),
+            GetLaneY(left, true),
             spawnPoint.position.z
         );
 
-        GameObject obj = Instantiate(
-            longNotePrefab,
-            pos,
-            Quaternion.identity
-        );
-
+        GameObject obj = Instantiate(longNotePrefab, pos, Quaternion.identity);
         LongNote ln = obj.GetComponent<LongNote>();
 
         if (ln == null)
@@ -253,48 +544,19 @@ public float PlayerX => player.position.x;
             return;
         }
 
-        // Random lane độc lập cho từng nốt dài
-        Lanee lane;
-
-        if (randomLane)
-        {
-            lane = Random.value < 0.5f
-                ? Lanee.Left
-                : Lanee.Right;
-        }
-        else
-        {
-            lane = note.lane == 0
-                ? Lanee.Left
-                : Lanee.Right;
-        }
-
-        ln.Init(
-            lane,
-            note.time,
-            note.duration,
-            keySpeed,
-            player.position.x,
-            spawnDirection,
-            this
-        );
+        ln.Init(lane, note.time, note.duration, keySpeed,
+                hitPoint.position.x, spawnDirection, this);
 
         activeKeys.Add(obj);
-
-        Debug.Log(
-            $"Long Note: {lane} | Start: {note.time:F2}s | " +
-            $"Duration: {note.duration:F2}s"
-        );
     }
 
-    private void SpawnKey(MidiReader.RhythmNote note, float travelTime)
+    private void SpawnKey(MidiReader.RhythmNote note, float travelTime, bool left)
     {
-        // Vị trí sao cho key tới player đúng lúc note.time
-        float spawnX = player.position.x + spawnDirection * keySpeed * travelTime;
+        PianoKey.KeyType type = left ? PianoKey.KeyType.Left : PianoKey.KeyType.Right;
 
         Vector3 pos = new Vector3(
-            spawnX,
-            spawnPoint.position.y,
+            GetSpawnX(left, travelTime),
+            GetLaneY(left, false),
             spawnPoint.position.z
         );
 
@@ -308,13 +570,8 @@ public float PlayerX => player.position.x;
             return;
         }
 
-        PianoKey.KeyType type = randomLane
-            ? (Random.value < 0.5f ? PianoKey.KeyType.Left : PianoKey.KeyType.Right)
-            : (note.lane == 0 ? PianoKey.KeyType.Left : PianoKey.KeyType.Right);
-
-        // targetTime để PianoKey tự dùng nếu cần (hiện tại theo audio time)
-        key.Setup(type, note.time, player, keySpeed);
-
+        // Đích của nốt là hit point tương ứng (trái = dưới, phải = trên)
+        key.Setup(type, note.time, GetHitPoint(left), keySpeed);
         activeKeys.Add(obj);
     }
 
@@ -326,12 +583,18 @@ public float PlayerX => player.position.x;
     {
         if (songEnded) return;
         songEnded = true;
-        
-        ClearAllKeys();
-        if (coinSpawner != null)
-            coinSpawner.ClearAll();
 
-        Debug.Log("PianoKeySpawner: Song Ended!");
+        ClearAllKeys();
+
+        if (audioSource != null)
+            audioSource.pitch = 1f;
+
+        Debug.Log($"PianoKeySpawner: Song Ended! (Round {Round}, x{roundSpeed:F2})");
+
+        // Hết nhạc boss: boss đi lùi về spawn point rồi biến mất
+        if (bossSpawner != null)
+            bossSpawner.RetreatBoss();
+
         SongEnded?.Invoke();
     }
 
@@ -400,7 +663,7 @@ public float PlayerX => player.position.x;
         songStarted = true;
     }
 
-// Spawn 1 nốt thường, tới Player sau SpawnAheadTime giây.
+    // Spawn 1 nốt thường, tới hit point sau SpawnAheadTime giây.
     public PianoKey SpawnTutorialKey(bool left)
     {
         if (!isTutorial || !songStarted)
@@ -409,8 +672,8 @@ public float PlayerX => player.position.x;
         float travelTime = spawnAheadTime;
 
         Vector3 pos = new Vector3(
-            player.position.x + spawnDirection * keySpeed * travelTime,
-            spawnPoint.position.y,
+            GetSpawnX(left, travelTime),
+            GetLaneY(left, false),
             spawnPoint.position.z);
 
         GameObject obj = Instantiate(pianoKeyPrefab, pos, Quaternion.identity);
@@ -426,7 +689,7 @@ public float PlayerX => player.position.x;
         key.Setup(
             left ? PianoKey.KeyType.Left : PianoKey.KeyType.Right,
             SongTime + travelTime,
-            player,
+            GetHitPoint(left),
             keySpeed);
 
         activeKeys.Add(obj);
@@ -442,8 +705,8 @@ public float PlayerX => player.position.x;
         float travelTime = spawnAheadTime;
 
         Vector3 pos = new Vector3(
-            player.position.x + spawnDirection * keySpeed * travelTime,
-            spawnPoint.position.y + longNoteYOffset,
+            GetSpawnX(left, travelTime),
+            GetLaneY(left, true),
             spawnPoint.position.z);
 
         GameObject obj = Instantiate(longNotePrefab, pos, Quaternion.identity);
@@ -462,7 +725,7 @@ public float PlayerX => player.position.x;
             SongTime + travelTime,
             duration,
             keySpeed,
-            player.position.x,
+            GetHitPoint(left).position.x,
             spawnDirection,
             this);
 

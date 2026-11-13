@@ -16,7 +16,12 @@ public class Scenes : MonoBehaviour
             ToggleOptionPanel();
     }
 
-    /// <summary>Bật/tắt panel, luôn đọc trạng thái thật từ panel nên không bị lệch.</summary>
+    private void OnDestroy()
+    {
+        // Phòng trường hợp object bị huỷ khi đang pause
+        ResumeAll();
+    }
+
     public void ToggleOptionPanel()
     {
         if (optionPanel != null)
@@ -31,11 +36,27 @@ public class Scenes : MonoBehaviour
     {
         if (optionPanel != null)
             optionPanel.SetActive(active);
+
+        if (active) PauseAll();
+        else ResumeAll();
+    }
+
+    private void PauseAll()
+    {
+        Time.timeScale = 0f;          // dừng vật lý, animation, Time.deltaTime
+        AudioListener.pause = true;   // dừng toàn bộ nhạc và âm thanh
+    }
+
+    private void ResumeAll()
+    {
+        Time.timeScale = 1f;
+        AudioListener.pause = false;
     }
 
     /// <summary>Chuyển sang scene được chỉ định (phải có trong Build Settings).</summary>
     public void GetScene(string sceneName)
     {
+        ResumeAll();
         SceneManager.LoadScene(sceneName);
     }
 }

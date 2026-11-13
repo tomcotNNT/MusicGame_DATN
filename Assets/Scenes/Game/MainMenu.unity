@@ -225,11 +225,11 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 62353339}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: b73355f8422d3d24ca3aed0dcac1b9dd, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 8a728689f0ab7fa48b52be18053020b7, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
-  m_TargetTexture: {fileID: 8400000, guid: d20d0ab146bd8d743a2bf9f0987640b9, type: 2}
+  m_TargetTexture: {fileID: 8400000, guid: df9cb1d9c03b7164b8d9c4eec741a747, type: 2}
   m_TimeReference: 0
   m_TargetMaterialRenderer: {fileID: 0}
   m_TargetMaterialProperty: <noninit>
@@ -310,7 +310,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 8400000, guid: 4eded3ac140ceba4ab67bb68ad3a2455, type: 2}
+  m_Texture: {fileID: 8400000, guid: df9cb1d9c03b7164b8d9c4eec741a747, type: 2}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -489,6 +489,10 @@ MonoBehaviour:
   touchVFXPrefab: {fileID: 6534240511995935521, guid: 6e57a3cf9435eb14fb9928fa4ee60c63, type: 3}
   targetCamera: {fileID: 690165604}
   vfxWorldZ: 0
+  enableClickSound: 1
+  clickSound: {fileID: 0}
+  clickVolume: 1
+  randomizePitch: 0
 --- !u!4 &296392258
 Transform:
   m_ObjectHideFlags: 0
@@ -1556,8 +1560,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Error Name!
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
-  m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2215,6 +2219,7 @@ MonoBehaviour:
   dimBackgroundPanel: {fileID: 1231181176}
   errorText: {fileID: 932177629}
   resetConfirmPopup: {fileID: 797636556}
+  resetAllGameData: 1
   fadeCanvasGroup: {fileID: 1168452957}
   transitionDelay: 1.5
 --- !u!4 &1386279875
@@ -2267,7 +2272,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -60, y: 60}
+  m_AnchoredPosition: {x: -168, y: 191}
   m_SizeDelta: {x: 120, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1458832447
@@ -2404,8 +2409,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: TAP TO START
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: cff795b62545af9429319060574f9291, type: 2}
-  m_sharedMaterial: {fileID: -1067818911978945230, guid: cff795b62545af9429319060574f9291, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2429,7 +2434,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 33.3
+  m_fontSize: 44.75
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

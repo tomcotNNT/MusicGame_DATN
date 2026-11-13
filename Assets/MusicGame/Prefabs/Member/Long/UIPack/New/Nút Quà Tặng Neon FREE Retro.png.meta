@@ -1,0 +1,403 @@
+fileFormatVersion: 2
+guid: e057179c18d2b654abb7a6d595690720
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3229437101973387025
+    second: "N\xFAt Qu\xE0 T\u1EB7ng Neon FREE Retro_0"
+  - first:
+      213: -7579256626333131123
+    second: "N\xFAt Qu\xE0 T\u1EB7ng Neon FREE Retro_1"
+  - first:
+      213: -8011681138424947230
+    second: "N\xFAt Qu\xE0 T\u1EB7ng Neon FREE Retro_2"
+  - first:
+      213: 5730748823838935491
+    second: "N\xFAt Qu\xE0 T\u1EB7ng Neon FREE Retro_3"
+  - first:
+      213: -9171502542516447293
+    second: "N\xFAt Qu\xE0 T\u1EB7ng Neon FREE Retro_4"
+  - first:
+      213: -3309085819614895495
+    second: "N\xFAt Qu\xE0 T\u1EB7ng Neon FREE Retro_5"
+  - first:
+      213: 7436953822256673452
+    second: "N\xFAt Qu\xE0 T\u1EB7ng Neon FREE Retro_6"
+  - first:
+      213: -3613427033356551491
+    second: "N\xFAt Qu\xE0 T\u1EB7ng Neon FREE Retro_7"
+  - first:
+      213: 6611991510038455627
+    second: "N\xFAt Qu\xE0 T\u1EB7ng Neon FREE Retro_8"
+  - first:
+      213: -7591600962317322763
+    second: "N\xFAt Qu\xE0 T\u1EB7ng Neon FREE Retro_9"
+  - first:
+      213: 6310987965001010323
+    second: "N\xFAt Qu\xE0 T\u1EB7ng Neon FREE Retro_10"
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: "N\xFAt Qu\xE0 T\u1EB7ng Neon FREE Retro_0"
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 72
+        width: 1747
+        height: 751
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fe8c868e01cbe23d0800000000000000
+      internalID: -3229437101973387025
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "N\xFAt Qu\xE0 T\u1EB7ng Neon FREE Retro_1"
+      rect:
+        serializedVersion: 2
+        x: 1121
+        y: 811
+        width: 17
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8e53e5414211d690800000000000000
+      internalID: -7579256626333131123
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "N\xFAt Qu\xE0 T\u1EB7ng Neon FREE Retro_2"
+      rect:
+        serializedVersion: 2
+        x: 1121
+        y: 789
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2eddb7ac37ac0d090800000000000000
+      internalID: -8011681138424947230
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "N\xFAt Qu\xE0 T\u1EB7ng Neon FREE Retro_3"
+      rect:
+        serializedVersion: 2
+        x: 1127
+        y: 764
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c948e541b5b78f40800000000000000
+      internalID: 5730748823838935491
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "N\xFAt Qu\xE0 T\u1EB7ng Neon FREE Retro_4"
+      rect:
+        serializedVersion: 2
+        x: 1403
+        y: 766
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c717b0c70748b080800000000000000
+      internalID: -9171502542516447293
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "N\xFAt Qu\xE0 T\u1EB7ng Neon FREE Retro_5"
+      rect:
+        serializedVersion: 2
+        x: 1050
+        y: 737
+        width: 22
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9726296baf3c312d0800000000000000
+      internalID: -3309085819614895495
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "N\xFAt Qu\xE0 T\u1EB7ng Neon FREE Retro_6"
+      rect:
+        serializedVersion: 2
+        x: 1070
+        y: 747
+        width: 10
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ca2b792491e553760800000000000000
+      internalID: 7436953822256673452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "N\xFAt Qu\xE0 T\u1EB7ng Neon FREE Retro_7"
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 731
+        width: 15
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dba3df602478addc0800000000000000
+      internalID: -3613427033356551491
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "N\xFAt Qu\xE0 T\u1EB7ng Neon FREE Retro_8"
+      rect:
+        serializedVersion: 2
+        x: 1717
+        y: 362
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b45adbd1f3382cb50800000000000000
+      internalID: 6611991510038455627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "N\xFAt Qu\xE0 T\u1EB7ng Neon FREE Retro_9"
+      rect:
+        serializedVersion: 2
+        x: 1701
+        y: 130
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f5ff84952735a690800000000000000
+      internalID: -7591600962317322763
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "N\xFAt Qu\xE0 T\u1EB7ng Neon FREE Retro_10"
+      rect:
+        serializedVersion: 2
+        x: 629
+        y: 111
+        width: 17
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 39c86abfd12259750800000000000000
+      internalID: 6310987965001010323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      "N\xFAt Qu\xE0 T\u1EB7ng Neon FREE Retro_0": -3229437101973387025
+      "N\xFAt Qu\xE0 T\u1EB7ng Neon FREE Retro_1": -7579256626333131123
+      "N\xFAt Qu\xE0 T\u1EB7ng Neon FREE Retro_10": 6310987965001010323
+      "N\xFAt Qu\xE0 T\u1EB7ng Neon FREE Retro_2": -8011681138424947230
+      "N\xFAt Qu\xE0 T\u1EB7ng Neon FREE Retro_3": 5730748823838935491
+      "N\xFAt Qu\xE0 T\u1EB7ng Neon FREE Retro_4": -9171502542516447293
+      "N\xFAt Qu\xE0 T\u1EB7ng Neon FREE Retro_5": -3309085819614895495
+      "N\xFAt Qu\xE0 T\u1EB7ng Neon FREE Retro_6": 7436953822256673452
+      "N\xFAt Qu\xE0 T\u1EB7ng Neon FREE Retro_7": -3613427033356551491
+      "N\xFAt Qu\xE0 T\u1EB7ng Neon FREE Retro_8": 6611991510038455627
+      "N\xFAt Qu\xE0 T\u1EB7ng Neon FREE Retro_9": -7591600962317322763
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
