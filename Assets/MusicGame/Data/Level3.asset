@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Level3
   m_EditorClassIdentifier: Assembly-CSharp::LevelData
   levelName: 
-  music: {fileID: 8300000, guid: b2d5a225f8b89ee4c8ab44fad56a5244, type: 3}
-  midiFileName: bombinsound-drum-energetic-version-1-gotta-go-fast-616775-edited.mid
-  forcedTrackIndex: 1
+  music: {fileID: 8300000, guid: bca4a52f6eec8e942992600f0a0e8b44, type: 3}
+  midiFileName: HappyBirthday.mid
+  forcedTrackIndex: -1
   timeOffset: 0
   noteSpeed: 5
   difficulty: 1

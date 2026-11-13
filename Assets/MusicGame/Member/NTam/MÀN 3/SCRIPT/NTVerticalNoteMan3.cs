@@ -1,15 +1,6 @@
 using System;
 using UnityEngine;
 
-public enum Man3NoteType
-{
-    Normal, // Nốt đơn thường
-    Hold,   // Nốt kéo dài (giữ ngón tay)
-    Double, // Nốt đôi bấm 2 bên cùng lúc
-    Bomb,   // Bẫy Bom (né bằng cách không bấm)
-    Buff    // Nốt vàng kích hoạt x2 điểm
-}
-
 public class NTVerticalNoteMan3 : MonoBehaviour
 {
     [Header("Tùy chọn hiển thị đuôi nốt Hold (Giai đoạn 3)")]
@@ -24,10 +15,16 @@ public class NTVerticalNoteMan3 : MonoBehaviour
 
     private Vector3 startPos;
     private Vector3 targetPos;
+    private Vector3 initialScale;
     private float fallSpeed;
     private Func<float> getSongTime;
     private Action<NTVerticalNoteMan3> onNoteMissed;
     private bool isResolved = false;
+
+    private void Awake()
+    {
+        initialScale = transform.localScale;
+    }
 
     public void Init(
         bool left,
@@ -81,12 +78,22 @@ public class NTVerticalNoteMan3 : MonoBehaviour
         float totalDistance = Vector3.Distance(startPos, targetPos);
         transform.position = startPos + direction * (totalDistance * t);
 
+        // Hiệu ứng xoay tròn lấp lánh dành riêng cho Chuỗi Xu (Fever Coins)
+        if (noteType == Man3NoteType.Coin)
+        {
+            float spinX = Mathf.Cos(Time.time * 10f);
+            Vector3 s = initialScale;
+            s.x = initialScale.x * (0.25f + 0.75f * Mathf.Abs(spinX));
+            transform.localScale = s;
+        }
+
         // Kiểm tra nếu nốt trôi quá tâm quá 0.22s mà chưa bấm
         if (now > hitTime + 0.22f)
         {
             isResolved = true;
 
-            if (noteType == Man3NoteType.Bomb)
+            // Bom né được và Xu bỏ lỡ đều tự hủy êm ái, KHÔNG trừ máu hay đứt Combo
+            if (noteType == Man3NoteType.Bomb || noteType == Man3NoteType.Coin)
             {
                 Destroy(gameObject);
                 return;

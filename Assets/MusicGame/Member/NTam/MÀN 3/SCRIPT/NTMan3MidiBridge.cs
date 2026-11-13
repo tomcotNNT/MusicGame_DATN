@@ -20,12 +20,19 @@ public class NTMan3MidiBridge : MonoBehaviour
     [SerializeField] private float startMusicDelay = 1.2f;
     [SerializeField] private float audioOffset = 0f;
 
-    [Header("4. Tự Động Sinh Thêm Buff & Bom Từ MIDI 2 Làn")]
+    [Header("4. Tự Động Sinh Buff, Bom & Chuỗi Xu (Fever Coins)")]
     [SerializeField] private bool autoInjectBuffAndBomb = true;
-    [Tooltip("Cứ sau bao nhiêu nốt thường sẽ biến 1 nốt thành Buff x2")]
     [SerializeField] private int buffEveryNNotes = 16;
-    [Tooltip("Cứ sau bao nhiêu nốt sẽ chèn 1 bẫy Bom vào khoảng trống an toàn")]
     [SerializeField] private int bombEveryNNotes = 12;
+
+    [Space(5)]
+    [SerializeField] private bool autoInjectFeverCoins = true;
+    [Tooltip("Khoảng nghỉ tối thiểu giữa 2 nốt nhạc để rải chuỗi xu (giây)")]
+    [SerializeField] private float minGapForCoins = 2.0f;
+    [Tooltip("Khoảng đệm an toàn trước và sau chuỗi xu để không vướng nốt chính (giây)")]
+    [SerializeField] private float coinSafeBuffer = 0.65f;
+    [SerializeField] private int minCoinsPerChain = 3;
+    [SerializeField] private int maxCoinsPerChain = 5;
 
     private void Start()
     {
@@ -39,7 +46,6 @@ public class NTMan3MidiBridge : MonoBehaviour
 
     private IEnumerator LoadFromMidiSystemRoutine()
     {
-        // Đợi 1 frame để LevelManager.Awake() gọi midiReader.LoadMidi() hoàn tất
         yield return null;
 
         if (midiReader == null || man3Director == null)
@@ -56,7 +62,6 @@ public class NTMan3MidiBridge : MonoBehaviour
             yield break;
         }
 
-        // Chờ hết hiệu ứng chữ READY rồi mới phát nhạc và thả nốt đồng bộ
         if (startMusicDelay > 0f)
         {
             yield return new WaitForSeconds(startMusicDelay);
@@ -70,38 +75,68 @@ public class NTMan3MidiBridge : MonoBehaviour
         man3Director.LoadExternalChart(convertedNotes, null, midiAudioSource, audioOffset);
     }
 
-    /// <summary>
-    /// Chuyển đổi dữ liệu từ MidiReader (Lane 0/1) sang 5 loại nốt của Màn 3
-    /// </summary>
     private List<NoteDataMan3> ConvertMidiReaderToMan3Chart()
     {
         List<NoteDataMan3> result = new List<NoteDataMan3>();
 
-        // =====================================================================
-        // LƯU Ý KẾT NỐI: Mở file MidiReader.cs của TTAM để xem tên biến List chứa nốt
-        // (Ví dụ: midiReader.notes hoặc midiReader.parsedNotes) và thay vào vòng lặp dưới:
-        // =====================================================================
-        /*
-        foreach (var rawNote in midiReader.notes) // <-- Thay đúng tên List trong MidiReader.cs
+        if (midiReader == null || midiReader.Notes == null || midiReader.Notes.Count == 0)
         {
-            bool isLeft = (rawNote.lane == 0); // Lane 0 = Trái, Lane 1 = Phải (theo Inspector Màn 1)
-            bool isLong = (rawNote.duration >= 0.5f); // Khớp thông số Long Note Min Duration = 0.5s
+            Debug.LogWarning("[NTMan3MidiBridge] MidiReader chưa có dữ liệu nốt!");
+            return result;
+        }
+
+        foreach (var n in midiReader.Notes)
+        {
+            bool leftLane = (n.lane == 0);
+            Man3NoteType type = (n.duration > 0.25f) ? Man3NoteType.Hold : Man3NoteType.Normal;
+            float holdDur = (type == Man3NoteType.Hold) ? n.duration : 0f;
+
+            if (n.pitch == 64)
+            {
+                result.Add(new NoteDataMan3
+                {
+                    isLeftLane = true,
+                    noteType = Man3NoteType.Double,
+                    hitTime = n.time,
+                    holdDuration = 0f,
+                    flightDuration = defaultFlightDuration
+                });
+                result.Add(new NoteDataMan3
+                {
+                    isLeftLane = false,
+                    noteType = Man3NoteType.Double,
+                    hitTime = n.time,
+                    holdDuration = 0f,
+                    flightDuration = defaultFlightDuration
+                });
+                continue;
+            }
+            else if (n.pitch == 65 || n.pitch == 67)
+            {
+                type = Man3NoteType.Bomb;
+                leftLane = (n.pitch == 65);
+                holdDur = 0f;
+            }
+            else if (n.pitch == 69 || n.pitch == 71)
+            {
+                type = Man3NoteType.Buff;
+                leftLane = (n.pitch == 69);
+                holdDur = 0f;
+            }
 
             result.Add(new NoteDataMan3
             {
-                isLeftLane = isLeft,
-                noteType = isLong ? Man3NoteType.Hold : Man3NoteType.Normal,
-                hitTime = rawNote.time,
-                holdDuration = isLong ? rawNote.duration : 0f,
+                isLeftLane = leftLane,
+                noteType = type,
+                hitTime = n.time,
+                holdDuration = holdDur,
                 flightDuration = defaultFlightDuration
             });
         }
-        */
 
-        // Sắp xếp nốt tăng dần theo thời gian chạm
         result.Sort((a, b) => a.hitTime.CompareTo(b.hitTime));
 
-        // 1. Tự động gộp 2 nốt Trái + Phải đánh cùng lúc (lệch <= 0.03s) thành Nốt Đôi (SwingTHand)
+        // 1. Gộp cặp nốt đánh đồng thời thành Nốt Đôi (Double)
         for (int i = 0; i < result.Count - 1; i++)
         {
             if (Mathf.Abs(result[i + 1].hitTime - result[i].hitTime) <= 0.03f &&
@@ -111,21 +146,68 @@ public class NTMan3MidiBridge : MonoBehaviour
                 NoteDataMan3 n2 = result[i + 1];
                 n1.noteType = Man3NoteType.Double;
                 n2.noteType = Man3NoteType.Double;
-                n2.hitTime = n1.hitTime; // Đồng bộ chuẩn xác 100% thời điểm chạm
+                n2.hitTime = n1.hitTime;
                 result[i] = n1;
                 result[i + 1] = n2;
                 i++;
             }
         }
 
-        // 2. Tự động chèn Buff x2 và Bẫy Bom vào các khoảng nghỉ giữa nhịp
+        List<NoteDataMan3> extraItems = new List<NoteDataMan3>();
+        float bpm = (midiReader.Bpm > 0f) ? midiReader.Bpm : 120f;
+        float beatInterval = 60f / bpm;
+
+        // 2. Rải Chuỗi Nốt Xu (Fever Coins) vào các khoảng nghỉ dài (>= 2.0s)
+        if (autoInjectFeverCoins && result.Count > 1)
+        {
+            for (int i = 0; i < result.Count - 1; i++)
+            {
+                float currentEndTime = result[i].hitTime + result[i].holdDuration;
+                float nextStartTime = result[i + 1].hitTime;
+                float gap = nextStartTime - currentEndTime;
+
+                if (gap >= minGapForCoins)
+                {
+                    float safeStart = currentEndTime + coinSafeBuffer;
+                    float safeEnd = nextStartTime - coinSafeBuffer;
+                    float usableWindow = safeEnd - safeStart;
+
+                    if (usableWindow >= 0.4f)
+                    {
+                        float step = beatInterval;
+                        if (usableWindow / step < (minCoinsPerChain - 1))
+                        {
+                            step *= 0.5f;
+                        }
+
+                        int coinCount = Mathf.Clamp(Mathf.FloorToInt(usableWindow / step) + 1, minCoinsPerChain, maxCoinsPerChain);
+                        float actualSpacing = (coinCount > 1) ? (usableWindow / (coinCount - 1)) : 0f;
+
+                        bool coinLaneLeft = !result[i].isLeftLane;
+
+                        for (int c = 0; c < coinCount; c++)
+                        {
+                            extraItems.Add(new NoteDataMan3
+                            {
+                                isLeftLane = coinLaneLeft,
+                                noteType = Man3NoteType.Coin,
+                                hitTime = safeStart + (c * actualSpacing),
+                                holdDuration = 0f,
+                                flightDuration = defaultFlightDuration
+                            });
+
+                            coinLaneLeft = !coinLaneLeft;
+                        }
+                    }
+                }
+            }
+        }
+
+        // 3. Chèn Buff x2 và Bẫy Bom vào các khoảng nghỉ vừa (0.75s -> dưới 2.0s)
         if (autoInjectBuffAndBomb && result.Count > 0)
         {
-            List<NoteDataMan3> extraBombs = new List<NoteDataMan3>();
-
             for (int i = 0; i < result.Count; i++)
             {
-                // Biến nốt đơn định kỳ thành nốt Buff vàng x2 điểm
                 if (buffEveryNNotes > 0 && i > 0 && i % buffEveryNNotes == 0 && result[i].noteType == Man3NoteType.Normal)
                 {
                     NoteDataMan3 buffNote = result[i];
@@ -133,15 +215,14 @@ public class NTMan3MidiBridge : MonoBehaviour
                     result[i] = buffNote;
                 }
 
-                // Nếu giữa 2 nốt có khoảng trống >= 0.75s, chèn 1 bẫy Bom vào giữa để chống spam nút
                 if (bombEveryNNotes > 0 && i > 0 && i % bombEveryNNotes == 0 && i < result.Count - 1)
                 {
-                    float gap = result[i + 1].hitTime - result[i].hitTime;
-                    if (gap >= 0.75f && result[i].noteType == Man3NoteType.Normal)
+                    float gap = result[i + 1].hitTime - (result[i].hitTime + result[i].holdDuration);
+                    if (gap >= 0.75f && gap < minGapForCoins && result[i].noteType == Man3NoteType.Normal)
                     {
-                        extraBombs.Add(new NoteDataMan3
+                        extraItems.Add(new NoteDataMan3
                         {
-                            isLeftLane = result[i].isLeftLane, // Đặt cùng làn vừa bấm để bẫy người chơi spam
+                            isLeftLane = result[i].isLeftLane,
                             noteType = Man3NoteType.Bomb,
                             hitTime = result[i].hitTime + (gap * 0.5f),
                             holdDuration = 0f,
@@ -150,8 +231,11 @@ public class NTMan3MidiBridge : MonoBehaviour
                     }
                 }
             }
+        }
 
-            result.AddRange(extraBombs);
+        if (extraItems.Count > 0)
+        {
+            result.AddRange(extraItems);
             result.Sort((a, b) => a.hitTime.CompareTo(b.hitTime));
         }
 

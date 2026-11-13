@@ -5,16 +5,6 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using TMPro;
 
-[System.Serializable]
-public struct NoteDataMan3
-{
-    public bool isLeftLane;
-    public Man3NoteType noteType;
-    public float hitTime;
-    public float holdDuration;
-    public float flightDuration;
-}
-
 public enum HitJudgment
 {
     Perfect,
@@ -57,6 +47,7 @@ public class NTMan3Director : MonoBehaviour
     [SerializeField] private GameObject doubleNotePrefab;
     [SerializeField] private GameObject bombPrefab;
     [SerializeField] private GameObject buffPrefab;
+    [SerializeField] private GameObject coinPrefab;
 
     [Header("5. VFX Hiệu Ứng Va Chạm (Giai đoạn 3 kéo Prefab vào)")]
     [SerializeField] private GameObject perfectHitVfxPrefab;
@@ -87,6 +78,11 @@ public class NTMan3Director : MonoBehaviour
     [SerializeField] private float maxHealth = 100f;
     [SerializeField] private float missHealthPenalty = 10f;
     [SerializeField] private float bombHealthPenalty = 20f;
+
+    [Header("9. Thưởng & Âm Thanh Fever Coins")]
+    [SerializeField] private int coinBaseScore = 25;
+    [SerializeField] private AudioSource sfxAudioSource;
+    [SerializeField] private AudioClip coinPickupClip;
 
     private Camera mainCam;
     private float songStartTime;
@@ -326,6 +322,7 @@ public class NTMan3Director : MonoBehaviour
         else if (data.noteType == Man3NoteType.Double && doubleNotePrefab != null) prefabToUse = doubleNotePrefab;
         else if (data.noteType == Man3NoteType.Bomb && bombPrefab != null) prefabToUse = bombPrefab;
         else if (data.noteType == Man3NoteType.Buff && buffPrefab != null) prefabToUse = buffPrefab;
+        else if (data.noteType == Man3NoteType.Coin && coinPrefab != null) prefabToUse = coinPrefab;
 
         if (prefabToUse == null) return;
 
@@ -467,6 +464,29 @@ public class NTMan3Director : MonoBehaviour
             return;
         }
 
+        // Xử lý Chuỗi Xu Nhịp Phụ (Fever Coins - Thưởng thêm, không phạt bấm sớm)
+        if (closestNote.noteType == Man3NoteType.Coin)
+        {
+            if (minDiff <= goodWindow)
+            {
+                int multiplier = (buffRemainingTime > 0f) ? 2 : 1;
+                int earned = coinBaseScore * multiplier;
+                currentCombo++;
+                currentScore += earned;
+
+                if (sfxAudioSource != null && coinPickupClip != null)
+                {
+                    sfxAudioSource.PlayOneShot(coinPickupClip, 0.9f);
+                }
+
+                SpawnVfx(goodHitVfxPrefab, hitPos);
+                ShowJudgmentFeedback($"+{earned}", new Color(1f, 0.84f, 0f));
+                UpdateAllUI();
+                closestNote.ConsumeNote();
+            }
+            return;
+        }
+
         // Bấm quá sớm ngoài vùng Good
         if (minDiff > goodWindow)
         {
@@ -555,6 +575,8 @@ public class NTMan3Director : MonoBehaviour
 
     private void HandleNoteMissed(NTVerticalNoteMan3 missedNote)
     {
+        if (missedNote.noteType == Man3NoteType.Bomb || missedNote.noteType == Man3NoteType.Coin) return;
+
         if (missedNote == activeHoldLeft) activeHoldLeft = null;
         if (missedNote == activeHoldRight) activeHoldRight = null;
 
