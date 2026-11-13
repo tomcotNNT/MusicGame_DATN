@@ -9,24 +9,31 @@ public class PlayerController2 : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Animator animator;
 
-    [Header("Hit VFX & Sound")]
-    [SerializeField] private GameObject hitVFXPrefab;
-    [SerializeField] private AudioSource hitAudioSource;
-    [SerializeField] private AudioClip hitSound;
-    [SerializeField] private float vfxDestroyTime = 1.5f;
-    [SerializeField] private Vector3 vfxOffset = Vector3.zero;
+    [Header("Rhythm System")]
+    [SerializeField] private EnemySpawnerMan2 enemySpawner;
+
+    [Header("Score & Combo")]
+    [SerializeField] private ScoreSystem scoreSystem;
+    [SerializeField] private ComboSystem comboSystem;
 
     [Header("Hit Points")]
     [SerializeField] private Transform hitPointL;
     [SerializeField] private Transform hitPointR;
-    [SerializeField] private float hitRadius = 0.5f;
-    [SerializeField] private LayerMask enemyLayer;
+    [SerializeField] private float hitRadius = 0.6f;
+
+    [Header("Boss Bullet")]
+    [SerializeField] private LayerMask bossBulletLayer;
+
+    [Header("Hit VFX")]
+    [SerializeField] private GameObject hitVFXPrefab;
+    [SerializeField] private float vfxDestroyTime = 1.5f;
+    [SerializeField] private Vector3 vfxOffset = Vector3.zero;
 
     [Header("Attack Sound")]
     [SerializeField] private AudioSource attackAudioSource;
     [SerializeField] private AudioClip attackHitSound;
 
-    [Header("Attack")]
+    [Header("Attack Animation")]
     [SerializeField] private string[] attackTriggers =
     {
         "Attack1",
@@ -34,10 +41,12 @@ public class PlayerController2 : MonoBehaviour
         "Attack3"
     };
 
-    [Header("Score & Combo")]
-    [SerializeField] private ScoreSystem scoreSystem;
-    [SerializeField] private ComboSystem comboSystem;
-    [SerializeField] private int scorePerEnemy = 100;
+    [Header("Score Settings")]
+    [SerializeField] private int perfectScore = 100;
+    [SerializeField] private int goodScore = 50;
+
+    [Header("Debug")]
+    [SerializeField] private bool showDebug = true;
 
     private void Awake()
     {
@@ -50,20 +59,27 @@ public class PlayerController2 : MonoBehaviour
         if (animator == null)
             animator = GetComponentInChildren<Animator>();
 
+        if (enemySpawner == null)
+            enemySpawner = FindFirstObjectByType<EnemySpawnerMan2>();
+
+        if (scoreSystem == null)
+            scoreSystem = FindFirstObjectByType<ScoreSystem>();
+
+        if (comboSystem == null)
+            comboSystem = FindFirstObjectByType<ComboSystem>();
+
         rb.linearVelocity = Vector2.zero;
         rb.bodyType = RigidbodyType2D.Kinematic;
     }
 
     private void Update()
     {
-        // PC
         if (Input.GetKeyDown(KeyCode.A))
             AttackLeft();
 
         if (Input.GetKeyDown(KeyCode.D))
             AttackRight();
 
-        // Mobile
         if (Input.touchCount > 0)
         {
             foreach (Touch touch in Input.touches)
@@ -79,19 +95,141 @@ public class PlayerController2 : MonoBehaviour
         }
     }
 
+    // =========================================
+    // PLAYER ATTACK
+    // =========================================
+
     private void AttackLeft()
     {
         Flip(-1);
-        PlayAttack();
-        CheckHitPoint(hitPointL);
+        PlayAttackAnimation();
+
+        HandleAttack(true, hitPointL);
     }
 
     private void AttackRight()
     {
         Flip(1);
-        PlayAttack();
-        CheckHitPoint(hitPointR);
+        PlayAttackAnimation();
+
+        HandleAttack(false, hitPointR);
     }
+
+    private void HandleAttack(bool isLeft, Transform hitPoint)
+    {
+        if (hitPoint == null)
+        {
+            Debug.LogError(
+                "[PLAYER] Missing HitPoint " +
+                (isLeft ? "LEFT" : "RIGHT")
+            );
+            return;
+        }
+
+        // Ưu tiên phản đạn Boss
+        if (TryReflectBossBullet(hitPoint))
+            return;
+
+        // Bắt nốt Enemy
+        TryHitEnemyNote(isLeft);
+    }
+
+    // =========================================
+    // HIT ENEMY BY MIDI
+    // =========================================
+
+    private void TryHitEnemyNote(bool isLeft)
+    {
+        if (enemySpawner == null)
+        {
+            Debug.LogError("[PLAYER] EnemySpawner is missing!");
+            return;
+        }
+
+        bool success = enemySpawner.TryHit(isLeft);
+
+        if (!success)
+        {
+            if (showDebug)
+            {
+                Debug.Log(
+                    "[PLAYER] MISS TIMING: " +
+                    (isLeft ? "LEFT" : "RIGHT")
+                );
+            }
+
+            return;
+        }
+
+        if (showDebug)
+        {
+            Debug.Log(
+                "[PLAYER] HIT MIDI NOTE: " +
+                (isLeft ? "LEFT" : "RIGHT")
+            );
+        }
+
+        PlayHitFeedback(transform.position);
+    }
+
+    // =========================================
+    // REFLECT BOSS BULLET
+    // =========================================
+
+    private bool TryReflectBossBullet(Transform hitPoint)
+    {
+        Collider2D[] bullets = Physics2D.OverlapCircleAll(
+            hitPoint.position,
+            hitRadius,
+            bossBulletLayer
+        );
+
+        foreach (Collider2D col in bullets)
+        {
+            if (col == null || !col.CompareTag("BossBullet"))
+                continue;
+
+            BossBullet bullet =
+                col.GetComponentInParent<BossBullet>();
+
+            if (bullet == null)
+                continue;
+
+            if (!bullet.TryReflect())
+                continue;
+
+            if (showDebug)
+                Debug.Log("[PLAYER] REFLECTED BOSS BULLET!");
+
+            PlayHitFeedback(bullet.transform.position);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    // =========================================
+    // SCORE & COMBO
+    // =========================================
+
+    // Gọi từ EnemyRhythmController thông qua event
+    public void AddScore(int score)
+    {
+        if (scoreSystem != null)
+            scoreSystem.AddScore(score);
+    }
+
+    // Gọi từ EnemyRhythmController thông qua event
+    public void AddCombo()
+    {
+        if (comboSystem != null)
+            comboSystem.HitNote();
+    }
+
+    // =========================================
+    // ANIMATION
+    // =========================================
 
     private void Flip(int direction)
     {
@@ -99,22 +237,31 @@ public class PlayerController2 : MonoBehaviour
             spriteRenderer.flipX = direction < 0;
     }
 
-    private void PlayAttack()
+    private void PlayAttackAnimation()
     {
-        if (animator == null || attackTriggers.Length == 0)
+        if (animator == null ||
+            attackTriggers == null ||
+            attackTriggers.Length == 0)
             return;
 
-        int randomIndex = Random.Range(0, attackTriggers.Length);
+        int index = Random.Range(0, attackTriggers.Length);
+        animator.SetTrigger(attackTriggers[index]);
+    }
 
-        animator.SetTrigger(attackTriggers[randomIndex]);
+    // =========================================
+    // HIT FEEDBACK
+    // =========================================
+
+    private void PlayHitFeedback(Vector3 position)
+    {
+        PlayAttackSound();
+        SpawnHitVFX(position);
     }
 
     private void PlayAttackSound()
     {
         if (attackAudioSource != null && attackHitSound != null)
-        {
             attackAudioSource.PlayOneShot(attackHitSound);
-        }
     }
 
     private void SpawnHitVFX(Vector3 position)
@@ -131,47 +278,9 @@ public class PlayerController2 : MonoBehaviour
         Destroy(vfx, vfxDestroyTime);
     }
 
-    private void CheckHitPoint(Transform hitPoint)
-    {
-        if (hitPoint == null)
-            return;
-
-        Collider2D[] hits = Physics2D.OverlapCircleAll(
-            hitPoint.position,
-            hitRadius,
-            enemyLayer
-        );
-
-        foreach (Collider2D hit in hits)
-        {
-            EnemyHit enemy = hit.GetComponentInParent<EnemyHit>();
-
-            if (enemy == null)
-                continue;
-
-            if (!enemy.CompareTag("Enemy"))
-                continue;
-
-            if (!enemy.TryReceiveHit())
-                continue;
-
-            // Phát âm thanh khi đánh trúng
-            PlayAttackSound();
-
-            // VFX tại vị trí Enemy
-            SpawnHitVFX(enemy.transform.position);
-
-            // Cộng điểm
-            if (scoreSystem != null)
-                scoreSystem.AddScore(scorePerEnemy);
-
-            // Tăng Combo
-            if (comboSystem != null)
-                comboSystem.HitNote();
-
-            Debug.Log("Hit Enemy! +" + scorePerEnemy);
-        }
-    }
+    // =========================================
+    // DEBUG HIT POINT
+    // =========================================
 
     private void OnDrawGizmosSelected()
     {

@@ -22,6 +22,30 @@ public class EnemySpawnerMan2 : MonoBehaviour
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private float leadIn = 3f;
 
+    [Header("Boss Spawn")]
+    [SerializeField] private GameObject bossPrefab;
+
+    [Tooltip("Vị trí Boss đứng ở lane L")]
+    [SerializeField] private Transform bossLaneLeft;
+
+    [Tooltip("Vị trí Boss đứng ở lane R")]
+    [SerializeField] private Transform bossLaneRight;
+
+    [Tooltip("Bật để spawn theo phần trăm bài hát")]
+    [SerializeField] private bool useBossSpawnPercent = true;
+
+    [Range(0f, 1f)]
+    [SerializeField] private float bossSpawnPercent = 0.5f;
+
+    [Tooltip("Thời điểm spawn Boss nếu không dùng phần trăm")]
+    [SerializeField] private float bossSpawnTime = 30f;
+
+    [SerializeField] private bool randomBossStartLane = true;
+
+    private BossController2 activeBoss;
+    private bool bossSpawned;
+
+
     [Header("MIDI Spawn Settings")]
     [Tooltip("Enemy xuất hiện trước thời điểm MIDI bao nhiêu giây")]
     [SerializeField] private float spawnAheadTime = 1.5f;
@@ -121,6 +145,16 @@ public class EnemySpawnerMan2 : MonoBehaviour
 
         nextEventIndex = 0;
 
+
+        bossSpawned = false;
+
+        if (activeBoss != null)
+        {
+            Destroy(activeBoss.gameObject);
+            activeBoss = null;
+        }
+
+
         lastSpawnTimeOnLane[0] = -999f;
         lastSpawnTimeOnLane[1] = -999f;
 
@@ -208,6 +242,9 @@ public class EnemySpawnerMan2 : MonoBehaviour
             return;
 
         SpawnUpcomingEnemies();
+
+        // Kiểm tra thời điểm xuất hiện Boss
+        TrySpawnBoss();
 
         activeEnemies.RemoveAll(
             enemy => enemy == null
@@ -414,8 +451,7 @@ public class EnemySpawnerMan2 : MonoBehaviour
 
         if (success)
         {
-            EnemyMan2 movement =
-                target.GetComponent<EnemyMan2>();
+            EnemyMan2 movement = target.GetComponent<EnemyMan2>();
 
             if (movement != null)
                 movement.MarkHit();
@@ -441,6 +477,15 @@ public class EnemySpawnerMan2 : MonoBehaviour
                 Destroy(enemy.gameObject);
         }
 
+        if (activeBoss != null)
+        {
+            Destroy(activeBoss.gameObject);
+            activeBoss = null;
+        }
+
+        bossSpawned = false;
+
+
         activeEnemies.Clear();
         spawnEvents.Clear();
 
@@ -448,5 +493,67 @@ public class EnemySpawnerMan2 : MonoBehaviour
 
         lastSpawnTimeOnLane[0] = -999f;
         lastSpawnTimeOnLane[1] = -999f;
+    }
+
+    private void TrySpawnBoss()
+    {
+        if (bossSpawned || bossPrefab == null)
+            return;
+
+        float targetSpawnTime = useBossSpawnPercent
+            ? musicSource.clip.length * bossSpawnPercent
+            : bossSpawnTime;
+
+        if (SongTime < targetSpawnTime)
+            return;
+
+        if (bossLaneLeft == null ||
+            bossLaneRight == null ||
+            hitPointLeft == null ||
+            hitPointRight == null)
+        {
+            Debug.LogError("BossSpawner: Missing Boss lane or HitPoint!");
+            bossSpawned = true;
+            return;
+        }
+
+        bossSpawned = true;
+
+        bool startLeft = randomBossStartLane
+            ? UnityEngine.Random.Range(0, 2) == 0
+            : true;
+
+        Transform startPoint = startLeft
+            ? bossLaneLeft
+            : bossLaneRight;
+
+        GameObject obj = Instantiate(
+            bossPrefab,
+            startPoint.position,
+            Quaternion.identity
+        );
+
+        activeBoss = obj.GetComponent<BossController2>();
+
+        if (activeBoss == null)
+        {
+            Debug.LogError("Boss prefab requires BossController!");
+            Destroy(obj);
+            return;
+        }
+
+        activeBoss.Initialize(
+            startLeft,
+            bossLaneLeft,
+            bossLaneRight,
+            hitPointLeft,
+            hitPointRight,
+            () => SongTime
+        );
+
+        Debug.Log(
+            $"BOSS SPAWNED: {(startLeft ? "LEFT" : "RIGHT")} " +
+            $"at {SongTime:F2}s"
+        );
     }
 }
