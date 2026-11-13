@@ -9,6 +9,7 @@ public enum HitJudgment
 {
     Perfect,
     Good,
+    Bad,
     Miss
 }
 
@@ -35,12 +36,11 @@ public class NTMan3Director : MonoBehaviour
     [SerializeField] private float punchLungeDistance = 0.22f;
     [SerializeField] private float lungeForwardTime = 0.06f;
     [SerializeField] private float lungeRecoverTime = 0.10f;
-    [Tooltip("Giai đoạn 3: Thêm tên các State đòn đánh mới vào danh sách này (VD: Uppercut, SpinKick)")]
     [SerializeField] private string[] normalAttackStates = { "Hit", "Hit2", "Kick" };
     [SerializeField] private string doubleAttackState = "SwingTHand";
     [SerializeField] private string hurtState = "Hurt";
 
-    [Header("4. Prefabs Các Loại Nốt (Giai đoạn 4 thay ruột Pixel Art)")]
+    [Header("4. Prefabs Các Loại Nốt")]
     [SerializeField] private GameObject noteLeftPrefab;
     [SerializeField] private GameObject noteRightPrefab;
     [SerializeField] private GameObject holdNotePrefab;
@@ -49,30 +49,32 @@ public class NTMan3Director : MonoBehaviour
     [SerializeField] private GameObject buffPrefab;
     [SerializeField] private GameObject coinPrefab;
 
-    [Header("5. VFX Hiệu Ứng Va Chạm (Giai đoạn 3 kéo Prefab vào)")]
+    [Header("5. VFX Hiệu Ứng Va Chạm")]
     [SerializeField] private GameObject perfectHitVfxPrefab;
     [SerializeField] private GameObject goodHitVfxPrefab;
     [SerializeField] private GameObject bombExplosionVfxPrefab;
     [SerializeField] private GameObject slashTrailVfxPrefab;
     [SerializeField] private GameObject buffAuraVfx;
 
-    [Header("6. Giao Diện UI Thật & Máu (Giai đoạn 1 kéo từ Canvas)")]
-    [SerializeField] private GameObject readyBannerUI;
-    [SerializeField] private TextMeshProUGUI judgmentText;
+    [Header("6. Giao Diện UI & Judgment Image Assets (Dùng Asset Hình Ảnh)")]
+    [SerializeField] private Image judgmentImage; // Kéo đối tượng JudgmentPopup vào đây
+    [SerializeField] private Sprite[] judgmentSprites; // [0]: Perfect, [1]: Great, [2]: Good, [3]: Bad, [4]: Miss
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI comboText;
     [SerializeField] private Slider healthSlider;
     [SerializeField] private Image healthFillImage;
+    [SerializeField] private GameObject readyBannerUI;
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private GameObject speedUpWarningUI;
 
-    [Header("7. Sự Kiện Rung Camera (Kéo Main Camera vào để gọi NT Hit Stop And Shake)")]
+    [Header("7. Sự Kiện Rung Camera")]
     public UnityEvent onDoubleHitCameraShake;
     public UnityEvent onBombHitCameraShake;
 
     [Header("8. Thông Số Chấm Nhịp & Máu")]
     [SerializeField] private float perfectWindow = 0.08f;
-    [SerializeField] private float goodWindow = 0.18f;
+    [SerializeField] private float goodWindow = 0.15f;
+    [SerializeField] private float badWindow = 0.22f; // Ngưỡng Bad mới
     [SerializeField] private float earlyMissWindow = 0.30f;
     [SerializeField] private float chordBufferWindow = 0.07f;
     [SerializeField] private float maxHealth = 100f;
@@ -129,6 +131,8 @@ public class NTMan3Director : MonoBehaviour
         currentHealth = maxHealth;
         UpdateAllUI();
 
+        if (judgmentImage != null) judgmentImage.gameObject.SetActive(false);
+
         if (playerTransform != null)
             playerTransform.position = new Vector3(0f, playerTransform.position.y, playerTransform.position.z);
 
@@ -179,9 +183,6 @@ public class NTMan3Director : MonoBehaviour
         return Time.time - songStartTime;
     }
 
-    /// <summary>
-    /// Cổng nhận dữ liệu bài hát từ NTMan3MidiBridge (Giai đoạn 2)
-    /// </summary>
     public void LoadExternalChart(List<NoteDataMan3> externalNotes, List<float> speedUpMarks, AudioSource audioSource, float offset)
     {
         StopAllCoroutines();
@@ -200,15 +201,6 @@ public class NTMan3Director : MonoBehaviour
         songStartTime = Time.time;
         hasExternalChartLoaded = true;
         isGameOver = false;
-
-        if (speedUpMarks != null)
-        {
-            foreach (float markTime in speedUpMarks)
-            {
-                if (markTime > 1.5f)
-                    StartCoroutine(TriggerSpeedUpWarningRoutine(markTime - 1.5f));
-            }
-        }
     }
 
     private void GenerateDummyPatternChart()
@@ -222,38 +214,6 @@ public class NTMan3Director : MonoBehaviour
         {
             chartNotes.Add(new NoteDataMan3 { isLeftLane = true, noteType = Man3NoteType.Normal, hitTime = t, flightDuration = normalSpeed }); t += beat;
             chartNotes.Add(new NoteDataMan3 { isLeftLane = false, noteType = Man3NoteType.Normal, hitTime = t, flightDuration = normalSpeed }); t += beat;
-            chartNotes.Add(new NoteDataMan3 { isLeftLane = true, noteType = Man3NoteType.Hold, hitTime = t, holdDuration = 0.6f, flightDuration = normalSpeed }); t += beat * 2.0f;
-            chartNotes.Add(new NoteDataMan3 { isLeftLane = false, noteType = Man3NoteType.Buff, hitTime = t, flightDuration = normalSpeed }); t += beat * 1.5f;
-
-            chartNotes.Add(new NoteDataMan3 { isLeftLane = true, noteType = Man3NoteType.Normal, hitTime = t, flightDuration = normalSpeed }); t += beat * 0.75f;
-            chartNotes.Add(new NoteDataMan3 { isLeftLane = true, noteType = Man3NoteType.Normal, hitTime = t, flightDuration = normalSpeed }); t += beat * 0.75f;
-            chartNotes.Add(new NoteDataMan3 { isLeftLane = true, noteType = Man3NoteType.Bomb, hitTime = t, flightDuration = normalSpeed }); t += beat;
-            chartNotes.Add(new NoteDataMan3 { isLeftLane = true, noteType = Man3NoteType.Normal, hitTime = t, flightDuration = normalSpeed }); t += beat * 1.5f;
-
-            chartNotes.Add(new NoteDataMan3 { isLeftLane = true, noteType = Man3NoteType.Double, hitTime = t, flightDuration = normalSpeed });
-            chartNotes.Add(new NoteDataMan3 { isLeftLane = false, noteType = Man3NoteType.Double, hitTime = t, flightDuration = normalSpeed });
-            t += beat * 2.0f;
-
-            StartCoroutine(TriggerSpeedUpWarningRoutine(t - 1.5f));
-            float fastSpeed = 0.85f;
-            for (int i = 0; i < 8; i++)
-            {
-                bool left = (i % 2 == 0);
-                chartNotes.Add(new NoteDataMan3 { isLeftLane = left, noteType = Man3NoteType.Normal, hitTime = t, flightDuration = fastSpeed });
-                t += beat * 0.7f;
-            }
-            t += beat * 1.5f;
-        }
-    }
-
-    private IEnumerator TriggerSpeedUpWarningRoutine(float triggerTime)
-    {
-        yield return new WaitUntil(() => GetSongTime() >= triggerTime);
-        if (speedUpWarningUI != null)
-        {
-            speedUpWarningUI.SetActive(true);
-            yield return new WaitForSeconds(1.2f);
-            speedUpWarningUI.SetActive(false);
         }
     }
 
@@ -263,32 +223,27 @@ public class NTMan3Director : MonoBehaviour
 
         float now = GetSongTime();
 
-        // 1. Sinh nốt rơi
         while (nextSpawnIndex < chartNotes.Count &&
-               now >= (chartNotes[nextSpawnIndex].hitTime - chartNotes[nextSpawnIndex].flightDuration))
+                now >= (chartNotes[nextSpawnIndex].hitTime - chartNotes[nextSpawnIndex].flightDuration))
         {
             SpawnNote(chartNotes[nextSpawnIndex]);
             nextSpawnIndex++;
         }
 
-        // 2. Kiểm tra hoàn thành nốt kéo dài (Hold) đang giữ
         CheckActiveHoldCompletion(ref activeHoldLeft, true, now);
         CheckActiveHoldCompletion(ref activeHoldRight, false, now);
 
-        // 3. Thu hồi kích thước vòng tròn mục tiêu
         if (hitPointL != null)
             hitPointL.localScale = Vector3.Lerp(hitPointL.localScale, baseHitPointScaleL, 20f * Time.deltaTime);
         if (hitPointR != null)
             hitPointR.localScale = Vector3.Lerp(hitPointR.localScale, baseHitPointScaleR, 20f * Time.deltaTime);
 
-        // 4. Đếm ngược Buff x2
         if (buffRemainingTime > 0f)
         {
             buffRemainingTime -= Time.deltaTime;
             if (buffAuraVfx != null) buffAuraVfx.SetActive(buffRemainingTime > 0f);
         }
 
-        // 5. Giả lập phím A và D (cả nhấn xuống và nhả phím cho Hold)
         if (Input.GetKeyDown(KeyCode.A)) OnPressLeftButton();
         if (Input.GetKeyUp(KeyCode.A)) OnReleaseLeftButton();
 
@@ -345,14 +300,9 @@ public class NTMan3Director : MonoBehaviour
         activeNotes.Add(note);
     }
 
-    // =========================================================================
-    // SỰ KIỆN CHẠM & NHẤC TAY (GẮN VÀO POINTER DOWN & POINTER UP CỦA BTNLEFT/RIGHT)
-    // =========================================================================
-
     public void OnPressLeftButton()
     {
         if (isGameOver) return;
-
         lastLeftPressTime = Time.time;
         FaceDirection(true);
         TriggerMicroLunge(-punchLungeDistance);
@@ -363,21 +313,14 @@ public class NTMan3Director : MonoBehaviour
         }
         HighlightLane(true);
 
-        if (Time.time - lastRightPressTime <= chordBufferWindow)
-            EvaluateDoubleHit();
-        else
-            EvaluateSingleHit(true);
+        if (Time.time - lastRightPressTime <= chordBufferWindow) EvaluateDoubleHit();
+        else EvaluateSingleHit(true);
     }
 
-    public void OnReleaseLeftButton()
-    {
-        HandleHoldRelease(ref activeHoldLeft, true);
-    }
-
+    public void OnReleaseLeftButton() { HandleHoldRelease(ref activeHoldLeft, true); }
     public void OnPressRightButton()
     {
         if (isGameOver) return;
-
         lastRightPressTime = Time.time;
         FaceDirection(false);
         TriggerMicroLunge(punchLungeDistance);
@@ -388,30 +331,23 @@ public class NTMan3Director : MonoBehaviour
         }
         HighlightLane(false);
 
-        if (Time.time - lastLeftPressTime <= chordBufferWindow)
-            EvaluateDoubleHit();
-        else
-            EvaluateSingleHit(false);
+        if (Time.time - lastLeftPressTime <= chordBufferWindow) EvaluateDoubleHit();
+        else EvaluateSingleHit(false);
     }
 
-    public void OnReleaseRightButton()
-    {
-        HandleHoldRelease(ref activeHoldRight, false);
-    }
+    public void OnReleaseRightButton() { HandleHoldRelease(ref activeHoldRight, false); }
 
     private void HandleHoldRelease(ref NTVerticalNoteMan3 holdNote, bool isLeft)
     {
         if (holdNote == null) return;
-
         float now = GetSongTime();
         float endTime = holdNote.hitTime + holdNote.holdDuration;
 
-        // Nếu người chơi nhấc tay sớm hơn 0.18s trước khi kết thúc nốt Hold -> Tính MISS
         if (now < endTime - goodWindow)
         {
             holdNote.ConsumeNote();
             holdNote = null;
-            RegisterMiss($"NHẢ SỚM NỐT GIỮ {(isLeft ? "TRÁI" : "PHẢI")}", missHealthPenalty);
+            RegisterMiss(HitJudgment.Miss, missHealthPenalty);
         }
         else
         {
@@ -423,10 +359,9 @@ public class NTMan3Director : MonoBehaviour
         }
     }
 
-    private void EvaluateSingleHit(bool isLeft)
+private void EvaluateSingleHit(bool isLeft)
     {
         PlayNextNormalAttackImmediate();
-
         float now = GetSongTime();
         activeNotes.RemoveAll(n => n == null);
 
@@ -435,7 +370,6 @@ public class NTMan3Director : MonoBehaviour
 
         foreach (var note in activeNotes)
         {
-            // Bỏ qua nốt Double để không ăn nhầm 1 bên trước khi ngón thứ 2 chạm xuống
             if (note.isLeftLane != isLeft || note.noteType == Man3NoteType.Double || note.isBeingHeld) continue;
 
             float diff = Mathf.Abs(now - note.hitTime);
@@ -447,7 +381,6 @@ public class NTMan3Director : MonoBehaviour
         }
 
         if (closestNote == null) return;
-
         Vector3 hitPos = isLeft ? hitPointL.position : hitPointR.position;
 
         // Xử lý Bẫy Bom
@@ -459,12 +392,12 @@ public class NTMan3Director : MonoBehaviour
                 SpawnVfx(bombExplosionVfxPrefab, hitPos);
                 PlayStateSafe(hurtState);
                 onBombHitCameraShake?.Invoke();
-                RegisterMiss("DÍNH BOM!", bombHealthPenalty);
+                RegisterMiss(HitJudgment.Miss, bombHealthPenalty);
             }
             return;
         }
 
-        // Xử lý Chuỗi Xu Nhịp Phụ (Fever Coins - Thưởng thêm, không phạt bấm sớm)
+        // Xử lý Xu Nhịp Phụ (Coin)
         if (closestNote.noteType == Man3NoteType.Coin)
         {
             if (minDiff <= goodWindow)
@@ -475,63 +408,70 @@ public class NTMan3Director : MonoBehaviour
                 currentScore += earned;
 
                 if (sfxAudioSource != null && coinPickupClip != null)
-                {
                     sfxAudioSource.PlayOneShot(coinPickupClip, 0.9f);
-                }
 
                 SpawnVfx(goodHitVfxPrefab, hitPos);
-                ShowJudgmentFeedback($"+{earned}", new Color(1f, 0.84f, 0f));
+                ShowJudgmentAsset(HitJudgment.Good);
                 UpdateAllUI();
                 closestNote.ConsumeNote();
             }
             return;
         }
 
-        // Bấm quá sớm ngoài vùng Good
-        if (minDiff > goodWindow)
+        // Bấm quá sớm ngoài vùng Bad
+        if (minDiff > badWindow)
         {
             closestNote.ConsumeNote();
-            RegisterMiss("BẤM SỚM!", missHealthPenalty);
+            RegisterMiss(HitJudgment.Bad, missHealthPenalty);
             return;
         }
 
-        // Xử lý Nốt Kéo Dài (Hold)
+        // Phân định chuẩn Timing Window dựa trên khoảng lệch minDiff
+        HitJudgment judgment;
+        int basePoints = 100;
+
+        if (minDiff <= perfectWindow)
+        {
+            judgment = HitJudgment.Perfect;
+            basePoints = 150;
+            SpawnVfx(perfectHitVfxPrefab, hitPos);
+        }
+        else if (minDiff <= goodWindow)
+        {
+            judgment = HitJudgment.Good;
+            basePoints = 100;
+            SpawnVfx(goodHitVfxPrefab, hitPos);
+        }
+        else
+        {
+            judgment = HitJudgment.Bad;
+            basePoints = 50;
+            SpawnVfx(goodHitVfxPrefab, hitPos);
+        }
+
+        // Xử lý riêng cho nốt Hold: Bật trạng thái giữ và THOÁT HÀM ngay
         if (closestNote.noteType == Man3NoteType.Hold)
         {
             closestNote.StartHold();
             if (isLeft) activeHoldLeft = closestNote;
             else activeHoldRight = closestNote;
 
-            SpawnVfx(goodHitVfxPrefab, hitPos);
-            RegisterHit(minDiff <= perfectWindow ? HitJudgment.Perfect : HitJudgment.Good, 100);
-            return;
+            RegisterHit(judgment, basePoints);
+            return; // Ngăn chặn gọi ConsumeNote() bên dưới
         }
-
-        // Kích hoạt Buff x2
-        if (closestNote.noteType == Man3NoteType.Buff)
+        else if (closestNote.noteType == Man3NoteType.Buff)
         {
             buffRemainingTime = 5.0f;
         }
 
-        if (minDiff <= perfectWindow)
-        {
-            SpawnVfx(perfectHitVfxPrefab, hitPos);
-            RegisterHit(HitJudgment.Perfect, 150);
-        }
-        else
-        {
-            SpawnVfx(goodHitVfxPrefab, hitPos);
-            RegisterHit(HitJudgment.Good, 100);
-        }
-
         closestNote.ConsumeNote();
+        RegisterHit(judgment, basePoints);
     }
 
     private void EvaluateDoubleHit()
     {
         TriggerMicroLunge(0f);
         PlayStateSafe(doubleAttackState);
-
         float now = GetSongTime();
         activeNotes.RemoveAll(n => n == null);
 
@@ -555,22 +495,18 @@ public class NTMan3Director : MonoBehaviour
             avgDiff *= 0.5f;
             onDoubleHitCameraShake?.Invoke();
 
-            if (avgDiff <= perfectWindow)
-            {
-                if (hitPointL != null) SpawnVfx(perfectHitVfxPrefab, hitPointL.position);
-                if (hitPointR != null) SpawnVfx(perfectHitVfxPrefab, hitPointR.position);
-                RegisterHit(HitJudgment.Perfect, 300);
-            }
-            else
-            {
-                if (hitPointL != null) SpawnVfx(goodHitVfxPrefab, hitPointL.position);
-                if (hitPointR != null) SpawnVfx(goodHitVfxPrefab, hitPointR.position);
-                RegisterHit(HitJudgment.Good, 200);
-            }
+            HitJudgment judgment = (avgDiff <= perfectWindow) ? HitJudgment.Perfect : HitJudgment.Good;
+            int points = (judgment == HitJudgment.Perfect) ? 300 : 200;
+
+            GameObject vfxToSpawn = (judgment == HitJudgment.Perfect) ? perfectHitVfxPrefab : goodHitVfxPrefab;
+            if (hitPointL != null) SpawnVfx(vfxToSpawn, hitPointL.position);
+            if (hitPointR != null) SpawnVfx(vfxToSpawn, hitPointR.position);
 
             leftDouble.ConsumeNote();
             rightDouble.ConsumeNote();
+            RegisterHit(judgment, points);
         }
+        
     }
 
     private void HandleNoteMissed(NTVerticalNoteMan3 missedNote)
@@ -580,7 +516,7 @@ public class NTMan3Director : MonoBehaviour
         if (missedNote == activeHoldLeft) activeHoldLeft = null;
         if (missedNote == activeHoldRight) activeHoldRight = null;
 
-        RegisterMiss($"TRƯỢT NHỊP {(missedNote.isLeftLane ? "TRÁI" : "PHẢI")}", missHealthPenalty);
+        RegisterMiss(HitJudgment.Miss, missHealthPenalty);
     }
 
     private void RegisterHit(HitJudgment judgment, int basePoints)
@@ -589,17 +525,16 @@ public class NTMan3Director : MonoBehaviour
         currentCombo++;
         currentScore += basePoints * multiplier;
 
-        string label = (judgment == HitJudgment.Perfect) ? "PERFECT!" : "GOOD!";
-        ShowJudgmentFeedback(label, judgment == HitJudgment.Perfect ? Color.green : Color.yellow);
+        ShowJudgmentAsset(judgment);
         UpdateAllUI();
     }
 
-    private void RegisterMiss(string reason, float healthLoss)
+    private void RegisterMiss(HitJudgment judgment, float healthLoss)
     {
         currentCombo = 0;
         currentHealth = Mathf.Max(0f, currentHealth - healthLoss);
 
-        ShowJudgmentFeedback("MISS", Color.red);
+        ShowJudgmentAsset(judgment);
         UpdateAllUI();
 
         if (currentHealth <= 0f && !isGameOver)
@@ -610,19 +545,69 @@ public class NTMan3Director : MonoBehaviour
         }
     }
 
+    // =========================================================================
+    // HỆ THỐNG HIỂN THỊ HÌNH ẢNH JUDGMENT (THAY THẾ TEXT)
+    // =========================================================================
+    private void ShowJudgmentAsset(HitJudgment judgment)
+    {
+        if (judgmentImage == null || judgmentSprites == null || judgmentSprites.Length < 5) return;
+
+        int index = 0;
+        switch (judgment)
+        {
+            case HitJudgment.Perfect: index = 0; break;
+            case HitJudgment.Good: index = 1; break; // Hoặc Good (index 2)
+            case HitJudgment.Bad: index = 3; break;
+            case HitJudgment.Miss: index = 4; break;
+        }
+
+        if (judgmentSprites[index] != null)
+        {
+            judgmentImage.sprite = judgmentSprites[index];
+            judgmentImage.gameObject.SetActive(true);
+
+            // Kích hoạt coroutine hiệu ứng thu nhỏ/phóng to mượt mà
+            StopAllCoroutines();
+            StartCoroutine(AnimateJudgmentPopup());
+        }
+    }
+
+    private IEnumerator AnimateJudgmentPopup()
+    {
+        RectTransform rect = judgmentImage.rectTransform;
+        CanvasGroup canvasGroup = judgmentImage.GetComponent<CanvasGroup>();
+        if (canvasGroup == null) canvasGroup = judgmentImage.gameObject.AddComponent<CanvasGroup>();
+
+        // Thiết lập kích thước nhỏ gọn vừa phải (ví dụ: Width = 140, Height = 50 thay vì 800+)
+        rect.sizeDelta = new Vector2(140f, 50f);
+
+        float duration = 0.35f;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+
+            // Hiệu ứng Pop Scale nảy nhẹ từ nhỏ ra kích thước chuẩn
+            float scale = Mathf.Lerp(0.6f, 1.0f, Mathf.Sin(t * Mathf.PI * 0.5f));
+            rect.localScale = new Vector3(scale, scale, 1f);
+
+            // Mờ dần về cuối (Fade out)
+            canvasGroup.alpha = Mathf.Lerp(1.0f, 0f, t);
+
+            yield return null;
+        }
+
+        judgmentImage.gameObject.SetActive(false);
+    }
+
     private void UpdateAllUI()
     {
         if (scoreText != null) scoreText.text = currentScore.ToString();
         if (comboText != null) comboText.text = currentCombo > 0 ? $"x{currentCombo}" : "";
         if (healthSlider != null) healthSlider.value = currentHealth / maxHealth;
         if (healthFillImage != null) healthFillImage.fillAmount = currentHealth / maxHealth;
-    }
-
-    private void ShowJudgmentFeedback(string text, Color color)
-    {
-        if (judgmentText == null) return;
-        judgmentText.text = text;
-        judgmentText.color = color;
     }
 
     private void SpawnVfx(GameObject vfxPrefab, Vector3 position, bool flipX = false)

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class NTVerticalNoteMan3 : MonoBehaviour
 {
-    [Header("Tùy chọn hiển thị đuôi nốt Hold (Giai đoạn 3)")]
+    [Header("Tùy chọn hiển thị đuôi nốt Hold")]
     [SerializeField] private Transform holdTailTransform;
 
     [HideInInspector] public bool isLeftLane;
@@ -87,7 +87,7 @@ public class NTVerticalNoteMan3 : MonoBehaviour
             transform.localScale = s;
         }
 
-        // Kiểm tra nếu nốt trôi quá tâm quá 0.22s mà chưa bấm
+        // Kiểm tra nếu nốt trôi quá tâm quá 0.22s mà chưa bấm (Tính là Miss)
         if (now > hitTime + 0.22f)
         {
             isResolved = true;
