@@ -334,8 +334,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyRhythmController
   animator: {fileID: 3854759587781706085}
   timelineUI: {fileID: 0}
+  comboSystem: {fileID: 0}
   attackTrigger: Attack
-  hitVFX: {fileID: 4711553878616902790, guid: a50d64242e8ec3d4ca3f9e136cd7bddc, type: 3}
+  hitVFX: {fileID: 4306488877223958017, guid: 2fbb1969d46802e4485b17e89d3a86cb, type: 3}
   vfxPoint: {fileID: 8472262593291071888}
   perfectWindow: 0.1
   goodWindow: 0.2

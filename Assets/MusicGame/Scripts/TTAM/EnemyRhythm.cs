@@ -15,6 +15,7 @@ public class EnemyRhythmController : MonoBehaviour
     [Header("References")]
     [SerializeField] private Animator animator;
     [SerializeField] private EnemyRhythmTimelineUI timelineUI;
+    [SerializeField] private PlayerController2 playerController;
 
     [Header("Combo")]
     [SerializeField] private ComboSystem comboSystem;
@@ -66,6 +67,15 @@ public class EnemyRhythmController : MonoBehaviour
             ? float.MaxValue
             : Mathf.Abs(getSongTime() - CurrentTargetTime);
 
+    private void Awake()
+    {
+        if (comboSystem == null)
+            comboSystem = FindFirstObjectByType<ComboSystem>();
+
+        if (playerController == null)
+            playerController = FindFirstObjectByType<PlayerController2>();
+    }
+
     public void Initialize(
         float[] times,
         bool left,
@@ -93,12 +103,6 @@ public class EnemyRhythmController : MonoBehaviour
 
         if (timelineUI != null)
             timelineUI.Setup(noteTimes.Length, isLeft);
-    }
-
-    private void Awake()
-    {
-        if (comboSystem == null)
-            comboSystem = FindFirstObjectByType<ComboSystem>();
     }
 
     private void Update()
@@ -150,6 +154,27 @@ public class EnemyRhythmController : MonoBehaviour
             ? perfectScore
             : goodScore;
 
+        // Cộng Score thông qua PlayerController2
+        if (playerController != null)
+        {
+            playerController.AddScore(score);
+        }
+        else
+        {
+            Debug.LogWarning("PlayerController2 not found!");
+        }
+
+        // Tăng Combo
+        if (comboSystem != null)
+        {
+            comboSystem.HitNote();
+        }
+        else
+        {
+            Debug.LogWarning("ComboSystem not found!");
+        }
+
+        // Attack Animation
         if (animator != null)
             animator.SetTrigger(attackTrigger);
 
@@ -163,9 +188,7 @@ public class EnemyRhythmController : MonoBehaviour
             Instantiate(hitVFX, position, Quaternion.identity);
         }
 
-        // Hit Sound
-       
-
+        // Event
         onNoteHit?.Invoke(score);
 
         currentIndex++;
@@ -177,21 +200,13 @@ public class EnemyRhythmController : MonoBehaviour
             CompleteSequence();
     }
 
-   
-
     private void RegisterMiss()
     {
         currentIndex++;
 
-        // Reset combo khi hụt nốt
+        // Reset Combo
         if (comboSystem != null)
-        {
             comboSystem.MissNote();
-        }
-        else
-        {
-            Debug.LogWarning("EnemyRhythmController: Không tìm thấy ComboSystem!");
-        }
 
         onMiss?.Invoke();
 
@@ -208,7 +223,6 @@ public class EnemyRhythmController : MonoBehaviour
 
         onCompleted?.Invoke();
 
-        // Không còn Death VFX.
         Destroy(gameObject);
     }
 
