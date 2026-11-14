@@ -2,13 +2,13 @@
 - Project name: MusicGame_DATN
 - Unity version: Unity 6000.3.24f1
 - Active scene:
-  - Name: TEST MAN2
+  - Name: Man3
   - Tags:
     - Untagged, Respawn, Finish, EditorOnly, MainCamera, Player, GameController, Note, Wall, Ground, HitPointTop, HitPointBottom, BossAttackPosition, Enemy
   - Layers:
     - Default, TransparentFX, Ignore Raycast, Water, UI, Enemy
 - Active game object:
-  - Name: System
+  - Name: Bubbles
   - Tag: Untagged
-  - Layer: Default
+  - Layer: UI
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->
