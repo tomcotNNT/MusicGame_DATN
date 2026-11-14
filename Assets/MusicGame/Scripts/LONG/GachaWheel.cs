@@ -13,18 +13,26 @@ public class GachaWheel : MonoBehaviour
         Coin,
         Diamond,
         Heart,
-        Nothing
+        Nothing,
+        Ticket
     }
 
-    [Serializable]
-    public class GachaReward
-    {
-        public RewardType type;
-        public int amount = 50;
+    
+[Serializable]
+public class GachaReward
+{
+    public string rewardName;
+    public RewardType type;
+    public int amount = 1;
 
-        [Min(0)]
-        public float weight = 10f;
-    }
+    public Sprite rewardIcon;
+
+    [Min(0f)]
+    public float weight = 10f;
+}
+[Header("Reward Result UI")]
+[SerializeField] private Image iconItemReceive;
+[SerializeField] private TMP_Text quantityText;
 
     [Header("Wheel")]
     [SerializeField] private RectTransform wheel;
@@ -33,23 +41,16 @@ public class GachaWheel : MonoBehaviour
     [SerializeField] private int maxFullRotations = 7;
 
     [Header("Wheel Alignment")]
-    [Tooltip("8 equal slots, clockwise from slot 1")]
+    [Tooltip("Angle of the first slot center in the unrotated wheel")]
     [SerializeField] private float firstSlotAngle = 90f;
+
+    [Tooltip("Left pointer = 180, top pointer = 90")]
     [SerializeField] private float pointerAngle = 180f;
+
     [SerializeField] private bool clockwise = true;
 
     [Header("Rewards - Clockwise Order")]
-    [SerializeField] private GachaReward[] rewards =
-    {
-        new GachaReward { type = RewardType.Coin, amount = 100, weight = 20 },
-        new GachaReward { type = RewardType.Diamond, amount = 50, weight = 10 },
-        new GachaReward { type = RewardType.Heart, amount = 5, weight = 15 },
-        new GachaReward { type = RewardType.Nothing, amount = 0, weight = 25 },
-        new GachaReward { type = RewardType.Coin, amount = 200, weight = 15 },
-        new GachaReward { type = RewardType.Diamond, amount = 100, weight = 5 },
-        new GachaReward { type = RewardType.Heart, amount = 10, weight = 5 },
-        new GachaReward { type = RewardType.Coin, amount = 500, weight = 5 }
-    };
+    [SerializeField] private GachaReward[] rewards = new GachaReward[8];
 
     [Header("Buttons")]
     [SerializeField] private Button x1Button;
@@ -68,12 +69,12 @@ public class GachaWheel : MonoBehaviour
     [Header("Rewarded Ads")]
     [SerializeField] private RewardedAdsManager adsManager;
 
-    [Header("ADS Button Counter")]
+    [Header("ADS Counter")]
     [SerializeField] private TMP_Text adsNotice;
 
     private const int MaxAdsSpins = 5;
-    private const long CooldownSeconds = 5 * 60;
-    private const long RefillSeconds = 24 * 60 * 60;
+    private const long CooldownSeconds = 300;
+    private const long RefillSeconds = 86400;
 
     private const string UsesKey = "Gacha_Ads_Uses";
     private const string CooldownKey = "Gacha_Ads_Cooldown";
@@ -81,7 +82,6 @@ public class GachaWheel : MonoBehaviour
 
     private bool isSpinning;
     private bool isWaitingForAd;
-    private float currentAngle;
 
     private int adsUses;
     private long cooldownUntil;
@@ -92,12 +92,6 @@ public class GachaWheel : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log(
-        "GameManager Instance: " +
-        (GameManager.Instance == null
-            ? "NULL"
-            : "FOUND")
-    );
         if (x1Button != null)
             x1Button.onClick.AddListener(SpinX1);
 
@@ -112,9 +106,6 @@ public class GachaWheel : MonoBehaviour
 
         if (noticePanel != null)
             noticePanel.SetActive(false);
-
-        if (wheel != null)
-            currentAngle = wheel.localEulerAngles.z;
 
         LoadAdsState();
         RefreshUI();
@@ -137,7 +128,6 @@ public class GachaWheel : MonoBehaviour
 
     private void Update()
     {
-        // Test ADS reset in Editor only.
 #if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.F6))
         {
@@ -165,7 +155,8 @@ public class GachaWheel : MonoBehaviour
     {
         return isSpinning ||
                isWaitingForAd ||
-               (noticePanel != null && noticePanel.activeSelf);
+               (noticePanel != null &&
+                noticePanel.activeSelf);
     }
 
     private bool ValidateWheel()
@@ -178,7 +169,7 @@ public class GachaWheel : MonoBehaviour
 
         if (rewards == null || rewards.Length != 8)
         {
-            Debug.LogError("Gacha requires exactly 8 rewards!");
+            Debug.LogError("Gacha requires 8 reward slots!");
             return false;
         }
 
@@ -187,16 +178,28 @@ public class GachaWheel : MonoBehaviour
         foreach (GachaReward reward in rewards)
         {
             if (reward == null)
+            {
+                Debug.LogError("A reward slot is null!");
                 return false;
+            }
 
             if (reward.type != RewardType.Nothing &&
                 reward.amount <= 0)
+            {
+                Debug.LogError("Reward amount must be positive!");
                 return false;
+            }
 
             totalWeight += Mathf.Max(0f, reward.weight);
         }
 
-        return totalWeight > 0f;
+        if (totalWeight <= 0f)
+        {
+            Debug.LogError("All reward weights are zero!");
+            return false;
+        }
+
+        return true;
     }
 
     public void SpinX1()
@@ -223,11 +226,10 @@ public class GachaWheel : MonoBehaviour
         if (cost < 0)
             return;
 
-        // SpendDiamonds must exist in your GameManager.
         if (cost > 0 &&
             !GameManager.Instance.SpendDiamonds(cost))
         {
-            ShowNotice("Not enough Diamonds!");
+            ShowNotice("Không đủ kim cương!");
             return;
         }
 
@@ -268,6 +270,7 @@ public class GachaWheel : MonoBehaviour
             return;
 
         isWaitingForAd = false;
+
         adsUses--;
 
         if (adsUses <= 0)
@@ -282,33 +285,37 @@ public class GachaWheel : MonoBehaviour
         }
 
         SaveAdsState();
+
         StartCoroutine(SpinSequence(1));
     }
 
     private int ChooseReward()
     {
-        float total = 0f;
+        float totalWeight = 0f;
 
         foreach (GachaReward reward in rewards)
-            total += Mathf.Max(0f, reward.weight);
+            totalWeight += Mathf.Max(0f, reward.weight);
 
-        float random = UnityEngine.Random.Range(0f, total);
+        float randomValue = UnityEngine.Random.value * totalWeight;
+
+        float cumulative = 0f;
+        int lastValidIndex = 0;
 
         for (int i = 0; i < rewards.Length; i++)
         {
-            random -= Mathf.Max(0f, rewards[i].weight);
+            float weight = Mathf.Max(0f, rewards[i].weight);
 
-            if (random < 0f && rewards[i].weight > 0f)
+            if (weight <= 0f)
+                continue;
+
+            lastValidIndex = i;
+            cumulative += weight;
+
+            if (randomValue < cumulative)
                 return i;
         }
 
-        for (int i = rewards.Length - 1; i >= 0; i--)
-        {
-            if (rewards[i].weight > 0f)
-                return i;
-        }
-
-        return 0;
+        return lastValidIndex;
     }
 
     private IEnumerator SpinSequence(int count)
@@ -316,7 +323,7 @@ public class GachaWheel : MonoBehaviour
         isSpinning = true;
         RefreshUI();
 
-        StringBuilder result = new StringBuilder();
+        StringBuilder results = new StringBuilder();
 
         for (int i = 0; i < count; i++)
         {
@@ -328,25 +335,43 @@ public class GachaWheel : MonoBehaviour
 
             GachaReward reward = rewards[selectedIndex];
 
-            GiveReward(reward);
+            bool granted = GiveReward(reward);
+            if (granted && count == 1)
+{
+    ShowRewardResult(reward);
+}
+
+            if (!granted)
+            {
+                results.AppendLine(
+                    "Không thể cộng phần thưởng!"
+                );
+                break;
+            }
 
             if (reward.type == RewardType.Nothing)
             {
-                result.AppendLine(
+                results.AppendLine(
                     "Chúc bạn may mắn lần sau!"
                 );
             }
             else
             {
-                result.AppendLine(
-                    "Nhận được " + reward.amount +
-                    " " + reward.type
+                string name = GetRewardName(reward);
+
+                results.AppendLine(
+                    "Chúc mừng! Bạn nhận được " +
+                    reward.amount + " " + name
                 );
             }
+
+            if (count > 1 && i < count - 1)
+                yield return new WaitForSeconds(0.3f);
         }
 
         isSpinning = false;
-        ShowNotice(result.ToString().TrimEnd());
+
+        ShowNotice(results.ToString().TrimEnd());
         RefreshUI();
     }
 
@@ -354,39 +379,47 @@ public class GachaWheel : MonoBehaviour
     {
         float slotAngle = 360f / rewards.Length;
 
-        float selectedSlotAngle =
+        // Each next slot is clockwise from slot 0.
+        float selectedAngle =
             firstSlotAngle - index * slotAngle;
 
+        // Align selected slot with the stationary pointer.
         float targetAngle = Mathf.Repeat(
-            pointerAngle - selectedSlotAngle,
+            pointerAngle - selectedAngle,
             360f
         );
 
-        float startAngle = currentAngle;
-        float startNormalized = Mathf.Repeat(startAngle, 360f);
+        float startAngle = wheel.localEulerAngles.z;
 
         float remaining;
 
         if (clockwise)
         {
             remaining = Mathf.Repeat(
-                startNormalized - targetAngle, 360f
+                startAngle - targetAngle,
+                360f
             );
         }
         else
         {
             remaining = Mathf.Repeat(
-                targetAngle - startNormalized, 360f
+                targetAngle - startAngle,
+                360f
             );
         }
 
-        int rotations = UnityEngine.Random.Range(
-            minFullRotations,
-            maxFullRotations + 1
+        int minRotations = Mathf.Max(1, minFullRotations);
+        int maxRotations = Mathf.Max(
+            minRotations, maxFullRotations
+        );
+
+        int fullRotations = UnityEngine.Random.Range(
+            minRotations,
+            maxRotations + 1
         );
 
         float totalRotation =
-            rotations * 360f + remaining;
+            fullRotations * 360f + remaining;
 
         float direction = clockwise ? -1f : 1f;
 
@@ -398,54 +431,89 @@ public class GachaWheel : MonoBehaviour
             elapsed += Time.deltaTime;
 
             float t = Mathf.Clamp01(elapsed / duration);
-            float eased = 1f - Mathf.Pow(1f - t, 4f);
 
-            currentAngle =
-                startAngle + direction * totalRotation * eased;
+            // Fast start, slow finish.
+            float eased =
+                1f - Mathf.Pow(1f - t, 4f);
 
-            wheel.localRotation = Quaternion.Euler(
-                0f, 0f, currentAngle
-            );
+            float angle =
+                startAngle +
+                direction * totalRotation * eased;
+
+            wheel.localRotation =
+                Quaternion.Euler(0f, 0f, angle);
 
             yield return null;
         }
 
-        currentAngle =
-            startAngle + direction * totalRotation;
-
+        // Exact final alignment.
         wheel.localRotation = Quaternion.Euler(
-            0f, 0f, currentAngle
+            0f, 0f, targetAngle
         );
-
-        // Prevent angle values from growing indefinitely.
-        currentAngle = Mathf.Repeat(currentAngle, 360f);
     }
 
-    private void GiveReward(GachaReward reward)
+    private bool GiveReward(GachaReward reward)
     {
         if (reward.type == RewardType.Nothing)
-            return;
+            return true;
 
         switch (reward.type)
         {
             case RewardType.Coin:
+                if (GameManager.Instance == null)
+                    return false;
+
                 GameManager.Instance.AddCoins(reward.amount);
-                break;
+                return true;
 
             case RewardType.Diamond:
+                if (GameManager.Instance == null)
+                    return false;
+
                 GameManager.Instance.AddDiamonds(reward.amount);
-                break;
+                return true;
 
             case RewardType.Heart:
-                // Temporary PlayerPrefs storage.
-                // Replace with GameManager.AddHearts when integrated.
-                int hearts = PlayerPrefs.GetInt("Heart", 0);
-                PlayerPrefs.SetInt(
-                    "Heart",
-                    hearts + reward.amount
-                );
-                PlayerPrefs.Save();
-                break;
+                AddPlayerPrefsReward("Heart", reward.amount);
+                return true;
+
+            case RewardType.Ticket:
+                AddPlayerPrefsReward("Ticket", reward.amount);
+                return true;
+        }
+
+        return false;
+    }
+
+    private void AddPlayerPrefsReward(string key, int amount)
+    {
+        int current = PlayerPrefs.GetInt(key, 0);
+
+        PlayerPrefs.SetInt(key, current + amount);
+        PlayerPrefs.Save();
+    }
+
+    private string GetRewardName(GachaReward reward)
+    {
+        if (!string.IsNullOrWhiteSpace(reward.rewardName))
+            return reward.rewardName;
+
+        switch (reward.type)
+        {
+            case RewardType.Coin:
+                return "Xu";
+
+            case RewardType.Diamond:
+                return "Kim cương";
+
+            case RewardType.Heart:
+                return "Heart";
+
+            case RewardType.Ticket:
+                return "Ticket";
+
+            default:
+                return "";
         }
     }
 
@@ -493,12 +561,17 @@ public class GachaWheel : MonoBehaviour
     private void SaveAdsState()
     {
         PlayerPrefs.SetInt(UsesKey, adsUses);
+
         PlayerPrefs.SetString(
-            CooldownKey, cooldownUntil.ToString()
+            CooldownKey,
+            cooldownUntil.ToString()
         );
+
         PlayerPrefs.SetString(
-            RefillKey, refillUntil.ToString()
+            RefillKey,
+            refillUntil.ToString()
         );
+
         PlayerPrefs.Save();
     }
 
@@ -548,7 +621,8 @@ public class GachaWheel : MonoBehaviour
             long remaining = cooldownUntil - Now;
 
             return "ADS: " + adsUses +
-                   "/5\nNext in " + FormatTime(remaining);
+                   "/5\nNext in " +
+                   FormatTime(remaining);
         }
 
         return "ADS: " + adsUses + "/5";
@@ -565,4 +639,36 @@ public class GachaWheel : MonoBehaviour
 
         return $"{minutes:D2}:{secs:D2}";
     }
+
+private void ShowRewardResult(GachaReward reward)
+{
+    bool isNothing = reward.type == RewardType.Nothing;
+
+    if (iconItemReceive != null)
+    {
+        iconItemReceive.sprite = reward.rewardIcon;
+        iconItemReceive.enabled = reward.rewardIcon != null;
+        iconItemReceive.preserveAspect = true;
+    }
+
+    if (quantityText != null)
+    {
+        quantityText.gameObject.SetActive(!isNothing);
+
+        if (!isNothing)
+            quantityText.text = "x" + reward.amount;
+    }
+
+    if (noticeText != null)
+    {
+        noticeText.text = isNothing
+            ? "Chúc bạn may mắn lần sau!"
+            : "Chúc mừng! Bạn nhận được " +
+              GetRewardName(reward);
+    }
+
+    if (noticePanel != null)
+        noticePanel.SetActive(true);
+}
+
 }

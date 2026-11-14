@@ -334,7 +334,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 1, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1564,6 +1564,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f2e83565ef296e4888ac129fcbd8b3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GachaWheel
+  iconItemReceive: {fileID: 10792738}
+  quantityText: {fileID: 2016133681}
   wheel: {fileID: 1009768866}
   spinDuration: 4
   minFullRotations: 4
@@ -1572,30 +1574,46 @@ MonoBehaviour:
   pointerAngle: 180
   clockwise: 1
   rewards:
-  - type: 0
+  - rewardName: 
+    type: 0
     amount: 100
+    rewardIcon: {fileID: 7210996990691908523, guid: e407b31e73197b643a4d38fc5a36091a, type: 3}
     weight: 20
-  - type: 1
-    amount: 50
-    weight: 10
-  - type: 2
-    amount: 5
-    weight: 15
-  - type: 3
+  - rewardName: 
+    type: 3
     amount: 0
-    weight: 25
-  - type: 0
-    amount: 200
+    rewardIcon: {fileID: 4864894381320034309, guid: 0659bf8f9ccc9bd43804552cdea0320e, type: 3}
     weight: 15
-  - type: 1
-    amount: 100
+  - rewardName: 
+    type: 4
+    amount: 1
+    rewardIcon: {fileID: -3861061569469994618, guid: 6db2c5efa3380d840b178c0b0ea28fa2, type: 3}
     weight: 5
-  - type: 2
+  - rewardName: 
+    type: 1
+    amount: 30
+    rewardIcon: {fileID: -1917470479356544312, guid: 357eeae4f65cf7e4fa38e9272d474aa3, type: 3}
+    weight: 10
+  - rewardName: 
+    type: 0
+    amount: 300
+    rewardIcon: {fileID: 7210996990691908523, guid: e407b31e73197b643a4d38fc5a36091a, type: 3}
+    weight: 10
+  - rewardName: 
+    type: 3
+    amount: 0
+    rewardIcon: {fileID: 4864894381320034309, guid: 0659bf8f9ccc9bd43804552cdea0320e, type: 3}
+    weight: 15
+  - rewardName: 
+    type: 2
+    amount: 5
+    rewardIcon: {fileID: -3484009199072791853, guid: 5e98927193546fa4a869ee564c47a2b5, type: 3}
+    weight: 10
+  - rewardName: 
+    type: 1
     amount: 10
-    weight: 5
-  - type: 0
-    amount: 500
-    weight: 5
+    rewardIcon: {fileID: -1917470479356544312, guid: 357eeae4f65cf7e4fa38e9272d474aa3, type: 3}
+    weight: 15
   x1Button: {fileID: 950598450}
   x5Button: {fileID: 434094706}
   adsFreeButton: {fileID: 181275796}
@@ -9031,7 +9049,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &539121987
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10957,8 +10975,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'YOU RECEIVED '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
+  m_sharedMaterial: {fileID: 2147374, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -10988,7 +11006,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -17298,8 +17316,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: OK
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
+  m_sharedMaterial: {fileID: 2147374, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -17329,7 +17347,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -18927,8 +18945,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
+  m_sharedMaterial: {fileID: 2147374, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -18958,7 +18976,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -25840,7 +25858,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 1, y: -177}
-  m_SizeDelta: {x: 189.9, y: 65}
+  m_SizeDelta: {x: 175, y: 86}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1626331318
 MonoBehaviour:
@@ -25906,8 +25924,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 636839853876503736, guid: f7c246b08b8fa7743a24bfb62b2122d6, type: 3}
-  m_Type: 1
+  m_Sprite: {fileID: -8648609282393876087, guid: 5665a0745c22f664991f927ba031ba45, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -33483,8 +33501,8 @@ RectTransform:
   m_GameObject: {fileID: 1804367404}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 539121987}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -33506,15 +33524,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7952482, g: 0.1960784, b: 0.8, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 7169425767642423016, guid: ddadaaffd47b3d7479f0ac1229179cf2, type: 3}
-  m_Type: 1
+  m_Sprite: {fileID: -8648609282393876087, guid: 5665a0745c22f664991f927ba031ba45, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -36514,8 +36532,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
+  m_sharedMaterial: {fileID: 2147374, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -36545,7 +36563,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
