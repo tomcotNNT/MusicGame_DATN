@@ -13,6 +13,22 @@ public enum HitJudgment
     Miss
 }
 
+public enum Man3NoteType
+{
+    Normal,
+    Hold,
+    Double,
+    Bomb,
+    Buff,
+    Coin,
+    Note1,
+    NoteMan1,
+    NoteMan2,
+    NoteMan3_1,
+    NoteMan3_2,
+    NoteMan3_3
+}
+
 public class NTMan3Director : MonoBehaviour
 {
     [Header("1. Căn Chỉnh Đa Màn Hình & Tầm Đánh")]
@@ -40,7 +56,7 @@ public class NTMan3Director : MonoBehaviour
     [SerializeField] private string doubleAttackState = "SwingTHand";
     [SerializeField] private string hurtState = "Hurt";
 
-    [Header("4. Prefabs Các Loại Nốt")]
+    [Header("4. Prefabs Các Loại Nốt Cơ Bản & Đặc Biệt")]
     [SerializeField] private GameObject noteLeftPrefab;
     [SerializeField] private GameObject noteRightPrefab;
     [SerializeField] private GameObject holdNotePrefab;
@@ -48,6 +64,14 @@ public class NTMan3Director : MonoBehaviour
     [SerializeField] private GameObject bombPrefab;
     [SerializeField] private GameObject buffPrefab;
     [SerializeField] private GameObject coinPrefab;
+    
+    [Header("--- 6 Prefabs Nốt Đại Dương Mới (Random Theo Nhịp MIDI) ---")]
+    [SerializeField] private GameObject prefabNote1;
+    [SerializeField] private GameObject prefabNoteMan1;
+    [SerializeField] private GameObject prefabNoteMan2;
+    [SerializeField] private GameObject prefabNoteMan3_1;
+    [SerializeField] private GameObject prefabNoteMan3_2;
+    [SerializeField] private GameObject prefabNoteMan3_3;
 
     [Header("5. VFX Hiệu Ứng Va Chạm")]
     [SerializeField] private GameObject perfectHitVfxPrefab;
@@ -56,41 +80,45 @@ public class NTMan3Director : MonoBehaviour
     [SerializeField] private GameObject slashTrailVfxPrefab;
     [SerializeField] private GameObject buffAuraVfx;
 
-    [Header("6. Giao Diện UI & Judgment Image Assets (Dùng Asset Hình Ảnh)")]
-    [SerializeField] private Image judgmentImage; // Kéo đối tượng JudgmentPopup vào đây
-    [SerializeField] private Sprite[] judgmentSprites; // [0]: Perfect, [1]: Great, [2]: Good, [3]: Bad, [4]: Miss
+    [Header("6. Giao Diện UI & Bảng Tổng Kết (Result Panel)")]
+    [SerializeField] private Image judgmentImage; 
+    [SerializeField] private Sprite[] judgmentSprites; 
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI comboText;
-    [SerializeField] private Slider healthSlider;
-    [SerializeField] private Image healthFillImage;
     [SerializeField] private GameObject readyBannerUI;
-    [SerializeField] private GameObject gameOverPanel;
+    [SerializeField] private GameObject resultPanel; 
     [SerializeField] private GameObject speedUpWarningUI;
 
     [Header("7. Sự Kiện Rung Camera")]
     public UnityEvent onDoubleHitCameraShake;
     public UnityEvent onBombHitCameraShake;
 
-    [Header("8. Thông Số Chấm Nhịp & Máu")]
-    [SerializeField] private float perfectWindow = 0.08f;
-    [SerializeField] private float goodWindow = 0.15f;
-    [SerializeField] private float badWindow = 0.22f; // Ngưỡng Bad mới
-    [SerializeField] private float earlyMissWindow = 0.30f;
+    [Header("8. Thông Số Chấm Nhịp (Đã tối ưu độ nhạy)")]
+    [SerializeField] private float perfectWindow = 0.09f;   
+    [SerializeField] private float goodWindow = 0.18f;      
+    [SerializeField] private float badWindow = 0.25f;       
+    [SerializeField] private float earlyMissWindow = 0.35f; 
     [SerializeField] private float chordBufferWindow = 0.07f;
-    [SerializeField] private float maxHealth = 100f;
-    [SerializeField] private float missHealthPenalty = 10f;
-    [SerializeField] private float bombHealthPenalty = 20f;
 
-    [Header("9. Thưởng & Âm Thanh Fever Coins")]
+    [Header("9. Thưởng Điểm Fever Coins")]
     [SerializeField] private int coinBaseScore = 25;
+
+    [Header("10. Hệ Thống Âm Thanh Riêng Cho Từng Item & Note (Muse Dash Style)")]
     [SerializeField] private AudioSource sfxAudioSource;
-    [SerializeField] private AudioClip coinPickupClip;
+    [SerializeField] private AudioClip normalHitClip;   
+    [SerializeField] private AudioClip holdHitClip;     
+    [SerializeField] private AudioClip doubleHitClip;   
+    [SerializeField] private AudioClip buffHitClip;     
+    [SerializeField] private AudioClip bombHitClip;     
+    [SerializeField] private AudioClip coinPickupClip;  
 
     private Camera mainCam;
     private float songStartTime;
     private int nextSpawnIndex = 0;
     private int attackComboStep = 0;
-    private bool isGameOver = false;
+    
+    private bool isGameStarted = false;
+    private bool isSongFinished = false;
 
     private AudioSource linkedAudioSource;
     private float chartAudioOffset = 0f;
@@ -115,7 +143,6 @@ public class NTMan3Director : MonoBehaviour
 
     private int currentScore = 0;
     private int currentCombo = 0;
-    private float currentHealth;
 
     private void Awake()
     {
@@ -128,9 +155,11 @@ public class NTMan3Director : MonoBehaviour
 
     private void Start()
     {
-        currentHealth = maxHealth;
+        currentScore = 0;
+        currentCombo = 0;
         UpdateAllUI();
 
+        if (resultPanel != null) resultPanel.SetActive(false);
         if (judgmentImage != null) judgmentImage.gameObject.SetActive(false);
 
         if (playerTransform != null)
@@ -138,6 +167,8 @@ public class NTMan3Director : MonoBehaviour
 
         if (readyBannerUI != null)
             StartCoroutine(HideReadyBannerRoutine());
+
+        StartCoroutine(StartGameDelayRoutine());
 
         if (!hasExternalChartLoaded)
         {
@@ -151,6 +182,12 @@ public class NTMan3Director : MonoBehaviour
         readyBannerUI.SetActive(true);
         yield return new WaitForSeconds(1.2f);
         readyBannerUI.SetActive(false);
+    }
+
+    private IEnumerator StartGameDelayRoutine()
+    {
+        yield return new WaitForSeconds(1.3f);
+        isGameStarted = true;
     }
 
     public void AlignLanesToScreen()
@@ -177,8 +214,10 @@ public class NTMan3Director : MonoBehaviour
 
     private float GetSongTime()
     {
-        if (linkedAudioSource != null && linkedAudioSource.clip != null)
+        if (linkedAudioSource != null && linkedAudioSource.clip != null && linkedAudioSource.isPlaying)
+        {
             return linkedAudioSource.time + chartAudioOffset;
+        }
 
         return Time.time - songStartTime;
     }
@@ -200,7 +239,9 @@ public class NTMan3Director : MonoBehaviour
         chartAudioOffset = offset;
         songStartTime = Time.time;
         hasExternalChartLoaded = true;
-        isGameOver = false;
+        isSongFinished = false;
+        isGameStarted = false;
+        StartCoroutine(StartGameDelayRoutine());
     }
 
     private void GenerateDummyPatternChart()
@@ -219,7 +260,7 @@ public class NTMan3Director : MonoBehaviour
 
     private void Update()
     {
-        if (isGameOver) return;
+        if (isSongFinished) return;
 
         float now = GetSongTime();
 
@@ -230,8 +271,40 @@ public class NTMan3Director : MonoBehaviour
             nextSpawnIndex++;
         }
 
+        for (int i = activeNotes.Count - 1; i >= 0; i--)
+        {
+            var note = activeNotes[i];
+            if (note == null)
+            {
+                activeNotes.RemoveAt(i);
+                continue;
+            }
+
+            if (!note.isBeingHeld && note.noteType != Man3NoteType.Bomb && note.noteType != Man3NoteType.Coin)
+            {
+                if (now > note.hitTime + 0.35f) 
+                {
+                    note.ConsumeNote();
+                    activeNotes.RemoveAt(i);
+                    RegisterMiss(HitJudgment.Miss);
+                }
+            }
+        }
+
         CheckActiveHoldCompletion(ref activeHoldLeft, true, now);
         CheckActiveHoldCompletion(ref activeHoldRight, false, now);
+
+        if (hasExternalChartLoaded && nextSpawnIndex >= chartNotes.Count && activeNotes.Count == 0)
+        {
+            if (linkedAudioSource != null && !linkedAudioSource.isPlaying && now > 1.0f)
+            {
+                TriggerSongComplete();
+            }
+            else if (linkedAudioSource == null && now > 5.0f)
+            {
+                TriggerSongComplete();
+            }
+        }
 
         if (hitPointL != null)
             hitPointL.localScale = Vector3.Lerp(hitPointL.localScale, baseHitPointScaleL, 20f * Time.deltaTime);
@@ -251,6 +324,19 @@ public class NTMan3Director : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.D)) OnReleaseRightButton();
     }
 
+    private void TriggerSongComplete()
+    {
+        if (isSongFinished) return;
+        isSongFinished = true;
+
+        if (linkedAudioSource != null) linkedAudioSource.Stop();
+
+        if (resultPanel != null)
+        {
+            resultPanel.SetActive(true);
+        }
+    }
+
     private void CheckActiveHoldCompletion(ref NTVerticalNoteMan3 holdNote, bool isLeft, float now)
     {
         if (holdNote == null) return;
@@ -260,6 +346,8 @@ public class NTMan3Director : MonoBehaviour
             Vector3 pos = isLeft ? hitPointL.position : hitPointR.position;
             SpawnVfx(perfectHitVfxPrefab, pos);
             RegisterHit(HitJudgment.Perfect, 200);
+            PlaySfx(holdHitClip);
+
             holdNote.ConsumeNote();
             holdNote = null;
         }
@@ -273,13 +361,27 @@ public class NTMan3Director : MonoBehaviour
         Vector3 targetPos = data.isLeftLane ? hitPointL.position : hitPointR.position;
 
         GameObject prefabToUse = data.isLeftLane ? noteLeftPrefab : noteRightPrefab;
-        if (data.noteType == Man3NoteType.Hold && holdNotePrefab != null) prefabToUse = holdNotePrefab;
-        else if (data.noteType == Man3NoteType.Double && doubleNotePrefab != null) prefabToUse = doubleNotePrefab;
-        else if (data.noteType == Man3NoteType.Bomb && bombPrefab != null) prefabToUse = bombPrefab;
-        else if (data.noteType == Man3NoteType.Buff && buffPrefab != null) prefabToUse = buffPrefab;
-        else if (data.noteType == Man3NoteType.Coin && coinPrefab != null) prefabToUse = coinPrefab;
 
-        if (prefabToUse == null) return;
+        switch (data.noteType)
+        {
+            case Man3NoteType.Hold: if (holdNotePrefab != null) prefabToUse = holdNotePrefab; break;
+            case Man3NoteType.Double: if (doubleNotePrefab != null) prefabToUse = doubleNotePrefab; break;
+            case Man3NoteType.Bomb: if (bombPrefab != null) prefabToUse = bombPrefab; break;
+            case Man3NoteType.Buff: if (buffPrefab != null) prefabToUse = buffPrefab; break;
+            case Man3NoteType.Coin: if (coinPrefab != null) prefabToUse = coinPrefab; break;
+            case Man3NoteType.Note1: if (prefabNote1 != null) prefabToUse = prefabNote1; break;
+            case Man3NoteType.NoteMan1: if (prefabNoteMan1 != null) prefabToUse = prefabNoteMan1; break;
+            case Man3NoteType.NoteMan2: if (prefabNoteMan2 != null) prefabToUse = prefabNoteMan2; break;
+            case Man3NoteType.NoteMan3_1: if (prefabNoteMan3_1 != null) prefabToUse = prefabNoteMan3_1; break;
+            case Man3NoteType.NoteMan3_2: if (prefabNoteMan3_2 != null) prefabToUse = prefabNoteMan3_2; break;
+            case Man3NoteType.NoteMan3_3: if (prefabNoteMan3_3 != null) prefabToUse = prefabNoteMan3_3; break;
+        }
+
+        if (prefabToUse == null) 
+        {
+            prefabToUse = data.isLeftLane ? noteLeftPrefab : noteRightPrefab;
+            if (prefabToUse == null) return;
+        }
 
         GameObject obj = Instantiate(prefabToUse, spawnPos, Quaternion.identity);
         NTVerticalNoteMan3 note = obj.GetComponent<NTVerticalNoteMan3>();
@@ -302,7 +404,7 @@ public class NTMan3Director : MonoBehaviour
 
     public void OnPressLeftButton()
     {
-        if (isGameOver) return;
+        if (isSongFinished) return;
         lastLeftPressTime = Time.time;
         FaceDirection(true);
         TriggerMicroLunge(-punchLungeDistance);
@@ -320,7 +422,7 @@ public class NTMan3Director : MonoBehaviour
     public void OnReleaseLeftButton() { HandleHoldRelease(ref activeHoldLeft, true); }
     public void OnPressRightButton()
     {
-        if (isGameOver) return;
+        if (isSongFinished) return;
         lastRightPressTime = Time.time;
         FaceDirection(false);
         TriggerMicroLunge(punchLungeDistance);
@@ -347,19 +449,20 @@ public class NTMan3Director : MonoBehaviour
         {
             holdNote.ConsumeNote();
             holdNote = null;
-            RegisterMiss(HitJudgment.Miss, missHealthPenalty);
+            RegisterMiss(HitJudgment.Miss);
         }
         else
         {
             Vector3 pos = isLeft ? hitPointL.position : hitPointR.position;
             SpawnVfx(goodHitVfxPrefab, pos);
             RegisterHit(HitJudgment.Good, 150);
+            PlaySfx(holdHitClip);
             holdNote.ConsumeNote();
             holdNote = null;
         }
     }
 
-private void EvaluateSingleHit(bool isLeft)
+    private void EvaluateSingleHit(bool isLeft)
     {
         PlayNextNormalAttackImmediate();
         float now = GetSongTime();
@@ -383,7 +486,6 @@ private void EvaluateSingleHit(bool isLeft)
         if (closestNote == null) return;
         Vector3 hitPos = isLeft ? hitPointL.position : hitPointR.position;
 
-        // Xử lý Bẫy Bom
         if (closestNote.noteType == Man3NoteType.Bomb)
         {
             if (minDiff <= goodWindow)
@@ -392,12 +494,12 @@ private void EvaluateSingleHit(bool isLeft)
                 SpawnVfx(bombExplosionVfxPrefab, hitPos);
                 PlayStateSafe(hurtState);
                 onBombHitCameraShake?.Invoke();
-                RegisterMiss(HitJudgment.Miss, bombHealthPenalty);
+                PlaySfx(bombHitClip);
+                RegisterMiss(HitJudgment.Miss);
             }
             return;
         }
 
-        // Xử lý Xu Nhịp Phụ (Coin)
         if (closestNote.noteType == Man3NoteType.Coin)
         {
             if (minDiff <= goodWindow)
@@ -407,9 +509,7 @@ private void EvaluateSingleHit(bool isLeft)
                 currentCombo++;
                 currentScore += earned;
 
-                if (sfxAudioSource != null && coinPickupClip != null)
-                    sfxAudioSource.PlayOneShot(coinPickupClip, 0.9f);
-
+                PlaySfx(coinPickupClip);
                 SpawnVfx(goodHitVfxPrefab, hitPos);
                 ShowJudgmentAsset(HitJudgment.Good);
                 UpdateAllUI();
@@ -418,15 +518,13 @@ private void EvaluateSingleHit(bool isLeft)
             return;
         }
 
-        // Bấm quá sớm ngoài vùng Bad
         if (minDiff > badWindow)
         {
             closestNote.ConsumeNote();
-            RegisterMiss(HitJudgment.Bad, missHealthPenalty);
+            RegisterMiss(HitJudgment.Bad);
             return;
         }
 
-        // Phân định chuẩn Timing Window dựa trên khoảng lệch minDiff
         HitJudgment judgment;
         int basePoints = 100;
 
@@ -449,19 +547,24 @@ private void EvaluateSingleHit(bool isLeft)
             SpawnVfx(goodHitVfxPrefab, hitPos);
         }
 
-        // Xử lý riêng cho nốt Hold: Bật trạng thái giữ và THOÁT HÀM ngay
         if (closestNote.noteType == Man3NoteType.Hold)
         {
             closestNote.StartHold();
             if (isLeft) activeHoldLeft = closestNote;
             else activeHoldRight = closestNote;
 
+            PlaySfx(holdHitClip);
             RegisterHit(judgment, basePoints);
-            return; // Ngăn chặn gọi ConsumeNote() bên dưới
+            return;
         }
         else if (closestNote.noteType == Man3NoteType.Buff)
         {
             buffRemainingTime = 5.0f;
+            PlaySfx(buffHitClip);
+        }
+        else
+        {
+            PlaySfx(normalHitClip);
         }
 
         closestNote.ConsumeNote();
@@ -502,21 +605,33 @@ private void EvaluateSingleHit(bool isLeft)
             if (hitPointL != null) SpawnVfx(vfxToSpawn, hitPointL.position);
             if (hitPointR != null) SpawnVfx(vfxToSpawn, hitPointR.position);
 
+            PlaySfx(doubleHitClip);
+
             leftDouble.ConsumeNote();
             rightDouble.ConsumeNote();
             RegisterHit(judgment, points);
         }
-        
+    }
+
+    private void PlaySfx(AudioClip clip)
+    {
+        if (sfxAudioSource != null && clip != null)
+        {
+            sfxAudioSource.PlayOneShot(clip, 1.0f);
+        }
     }
 
     private void HandleNoteMissed(NTVerticalNoteMan3 missedNote)
     {
-        if (missedNote.noteType == Man3NoteType.Bomb || missedNote.noteType == Man3NoteType.Coin) return;
+        if (missedNote == null) return;
+
+        if (missedNote.noteType == Man3NoteType.Bomb || missedNote.noteType == Man3NoteType.Coin) 
+            return;
 
         if (missedNote == activeHoldLeft) activeHoldLeft = null;
         if (missedNote == activeHoldRight) activeHoldRight = null;
 
-        RegisterMiss(HitJudgment.Miss, missHealthPenalty);
+        RegisterMiss(HitJudgment.Miss);
     }
 
     private void RegisterHit(HitJudgment judgment, int basePoints)
@@ -529,25 +644,15 @@ private void EvaluateSingleHit(bool isLeft)
         UpdateAllUI();
     }
 
-    private void RegisterMiss(HitJudgment judgment, float healthLoss)
+    private void RegisterMiss(HitJudgment judgment)
     {
-        currentCombo = 0;
-        currentHealth = Mathf.Max(0f, currentHealth - healthLoss);
+        if (!isGameStarted || isSongFinished) return;
 
+        currentCombo = 0;
         ShowJudgmentAsset(judgment);
         UpdateAllUI();
-
-        if (currentHealth <= 0f && !isGameOver)
-        {
-            isGameOver = true;
-            if (linkedAudioSource != null) linkedAudioSource.Stop();
-            if (gameOverPanel != null) gameOverPanel.SetActive(true);
-        }
     }
 
-    // =========================================================================
-    // HỆ THỐNG HIỂN THỊ HÌNH ẢNH JUDGMENT (THAY THẾ TEXT)
-    // =========================================================================
     private void ShowJudgmentAsset(HitJudgment judgment)
     {
         if (judgmentImage == null || judgmentSprites == null || judgmentSprites.Length < 5) return;
@@ -556,7 +661,7 @@ private void EvaluateSingleHit(bool isLeft)
         switch (judgment)
         {
             case HitJudgment.Perfect: index = 0; break;
-            case HitJudgment.Good: index = 1; break; // Hoặc Good (index 2)
+            case HitJudgment.Good: index = 1; break;
             case HitJudgment.Bad: index = 3; break;
             case HitJudgment.Miss: index = 4; break;
         }
@@ -566,7 +671,6 @@ private void EvaluateSingleHit(bool isLeft)
             judgmentImage.sprite = judgmentSprites[index];
             judgmentImage.gameObject.SetActive(true);
 
-            // Kích hoạt coroutine hiệu ứng thu nhỏ/phóng to mượt mà
             StopAllCoroutines();
             StartCoroutine(AnimateJudgmentPopup());
         }
@@ -578,7 +682,6 @@ private void EvaluateSingleHit(bool isLeft)
         CanvasGroup canvasGroup = judgmentImage.GetComponent<CanvasGroup>();
         if (canvasGroup == null) canvasGroup = judgmentImage.gameObject.AddComponent<CanvasGroup>();
 
-        // Thiết lập kích thước nhỏ gọn vừa phải (ví dụ: Width = 140, Height = 50 thay vì 800+)
         rect.sizeDelta = new Vector2(140f, 50f);
 
         float duration = 0.35f;
@@ -589,11 +692,9 @@ private void EvaluateSingleHit(bool isLeft)
             elapsed += Time.deltaTime;
             float t = elapsed / duration;
 
-            // Hiệu ứng Pop Scale nảy nhẹ từ nhỏ ra kích thước chuẩn
             float scale = Mathf.Lerp(0.6f, 1.0f, Mathf.Sin(t * Mathf.PI * 0.5f));
             rect.localScale = new Vector3(scale, scale, 1f);
 
-            // Mờ dần về cuối (Fade out)
             canvasGroup.alpha = Mathf.Lerp(1.0f, 0f, t);
 
             yield return null;
@@ -604,10 +705,8 @@ private void EvaluateSingleHit(bool isLeft)
 
     private void UpdateAllUI()
     {
-        if (scoreText != null) scoreText.text = currentScore.ToString();
-        if (comboText != null) comboText.text = currentCombo > 0 ? $"x{currentCombo}" : "";
-        if (healthSlider != null) healthSlider.value = currentHealth / maxHealth;
-        if (healthFillImage != null) healthFillImage.fillAmount = currentHealth / maxHealth;
+        if (scoreText != null) scoreText.text = currentScore.ToString("D7");
+        if (comboText != null) comboText.text = currentCombo > 1 ? $"x{currentCombo}" : "";
     }
 
     private void SpawnVfx(GameObject vfxPrefab, Vector3 position, bool flipX = false)

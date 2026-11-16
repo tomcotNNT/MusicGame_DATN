@@ -5,18 +5,16 @@ using UnityEngine;
 public class NTMan3MidiBridge : MonoBehaviour
 {
     [Header("1. Chế Độ Nguồn Dữ Liệu")]
-    [Tooltip("Tích = Chạy chuỗi nốt mẫu của NTam | Bỏ tích = Lấy dữ liệu từ MIDI System (Màn 1/2)")]
+    [Tooltip("Tích = Chạy chuỗi nốt mẫu | Bỏ tích = Lấy dữ liệu từ NTMidiReader")]
     [SerializeField] private bool useDummyTestChart = false;
 
-    [Header("2. Tham Chiếu Tới Object MIDI System")]
-    [SerializeField] private MidiReader midiReader;
+    [Header("2. Tham Chiếu Tới Hệ Thống Mới")]
+    [SerializeField] private NTMidiReader ntMidiReader; 
     [SerializeField] private AudioSource midiAudioSource;
     [SerializeField] private NTMan3Director man3Director;
 
     [Header("3. Thông Số Quy Đổi Sang Gameplay Màn 3")]
-    [Tooltip("Thời gian viên nốt rơi từ đỉnh xuống vòng tròn (giây)")]
     [SerializeField] private float defaultFlightDuration = 1.25f;
-    [Tooltip("Độ trễ bắt đầu phát nhạc khớp với thời gian ẩn chữ READY (1.2s)")]
     [SerializeField] private float startMusicDelay = 1.2f;
     [SerializeField] private float audioOffset = 0f;
 
@@ -25,11 +23,17 @@ public class NTMan3MidiBridge : MonoBehaviour
     [SerializeField] private int buffEveryNNotes = 16;
     [SerializeField] private int bombEveryNNotes = 12;
 
+    [Header("5. Cấu Hình Random Đa Dạng Hóa 6 Nốt Đại Dương & Item")]
+    [SerializeField] private bool enableRandomOceanNotes = true;
+    [Range(0f, 1f)][SerializeField] private float holdChance = 0.10f;   // 10% Nốt giữ (Hold)
+    [Range(0f, 1f)][SerializeField] private float doubleChance = 0.08f;  // 8% Nốt đôi
+    [Range(0f, 1f)][SerializeField] private float bombChance = 0.07f;    // 7% Bom
+    [Range(0f, 1f)][SerializeField] private float coinChance = 0.15f;    // 15% Xu
+    [Range(0f, 1f)][SerializeField] private float buffChance = 0.05f;    // 5% Buff
+
     [Space(5)]
     [SerializeField] private bool autoInjectFeverCoins = true;
-    [Tooltip("Khoảng nghỉ tối thiểu giữa 2 nốt nhạc để rải chuỗi xu (giây)")]
     [SerializeField] private float minGapForCoins = 2.0f;
-    [Tooltip("Khoảng đệm an toàn trước và sau chuỗi xu để không vướng nốt chính (giây)")]
     [SerializeField] private float coinSafeBuffer = 0.65f;
     [SerializeField] private int minCoinsPerChain = 3;
     [SerializeField] private int maxCoinsPerChain = 5;
@@ -37,6 +41,8 @@ public class NTMan3MidiBridge : MonoBehaviour
     private void Start()
     {
         if (man3Director == null) man3Director = GetComponent<NTMan3Director>();
+        
+        if (ntMidiReader == null) ntMidiReader = FindFirstObjectByType<NTMidiReader>();
 
         if (!useDummyTestChart)
         {
@@ -47,10 +53,11 @@ public class NTMan3MidiBridge : MonoBehaviour
     private IEnumerator LoadFromMidiSystemRoutine()
     {
         yield return null;
+        yield return null;
 
-        if (midiReader == null || man3Director == null)
+        if (ntMidiReader == null || man3Director == null)
         {
-            Debug.LogError("[NTMan3MidiBridge] Thiếu tham chiếu MidiReader hoặc NTMan3Director!");
+            Debug.LogError("[NTMan3MidiBridge] Thiếu tham chiếu NTMidiReader hoặc NTMan3Director!");
             yield break;
         }
 
@@ -58,7 +65,7 @@ public class NTMan3MidiBridge : MonoBehaviour
 
         if (convertedNotes.Count == 0)
         {
-            Debug.LogWarning("[NTMan3MidiBridge] MidiReader chưa có dữ liệu nốt. Kiểm tra lại LevelData!");
+            Debug.LogWarning("[NTMan3MidiBridge] NTMidiReader chưa có dữ liệu nốt. Kiểm tra lại NTLevelData!");
             yield break;
         }
 
@@ -79,54 +86,66 @@ public class NTMan3MidiBridge : MonoBehaviour
     {
         List<NoteDataMan3> result = new List<NoteDataMan3>();
 
-        if (midiReader == null || midiReader.Notes == null || midiReader.Notes.Count == 0)
+        if (ntMidiReader == null || ntMidiReader.Notes == null || ntMidiReader.Notes.Count == 0)
         {
-            Debug.LogWarning("[NTMan3MidiBridge] MidiReader chưa có dữ liệu nốt!");
+            Debug.LogWarning("[NTMan3MidiBridge] NTMidiReader chưa có dữ liệu nốt!");
             return result;
         }
 
-        foreach (var n in midiReader.Notes)
+        foreach (var n in ntMidiReader.Notes)
         {
-            bool leftLane = (n.lane == 0);
-            Man3NoteType type = (n.duration > 0.25f) ? Man3NoteType.Hold : Man3NoteType.Normal;
-            float holdDur = (type == Man3NoteType.Hold) ? n.duration : 0f;
+            bool randomLeftLane = Random.value > 0.5f;
+            Man3NoteType type = Man3NoteType.Normal;
+            float holdDur = 0f;
 
-            if (n.pitch == 64)
+            if (n.duration > 0.25f)
             {
-                result.Add(new NoteDataMan3
-                {
-                    isLeftLane = true,
-                    noteType = Man3NoteType.Double,
-                    hitTime = n.time,
-                    holdDuration = 0f,
-                    flightDuration = defaultFlightDuration
-                });
-                result.Add(new NoteDataMan3
-                {
-                    isLeftLane = false,
-                    noteType = Man3NoteType.Double,
-                    hitTime = n.time,
-                    holdDuration = 0f,
-                    flightDuration = defaultFlightDuration
-                });
-                continue;
+                type = Man3NoteType.Hold;
+                holdDur = n.duration;
             }
-            else if (n.pitch == 65 || n.pitch == 67)
+            else if (enableRandomOceanNotes)
             {
-                type = Man3NoteType.Bomb;
-                leftLane = (n.pitch == 65);
-                holdDur = 0f;
-            }
-            else if (n.pitch == 69 || n.pitch == 71)
-            {
-                type = Man3NoteType.Buff;
-                leftLane = (n.pitch == 69);
-                holdDur = 0f;
+                float rand = Random.value;
+
+                if (rand < holdChance)
+                {
+                    type = Man3NoteType.Hold;
+                    holdDur = 0.5f;
+                }
+                else if (rand < holdChance + doubleChance)
+                {
+                    type = Man3NoteType.Double;
+                }
+                else if (rand < holdChance + doubleChance + bombChance)
+                {
+                    type = Man3NoteType.Bomb;
+                }
+                else if (rand < holdChance + doubleChance + bombChance + coinChance)
+                {
+                    type = Man3NoteType.Coin;
+                }
+                else if (rand < holdChance + doubleChance + bombChance + coinChance + buffChance)
+                {
+                    type = Man3NoteType.Buff;
+                }
+                else
+                {
+                    int oceanIndex = Random.Range(0, 6);
+                    switch (oceanIndex)
+                    {
+                        case 0: type = Man3NoteType.Note1; break;
+                        case 1: type = Man3NoteType.NoteMan1; break;
+                        case 2: type = Man3NoteType.NoteMan2; break;
+                        case 3: type = Man3NoteType.NoteMan3_1; break;
+                        case 4: type = Man3NoteType.NoteMan3_2; break;
+                        case 5: type = Man3NoteType.NoteMan3_3; break;
+                    }
+                }
             }
 
             result.Add(new NoteDataMan3
             {
-                isLeftLane = leftLane,
+                isLeftLane = randomLeftLane,
                 noteType = type,
                 hitTime = n.time,
                 holdDuration = holdDur,
@@ -135,110 +154,6 @@ public class NTMan3MidiBridge : MonoBehaviour
         }
 
         result.Sort((a, b) => a.hitTime.CompareTo(b.hitTime));
-
-        // 1. Gộp cặp nốt đánh đồng thời thành Nốt Đôi (Double)
-        for (int i = 0; i < result.Count - 1; i++)
-        {
-            if (Mathf.Abs(result[i + 1].hitTime - result[i].hitTime) <= 0.03f &&
-                result[i + 1].isLeftLane != result[i].isLeftLane)
-            {
-                NoteDataMan3 n1 = result[i];
-                NoteDataMan3 n2 = result[i + 1];
-                n1.noteType = Man3NoteType.Double;
-                n2.noteType = Man3NoteType.Double;
-                n2.hitTime = n1.hitTime;
-                result[i] = n1;
-                result[i + 1] = n2;
-                i++;
-            }
-        }
-
-        List<NoteDataMan3> extraItems = new List<NoteDataMan3>();
-        float bpm = (midiReader.Bpm > 0f) ? midiReader.Bpm : 120f;
-        float beatInterval = 60f / bpm;
-
-        // 2. Rải Chuỗi Nốt Xu (Fever Coins) vào các khoảng nghỉ dài (>= 2.0s)
-        if (autoInjectFeverCoins && result.Count > 1)
-        {
-            for (int i = 0; i < result.Count - 1; i++)
-            {
-                float currentEndTime = result[i].hitTime + result[i].holdDuration;
-                float nextStartTime = result[i + 1].hitTime;
-                float gap = nextStartTime - currentEndTime;
-
-                if (gap >= minGapForCoins)
-                {
-                    float safeStart = currentEndTime + coinSafeBuffer;
-                    float safeEnd = nextStartTime - coinSafeBuffer;
-                    float usableWindow = safeEnd - safeStart;
-
-                    if (usableWindow >= 0.4f)
-                    {
-                        float step = beatInterval;
-                        if (usableWindow / step < (minCoinsPerChain - 1))
-                        {
-                            step *= 0.5f;
-                        }
-
-                        int coinCount = Mathf.Clamp(Mathf.FloorToInt(usableWindow / step) + 1, minCoinsPerChain, maxCoinsPerChain);
-                        float actualSpacing = (coinCount > 1) ? (usableWindow / (coinCount - 1)) : 0f;
-
-                        bool coinLaneLeft = !result[i].isLeftLane;
-
-                        for (int c = 0; c < coinCount; c++)
-                        {
-                            extraItems.Add(new NoteDataMan3
-                            {
-                                isLeftLane = coinLaneLeft,
-                                noteType = Man3NoteType.Coin,
-                                hitTime = safeStart + (c * actualSpacing),
-                                holdDuration = 0f,
-                                flightDuration = defaultFlightDuration
-                            });
-
-                            coinLaneLeft = !coinLaneLeft;
-                        }
-                    }
-                }
-            }
-        }
-
-        // 3. Chèn Buff x2 và Bẫy Bom vào các khoảng nghỉ vừa (0.75s -> dưới 2.0s)
-        if (autoInjectBuffAndBomb && result.Count > 0)
-        {
-            for (int i = 0; i < result.Count; i++)
-            {
-                if (buffEveryNNotes > 0 && i > 0 && i % buffEveryNNotes == 0 && result[i].noteType == Man3NoteType.Normal)
-                {
-                    NoteDataMan3 buffNote = result[i];
-                    buffNote.noteType = Man3NoteType.Buff;
-                    result[i] = buffNote;
-                }
-
-                if (bombEveryNNotes > 0 && i > 0 && i % bombEveryNNotes == 0 && i < result.Count - 1)
-                {
-                    float gap = result[i + 1].hitTime - (result[i].hitTime + result[i].holdDuration);
-                    if (gap >= 0.75f && gap < minGapForCoins && result[i].noteType == Man3NoteType.Normal)
-                    {
-                        extraItems.Add(new NoteDataMan3
-                        {
-                            isLeftLane = result[i].isLeftLane,
-                            noteType = Man3NoteType.Bomb,
-                            hitTime = result[i].hitTime + (gap * 0.5f),
-                            holdDuration = 0f,
-                            flightDuration = defaultFlightDuration
-                        });
-                    }
-                }
-            }
-        }
-
-        if (extraItems.Count > 0)
-        {
-            result.AddRange(extraItems);
-            result.Sort((a, b) => a.hitTime.CompareTo(b.hitTime));
-        }
-
         return result;
     }
 }
