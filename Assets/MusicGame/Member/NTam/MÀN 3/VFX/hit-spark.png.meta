@@ -1,0 +1,1378 @@
+fileFormatVersion: 2
+guid: cc3c42d1436da3b4190f37a08a1f9692
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 7823285663161915083
+    second: hit-spark_0
+  - first:
+      213: 1553920587600410547
+    second: hit-spark_1
+  - first:
+      213: -8495280315541125354
+    second: hit-spark_2
+  - first:
+      213: -6116580807883667202
+    second: hit-spark_3
+  - first:
+      213: 4629783596962353544
+    second: hit-spark_4
+  - first:
+      213: -3253097456972317373
+    second: hit-spark_5
+  - first:
+      213: -6773150492150565342
+    second: hit-spark_6
+  - first:
+      213: -5184028578528514081
+    second: hit-spark_7
+  - first:
+      213: 3443903583280654469
+    second: hit-spark_8
+  - first:
+      213: 2190340667587356169
+    second: hit-spark_9
+  - first:
+      213: 5911064818828236426
+    second: hit-spark_10
+  - first:
+      213: 3251171633279225906
+    second: hit-spark_11
+  - first:
+      213: 1621601464927547096
+    second: hit-spark_12
+  - first:
+      213: 5469150024435188246
+    second: hit-spark_13
+  - first:
+      213: -7474709303476891440
+    second: hit-spark_14
+  - first:
+      213: 6723954613548340132
+    second: hit-spark_15
+  - first:
+      213: -2741724357058492120
+    second: hit-spark_16
+  - first:
+      213: 7215609999109503167
+    second: hit-spark_17
+  - first:
+      213: -2103956029644244639
+    second: hit-spark_18
+  - first:
+      213: -910670875562802237
+    second: hit-spark_19
+  - first:
+      213: -2248407430561489671
+    second: hit-spark_20
+  - first:
+      213: -5209613851383170440
+    second: hit-spark_21
+  - first:
+      213: -4231993821904664019
+    second: hit-spark_22
+  - first:
+      213: 3587528883528527099
+    second: hit-spark_23
+  - first:
+      213: -5026339354296560663
+    second: hit-spark_24
+  - first:
+      213: -7823130465611355815
+    second: hit-spark_25
+  - first:
+      213: 6568264108534254437
+    second: hit-spark_26
+  - first:
+      213: 6508025664170418953
+    second: hit-spark_27
+  - first:
+      213: 5284091453819003963
+    second: hit-spark_28
+  - first:
+      213: -4082628919332979222
+    second: hit-spark_29
+  - first:
+      213: -7539645643313323750
+    second: hit-spark_30
+  - first:
+      213: 630794916058059488
+    second: hit-spark_31
+  - first:
+      213: 2639379746408213734
+    second: hit-spark_32
+  - first:
+      213: 3959125703282787411
+    second: hit-spark_33
+  - first:
+      213: 8399640231110639016
+    second: hit-spark_34
+  - first:
+      213: -6812585186695321073
+    second: hit-spark_35
+  - first:
+      213: -3779428161288214390
+    second: hit-spark_36
+  - first:
+      213: 2120946966027709174
+    second: hit-spark_37
+  - first:
+      213: 7400555528952044333
+    second: hit-spark_38
+  - first:
+      213: -8471130121976735471
+    second: hit-spark_39
+  - first:
+      213: 3236170512916192630
+    second: hit-spark_40
+  - first:
+      213: 4757832234148100479
+    second: hit-spark_41
+  - first:
+      213: -2012497725616922058
+    second: hit-spark_42
+  - first:
+      213: -360113309970529819
+    second: hit-spark_43
+  - first:
+      213: 3725156626128159566
+    second: hit-spark_44
+  - first:
+      213: -7150027839017989448
+    second: hit-spark_45
+  - first:
+      213: 235177944619942074
+    second: hit-spark_46
+  - first:
+      213: 8250160877059957326
+    second: hit-spark_47
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: hit-spark_0
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 240
+        width: 70
+        height: 71
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc61c217cd4e19c60800000000000000
+      internalID: 7823285663161915083
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_1
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 126
+        width: 56
+        height: 91
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b7b6199a82a09510800000000000000
+      internalID: 1553920587600410547
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_2
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 214
+        width: 11
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6178dcc1093ba1a80800000000000000
+      internalID: -8495280315541125354
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_3
+      rect:
+        serializedVersion: 2
+        x: 149
+        y: 241
+        width: 73
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef84f1a892a8d1ba0800000000000000
+      internalID: -6116580807883667202
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_4
+      rect:
+        serializedVersion: 2
+        x: 173
+        y: 189
+        width: 55
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8811fdbd6ab404040800000000000000
+      internalID: 4629783596962353544
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_5
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 218
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 34d3079391daad2d0800000000000000
+      internalID: -3253097456972317373
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_6
+      rect:
+        serializedVersion: 2
+        x: 217
+        y: 203
+        width: 11
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2267a19538fe002a0800000000000000
+      internalID: -6773150492150565342
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_7
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 210
+        width: 72
+        height: 93
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fdfa5575971ae08b0800000000000000
+      internalID: -5184028578528514081
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_8
+      rect:
+        serializedVersion: 2
+        x: 359
+        y: 221
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 588632aff043bcf20800000000000000
+      internalID: 3443903583280654469
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_9
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 203
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 906e2a47b37a56e10800000000000000
+      internalID: 2190340667587356169
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_10
+      rect:
+        serializedVersion: 2
+        x: 429
+        y: 208
+        width: 58
+        height: 91
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a86d0927222580250800000000000000
+      internalID: 5911064818828236426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_11
+      rect:
+        serializedVersion: 2
+        x: 501
+        y: 223
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2305f61006b7e1d20800000000000000
+      internalID: 3251171633279225906
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_12
+      rect:
+        serializedVersion: 2
+        x: 503
+        y: 203
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8de6244d0f5118610800000000000000
+      internalID: 1621601464927547096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_13
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 184
+        width: 11
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 61247cd68f256eb40800000000000000
+      internalID: 5469150024435188246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_14
+      rect:
+        serializedVersion: 2
+        x: 203
+        y: 184
+        width: 14
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0d0d3febd7f744890800000000000000
+      internalID: -7474709303476891440
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_15
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 184
+        width: 40
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4a3d5629819405d50800000000000000
+      internalID: 6723954613548340132
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_16
+      rect:
+        serializedVersion: 2
+        x: 468
+        y: 179
+        width: 31
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8290e79393073f9d0800000000000000
+      internalID: -2741724357058492120
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_17
+      rect:
+        serializedVersion: 2
+        x: 496
+        y: 191
+        width: 17
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fb8bda2701ff22460800000000000000
+      internalID: 7215609999109503167
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_18
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 123
+        width: 36
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1697306632f3dc2e0800000000000000
+      internalID: -2103956029644244639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_19
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 181
+        width: 11
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c309c2e9a5ac53f0800000000000000
+      internalID: -910670875562802237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_20
+      rect:
+        serializedVersion: 2
+        x: 345
+        y: 181
+        width: 13
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9fc980fba5d0cc0e0800000000000000
+      internalID: -2248407430561489671
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_21
+      rect:
+        serializedVersion: 2
+        x: 364
+        y: 178
+        width: 11
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 87af95bcdcbb3b7b0800000000000000
+      internalID: -5209613851383170440
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_22
+      rect:
+        serializedVersion: 2
+        x: 486
+        y: 176
+        width: 12
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d2a89b18a00f445c0800000000000000
+      internalID: -4231993821904664019
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_23
+      rect:
+        serializedVersion: 2
+        x: 507
+        y: 148
+        width: 23
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bfceb24138679c130800000000000000
+      internalID: 3587528883528527099
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_24
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 145
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e3569aecfade3ab0800000000000000
+      internalID: -5026339354296560663
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_25
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 146
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 959e2bd4a48ae6390800000000000000
+      internalID: -7823130465611355815
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_26
+      rect:
+        serializedVersion: 2
+        x: 382
+        y: 147
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 56bc1241869272b50800000000000000
+      internalID: 6568264108534254437
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_27
+      rect:
+        serializedVersion: 2
+        x: 101
+        y: 123
+        width: 9
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 903e00e4cd6215a50800000000000000
+      internalID: 6508025664170418953
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_28
+      rect:
+        serializedVersion: 2
+        x: 235
+        y: 109
+        width: 15
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b342f815e2dd45940800000000000000
+      internalID: 5284091453819003963
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_29
+      rect:
+        serializedVersion: 2
+        x: 62
+        y: 95
+        width: 29
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aedbb69e0a69757c0800000000000000
+      internalID: -4082628919332979222
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_30
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 109
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a11ecf1fb3ccd5790800000000000000
+      internalID: -7539645643313323750
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_31
+      rect:
+        serializedVersion: 2
+        x: 93
+        y: 109
+        width: 17
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0e253c152a801c800800000000000000
+      internalID: 630794916058059488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_32
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 96
+        width: 32
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6eca50435e5f0a420800000000000000
+      internalID: 2639379746408213734
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_33
+      rect:
+        serializedVersion: 2
+        x: 227
+        y: 107
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3540a4dc9d3a1f630800000000000000
+      internalID: 3959125703282787411
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_34
+      rect:
+        serializedVersion: 2
+        x: 243
+        y: 107
+        width: 9
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8adfd687944819470800000000000000
+      internalID: 8399640231110639016
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_35
+      rect:
+        serializedVersion: 2
+        x: 367
+        y: 105
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f0aefe80ed5d471a0800000000000000
+      internalID: -6812585186695321073
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_36
+      rect:
+        serializedVersion: 2
+        x: 375
+        y: 106
+        width: 16
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a88ee409c16cc8bc0800000000000000
+      internalID: -3779428161288214390
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_37
+      rect:
+        serializedVersion: 2
+        x: 516
+        y: 105
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6fa2681470e1f6d10800000000000000
+      internalID: 2120946966027709174
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_38
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 95
+        width: 14
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d2b5db33b0e04b660800000000000000
+      internalID: 7400555528952044333
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_39
+      rect:
+        serializedVersion: 2
+        x: 107
+        y: 93
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 11917793900807a80800000000000000
+      internalID: -8471130121976735471
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_40
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 93
+        width: 14
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 67d96fe7fef29ec20800000000000000
+      internalID: 3236170512916192630
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_41
+      rect:
+        serializedVersion: 2
+        x: 247
+        y: 15
+        width: 22
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f79fc497537370240800000000000000
+      internalID: 4757832234148100479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_42
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 95
+        width: 34
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 63262513bfb2214e0800000000000000
+      internalID: -2012497725616922058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_43
+      rect:
+        serializedVersion: 2
+        x: 363
+        y: 94
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5e101504ade900bf0800000000000000
+      internalID: -360113309970529819
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_44
+      rect:
+        serializedVersion: 2
+        x: 387
+        y: 95
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e43cf09f63a62b330800000000000000
+      internalID: 3725156626128159566
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_45
+      rect:
+        serializedVersion: 2
+        x: 502
+        y: 95
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8bacd29109ff5cc90800000000000000
+      internalID: -7150027839017989448
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_46
+      rect:
+        serializedVersion: 2
+        x: 527
+        y: 95
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab004183815834300800000000000000
+      internalID: 235177944619942074
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hit-spark_47
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 15
+        width: 18
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e42ebf04b957e7270800000000000000
+      internalID: 8250160877059957326
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      hit-spark_0: 7823285663161915083
+      hit-spark_1: 1553920587600410547
+      hit-spark_10: 5911064818828236426
+      hit-spark_11: 3251171633279225906
+      hit-spark_12: 1621601464927547096
+      hit-spark_13: 5469150024435188246
+      hit-spark_14: -7474709303476891440
+      hit-spark_15: 6723954613548340132
+      hit-spark_16: -2741724357058492120
+      hit-spark_17: 7215609999109503167
+      hit-spark_18: -2103956029644244639
+      hit-spark_19: -910670875562802237
+      hit-spark_2: -8495280315541125354
+      hit-spark_20: -2248407430561489671
+      hit-spark_21: -5209613851383170440
+      hit-spark_22: -4231993821904664019
+      hit-spark_23: 3587528883528527099
+      hit-spark_24: -5026339354296560663
+      hit-spark_25: -7823130465611355815
+      hit-spark_26: 6568264108534254437
+      hit-spark_27: 6508025664170418953
+      hit-spark_28: 5284091453819003963
+      hit-spark_29: -4082628919332979222
+      hit-spark_3: -6116580807883667202
+      hit-spark_30: -7539645643313323750
+      hit-spark_31: 630794916058059488
+      hit-spark_32: 2639379746408213734
+      hit-spark_33: 3959125703282787411
+      hit-spark_34: 8399640231110639016
+      hit-spark_35: -6812585186695321073
+      hit-spark_36: -3779428161288214390
+      hit-spark_37: 2120946966027709174
+      hit-spark_38: 7400555528952044333
+      hit-spark_39: -8471130121976735471
+      hit-spark_4: 4629783596962353544
+      hit-spark_40: 3236170512916192630
+      hit-spark_41: 4757832234148100479
+      hit-spark_42: -2012497725616922058
+      hit-spark_43: -360113309970529819
+      hit-spark_44: 3725156626128159566
+      hit-spark_45: -7150027839017989448
+      hit-spark_46: 235177944619942074
+      hit-spark_47: 8250160877059957326
+      hit-spark_5: -3253097456972317373
+      hit-spark_6: -6773150492150565342
+      hit-spark_7: -5184028578528514081
+      hit-spark_8: 3443903583280654469
+      hit-spark_9: 2190340667587356169
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
