@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class EnemySpawnerMan2 : MonoBehaviour
 {
+    public event Action SongEnded;
+    private bool songEnded;
     [Header("References")]
     [SerializeField] private MidiReader midiReader;
     [SerializeField] private List<GameObject> enemyPrefabs;
@@ -147,6 +149,7 @@ public class EnemySpawnerMan2 : MonoBehaviour
 
 
         bossSpawned = false;
+        songEnded = false;
 
         if (activeBoss != null)
         {
@@ -249,6 +252,38 @@ public class EnemySpawnerMan2 : MonoBehaviour
         activeEnemies.RemoveAll(
             enemy => enemy == null
         );
+
+        CheckSongEnd();
+    }
+
+    private void CheckSongEnd()
+    {
+        if (songEnded || musicSource == null || musicSource.clip == null)
+            return;
+
+        float clipLen = musicSource.clip.length;
+
+        // Hết nốt + không còn enemy + nhạc đã dừng.
+        // Mốc clipLen + 3s là lưới an toàn nếu có enemy bị kẹt.
+        bool finished =
+            nextEventIndex >= spawnEvents.Count &&
+            SongTime >= clipLen &&
+            (activeEnemies.Count == 0 || SongTime >= clipLen + 3f);
+
+        if (!finished)
+            return;
+
+        songEnded = true;
+        isPlaying = false;
+
+        // Boss còn sống khi hết nhạc: xoá (không tính là bị hạ)
+        if (activeBoss != null)
+        {
+            Destroy(activeBoss.gameObject);
+            activeBoss = null;
+        }
+
+        SongEnded?.Invoke();
     }
 
     // =========================================

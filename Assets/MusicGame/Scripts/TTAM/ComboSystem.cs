@@ -28,6 +28,7 @@ public class ComboSystem : MonoBehaviour
     private RectTransform judgmentParentRect;
     private Vector2 lastJudgmentPos;
     private Vector2 judgmentStartPos;
+    public int MaxCombo { get; private set; }
 
     [Header("Number Pop")]
     [SerializeField] private float numberPopScale = 1.5f;
@@ -206,6 +207,9 @@ public class ComboSystem : MonoBehaviour
     public void HitNote()
     {
         combo++;
+
+        if (combo > MaxCombo) 
+            MaxCombo = combo; 
 
         UpdateJudgment();
         ShowComboUI();

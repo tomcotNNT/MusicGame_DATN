@@ -4,11 +4,11 @@
 - Active scene:
   - Name: Man2
   - Tags:
-    - Untagged, Respawn, Finish, EditorOnly, MainCamera, Player, GameController, Note, Wall, Ground, HitPointTop, HitPointBottom, BossAttackPosition, Enemy
+    - Untagged, Respawn, Finish, EditorOnly, MainCamera, Player, GameController, Note, Wall, Ground, HitPointTop, HitPointBottom, BossAttackPosition, Enemy, BossBullet
   - Layers:
-    - Default, TransparentFX, Ignore Raycast, Water, UI, Enemy
+    - Default, TransparentFX, Ignore Raycast, Water, UI, Enemy, BossBullet
 - Active game object:
-  - Name: FirePoint
+  - Name: ScoreText
   - Tag: Untagged
-  - Layer: Enemy
+  - Layer: UI
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->
