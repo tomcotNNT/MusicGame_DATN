@@ -1,4 +1,3 @@
-
 using System;
 using UnityEngine;
 using UnityEngine.Events;
@@ -8,6 +7,7 @@ public class EnemyRhythmController : MonoBehaviour
     public enum HitGrade
     {
         Perfect,
+        Great,
         Good,
         Miss
     }
@@ -26,12 +26,9 @@ public class EnemyRhythmController : MonoBehaviour
     [SerializeField] private Transform vfxPoint;
 
     [Header("Timing")]
-    [SerializeField] private float perfectWindow = 0.10f;
+    [SerializeField] private float perfectWindow = 0.08f;
+    [SerializeField] private float greatWindow = 0.14f;
     [SerializeField] private float goodWindow = 0.20f;
-
-    [Header("Score")]
-    [SerializeField] private int perfectScore = 100;
-    [SerializeField] private int goodScore = 50;
 
     [Header("Events")]
     public UnityEvent<int> onNoteHit;
@@ -139,9 +136,9 @@ public class EnemyRhythmController : MonoBehaviour
 
         float error = TimingError;
 
-        grade = error <= perfectWindow
-            ? HitGrade.Perfect
-            : HitGrade.Good;
+        if (error <= perfectWindow)     grade = HitGrade.Perfect;
+        else if (error <= greatWindow)  grade = HitGrade.Great;
+        else                            grade = HitGrade.Good;
 
         RegisterHit(grade);
 
@@ -150,29 +147,27 @@ public class EnemyRhythmController : MonoBehaviour
 
     private void RegisterHit(HitGrade grade)
     {
-        int score = grade == HitGrade.Perfect
-            ? perfectScore
-            : goodScore;
+        // Đổi sang ScoreGrade (sg) để dùng chung cho điểm và ảnh judgment
+        ScoreSystem.ScoreGrade sg =
+            grade == HitGrade.Perfect ? ScoreSystem.ScoreGrade.Perfect :
+            grade == HitGrade.Great   ? ScoreSystem.ScoreGrade.Great   :
+                                        ScoreSystem.ScoreGrade.Good;
 
-        // Cộng Score thông qua PlayerController2
+        int score = grade == HitGrade.Perfect ? 200
+                  : grade == HitGrade.Great   ? 150
+                  : 100;   // chỉ để truyền cho UnityEvent onNoteHit
+
+        // Cộng điểm theo mức
         if (playerController != null)
-        {
-            playerController.AddScore(score);
-        }
+            playerController.AddScore(grade);
         else
-        {
             Debug.LogWarning("PlayerController2 not found!");
-        }
 
-        // Tăng Combo
+        // Tăng combo + ảnh judgment theo mức
         if (comboSystem != null)
-        {
-            comboSystem.HitNote();
-        }
+            comboSystem.HitNote(sg);
         else
-        {
             Debug.LogWarning("ComboSystem not found!");
-        }
 
         // Attack Animation
         if (animator != null)
