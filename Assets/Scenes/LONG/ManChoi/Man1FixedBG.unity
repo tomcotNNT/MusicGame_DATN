@@ -1141,6 +1141,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ScoreSystem
   scorePerNote: 100
   scoreText: {fileID: 1896015188}
+  popupText: {fileID: 0}
+  player: {fileID: 0}
+  worldCamera: {fileID: 0}
+  canvas: {fileID: 0}
+  playerWorldOffset: {x: 0, y: 1, z: 0}
+  startXOffset: 60
+  startYOffset: -20
+  riseDistance: 90
+  popupPrefix: +
+  popAnimationDuration: 0.12
+  popupHideDelay: 0.5
 --- !u!1 &234829890
 GameObject:
   m_ObjectHideFlags: 0
@@ -1522,8 +1533,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Ready '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
-  m_sharedMaterial: {fileID: -1467977752007274282, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2167,11 +2178,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6455be64fbf609449e00c6044f3813d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MidiReader
-  ignoreDrums: 1
+  contentMode: 1
+  forcedTrackIndex: -1
+  preferNamedTracks: 1
+  requireDrumChannel: 1
+  allowedDrumPitches: 
+  filterDrumPitches: 0
+  mapDrumsByType: 1
+  hiHatLane: 1
+  otherDrumLane: 0
+  allowedPitches: 
+  filterCustomPitches: 1
+  bassMinPitch: 28
+  bassMaxPitch: 55
   laneCount: 2
   laneMode: 0
   splitPitch: 60
   maxSameLane: 3
+  minimumNoteDistance: 0.15
+  timeOffset: 0
   longNoteMinDuration: 0.5
   longNoteTailGap: 0.25
 --- !u!82 &459371225
@@ -3859,10 +3884,8 @@ MonoBehaviour:
   worldCamera: {fileID: 519420031}
   canvas: {fileID: 1627216513}
   playerWorldOffset: {x: 0, y: 2.79, z: 0}
-  minRadius: 62
-  maxRadius: 135
-  judgmentMaxRotation: 12
-  minDistanceFromLast: 120
+  startYOffset: -20
+  riseDistance: 90
   numberPopScale: 1.5
   numberPopDuration: 0.2
   waveAmplitude: 8
@@ -4078,18 +4101,31 @@ MonoBehaviour:
   player: {fileID: 2008411973}
   spawnPoint: {fileID: 983721398}
   longNoteYOffset: 6.5
-  coinSpawner: {fileID: 625427041}
+  hitPointBottom: {fileID: 0}
+  hitPointTop: {fileID: 0}
+  man2: 0
+  enemyPrefab: {fileID: 0}
+  spawnLeft: {fileID: 0}
+  spawnRight: {fileID: 0}
+  man2TravelTime: 1.5
+  man2MinInterval: 0.15
   bossSpawner: {fileID: 2135059614}
+  bossAppearAt: 0.5
   keySpeed: 8
   loopWithSpeedUp: 1
   speedStep: 0.15
   maxSpeed: 2.5
   nextRoundLeadIn: 1.5
+  maxRounds: 1
   isTutorial: 0
   spawnAheadTime: 2
   autoSpawnAhead: 1
   minKeyGap: 1.5
   randomLane: 0
+  itemPrefabs: []
+  itemEveryNNotes: 4
+  itemRandomPick: 0
+  itemCanReplaceLongNote: 0
   longNotePrefab: {fileID: 4216641539723573487, guid: 4b2aa78745d0e154fba2cf4af593d47e, type: 3}
   scoreSystem: {fileID: 230136156}
   longNoteMinDuration: 0.5
@@ -5337,8 +5373,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
-  m_sharedMaterial: {fileID: -1467977752007274282, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -6084,20 +6120,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f1cf679c03d9a7459230d20b9b05dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ResultSystem
-  star1Score: 15000
-  star2Score: 25000
-  star3Score: 35000
   resultPanel: {fileID: 1544290757}
   scoreText: {fileID: 951839814}
-  starImages:
-  - {fileID: 1790910486}
-  - {fileID: 27821770}
-  - {fileID: 757231100}
-  starOn: {fileID: 4537489976979972008, guid: f241daa206898b54aa6d92d436d36065, type: 3}
-  starOff: {fileID: 4537489976979972008, guid: 91f6b621b8a3fb746bccdd37e5c5c50d, type: 3}
-  delayBetweenStars: 0.4
-  popDuration: 0.25
-  popOvershoot: 1.4
   sfxSource: {fileID: 1364280813}
   starSound: {fileID: 8300000, guid: dc7f9a1a0b188014b8b41eb4aa7fc724, type: 3}
 --- !u!114 &1364280815
@@ -6740,8 +6764,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: L
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
-  m_sharedMaterial: {fileID: -1467977752007274282, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -7088,8 +7112,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
-  m_sharedMaterial: {fileID: -1467977752007274282, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -7409,8 +7433,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
-  m_sharedMaterial: {fileID: -1467977752007274282, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -7885,8 +7909,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: SCORE
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
-  m_sharedMaterial: {fileID: -1467977752007274282, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -8785,8 +8809,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: R
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
-  m_sharedMaterial: {fileID: -1467977752007274282, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -9208,8 +9232,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 1000000
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
-  m_sharedMaterial: {fileID: -1467977752007274282, guid: 6ceb4668a1c475649976ac46eaa97175, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -9760,24 +9784,46 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerLaneController
   isGround: 1
-  jumpForce: 22
-  bossSpawner: {fileID: 0}
-  minSwipeDistance: 80
-  swipeOnRelease: 0
+  startPoint: {fileID: 0}
+  entryPoint: {fileID: 0}
+  introMoveSpeed: 5
+  outroMoveSpeed: 4
+  dashSpeed: 60
+  hangTime: 0.15
+  riseYOffset: 0
+  enableFreeJump: 1
+  jumpKey: 97
+  jumpTarget: {fileID: 0}
+  jumpHeight: 2.5
+  requireGround: 1
+  feverShooter: {fileID: 0}
+  leftKey: 97
+  rightKey: 100
+  comboWindow: 0.08
+  attackTriggers:
+  - Attack1
+  - Attack2
+  - Attack3
+  avoidRepeat: 1
   pianoKeySpawner: {fileID: 861260837}
   WinPanel: {fileID: 1544290757}
   resultSystem: {fileID: 1364280814}
   scoreSystem: {fileID: 230136156}
+  boss: {fileID: 0}
+  loseIfBossAliveAtEnd: 0
+  playerHealth: {fileID: 0}
   countdownText: {fileID: 325852676}
+  readyToGoTime: 3
+  goDuration: 1
   letterDelay: 0.1
-  readyHoldTime: 0.6
-  shrinkDuration: 0.2
-  popDuration: 0.25
-  popOvershoot: 1.3
   countdownAudio: {fileID: 2008411980}
   ReadySound: {fileID: 8300000, guid: 74938815bd6134d44a1be1fdd1d8bebb, type: 3}
   goSound: {fileID: 8300000, guid: dc7f9a1a0b188014b8b41eb4aa7fc724, type: 3}
   audioSource: {fileID: 2008411980}
+  holdAttackTrigger: Sing
+  hitAudioSource: {fileID: 0}
+  hitSound: {fileID: 0}
+  hitVolume: 1
 --- !u!50 &2008411975
 Rigidbody2D:
   serializedVersion: 5
@@ -9866,6 +9912,10 @@ MonoBehaviour:
   maxHealth: 50
   damagePerMiss: 10
   HPbar: {fileID: 0}
+  gameOverPanel: {fileID: 0}
+  gameOverDelay: 1
+  pauseAudioOnDeath: 1
+  menuSceneName: 
 --- !u!95 &2008411978
 Animator:
   serializedVersion: 7
@@ -10261,9 +10311,8 @@ MonoBehaviour:
   spawnPoint: {fileID: 1906374409}
   stopPoint: {fileID: 1906374409}
   damagePerAttack: 1
-  feverSystem: {fileID: 916470994}
+  retreatSpeed: 4
   attackWhenFeverFull: 1
-  feverAlsoDamagesBoss: 0
 --- !u!1001 &7803740456591869894
 PrefabInstance:
   m_ObjectHideFlags: 0
