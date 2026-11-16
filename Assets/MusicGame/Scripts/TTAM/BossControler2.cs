@@ -4,7 +4,8 @@ using System.Collections;
 using UnityEngine;
 
 public class BossController2 : MonoBehaviour
-{
+{   
+    public static event Action AnyBossDefeated;
     [Header("References")]
     [SerializeField] private Animator animator;
     [SerializeField] private Transform firePoint;
@@ -310,6 +311,8 @@ public class BossController2 : MonoBehaviour
 
         if (showDebug)
             Debug.Log("[BOSS] DEFEATED!");
+
+        AnyBossDefeated?.Invoke();    
 
         Destroy(gameObject);
     }
