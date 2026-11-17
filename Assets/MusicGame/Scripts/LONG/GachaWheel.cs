@@ -203,9 +203,19 @@ public class GachaReward
     }
 
     public void SpinX1()
+{
+    if (IsBusy() || !ValidateWheel())
+        return;
+
+    if (GachaTicketManager.Instance == null ||
+        !GachaTicketManager.Instance.SpendTickets(1))
     {
-        StartPaidSpin(1, x1DiamondCost);
+        ShowNotice("Không đủ vé quay!");
+        return;
     }
+
+    StartCoroutine(SpinSequence(1));
+}
 
     public void SpinX5()
     {
