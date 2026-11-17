@@ -5,20 +5,26 @@ using System.Globalization;
 
 public class ScoreSystem : MonoBehaviour
 {
+    public enum ScoreGrade { Good, Great, Perfect }
+
     [Header("Score")]
+    [SerializeField] private int goodScore = 100;
+    [SerializeField] private int greatScore = 150;
+    [SerializeField] private int perfectScore = 200;
+    [Tooltip("Điểm mặc định khi gọi AddScore() không truyền mức")]
     [SerializeField] private int scorePerNote = 100;
 
     [Header("UI")]
     [SerializeField] private TMP_Text scoreText;
 
     [Header("Score Popup (bay lên)")]
-    [Tooltip("Text popup +điểm, đặt sẵn trong Canvas (cùng Canvas với judgment của ComboSystem)")]
+    [Tooltip("Text mẫu, đặt sẵn trong Canvas. Mỗi lần cộng điểm sẽ nhân bản từ nó")]
     [SerializeField] private TMP_Text popupText;
-    [SerializeField] private Transform player;            // kéo Player vào đây
-    [SerializeField] private Camera worldCamera;          // để trống = Camera.main
-    [SerializeField] private Canvas canvas;               // canvas chứa popupText
+    [SerializeField] private Transform player;
+    [SerializeField] private Camera worldCamera;
+    [SerializeField] private Canvas canvas;
     [SerializeField] private Vector3 playerWorldOffset = new Vector3(0f, 1f, 0f);
-    [SerializeField] private float startXOffset = 60f;    // lệch ngang để không đè lên judgment
+    [SerializeField] private float startXOffset = 60f;
     [SerializeField] private float startYOffset = -20f;
     [SerializeField] private float riseDistance = 90f;
     [SerializeField] private string popupPrefix = "+";
@@ -31,11 +37,7 @@ public class ScoreSystem : MonoBehaviour
 
     private RectTransform popupParentRect;
     private Vector2 lastPopupPos;
-    private Vector2 popupStartPos;
     private Vector3 originalPopupScale;
-
-    private Coroutine popupAnimRoutine;
-    private Coroutine popupHideRoutine;
 
     private void Start()
     {
@@ -51,9 +53,9 @@ public class ScoreSystem : MonoBehaviour
             popupParentRect = popupText.rectTransform.parent as RectTransform;
             lastPopupPos = popupText.rectTransform.anchoredPosition;
 
+            // Bản mẫu luôn ẩn
             popupText.text = "";
-            popupText.enabled = false;
-            popupText.rectTransform.localScale = Vector3.zero;
+            popupText.gameObject.SetActive(false);
         }
     }
 
@@ -66,6 +68,16 @@ public class ScoreSystem : MonoBehaviour
         AddScore(scorePerNote);
     }
 
+    public void AddScore(ScoreGrade grade)
+    {
+        switch (grade)
+        {
+            case ScoreGrade.Perfect: AddScore(perfectScore); break;
+            case ScoreGrade.Great:   AddScore(greatScore);   break;
+            default:                 AddScore(goodScore);    break;
+        }
+    }
+
     public void AddScore(int amount)
     {
         score += amount;
@@ -75,10 +87,9 @@ public class ScoreSystem : MonoBehaviour
     }
 
     // =====================================================
-    // POPUP
+    // POPUP (mỗi lần cộng điểm = 1 popup riêng)
     // =====================================================
 
-    // Đổi vị trí world của player -> toạ độ local trong canvas
     private Vector2 GetPlayerCanvasPos()
     {
         if (player == null || worldCamera == null || popupParentRect == null)
@@ -101,45 +112,32 @@ public class ScoreSystem : MonoBehaviour
         if (popupText == null)
             return;
 
-        popupStartPos = GetPlayerCanvasPos() + new Vector2(startXOffset, startYOffset);
-        lastPopupPos = popupStartPos;
+        Vector2 start = GetPlayerCanvasPos() + new Vector2(startXOffset, startYOffset);
+        lastPopupPos = start;
 
-        RectTransform rect = popupText.rectTransform;
-        rect.anchoredPosition = popupStartPos;
-        rect.localRotation = Quaternion.identity;
-        rect.localScale = originalPopupScale;
+        TMP_Text t = Instantiate(popupText, popupText.transform.parent);
+        t.gameObject.SetActive(true);
+        t.enabled = true;
+        t.text = popupPrefix + amount.ToString("#,##0", CultureInfo.InvariantCulture);
 
-        popupText.text = popupPrefix + amount.ToString("#,##0", CultureInfo.InvariantCulture);
-        popupText.enabled = true;
-        popupText.gameObject.SetActive(true);
-
-        if (popupAnimRoutine != null)
-            StopCoroutine(popupAnimRoutine);
-        popupAnimRoutine = StartCoroutine(AnimatePopup());
-
-        if (popupHideRoutine != null)
-            StopCoroutine(popupHideRoutine);
-        popupHideRoutine = StartCoroutine(HidePopupAfterDelay());
+        StartCoroutine(AnimatePopup(t, start));
     }
 
-    // Phóng to (pop) ở đầu, đồng thời trượt thẳng lên suốt thời gian popup hiển thị
-    private IEnumerator AnimatePopup()
+    private IEnumerator AnimatePopup(TMP_Text t, Vector2 start)
     {
-        if (popupText == null)
-            yield break;
+        RectTransform rect = t.rectTransform;
+        rect.anchoredPosition = start;
+        rect.localRotation = Quaternion.identity;
 
-        RectTransform rect = popupText.rectTransform;
-        Vector2 start = popupStartPos;
         Vector2 end = start + new Vector2(0f, riseDistance);
-
-        float duration = Mathf.Max(0.05f, popupHideDelay * 0.95f);
+        float duration = Mathf.Max(0.05f, popupHideDelay);
         float elapsed = 0f;
 
-        while (elapsed < duration)
+        while (elapsed < duration && t != null)
         {
-            float t = elapsed / duration;
-            float easedRise = 1f - (1f - t) * (1f - t);   // ease-out
-            rect.anchoredPosition = Vector2.Lerp(start, end, easedRise);
+            float k = elapsed / duration;
+            float eased = 1f - (1f - k) * (1f - k);
+            rect.anchoredPosition = Vector2.Lerp(start, end, eased);
 
             float popT = Mathf.Clamp01(elapsed / popAnimationDuration);
             rect.localScale = originalPopupScale * Mathf.Lerp(0.5f, 1f, popT);
@@ -148,23 +146,8 @@ public class ScoreSystem : MonoBehaviour
             yield return null;
         }
 
-        rect.anchoredPosition = end;
-        rect.localScale = originalPopupScale;
-        popupAnimRoutine = null;
-    }
-
-    private IEnumerator HidePopupAfterDelay()
-    {
-        yield return new WaitForSeconds(popupHideDelay);
-
-        if (popupText != null)
-        {
-            popupText.text = "";
-            popupText.enabled = false;
-            popupText.rectTransform.localScale = Vector3.zero;
-        }
-
-        popupHideRoutine = null;
+        if (t != null)
+            Destroy(t.gameObject);
     }
 
     // =====================================================
@@ -174,9 +157,7 @@ public class ScoreSystem : MonoBehaviour
     private void UpdateScoreUI()
     {
         if (scoreText != null)
-        {
             scoreText.text = score.ToString("#,##0", CultureInfo.InvariantCulture);
-        }
     }
 
     public int GetScore()

@@ -1,12 +1,29 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class EndGameManager : MonoBehaviour
 {
+    [System.Serializable]
+    public class ConditionRow
+    {
+        [Tooltip("Chữ mô tả điều kiện (sẽ được gõ từng chữ)")]
+        public TMP_Text label;
+        [Tooltip("Dấu '-' / 'X' đỏ ở đầu hàng")]
+        public TMP_Text status;
+        [Tooltip("Sao nhỏ nằm ở hàng, sẽ bay lên ô sao chính (để tắt sẵn)")]
+        public Image flyStar;
+        [Tooltip("Ô sao chính trên hàng sao")]
+        public Image mainStar;
+        [Tooltip("Mẫu chữ. {0} = mốc cần đạt, {1} = số thực tế")]
+        public string text = "Điểm ≥ {0} ({1})";
+    }
+
     [Header("References")]
-    [SerializeField] private EnemySpawnerMan2 pianoKeySpawner;
+    [FormerlySerializedAs("pianoKeySpawner")]
+    [SerializeField] private EnemySpawnerMan2 spawner;
     [SerializeField] private ScoreSystem scoreSystem;
     [SerializeField] private ComboSystem comboSystem;
 
@@ -14,8 +31,10 @@ public class EndGameManager : MonoBehaviour
     [SerializeField] private GameObject endPanel;
     [SerializeField] private TMP_Text scoreText;
 
-    [Header("Sao (3 Image: sao 1 = điểm, sao 2 = combo, sao 3 = boss)")]
-    [SerializeField] private Image[] starImages = new Image[3];
+    [Header("3 hàng điều kiện: 0 = điểm, 1 = combo, 2 = boss")]
+    [SerializeField] private ConditionRow[] rows = new ConditionRow[3];
+
+    [Header("Sprite")]
     [SerializeField] private Sprite starOn;
     [SerializeField] private Sprite starOff;
 
@@ -24,10 +43,17 @@ public class EndGameManager : MonoBehaviour
     [SerializeField] private int comboForStar = 20;
 
     [Header("Hiển thị")]
-    [Tooltip("Chờ bao lâu sau khi hết nhạc mới hiện panel (để player lùi về xong)")]
     [SerializeField] private float showDelay = 2f;
-    [SerializeField] private float starInterval = 0.35f;
+    [SerializeField] private float letterDelay = 0.04f;
+    [SerializeField] private float rowPause = 0.25f;
+    [SerializeField] private float flyDuration = 0.6f;
+    [SerializeField] private float flyScale = 1.5f;
     [SerializeField] private float starPopScale = 1.4f;
+
+    [Header("Màu")]
+    [SerializeField] private Color pendingColor = new Color(0.6f, 0.6f, 0.6f);
+    [SerializeField] private Color successColor = new Color(0.4f, 1f, 0.4f);
+    [SerializeField] private Color failColor = new Color(1f, 0.25f, 0.25f);
 
     private bool bossDefeated;
     private bool shown;
@@ -44,22 +70,19 @@ public class EndGameManager : MonoBehaviour
 
         BossController2.AnyBossDefeated += OnBossDefeated;
 
-        if (pianoKeySpawner != null)
-            pianoKeySpawner.SongEnded += OnSongEnded;
+        if (spawner != null)
+            spawner.SongEnded += OnSongEnded;
     }
 
     private void OnDestroy()
     {
         BossController2.AnyBossDefeated -= OnBossDefeated;
 
-        if (pianoKeySpawner != null)
-            pianoKeySpawner.SongEnded -= OnSongEnded;
+        if (spawner != null)
+            spawner.SongEnded -= OnSongEnded;
     }
 
-    private void OnBossDefeated()
-    {
-        bossDefeated = true;
-    }
+    private void OnBossDefeated() => bossDefeated = true;
 
     private void OnSongEnded()
     {
@@ -75,44 +98,133 @@ public class EndGameManager : MonoBehaviour
         int score = scoreSystem != null ? scoreSystem.GetScore() : 0;
         int maxCombo = comboSystem != null ? comboSystem.MaxCombo : 0;
 
-        bool scoreOk = score >= scoreForStar;
-        bool comboOk = maxCombo >= comboForStar;
-        bool bossOk = bossDefeated;
+        bool[] earned =
+        {
+            score >= scoreForStar,
+            maxCombo >= comboForStar,
+            bossDefeated
+        };
 
-        Stars = (scoreOk ? 1 : 0) + (comboOk ? 1 : 0) + (bossOk ? 1 : 0);
+        string[] labels =
+        {
+            string.Format(rows[0].text, scoreForStar, score),
+            string.Format(rows[1].text, comboForStar, maxCombo),
+            string.Format(rows[2].text, "", "")
+        };
+
+        Stars = 0;
+        foreach (bool e in earned)
+            if (e) Stars++;
 
         if (endPanel != null)
             endPanel.SetActive(true);
 
-        if (scoreText != null) scoreText.text = score.ToString();
+        if (scoreText != null)
+            scoreText.text = score.ToString();
 
-        // Tắt hết sao rồi bật lần lượt
-        foreach (Image s in starImages)
+        // Trạng thái ban đầu: mọi hàng là "-", chưa có chữ, sao tắt
+        foreach (ConditionRow r in rows)
         {
-            if (s == null) continue;
-            s.sprite = starOff;
-            s.transform.localScale = Vector3.one;
+            if (r == null) continue;
+
+            if (r.label != null) r.label.text = "";
+
+            if (r.status != null)
+            {
+                r.status.text = "-";
+                r.status.color = pendingColor;
+            }
+
+            if (r.flyStar != null) r.flyStar.gameObject.SetActive(false);
+
+            if (r.mainStar != null)
+            {
+                r.mainStar.sprite = starOff;
+                r.mainStar.transform.localScale = Vector3.one;
+            }
         }
 
-        bool[] earned = { scoreOk, comboOk, bossOk };
-
-        for (int i = 0; i < starImages.Length && i < earned.Length; i++)
+        // Lần lượt từng hàng
+        for (int i = 0; i < rows.Length && i < earned.Length; i++)
         {
-            yield return new WaitForSecondsRealtime(starInterval);
+            ConditionRow row = rows[i];
+            if (row == null) continue;
 
-            if (!earned[i] || starImages[i] == null)
-                continue;
+            yield return new WaitForSecondsRealtime(rowPause);
 
-            starImages[i].sprite = starOn;
-            yield return StartCoroutine(Pop(starImages[i].transform));
+            // Gõ từng chữ
+            if (row.label != null)
+            {
+                row.label.color = pendingColor;
+
+                for (int c = 1; c <= labels[i].Length; c++)
+                {
+                    row.label.text = labels[i].Substring(0, c);
+                    yield return new WaitForSecondsRealtime(letterDelay);
+                }
+            }
+
+            yield return new WaitForSecondsRealtime(0.15f);
+
+            if (earned[i])
+            {
+                if (row.label != null) row.label.color = successColor;
+                if (row.status != null) row.status.text = "";   // nhường chỗ cho sao nhỏ
+
+                yield return StartCoroutine(FlyStar(row));
+            }
+            else
+            {
+                if (row.label != null) row.label.color = failColor;
+
+                if (row.status != null)
+                {
+                    row.status.text = "X";
+                    row.status.color = failColor;
+                }
+            }
         }
     }
 
-    private static void SetCondition(TMP_Text text, string label, bool ok)
+    // Sao nhỏ ở hàng bay lên ô sao chính, rồi ô sao chính sáng + pop
+    private IEnumerator FlyStar(ConditionRow row)
     {
-        if (text == null) return;
-        text.text = (ok ? "✔ " : "✘ ") + label;
-        text.color = ok ? new Color(0.4f, 1f, 0.4f) : new Color(0.7f, 0.7f, 0.7f);
+        if (row.mainStar == null)
+            yield break;
+
+        if (row.flyStar != null)
+        {
+            Transform t = row.flyStar.transform;
+            Vector3 startPos = t.position;
+            Vector3 startScale = t.localScale;
+            Vector3 endPos = row.mainStar.transform.position;
+
+            row.flyStar.sprite = starOn;
+            row.flyStar.gameObject.SetActive(true);
+
+            float time = 0f;
+            while (time < flyDuration)
+            {
+                time += Time.unscaledDeltaTime;
+                float k = Mathf.SmoothStep(0f, 1f, time / flyDuration);
+
+                t.position = Vector3.Lerp(startPos, endPos, k);
+
+                // To lên giữa chặng bay cho có cảm giác "bay"
+                float bump = Mathf.Sin(k * Mathf.PI);
+                t.localScale = startScale * Mathf.Lerp(1f, flyScale, bump);
+
+                yield return null;
+            }
+
+            // Trả sao nhỏ về chỗ cũ rồi ẩn
+            t.position = startPos;
+            t.localScale = startScale;
+            row.flyStar.gameObject.SetActive(false);
+        }
+
+        row.mainStar.sprite = starOn;
+        yield return StartCoroutine(Pop(row.mainStar.transform));
     }
 
     private IEnumerator Pop(Transform t)
@@ -123,9 +235,8 @@ public class EndGameManager : MonoBehaviour
         while (time < dur)
         {
             time += Time.unscaledDeltaTime;
-            float k = time / dur;
-            float s = Mathf.Lerp(starPopScale, 1f, k);
-            t.localScale = Vector3.one * s;
+            float k = Mathf.Clamp01(time / dur);
+            t.localScale = Vector3.one * Mathf.Lerp(starPopScale, 1f, k);
             yield return null;
         }
 

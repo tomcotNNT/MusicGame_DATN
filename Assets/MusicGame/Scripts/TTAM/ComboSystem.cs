@@ -4,10 +4,16 @@ using TMPro;
 using System.Collections;
 
 public class ComboSystem : MonoBehaviour
-{
+{   
+    [Header("Score")]
+    [SerializeField] private int scoreGood = 100;
+    [SerializeField] private int scoreGreat = 200;
+    [SerializeField] private int scorePerfect = 300;
+
     [Header("UI")]
     [SerializeField] private TMP_Text comboLabelText;   // chữ "COMBO" (gợn sóng)
     [SerializeField] private TMP_Text comboNumberText;  // số "x100" (scale khi tăng)
+
 
     [Header("Judgment Images")]
     [SerializeField] private Image judgmentImage;
@@ -204,14 +210,30 @@ public class ComboSystem : MonoBehaviour
     // HIT / MISS
     // =====================================================
 
+    // Gọi không tham số: ảnh judgment chọn theo số combo (như cũ)
     public void HitNote()
+    {
+        HitNoteInternal(null);
+    }
+
+    // Gọi có mức hit: ảnh judgment theo đúng mức
+    public void HitNote(ScoreSystem.ScoreGrade grade)
+    {
+        HitNoteInternal(grade);
+    }
+
+    private void HitNoteInternal(ScoreSystem.ScoreGrade? grade)
     {
         combo++;
 
-        if (combo > MaxCombo) 
-            MaxCombo = combo; 
+        if (combo > MaxCombo)
+            MaxCombo = combo;
 
-        UpdateJudgment();
+        if (grade.HasValue)
+            SetJudgmentByGrade(grade.Value);
+        else
+            UpdateJudgment();
+
         ShowComboUI();
         ShowJudgmentImage();
 
@@ -230,6 +252,16 @@ public class ComboSystem : MonoBehaviour
         if (judgmentHideRoutine != null)
             StopCoroutine(judgmentHideRoutine);
         judgmentHideRoutine = StartCoroutine(HideJudgmentAfterDelay());
+    }
+
+    private void SetJudgmentByGrade(ScoreSystem.ScoreGrade grade)
+    {
+        switch (grade)
+        {
+            case ScoreSystem.ScoreGrade.Perfect: SetJudgmentSprite(perfectSprite); break;
+            case ScoreSystem.ScoreGrade.Great:   SetJudgmentSprite(awesomeSprite); break;
+            default:                             SetJudgmentSprite(goodSprite);    break;
+        }
     }
 
     public void MissNote()
@@ -272,6 +304,7 @@ public class ComboSystem : MonoBehaviour
             SetJudgmentSprite(awesomeSprite);
         else
             SetJudgmentSprite(goodSprite);
+
     }
 
     private void SetJudgmentSprite(Sprite sprite)
