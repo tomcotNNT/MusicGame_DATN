@@ -5,33 +5,68 @@ using UnityEngine.UI;
 public class AchievementItemUI : MonoBehaviour
 {
     [Range(0, 4)] public int achievementIndex;
-    [Header("Assign children from this Archive item")]
+
+    [Header("Text UI trong Archive")]
     public TMP_Text nameText;
     public TMP_Text descriptionText;
     public TMP_Text progressText;
     public TMP_Text rewardText;
-    public TMP_Text claimButtonText;
+
+    [Header("Keo Reward > RewardImage vao day (Image)")]
+    public Image rewardImage;
+
+    [Header("Tuy chon - co the de trong")]
     public Image progressFill;
-    public Button claimButton;
+
+    [Header("Hien thi anh khi chua du dieu kien / da nhan")]
+    [Range(0f, 1f)] public float lockedAlpha = 0.55f;
+    [Range(0f, 1f)] public float claimedAlpha = 0.35f;
+
+    private Button rewardButton;
+
+    private void Awake()
+    {
+        SetupRewardButton();
+    }
 
     private void OnEnable()
     {
         AchievementManager.OnAchievementsChanged += Refresh;
-        if (claimButton != null) claimButton.onClick.AddListener(Claim);
+        SetupRewardButton();
         Refresh();
     }
 
     private void OnDisable()
     {
         AchievementManager.OnAchievementsChanged -= Refresh;
-        if (claimButton != null) claimButton.onClick.RemoveListener(Claim);
+        if (rewardButton != null)
+            rewardButton.onClick.RemoveListener(ClaimReward);
+    }
+
+    private void SetupRewardButton()
+    {
+        if (rewardImage == null) return;
+
+        rewardImage.raycastTarget = true;
+        rewardButton = rewardImage.GetComponent<Button>();
+        if (rewardButton == null)
+            rewardButton = rewardImage.gameObject.AddComponent<Button>();
+
+        // Giữ nguyên Sprite/màu pixel art, chỉ thay alpha trong Refresh.
+        rewardButton.transition = Selectable.Transition.None;
+        rewardButton.onClick.RemoveListener(ClaimReward);
+        if (isActiveAndEnabled)
+            rewardButton.onClick.AddListener(ClaimReward);
     }
 
     public void Refresh()
     {
-        var manager = AchievementManager.Instance;
-        if (manager == null || manager.definitions == null || achievementIndex >= manager.definitions.Length) return;
-        var a = manager.definitions[achievementIndex];
+        AchievementManager manager = AchievementManager.Instance;
+        if (manager == null || manager.definitions == null ||
+            achievementIndex < 0 || achievementIndex >= manager.definitions.Length)
+            return;
+
+        AchievementDefinition a = manager.definitions[achievementIndex];
         int progress = manager.GetProgress(achievementIndex);
         bool completed = manager.IsCompleted(achievementIndex);
         bool claimed = manager.IsClaimed(achievementIndex);
@@ -39,16 +74,29 @@ public class AchievementItemUI : MonoBehaviour
         if (nameText != null) nameText.text = a.title;
         if (descriptionText != null)
             descriptionText.text = a.stat == AchievementStat.HighestCombo
-                ? "Reach " + a.target + " Combo" : "Reach " + a.target.ToString("N0") + " Score";
-        if (progressText != null) progressText.text = Mathf.Min(progress, a.target).ToString("N0") + "/" + a.target.ToString("N0");
-        if (rewardText != null) rewardText.text = "+" + a.rewardAmount + " " + a.rewardType;
-        if (progressFill != null) progressFill.fillAmount = a.target > 0 ? Mathf.Clamp01((float)progress / a.target) : 1f;
-        if (claimButton != null) claimButton.interactable = completed && !claimed;
-        if (claimButtonText != null) claimButtonText.text = claimed ? "CLAIMED" : completed ? "CLAIM" : "LOCKED";
+                ? "Reach " + a.target + " Combo"
+                : "Reach " + a.target.ToString("N0") + " Score";
+        if (progressText != null)
+            progressText.text = Mathf.Min(progress, a.target).ToString("N0") + "/" + a.target.ToString("N0");
+        if (rewardText != null)
+            rewardText.text = "+" + a.rewardAmount;
+        if (progressFill != null)
+            progressFill.fillAmount = a.target > 0
+                ? Mathf.Clamp01((float)progress / a.target) : 1f;
+
+        if (rewardImage != null)
+        {
+            Color c = rewardImage.color;
+            c.a = claimed ? claimedAlpha : completed ? 1f : lockedAlpha;
+            rewardImage.color = c;
+        }
+        if (rewardButton != null)
+            rewardButton.interactable = completed && !claimed;
     }
 
-    private void Claim()
+    private void ClaimReward()
     {
-        if (AchievementManager.Instance != null) AchievementManager.Instance.Claim(achievementIndex);
+        if (AchievementManager.Instance != null)
+            AchievementManager.Instance.Claim(achievementIndex);
     }
 }

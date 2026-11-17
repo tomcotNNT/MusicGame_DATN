@@ -1,24 +1,36 @@
-
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class LobbyDiamondDisplay : MonoBehaviour
 {
     [Header("Diamond Text")]
     public TMP_Text diamondText;
 
+    private void OnEnable()
+    {
+        GameManager.OnCurrencyChanged -= UpdateDiamondUI;
+        GameManager.OnCurrencyChanged += UpdateDiamondUI;
+        UpdateDiamondUI();
+    }
+
     private void Start()
     {
         UpdateDiamondUI();
     }
 
+    private void OnDisable()
+    {
+        GameManager.OnCurrencyChanged -= UpdateDiamondUI;
+    }
+
     public void UpdateDiamondUI()
     {
-        int diamonds = PlayerPrefs.GetInt("Diamond", 0);
-
-        if (diamondText != null)
+        if (diamondText == null) return;
+        if (GameManager.Instance == null)
         {
-            diamondText.text = diamonds.ToString("N0");
+            Debug.LogWarning("[LobbyDiamondDisplay] GameManager chưa tồn tại.", this);
+            return;
         }
+        diamondText.text = GameManager.Instance.playerData.totalDiamonds.ToString("N0");
     }
 }

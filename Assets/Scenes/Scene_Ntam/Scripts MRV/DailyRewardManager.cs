@@ -133,7 +133,11 @@ public class DailyRewardManager : MonoBehaviour
         }
 
         // Give the reward
-        GiveReward(currentDay);
+        if (!GiveReward(currentDay))
+        {
+            ShowStatus("Could not grant reward!");
+            return;
+        }
 
         // Save claim data
         PlayerPrefs.SetString(
@@ -166,55 +170,48 @@ if (heartUI != null)
         );
     }
 
-    private void GiveReward(int day)
+    private bool GiveReward(int day)
     {
         int amount = rewardAmounts[day - 1];
+        if (amount <= 0) return false;
 
-        string rewardKey = "";
-
-        switch (day)
+        if (day >= 1 && day <= 3)
         {
-            case 1:
-                rewardKey = "Coin";
-                break;
+            if (GameManager.Instance == null)
+            {
+                Debug.LogError("Daily Gift: GameManager not found!");
+                return false;
+            }
 
-            case 2:
-            case 3:
-                rewardKey = "Diamond";
-                break;
-
-            case 4:
-                rewardKey = "Heart";
-                break;
-
-            case 5:
-                rewardKey = "Headphone";
-                break;
-
-            case 6:
-                rewardKey = "SpecialItem";
-                break;
-
-            case 7:
-                rewardKey = "RareItem";
-                break;
+            if (day == 1) GameManager.Instance.AddCoins(amount);
+            else GameManager.Instance.AddDiamonds(amount);
+        }
+        else
+        {
+            string rewardKey = day == 4 ? "Heart" :
+                               day == 5 ? "Headphone" :
+                               day == 6 ? "SpecialItem" :
+                               day == 7 ? "RareItem" : "";
+            if (string.IsNullOrEmpty(rewardKey)) return false;
+            PlayerPrefs.SetInt(rewardKey, PlayerPrefs.GetInt(rewardKey, 0) + amount);
+            PlayerPrefs.Save();
         }
 
-        if (string.IsNullOrEmpty(rewardKey))
-            return;
+        Debug.Log("Daily Gift: Day " + day + " +" + amount);
+        return true;
+    }
 
-        int oldAmount =
-            PlayerPrefs.GetInt(rewardKey, 0);
-
-        PlayerPrefs.SetInt(
-            rewardKey,
-            oldAmount + amount
-        );
-
-        Debug.Log(
-            "Day " + day +
-            ": +" + amount + " " + rewardKey
-        );
+    [ContextMenu("Test: Reset Daily Gift")]
+    public void ResetDailyGift()
+    {
+        PlayerPrefs.DeleteKey(LastClaimKey);
+        PlayerPrefs.DeleteKey(DayKey);
+        PlayerPrefs.DeleteKey(ClaimedKey);
+        PlayerPrefs.Save();
+        currentDay = 1;
+        claimedToday = false;
+        RefreshUI();
+        ShowStatus("Daily Gift reset to Day 1");
     }
 
     private void RefreshUI()

@@ -322,56 +322,42 @@ public class GachaReward
     {
         isSpinning = true;
         RefreshUI();
-
         StringBuilder results = new StringBuilder();
+        GachaReward lastReward = null;
+        bool allGranted = true;
 
         for (int i = 0; i < count; i++)
         {
             int selectedIndex = ChooseReward();
-
-            yield return StartCoroutine(
-                SpinToReward(selectedIndex)
-            );
-
+            yield return StartCoroutine(SpinToReward(selectedIndex));
             GachaReward reward = rewards[selectedIndex];
-
-            bool granted = GiveReward(reward);
-            if (granted && count == 1)
-{
-    ShowRewardResult(reward);
-}
-
-            if (!granted)
+            if (!GiveReward(reward))
             {
-                results.AppendLine(
-                    "Không thể cộng phần thưởng!"
-                );
+                allGranted = false;
+                results.AppendLine("Không thể cộng phần thưởng!");
                 break;
             }
 
-            if (reward.type == RewardType.Nothing)
-            {
-                results.AppendLine(
-                    "Chúc bạn may mắn lần sau!"
-                );
-            }
-            else
-            {
-                string name = GetRewardName(reward);
-
-                results.AppendLine(
-                    "Chúc mừng! Bạn nhận được " +
-                    reward.amount + " " + name
-                );
-            }
+            lastReward = reward;
+            results.AppendLine(reward.type == RewardType.Nothing
+                ? "Chúc bạn may mắn lần sau!"
+                : "Nhận được " + reward.amount + " " + GetRewardName(reward));
 
             if (count > 1 && i < count - 1)
                 yield return new WaitForSeconds(0.3f);
         }
 
         isSpinning = false;
-
-        ShowNotice(results.ToString().TrimEnd());
+        if (count == 1 && allGranted && lastReward != null)
+        {
+            ShowRewardResult(lastReward);
+        }
+        else
+        {
+            if (iconItemReceive != null) iconItemReceive.enabled = false;
+            if (quantityText != null) quantityText.gameObject.SetActive(false);
+            ShowNotice(results.ToString().TrimEnd());
+        }
         RefreshUI();
     }
 
