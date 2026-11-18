@@ -159,4 +159,26 @@ public class PlayerDataManager : MonoBehaviour
     {
         return SavePath;
     }
+
+    public bool IsLevelUnlocked(int levelId)
+    {
+        if (Data == null || Data.progression == null)
+            return false;
+
+        return Data.progression.unlockedLevels.Contains(levelId);
+    }
+
+    public void UnlockLevel(int levelId)
+    {
+        if (Data == null || Data.progression == null)
+            return;
+
+        if (!Data.progression.unlockedLevels.Contains(levelId))
+        {
+            Data.progression.unlockedLevels.Add(levelId);
+            SaveData();
+
+            Debug.Log("Unlocked Level: " + levelId);
+        }
+    }
 }

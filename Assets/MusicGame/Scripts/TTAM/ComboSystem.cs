@@ -273,7 +273,6 @@ public class ComboSystem : MonoBehaviour
     public void ResetCombo()
     {
         combo = 0;
-        maxCombo = 0;
     }
 
     // Giữ để code cũ gọi HitNote(grade) không lỗi. Grade bị bỏ qua, chỉ tính theo combo.

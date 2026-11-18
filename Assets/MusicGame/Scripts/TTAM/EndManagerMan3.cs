@@ -25,6 +25,8 @@ public class EndGameManMan3 : MonoBehaviour
     [SerializeField] private SubmarineRhythmSpawner spawner;
     [SerializeField] private ScoreSystem scoreSystem;
     [SerializeField] private ComboSystem comboSystem;
+    [Header("Level Data")]
+    [SerializeField] private int levelId = 3;
 
     [Header("Cuộn số điểm")]
     [SerializeField] private float rollDuration = 1.5f;
@@ -33,6 +35,16 @@ public class EndGameManMan3 : MonoBehaviour
     [Tooltip("Giữ các chữ số cùng độ rộng để số không bị rung ngang khi cuộn")]
     [SerializeField] private bool useMonospace = true;
     [SerializeField] private float monospaceEm = 0.6f;
+
+    [Header("Coin Reward")]
+    [SerializeField] private int coinFor1Star = 200;
+    [SerializeField] private int coinFor2Stars = 500;
+    [SerializeField] private int coinFor3Stars = 1000;
+
+    [Header("Coin UI")]
+    [SerializeField] private TMP_Text coinRewardText;
+
+    private int earnedCoin;
 
     [Header("Panel")]
     [SerializeField] private GameObject endPanel;
@@ -87,7 +99,7 @@ public class EndGameManMan3 : MonoBehaviour
 
     private void OnDestroy()
     {
-        SubmarineController.AnyBossDefeated += OnBossDefeated;
+        SubmarineController.AnyBossDefeated -= OnBossDefeated;
 
         if (spawner != null)
             spawner.SongEnded -= OnSongEnded;
@@ -123,16 +135,66 @@ public class EndGameManMan3 : MonoBehaviour
             string.Format(rows[2].text, "", "")
         };
 
+        // Tính tổng số sao
         Stars = 0;
-        foreach (bool e in earned)
-            if (e) Stars++;
 
+        foreach (bool e in earned)
+        {
+            if (e)
+                Stars++;
+        }
+
+        // Tính Coin nhận được
+        earnedCoin = CalculateCoinReward(Stars);
+
+        // Cộng Coin vào dữ liệu người chơi
+        if (PlayerDataManager.Instance != null)
+        {
+            PlayerDataManager.Instance.AddCoin(earnedCoin);
+
+            Debug.Log(
+                $"Level Completed | Stars: {Stars} | Coin: +{earnedCoin}"
+            );
+        }
+        else
+        {
+            Debug.LogError("PlayerDataManager not found!");
+        }
+
+        int finalScore = scoreSystem.GetScore();
+        int finalCombo = comboSystem.MaxCombo;
+
+        if (PlayerDataManager.Instance != null)
+        {
+            PlayerDataManager.Instance.UpdateLevelRecord(
+                levelId,
+                finalScore,
+                finalCombo
+            );
+        }
+
+        // Hiển thị Coin nhận được
+       // Hiển thị End Panel trước
         if (endPanel != null)
             endPanel.SetActive(true);
 
-       if (scoreText != null)
-            yield return StartCoroutine(RollNumber(scoreText, score));
+        // Cuộn số Score
+        if (scoreText != null)
+        {
+            yield return StartCoroutine(
+                RollNumber(scoreText, score)
+            );
+        }    
 
+        // Cuộn số Coin nhận được
+        if (coinRewardText != null)
+        {
+            yield return StartCoroutine(
+                RollCoinNumber(coinRewardText, earnedCoin)
+            );
+        }
+
+        
         foreach (ConditionRow r in rows)
         {
             if (r == null) continue;
@@ -301,8 +363,96 @@ public class EndGameManMan3 : MonoBehaviour
         yield return StartCoroutine(Pop(label.transform));
     }
 
+
+    private IEnumerator RollCoinNumber(TMP_Text label, int target)
+    {
+        string final = "+" + target.ToString("#,##0", CultureInfo.InvariantCulture);
+        int len = final.Length;
+
+        int digitCount = 0;
+
+        for (int i = 0; i < len; i++)
+        {
+            if (char.IsDigit(final[i]))
+                digitCount++;
+        }
+
+        // Chữ số bên trái chốt trước
+        float[] lockTime = new float[len];
+
+        int d = 0;
+
+        for (int i = 0; i < len; i++)
+        {
+            if (!char.IsDigit(final[i]))
+                continue;
+
+            float p = digitCount > 1
+                ? (float)d / (digitCount - 1)
+                : 1f;
+
+            lockTime[i] = rollDuration * Mathf.Lerp(0.4f, 1f, p);
+
+            d++;
+        }
+
+        char[] buffer = new char[len];
+
+        float time = 0f;
+        float nextChange = 0f;
+
+        while (time < rollDuration)
+        {
+            time += Time.unscaledDeltaTime;
+
+            if (time >= nextChange)
+            {
+                nextChange = time + rollInterval;
+
+                for (int i = 0; i < len; i++)
+                {
+                    if (!char.IsDigit(final[i]) || time >= lockTime[i])
+                    {
+                        buffer[i] = final[i];
+                    }
+                    else
+                    {
+                        buffer[i] = (char)('0' + Random.Range(0, 10));
+                    }
+                }
+
+                label.text = FormatRoll(new string(buffer));
+            }
+
+            yield return null;
+        }
+
+        label.text = FormatRoll(final);
+
+        yield return StartCoroutine(Pop(label.transform));
+    }
+
+
     private string FormatRoll(string s)
     {
         return useMonospace ? "<mspace=" + monospaceEm + "em>" + s + "</mspace>" : s;
+    }
+
+    private int CalculateCoinReward(int stars)
+    {
+        switch (stars)
+        {
+            case 1:
+                return coinFor1Star;
+
+            case 2:
+                return coinFor2Stars;
+
+            case 3:
+                return coinFor3Stars;
+
+            default:
+                return 0;
+        }
     }
 }
