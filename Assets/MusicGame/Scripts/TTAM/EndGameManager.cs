@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Globalization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -26,6 +27,14 @@ public class EndGameManager : MonoBehaviour
     [SerializeField] private EnemySpawnerMan2 spawner;
     [SerializeField] private ScoreSystem scoreSystem;
     [SerializeField] private ComboSystem comboSystem;
+
+    [Header("Cuộn số điểm")]
+    [SerializeField] private float rollDuration = 1.5f;
+    [Tooltip("Thời gian giữa 2 lần đổi chữ số ngẫu nhiên (giây)")]
+    [SerializeField] private float rollInterval = 0.05f;
+    [Tooltip("Giữ các chữ số cùng độ rộng để số không bị rung ngang khi cuộn")]
+    [SerializeField] private bool useMonospace = true;
+    [SerializeField] private float monospaceEm = 0.6f;
 
     [Header("Panel")]
     [SerializeField] private GameObject endPanel;
@@ -120,8 +129,7 @@ public class EndGameManager : MonoBehaviour
             endPanel.SetActive(true);
 
         if (scoreText != null)
-            scoreText.text = score.ToString();
-
+            yield return StartCoroutine(RollNumber(scoreText, score));
         // Trạng thái ban đầu: mọi hàng là "-", chưa có chữ, sao tắt
         foreach (ConditionRow r in rows)
         {
@@ -241,5 +249,62 @@ public class EndGameManager : MonoBehaviour
         }
 
         t.localScale = Vector3.one;
+    }
+
+    private IEnumerator RollNumber(TMP_Text label, int target)
+    {
+        string final = target.ToString("#,##0", CultureInfo.InvariantCulture);
+        int len = final.Length;
+
+        // Đếm số chữ số để chia thời điểm chốt
+        int digitCount = 0;
+        for (int i = 0; i < len; i++)
+            if (char.IsDigit(final[i])) digitCount++;
+
+        // Chữ số bên trái chốt sớm (40% thời gian), bên phải chốt cuối cùng (100%)
+        float[] lockTime = new float[len];
+        int d = 0;
+        for (int i = 0; i < len; i++)
+        {
+            if (!char.IsDigit(final[i])) continue;
+
+            float p = digitCount > 1 ? (float)d / (digitCount - 1) : 1f;
+            lockTime[i] = rollDuration * Mathf.Lerp(0.4f, 1f, p);
+            d++;
+        }
+
+        char[] buffer = new char[len];
+        float time = 0f;
+        float nextChange = 0f;
+
+        while (time < rollDuration)
+        {
+            time += Time.unscaledDeltaTime;
+
+            if (time >= nextChange)
+            {
+                nextChange = time + rollInterval;
+
+                for (int i = 0; i < len; i++)
+                {
+                    if (!char.IsDigit(final[i]) || time >= lockTime[i])
+                        buffer[i] = final[i];   // dấu phẩy hoặc chữ số đã chốt
+                    else
+                        buffer[i] = (char)('0' + Random.Range(0, 10));
+                }
+
+                label.text = FormatRoll(new string(buffer));
+            }
+
+            yield return null;
+        }
+
+        label.text = FormatRoll(final);
+        yield return StartCoroutine(Pop(label.transform));
+    }
+
+    private string FormatRoll(string s)
+    {
+        return useMonospace ? "<mspace=" + monospaceEm + "em>" + s + "</mspace>" : s;
     }
 }

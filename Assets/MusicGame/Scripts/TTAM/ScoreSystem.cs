@@ -7,10 +7,10 @@ public class ScoreSystem : MonoBehaviour
 {
     public enum ScoreGrade { Good, Great, Perfect }
 
-    [Header("Score")]
+    [Header("Score (Good 100 / Great 200 / Perfect 300)")]
     [SerializeField] private int goodScore = 100;
-    [SerializeField] private int greatScore = 150;
-    [SerializeField] private int perfectScore = 200;
+    [SerializeField] private int greatScore = 200;
+    [SerializeField] private int perfectScore = 300;
     [Tooltip("Điểm mặc định khi gọi AddScore() không truyền mức")]
     [SerializeField] private int scorePerNote = 100;
 
