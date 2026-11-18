@@ -24,7 +24,7 @@ public class EndGameManager : MonoBehaviour
 
     [Header("References")]
     [FormerlySerializedAs("pianoKeySpawner")]
-    [SerializeField] private EnemySpawnerMan2 spawner;
+    [SerializeField] private BossSpawner2 spawner;
     [SerializeField] private ScoreSystem scoreSystem;
     [SerializeField] private ComboSystem comboSystem;
 

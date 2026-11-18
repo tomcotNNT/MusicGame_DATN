@@ -8,7 +8,7 @@
   - Layers:
     - Default, TransparentFX, Ignore Raycast, Water, UI, Enemy, BossBullet
 - Active game object:
-  - Name: EndPanel
-  - Tag: Untagged
-  - Layer: UI
+  - Name: Boss
+  - Tag: Enemy
+  - Layer: Enemy
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->

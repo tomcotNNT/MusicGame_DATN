@@ -1,319 +1,260 @@
-
 using System;
-using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BossController2 : MonoBehaviour
-{   
-    public static event Action AnyBossDefeated;
-    [Header("References")]
-    [SerializeField] private Animator animator;
-    [SerializeField] private Transform firePoint;
-    [SerializeField] private GameObject bulletPrefab;
+{
+    [Header("Dịch chuyển giữa 2 điểm")]
+    [SerializeField] private Transform pointA;
+    [SerializeField] private Transform pointB;
+    [Tooltip("Cứ mỗi bao nhiêu giây thì Boss dịch chuyển sang điểm còn lại")]
+    [SerializeField] private float teleportInterval = 3f;
+    [Tooltip("Bật để Boss tự dịch chuyển theo thời gian")]
+    [SerializeField] private bool autoTeleport = true;
+    [Tooltip("Boss bắt đầu ở điểm A (tắt = bắt đầu ở điểm B)")]
+    [SerializeField] private bool startAtA = true;
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    [Tooltip("Bật nếu sprite Boss gốc đang quay mặt sang phải")]
+    [SerializeField] private bool spriteFacesRight = true;
+    [Tooltip("Tự lật mặt Boss về phía Player (nếu để trống thì lật theo điểm: A = trái, B = phải)")]
+    [SerializeField] private Transform faceTarget;
+    [Tooltip("Bật nếu Boss đang quay mặt ngược hướng mong muốn")]
+    [SerializeField] private bool invertFacing = false;
+
+    [Header("Teleport VFX")]
+    [SerializeField] private GameObject teleportVFXPrefab;
+    [Tooltip("Hiệu ứng tại chỗ Boss rời đi")]
+    [SerializeField] private bool vfxAtOldPosition = true;
+    [Tooltip("Hiệu ứng tại chỗ Boss xuất hiện")]
+    [SerializeField] private bool vfxAtNewPosition = true;
+    [SerializeField] private Vector3 vfxOffset = Vector3.zero;
+    [SerializeField] private float vfxDestroyTime = 1.5f;
 
     [Header("Animation")]
-    [SerializeField] private string attackTrigger = "Attack";
-    [SerializeField] private string takeHitTrigger = "TakeHit";
+    [SerializeField] private Animator animator;
+    [SerializeField] private string attackTrigger = "Attack1";
+    [Tooltip("Chạy trigger Attack1 mỗi lần dịch chuyển")]
+    [SerializeField] private bool playAttackOnTeleport = true;
 
-    [Header("Teleport")]
-    [SerializeField] private SpriteRenderer bossSprite;
-    [SerializeField] private GameObject disappearVFX;
-    [SerializeField] private GameObject appearVFX;
-    [SerializeField] private float disappearDuration = 0.25f;
-    [SerializeField] private float teleportCooldown = 4f;
+    private int attackHash;
 
-    [Header("Sprite Direction")]
-    [SerializeField] private bool spriteFacesRightByDefault = true;
+    [Header("Bobbing")]
+    [SerializeField] private float bobAmplitude = 0.15f;
+    [SerializeField] private float bobSpeed = 2f;
 
-    [Header("Lane Switch")]
-    [SerializeField] private bool enableLaneSwitch = true;
+    [Header("Drop")]
+    [Tooltip("Vị trí enemy xuất hiện (nòng bắn / miệng Boss)")]
+    [SerializeField] private Transform dropPoint;
 
-    [Header("Attack")]
-    [SerializeField] private float attackInterval = 2f;
-    [SerializeField] private float bulletSpeed = 8f;
+    [Header("Shake khi tấn công")]
+    [SerializeField] private CameraShake cameraShake;
+    [SerializeField] private float shakeDuration = 0.12f;
+    [SerializeField] private float shakeMagnitude = 0.12f;
 
-    [Header("Boss Health")]
-    [SerializeField] private int maxHealth = 10;
+    [Header("Boss HP")]
+    [Tooltip("Image kiểu Filled (Image Type = Filled, Fill Method = Horizontal)")]
+    [SerializeField] private Image hpFill;
+    [SerializeField] private float hpSmoothSpeed = 8f;
+    [Tooltip("Rung mạnh khi Boss bị hạ")]
+    [SerializeField] private float defeatShakeDuration = 0.6f;
+    [SerializeField] private float defeatShakeMagnitude = 0.4f;
 
-    [Header("Debug")]
-    [SerializeField] private bool showDebug = true;
+    public static event Action AnyBossDefeated;
 
-    private Transform laneLeft;
-    private Transform laneRight;
+    public int MaxHp { get; private set; }
+    public int CurrentHp { get; private set; }
+    public bool IsDefeated { get; private set; }
 
-    private Transform hitPointLeft;
-    private Transform hitPointRight;
+    private float displayedFill = 1f;
+    private bool atA;
+    private float teleportTimer;
+    private Vector3 basePosition;
 
-    private Transform currentTarget;
-    private Func<float> getSongTime;
-
-    private bool isLeft;
-    private bool initialized;
-    private bool isTeleporting;
-    private bool isDead;
-
-    private float nextSwitchTime;
-    private float nextAttackTime;
-
-    private int currentHealth;
-
-    public bool IsLeft => isLeft;
-    public int CurrentHealth => currentHealth;
-    public int MaxHealth => maxHealth;
-
-    public void Initialize(
-        bool startLeft,
-        Transform left,
-        Transform right,
-        Transform leftHitPoint,
-        Transform rightHitPoint,
-        Func<float> songTimeProvider)
+    private void Start()
     {
-        laneLeft = left;
-        laneRight = right;
+        if (spriteRenderer == null)
+            spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
-        hitPointLeft = leftHitPoint;
-        hitPointRight = rightHitPoint;
+        if (animator == null)
+            animator = GetComponentInChildren<Animator>();
 
-        getSongTime = songTimeProvider;
+        if (cameraShake == null && Camera.main != null)
+            cameraShake = Camera.main.GetComponent<CameraShake>();
 
-        if (getSongTime == null)
-        {
-            Debug.LogError("[BOSS] SongTime Provider is null!");
-            return;
-        }
+        attackHash = Animator.StringToHash(attackTrigger);
 
-        isLeft = startLeft;
-
-        currentTarget = isLeft ? laneLeft : laneRight;
-
-        if (currentTarget == null)
-        {
-            Debug.LogError("[BOSS] Lane Transform is missing!");
-            return;
-        }
-
-        transform.position = currentTarget.position;
-
-        currentHealth = Mathf.Max(1, maxHealth);
-
-        UpdateSpriteDirection();
-
-        float now = getSongTime();
-
-        nextSwitchTime = now + teleportCooldown;
-        nextAttackTime = now + attackInterval;
-
-        initialized = true;
-
-        if (showDebug)
-        {
-            Debug.Log(
-                "[BOSS] Initialized at " +
-                (isLeft ? "LEFT" : "RIGHT") +
-                " | HP: " + currentHealth
-            );
-        }
+        atA = startAtA;
+        SnapToCurrentPoint(false); // lần đầu vào scene: không chạy hiệu ứng
     }
 
     private void Update()
     {
-        if (!initialized || isTeleporting || isDead)
-            return;
-
-        float now = getSongTime();
-
-        // Teleport đổi lane
-        if (enableLaneSwitch && now >= nextSwitchTime)
+        // Tự dịch chuyển theo thời gian
+        if (autoTeleport && !IsDefeated)
         {
-            SwitchLane();
-            nextSwitchTime = now + teleportCooldown;
+            teleportTimer += Time.deltaTime;
+
+            if (teleportTimer >= teleportInterval)
+                TeleportToOtherPoint();
         }
 
-        // Bắn đạn
-        if (now >= nextAttackTime)
+        // Chỉ nhấp nhô nhẹ tại chỗ, không di chuyển
+        Vector3 pos = basePosition;
+        pos.y += Mathf.Sin(Time.time * bobSpeed) * bobAmplitude;
+        transform.position = pos;
+
+        if (hpFill != null && MaxHp > 0)
         {
-            Attack();
-            nextAttackTime = now + attackInterval;
+            float target = (float)CurrentHp / MaxHp;
+            displayedFill = Mathf.MoveTowards(displayedFill, target, hpSmoothSpeed * Time.deltaTime);
+            hpFill.fillAmount = displayedFill;
         }
     }
 
-    private void SwitchLane()
+    // =========================================
+    // TELEPORT
+    // =========================================
+
+    private void UpdateFacing()
     {
-        if (isTeleporting || isDead)
+        if (spriteRenderer == null)
             return;
 
-        StartCoroutine(TeleportToLane());
-    }
+        bool lookRight;
 
-    private IEnumerator TeleportToLane()
-    {
-        isTeleporting = true;
-
-        // VFX biến mất
-        SpawnVFX(disappearVFX, transform.position);
-
-        // Ẩn Sprite
-        if (bossSprite != null)
-            bossSprite.enabled = false;
-
-        yield return new WaitForSeconds(disappearDuration);
-
-        // Đổi lane
-        isLeft = !isLeft;
-
-        currentTarget = isLeft ? laneLeft : laneRight;
-
-        if (currentTarget != null)
-            transform.position = currentTarget.position;
-
-        // Lật Sprite
-        UpdateSpriteDirection();
-
-        // VFX xuất hiện
-        SpawnVFX(appearVFX, transform.position);
-
-        // Hiện Sprite
-        if (bossSprite != null)
-            bossSprite.enabled = true;
-
-        if (showDebug)
+        if (faceTarget != null)
         {
-            Debug.Log(
-                "[BOSS] Teleported to " +
-                (isLeft ? "LEFT" : "RIGHT")
-            );
+            // Quay về phía Player
+            lookRight = faceTarget.position.x > basePosition.x;
+        }
+        else
+        {
+            // Không có faceTarget: đứng ở A (bên trái) thì nhìn sang phải, ở B thì nhìn sang trái
+            lookRight = atA;
         }
 
-        isTeleporting = false;
+        if (invertFacing)
+            lookRight = !lookRight;
+
+        // Sprite gốc quay phải: nhìn phải thì không lật, nhìn trái thì lật
+        // Sprite gốc quay trái: ngược lại
+        spriteRenderer.flipX = spriteFacesRight ? !lookRight : lookRight;
     }
 
-    private void UpdateSpriteDirection()
-    {
-        if (bossSprite == null)
-            return;
+    // =========================================
+    // DROP / SHAKE
+    // =========================================
 
-        bossSprite.flipX = spriteFacesRightByDefault
-            ? !isLeft
-            : isLeft;
+    public Vector3 GetDropPosition()
+    {
+        return dropPoint != null ? dropPoint.position : transform.position;
     }
 
-    private void SpawnVFX(GameObject prefab, Vector3 position)
+    public void Shake()
     {
-        if (prefab == null)
+        if (cameraShake != null)
+            cameraShake.Shake(shakeDuration, shakeMagnitude);
+    }
+
+    public void Shake(float duration, float magnitude)
+    {
+        if (cameraShake != null)
+            cameraShake.Shake(duration, magnitude);
+    }
+
+    // =========================================
+    // HP
+    // =========================================
+
+    // Spawner gọi khi bắt đầu bài: máu tối đa = số nốt
+    public void InitHp(int maxHp)
+    {
+        MaxHp = Mathf.Max(1, maxHp);
+        CurrentHp = MaxHp;
+        IsDefeated = false;
+        displayedFill = 1f;
+
+        if (hpFill != null)
+            hpFill.fillAmount = 1f;
+    }
+
+    // Spawner gọi mỗi lần người chơi đánh trúng 1 enemy
+    public void TakeHit()
+    {
+        if (IsDefeated) return;
+
+        CurrentHp = Mathf.Max(0, CurrentHp - 1);
+
+        if (CurrentHp <= 0)
+        {
+            IsDefeated = true;
+            Shake(defeatShakeDuration, defeatShakeMagnitude);
+            AnyBossDefeated?.Invoke();
+        }
+    }
+
+    public void TeleportToOtherPoint()
+    {
+        atA = !atA;
+        SnapToCurrentPoint(true);
+    }
+
+    public void TeleportTo(bool toPointA)
+    {
+        // Đang ở đúng điểm đó rồi thì không dịch chuyển, không chạy hiệu ứng
+        if (atA == toPointA)
             return;
 
-        Instantiate(
-            prefab,
-            position,
+        atA = toPointA;
+        SnapToCurrentPoint(true);
+    }
+
+    private void SnapToCurrentPoint(bool playEffects)
+    {
+        teleportTimer = 0f;
+
+        Vector3 oldPosition = transform.position;
+
+        Transform target = atA ? pointA : pointB;
+        basePosition = target != null ? target.position : transform.position;
+
+        transform.position = basePosition;
+        UpdateFacing();
+
+        if (!playEffects)
+            return;
+
+        if (vfxAtOldPosition)
+            SpawnTeleportVFX(oldPosition);
+
+        if (vfxAtNewPosition)
+            SpawnTeleportVFX(basePosition);
+
+        if (playAttackOnTeleport)
+            PlayAttack();
+    }
+
+    private void SpawnTeleportVFX(Vector3 position)
+    {
+        if (teleportVFXPrefab == null)
+            return;
+
+        GameObject vfx = Instantiate(
+            teleportVFXPrefab,
+            position + vfxOffset,
             Quaternion.identity
         );
+
+        Destroy(vfx, vfxDestroyTime);
     }
 
-    private void Attack()
+    public void PlayAttack()
     {
-        Transform target = isLeft
-            ? hitPointLeft
-            : hitPointRight;
-
-        if (target == null || bulletPrefab == null)
-        {
-            if (showDebug)
-                Debug.LogWarning("[BOSS] Missing target or Bullet Prefab!");
-
-            return;
-        }
-
-        Vector3 spawnPosition = firePoint != null
-            ? firePoint.position
-            : transform.position;
-
-        GameObject bullet = Instantiate(
-            bulletPrefab,
-            spawnPosition,
-            Quaternion.identity
-        );
-
-        BossBullet projectile = bullet.GetComponent<BossBullet>();
-
-        if (projectile == null)
-        {
-            Debug.LogError(
-                "[BOSS] Bullet Prefab requires BossBullet!"
-            );
-
-            Destroy(bullet);
-            return;
-        }
-
-        projectile.Initialize(
-            target,
-            bulletSpeed,
-            isLeft,
-            this
-        );
-
-        if (animator != null &&
-            !string.IsNullOrEmpty(attackTrigger))
-        {
-            animator.SetTrigger(attackTrigger);
-        }
-
-        if (showDebug)
-        {
-            Debug.Log(
-                "[BOSS] Attacked " +
-                (isLeft ? "LEFT" : "RIGHT")
-            );
-        }
-    }
-
-    private void PlayTakeHitAnimation()
-    {
-        if (animator == null || string.IsNullOrEmpty(takeHitTrigger))
+        if (animator == null)
             return;
 
-        animator.ResetTrigger(attackTrigger);
-        animator.SetTrigger(takeHitTrigger);
-    }
-
-    public void ReceiveReflectedHit(int damage)
-    {
-        if (isDead)
-            return;
-
-        currentHealth -= Mathf.Max(1, damage);
-        currentHealth = Mathf.Max(0, currentHealth);
-
-        if (showDebug)
-        {
-            Debug.Log(
-                "[BOSS] HIT! HP: " +
-                currentHealth + "/" + maxHealth
-            );
-        }
-
-        // Phát animation khi Boss bị trúng đạn
-        PlayTakeHitAnimation();
-
-        if (currentHealth <= 0)
-            Die();
-    }
-
-    private void Die()
-    {
-        if (isDead)
-            return;
-
-        isDead = true;
-
-        StopAllCoroutines();
-
-        if (showDebug)
-            Debug.Log("[BOSS] DEFEATED!");
-
-        AnyBossDefeated?.Invoke();    
-
-        Destroy(gameObject);
+        // Reset trước để các lần dịch chuyển sát nhau vẫn replay được animation
+        animator.ResetTrigger(attackHash);
+        animator.SetTrigger(attackHash);
     }
 }

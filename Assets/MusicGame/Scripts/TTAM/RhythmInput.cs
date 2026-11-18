@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerRhythmInput : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private EnemySpawnerMan2 enemySpawner;
+    [SerializeField] private BossSpawner2 enemySpawner;
 
     private void Update()
     {

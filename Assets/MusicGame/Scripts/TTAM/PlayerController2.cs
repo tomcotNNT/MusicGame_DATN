@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -10,7 +9,7 @@ public class PlayerController2 : MonoBehaviour
     [SerializeField] private Animator animator;
 
     [Header("Rhythm System")]
-    [SerializeField] private EnemySpawnerMan2 enemySpawner;
+    [SerializeField] private BossSpawner2 enemySpawner;
 
     [Header("Score & Combo")]
     [SerializeField] private ScoreSystem scoreSystem;
@@ -20,9 +19,6 @@ public class PlayerController2 : MonoBehaviour
     [SerializeField] private Transform hitPointL;
     [SerializeField] private Transform hitPointR;
     [SerializeField] private float hitRadius = 0.6f;
-
-    [Header("Boss Bullet")]
-    [SerializeField] private LayerMask bossBulletLayer;
 
     [Header("Hit VFX")]
     [SerializeField] private GameObject hitVFXPrefab;
@@ -60,7 +56,7 @@ public class PlayerController2 : MonoBehaviour
             animator = GetComponentInChildren<Animator>();
 
         if (enemySpawner == null)
-            enemySpawner = FindFirstObjectByType<EnemySpawnerMan2>();
+            enemySpawner = FindFirstObjectByType<BossSpawner2>();
 
         if (scoreSystem == null)
             scoreSystem = FindFirstObjectByType<ScoreSystem>();
@@ -126,11 +122,6 @@ public class PlayerController2 : MonoBehaviour
             return;
         }
 
-        // Ưu tiên phản đạn Boss
-        if (TryReflectBossBullet(hitPoint))
-            return;
-
-        // Bắt nốt Enemy
         TryHitEnemyNote(isLeft);
     }
 
@@ -170,43 +161,6 @@ public class PlayerController2 : MonoBehaviour
         }
 
         PlayHitFeedback(transform.position);
-    }
-
-    // =========================================
-    // REFLECT BOSS BULLET
-    // =========================================
-
-    private bool TryReflectBossBullet(Transform hitPoint)
-    {
-        Collider2D[] bullets = Physics2D.OverlapCircleAll(
-            hitPoint.position,
-            hitRadius,
-            bossBulletLayer
-        );
-
-        foreach (Collider2D col in bullets)
-        {
-            if (col == null || !col.CompareTag("BossBullet"))
-                continue;
-
-            BossBullet bullet =
-                col.GetComponentInParent<BossBullet>();
-
-            if (bullet == null)
-                continue;
-
-            if (!bullet.TryReflect())
-                continue;
-
-            if (showDebug)
-                Debug.Log("[PLAYER] REFLECTED BOSS BULLET!");
-
-            PlayHitFeedback(bullet.transform.position);
-
-            return true;
-        }
-
-        return false;
     }
 
     // =========================================
