@@ -289,6 +289,10 @@ MonoBehaviour:
   touchVFXPrefab: {fileID: 6534240511995935521, guid: 6e57a3cf9435eb14fb9928fa4ee60c63, type: 3}
   targetCamera: {fileID: 690165604}
   vfxWorldZ: 0
+  enableClickSound: 1
+  clickSound: {fileID: 0}
+  clickVolume: 1
+  randomizePitch: 0
 --- !u!4 &296392258
 Transform:
   m_ObjectHideFlags: 0
@@ -338,7 +342,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 473, y: -379}
+  m_AnchoredPosition: {x: 501, y: -344}
   m_SizeDelta: {x: 524.49, y: 134.08}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &483354689
@@ -363,8 +367,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: TAP TO START
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: cff795b62545af9429319060574f9291, type: 2}
-  m_sharedMaterial: {fileID: -1067818911978945230, guid: cff795b62545af9429319060574f9291, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 58ce5fe5fd1911b4e819881a5ece5582, type: 2}
+  m_sharedMaterial: {fileID: 7148952429060436824, guid: 58ce5fe5fd1911b4e819881a5ece5582, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -388,8 +392,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 26
-  m_fontSizeBase: 26
+  m_fontSize: 72
+  m_fontSizeBase: 72
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -658,7 +662,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -540, y: -270}
+  m_AnchoredPosition: {x: -634, y: -235}
   m_SizeDelta: {x: 782.67, y: 434.55}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1101863557

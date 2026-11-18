@@ -6,12 +6,18 @@ using GoogleMobileAds.Api;
 
 public class RewardedAdsManager : MonoBehaviour
 {
-    // Google Rewarded test ID dành cho Android
+    // Google Rewarded Test Ad ID dành cho Android
     private const string AndroidTestAdUnitId =
         "ca-app-pub-3940256099942544/5224354917";
 
     private RewardedAd rewardedAd;
     private bool isLoading;
+
+    private Action pendingRewardAction;
+    private Action pendingFailedAction;
+
+    private bool hasEarnedReward;
+    private bool hasAdClosed;
 
     public bool IsReady =>
         rewardedAd != null && rewardedAd.CanShowAd();
@@ -27,9 +33,14 @@ public class RewardedAdsManager : MonoBehaviour
             }
 
             Debug.Log("AdMob initialized successfully.");
+
             LoadRewardedAd();
         });
     }
+
+    // ==============================
+    // LOAD REWARDED AD
+    // ==============================
 
     public void LoadRewardedAd()
     {
@@ -50,17 +61,37 @@ public class RewardedAdsManager : MonoBehaviour
                     Debug.LogWarning(
                         "Rewarded ad failed to load: " + error
                     );
+
                     return;
                 }
 
                 rewardedAd = ad;
 
+                Debug.Log("Rewarded ad is ready.");
+
+                // Quảng cáo đóng
                 rewardedAd.OnAdFullScreenContentClosed += () =>
                 {
+                    hasAdClosed = true;
+
+                    // Nếu chưa nhận được thưởng
+                    if (!hasEarnedReward)
+                    {
+                        pendingFailedAction?.Invoke();
+
+                        pendingFailedAction = null;
+                        pendingRewardAction = null;
+                    }
+
+                    CheckRewardComplete();
+
                     rewardedAd = null;
+
+                    // Tải quảng cáo tiếp theo
                     LoadRewardedAd();
                 };
 
+                // Quảng cáo gặp lỗi khi hiển thị
                 rewardedAd.OnAdFullScreenContentFailed +=
                     (AdError adError) =>
                     {
@@ -68,17 +99,30 @@ public class RewardedAdsManager : MonoBehaviour
                             "Rewarded ad failed to show: " + adError
                         );
 
+                        pendingFailedAction?.Invoke();
+
                         rewardedAd = null;
+
+                        pendingRewardAction = null;
+                        pendingFailedAction = null;
+
+                        hasEarnedReward = false;
+                        hasAdClosed = false;
+
                         LoadRewardedAd();
                     };
-
-                Debug.Log("Rewarded ad is ready.");
             }
         );
     }
 
-    // Chỉ gọi onReward khi Google xác nhận người chơi được thưởng.
-    public bool ShowRewarded(Action onReward)
+    // ==============================
+    // SHOW REWARDED AD
+    // ==============================
+
+    public bool ShowRewarded(
+        Action onReward,
+        Action onFailed = null
+    )
     {
         if (!IsReady)
         {
@@ -87,20 +131,50 @@ public class RewardedAdsManager : MonoBehaviour
             );
 
             LoadRewardedAd();
+
             return false;
         }
 
         RewardedAd adToShow = rewardedAd;
 
-        // Chặn việc hiển thị cùng một quảng cáo hai lần.
+        // Không cho hiển thị lại cùng một quảng cáo
         rewardedAd = null;
+
+        pendingRewardAction = onReward;
+        pendingFailedAction = onFailed;
+
+        hasEarnedReward = false;
+        hasAdClosed = false;
 
         adToShow.Show((Reward reward) =>
         {
-            // Chuyển xử lý thưởng về Unity main thread.
-            onReward?.Invoke();
+            Debug.Log("Rewarded ad reward received.");
+
+            hasEarnedReward = true;
+
+            CheckRewardComplete();
         });
 
         return true;
+    }
+
+    // ==============================
+    // CHECK REWARD
+    // ==============================
+
+    private void CheckRewardComplete()
+    {
+        if (hasEarnedReward && hasAdClosed)
+        {
+            Debug.Log("Rewarded ad completed successfully.");
+
+            pendingRewardAction?.Invoke();
+
+            pendingRewardAction = null;
+            pendingFailedAction = null;
+
+            hasEarnedReward = false;
+            hasAdClosed = false;
+        }
     }
 }
