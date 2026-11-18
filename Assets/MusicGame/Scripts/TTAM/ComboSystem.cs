@@ -207,6 +207,10 @@ public class ComboSystem : MonoBehaviour
     {
         combo++;
 
+        // Ghi nhan combo cao nhat cho Achievements.
+        if (AchievementManager.Instance != null)
+            AchievementManager.Instance.ReportCombo(combo);
+
         UpdateJudgment();
         ShowComboUI();
         ShowJudgmentImage();

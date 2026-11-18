@@ -70,6 +70,10 @@ public class ScoreSystem : MonoBehaviour
     {
         score += amount;
 
+        // Ghi nhan diem cao nhat cho Achievements.
+        if (AchievementManager.Instance != null)
+            AchievementManager.Instance.ReportScore(score);
+
         UpdateScoreUI();
         ShowPopup(amount);
     }

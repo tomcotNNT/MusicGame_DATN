@@ -219,31 +219,18 @@ public class GachaReward
 
     public void SpinX5()
     {
-        StartPaidSpin(5, x5DiamondCost);
-    }
-
-    private void StartPaidSpin(int count, int cost)
-    {
         if (IsBusy() || !ValidateWheel())
             return;
 
-        if (GameManager.Instance == null)
+        if (GachaTicketManager.Instance == null ||
+            !GachaTicketManager.Instance.SpendTickets(5))
         {
-            Debug.LogError("GameManager not found!");
+            ShowNotice("Không đủ 5 vé TIME để quay!");
+            RefreshUI();
             return;
         }
 
-        if (cost < 0)
-            return;
-
-        if (cost > 0 &&
-            !GameManager.Instance.SpendDiamonds(cost))
-        {
-            ShowNotice("Không đủ kim cương!");
-            return;
-        }
-
-        StartCoroutine(SpinSequence(count));
+        StartCoroutine(SpinSequence(5));
     }
 
     public void SpinWithRewardedAd()
@@ -575,11 +562,15 @@ public class GachaReward
     {
         bool busy = IsBusy();
 
+        int availableTickets = GachaTicketManager.Instance != null
+            ? GachaTicketManager.Instance.GetTickets()
+            : 0;
+
         if (x1Button != null)
-            x1Button.interactable = !busy;
+            x1Button.interactable = !busy && availableTickets >= 1;
 
         if (x5Button != null)
-            x5Button.interactable = !busy;
+            x5Button.interactable = !busy && availableTickets >= 5;
 
         if (okButton != null)
             okButton.interactable =

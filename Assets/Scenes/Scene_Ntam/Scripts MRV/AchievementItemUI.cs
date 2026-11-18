@@ -44,20 +44,21 @@ public class AchievementItemUI : MonoBehaviour
     }
 
     private void SetupRewardButton()
-    {
-        if (rewardImage == null) return;
+{
+    if (rewardImage == null) return;
 
-        rewardImage.raycastTarget = true;
-        rewardButton = rewardImage.GetComponent<Button>();
-        if (rewardButton == null)
-            rewardButton = rewardImage.gameObject.AddComponent<Button>();
+    rewardImage.raycastTarget = true;
 
-        // Giữ nguyên Sprite/màu pixel art, chỉ thay alpha trong Refresh.
-        rewardButton.transition = Selectable.Transition.None;
-        rewardButton.onClick.RemoveListener(ClaimReward);
-        if (isActiveAndEnabled)
-            rewardButton.onClick.AddListener(ClaimReward);
-    }
+    rewardButton = rewardImage.GetComponent<Button>();
+
+    if (rewardButton == null)
+        rewardButton = rewardImage.gameObject.AddComponent<Button>();
+
+    rewardButton.transition = Selectable.Transition.None;
+
+    rewardButton.onClick.RemoveListener(ClaimReward);
+    rewardButton.onClick.AddListener(ClaimReward);
+}
 
     public void Refresh()
     {
@@ -94,9 +95,54 @@ public class AchievementItemUI : MonoBehaviour
             rewardButton.interactable = completed && !claimed;
     }
 
-    private void ClaimReward()
+    public void ClaimReward()
     {
-        if (AchievementManager.Instance != null)
-            AchievementManager.Instance.Claim(achievementIndex);
+        AchievementManager manager = AchievementManager.Instance;
+        if (manager == null)
+        {
+            Debug.LogError("[Achievement] Khong tim thay AchievementManager trong scene.");
+            return;
+        }
+
+        if (GameManager.Instance == null)
+        {
+            Debug.LogError("[Achievement] Khong tim thay GameManager. Hay them GameManager vao scene khoi dau (LobbyNT).");
+            return;
+        }
+
+        if (manager.definitions == null || achievementIndex < 0 ||
+            achievementIndex >= manager.definitions.Length)
+        {
+            Debug.LogError("[Achievement] Achievement Index khong hop le: " + achievementIndex);
+            return;
+        }
+
+        if (manager.IsClaimed(achievementIndex))
+        {
+            Debug.LogWarning("[Achievement] Phan thuong da duoc nhan: " + achievementIndex);
+            Refresh();
+            return;
+        }
+
+        if (!manager.IsCompleted(achievementIndex))
+        {
+            Debug.LogWarning("[Achievement] Chua hoan thanh nhiem vu: " + achievementIndex);
+            Refresh();
+            return;
+        }
+
+        bool success = manager.Claim(achievementIndex);
+        if (success)
+        {
+            Debug.Log("[Achievement] Nhan thuong thanh cong! Index=" + achievementIndex +
+                ", Coin=" + GameManager.Instance.playerData.totalCoins +
+                ", Diamond=" + GameManager.Instance.playerData.totalDiamonds);
+        }
+        else
+        {
+            Debug.LogError("[Achievement] Claim tra ve false. Kiem tra AchievementManager.Claim(). Index=" + achievementIndex);
+        }
+
+        Refresh();
     }
 }
