@@ -164,4 +164,9 @@ public class ScoreSystem : MonoBehaviour
     {
         return score;
     }
+    public void ResetScore()
+    {
+        score = 0;
+        UpdateScoreUI();
+    }
 }
