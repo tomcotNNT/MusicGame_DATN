@@ -1139,6 +1139,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48d870f2fecc0a2458bfb263deb08b10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScoreSystem
+  goodScore: 100
+  greatScore: 200
+  perfectScore: 300
   scorePerNote: 100
   scoreText: {fileID: 1896015188}
   popupText: {fileID: 0}
@@ -3872,11 +3875,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df29e8a1ffa93804ea50b0e5eff1cdd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ComboSystem
+  scoreSystem: {fileID: 0}
+  greatCombo: 5
+  perfectCombo: 10
   comboLabelText: {fileID: 1609016684}
   comboNumberText: {fileID: 1566575456}
   judgmentImage: {fileID: 1110652937}
   goodSprite: {fileID: 7136714779170010723, guid: 95bd74a0e68953a499f76e5c5351c8bb, type: 3}
-  awesomeSprite: {fileID: -2576124040473027337, guid: 95bd74a0e68953a499f76e5c5351c8bb, type: 3}
+  greatSprite: {fileID: -2576124040473027337, guid: 95bd74a0e68953a499f76e5c5351c8bb, type: 3}
   perfectSprite: {fileID: -4048163772151588603, guid: 95bd74a0e68953a499f76e5c5351c8bb, type: 3}
   missSprite: {fileID: 9221342647978663572, guid: 95bd74a0e68953a499f76e5c5351c8bb, type: 3}
   setNativeSize: 0
@@ -3894,8 +3900,6 @@ MonoBehaviour:
   hitAnimationDuration: 0.12
   hideDelay: 3
   judgmentHideDelay: 0.5
-  awesomeCombo: 6
-  perfectCombo: 10
   colorTier1: 5
   colorTier2: 15
   colorTier3: 25
@@ -10313,67 +10317,6 @@ MonoBehaviour:
   damagePerAttack: 1
   retreatSpeed: 4
   attackWhenFeverFull: 1
---- !u!1001 &7803740456591869894
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1849893719742770829, guid: fa9723fdbd6ac984abd39f1391e0d120, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -1.0182209
-      objectReference: {fileID: 0}
-    - target: {fileID: 1849893719742770829, guid: fa9723fdbd6ac984abd39f1391e0d120, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -1.7610073
-      objectReference: {fileID: 0}
-    - target: {fileID: 1849893719742770829, guid: fa9723fdbd6ac984abd39f1391e0d120, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1849893719742770829, guid: fa9723fdbd6ac984abd39f1391e0d120, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1849893719742770829, guid: fa9723fdbd6ac984abd39f1391e0d120, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1849893719742770829, guid: fa9723fdbd6ac984abd39f1391e0d120, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1849893719742770829, guid: fa9723fdbd6ac984abd39f1391e0d120, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1849893719742770829, guid: fa9723fdbd6ac984abd39f1391e0d120, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1849893719742770829, guid: fa9723fdbd6ac984abd39f1391e0d120, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1849893719742770829, guid: fa9723fdbd6ac984abd39f1391e0d120, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6137108044125532773, guid: fa9723fdbd6ac984abd39f1391e0d120, type: 3}
-      propertyPath: m_Name
-      value: Magnet
-      objectReference: {fileID: 0}
-    - target: {fileID: 6137108044125532773, guid: fa9723fdbd6ac984abd39f1391e0d120, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: fa9723fdbd6ac984abd39f1391e0d120, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -10386,4 +10329,3 @@ SceneRoots:
   - {fileID: 2097076519}
   - {fileID: 25114625}
   - {fileID: 1477870754}
-  - {fileID: 7803740456591869894}
