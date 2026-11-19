@@ -5,4 +5,6 @@ public class CurrencyData
 {
     public int coin = 0;
     public int diamond = 0;
+    public long totalCoinEarned;
+    public long totalDiamondEarned;
 }

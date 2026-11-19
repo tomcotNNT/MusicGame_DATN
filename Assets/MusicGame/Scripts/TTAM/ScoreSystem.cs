@@ -35,6 +35,15 @@ public class ScoreSystem : MonoBehaviour
 
     private int score;
 
+    // Số lần đạt từng mức trong lượt chơi này (cộng dồn vào JSON ở cuối màn)
+    private int goodCount;
+    private int greatCount;
+    private int perfectCount;
+
+    public int GoodCount => goodCount;
+    public int GreatCount => greatCount;
+    public int PerfectCount => perfectCount;
+
     private RectTransform popupParentRect;
     private Vector2 lastPopupPos;
     private Vector3 originalPopupScale;
@@ -42,6 +51,7 @@ public class ScoreSystem : MonoBehaviour
     private void Start()
     {
         score = 0;
+        ResetGradeCounts();
         UpdateScoreUI();
 
         if (worldCamera == null)
@@ -70,11 +80,23 @@ public class ScoreSystem : MonoBehaviour
 
     public void AddScore(ScoreGrade grade)
     {
+        // Đếm số lần từng mức để lưu thống kê tích lũy
         switch (grade)
         {
-            case ScoreGrade.Perfect: AddScore(perfectScore); break;
-            case ScoreGrade.Great:   AddScore(greatScore);   break;
-            default:                 AddScore(goodScore);    break;
+            case ScoreGrade.Perfect:
+                perfectCount++;
+                AddScore(perfectScore);
+                break;
+
+            case ScoreGrade.Great:
+                greatCount++;
+                AddScore(greatScore);
+                break;
+
+            default:
+                goodCount++;
+                AddScore(goodScore);
+                break;
         }
     }
 
@@ -164,9 +186,18 @@ public class ScoreSystem : MonoBehaviour
     {
         return score;
     }
+
     public void ResetScore()
     {
         score = 0;
+        ResetGradeCounts();
         UpdateScoreUI();
+    }
+
+    private void ResetGradeCounts()
+    {
+        goodCount = 0;
+        greatCount = 0;
+        perfectCount = 0;
     }
 }

@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,10 +16,17 @@ public class LevelSelectionManager2 : MonoBehaviour
         public string levelName = "Level 1";
         public string sceneName = "Level_1";
 
+        [Header("Unlock")]
+        [Tooltip("Giá để mở khóa màn này. Màn 1 để 0")]
+        public int unlockCost = 0;
+
         [Header("UI")]
         public RectTransform itemRect;
         public GameObject selectedFrame;
         public GameObject lockedOverlay;
+
+        // Lưu lại Y gốc đã canh trong Editor để không bị dịch lên
+        [HideInInspector] public float baseY;
     }
 
     [Header("Level List")]
@@ -28,14 +34,24 @@ public class LevelSelectionManager2 : MonoBehaviour
 
     [Header("Debug")]
     [Tooltip("Bật để mở khóa tất cả các màn (dùng khi test)")]
-    [SerializeField] private bool unlockAllLevels = true;
+    [SerializeField] private bool unlockAllLevels = false;
 
     [Header("Navigation")]
     [SerializeField] private Button leftButton;
     [SerializeField] private Button rightButton;
 
-    [Header("Play")]
+    [Header("Play / Unlock (2 nút đặt chồng cùng vị trí)")]
     [SerializeField] private Button playButton;
+    [SerializeField] private Button unlockButton;
+    [SerializeField] private TMP_Text unlockCostText; // Chữ giá trên nút Unlock (có thể bỏ trống)
+
+    [Header("Unlock UI")]
+    [SerializeField] private TMP_Text coinText;     // Tiền hiện có (có thể bỏ trống)
+    [SerializeField] private TMP_Text messageText;  // Thông báo (có thể bỏ trống)
+
+    [Header("Purchase Panel (hiện khi không đủ tiền)")]
+    [Tooltip("Script PurchasePanelControl, đã có sẵn animation hạ xuống")]
+    [SerializeField] private PurchasePanelControl purchasePanelControl;
 
     [Header("Selected Level UI")]
     [SerializeField] private TMP_Text selectedLevelText;
@@ -62,6 +78,13 @@ public class LevelSelectionManager2 : MonoBehaviour
             return;
         }
 
+        // Tự cập nhật số coin khi tiền thay đổi (mua coin, trừ tiền...)
+        PlayerDataManager.Instance.OnCurrencyChanged += UpdateCoinUI;
+
+        // Tự cập nhật lock/unlock khi level được mở, khóa hoặc reset
+        PlayerDataManager.Instance.OnProgressionChanged += UpdateSelectedUI;
+
+        // Màn 1 luôn miễn phí
         PlayerDataManager.Instance.UnlockLevel(1);
 
         SetupLevelItems();
@@ -75,23 +98,23 @@ public class LevelSelectionManager2 : MonoBehaviour
         if (playButton != null)
             playButton.onClick.AddListener(PlaySelectedLevel);
 
-        // Tìm Level đầu tiên được mở khóa.
-        selectedIndex = 0;
+        if (unlockButton != null)
+            unlockButton.onClick.AddListener(UnlockSelectedLevel);
 
-        for (int i = 0; i < levels.Count; i++)
-        {
-            if (IsUnlocked(levels[i].levelId))
-            {
-                selectedIndex = i;
-                break;
-            }
-        }
+        // Chọn màn đầu tiên
+        selectedIndex = 0;
 
         UpdateCarousel(false);
     }
 
     private void OnDestroy()
     {
+        if (PlayerDataManager.Instance != null)
+        {
+            PlayerDataManager.Instance.OnCurrencyChanged -= UpdateCoinUI;
+            PlayerDataManager.Instance.OnProgressionChanged -= UpdateSelectedUI;
+        }
+
         if (leftButton != null)
             leftButton.onClick.RemoveListener(PreviousLevel);
 
@@ -100,6 +123,9 @@ public class LevelSelectionManager2 : MonoBehaviour
 
         if (playButton != null)
             playButton.onClick.RemoveListener(PlaySelectedLevel);
+
+        if (unlockButton != null)
+            unlockButton.onClick.RemoveListener(UnlockSelectedLevel);
 
         if (animationCoroutine != null)
             StopCoroutine(animationCoroutine);
@@ -120,14 +146,14 @@ public class LevelSelectionManager2 : MonoBehaviour
             if (level.itemRect == null)
                 continue;
 
+            // Lưu Y gốc đã canh trong Editor
+            level.baseY = level.itemRect.anchoredPosition.y;
+
             if (level.selectedFrame != null)
                 level.selectedFrame.SetActive(false);
 
             if (level.lockedOverlay != null)
-            {
-                bool unlocked = IsUnlocked(level.levelId);
-                level.lockedOverlay.SetActive(!unlocked);
-            }
+                level.lockedOverlay.SetActive(!IsUnlocked(level.levelId));
         }
     }
 
@@ -162,13 +188,9 @@ public class LevelSelectionManager2 : MonoBehaviour
         }
 
         if (animate)
-        {
             animationCoroutine = StartCoroutine(AnimateCarousel());
-        }
         else
-        {
             ApplyCarouselPositions();
-        }
 
         UpdateSelectedUI();
     }
@@ -191,10 +213,9 @@ public class LevelSelectionManager2 : MonoBehaviour
                 continue;
 
             item.itemRect.anchoredPosition =
-                new Vector2(offset * spacing, 0);
+                new Vector2(offset * spacing, item.baseY);
 
             float scale = offset == 0 ? 1f : sideScale;
-
             item.itemRect.localScale = Vector3.one * scale;
         }
     }
@@ -203,17 +224,23 @@ public class LevelSelectionManager2 : MonoBehaviour
     {
         List<Vector2> startPositions = new List<Vector2>();
         List<Vector3> startScales = new List<Vector3>();
-
         List<Vector2> targetPositions = new List<Vector2>();
         List<Vector3> targetScales = new List<Vector3>();
 
-        // Tính vị trí đích cho từng thẻ.
         for (int i = 0; i < levels.Count; i++)
         {
             LevelItem item = levels[i];
 
-            int offset = GetCircularOffset(i);
+            if (item.itemRect == null)
+            {
+                startPositions.Add(Vector2.zero);
+                startScales.Add(Vector3.one);
+                targetPositions.Add(Vector2.zero);
+                targetScales.Add(Vector3.one);
+                continue;
+            }
 
+            int offset = GetCircularOffset(i);
             bool visible = Mathf.Abs(offset) <= 1;
 
             if (visible)
@@ -222,12 +249,9 @@ public class LevelSelectionManager2 : MonoBehaviour
             startPositions.Add(item.itemRect.anchoredPosition);
             startScales.Add(item.itemRect.localScale);
 
-            targetPositions.Add(
-                new Vector2(offset * spacing, 0)
-            );
+            targetPositions.Add(new Vector2(offset * spacing, item.baseY));
 
             float scale = offset == 0 ? 1f : sideScale;
-
             targetScales.Add(Vector3.one * scale);
         }
 
@@ -247,24 +271,14 @@ public class LevelSelectionManager2 : MonoBehaviour
                 if (rect == null)
                     continue;
 
-                rect.anchoredPosition = Vector2.Lerp(
-                    startPositions[i],
-                    targetPositions[i],
-                    t
-                );
-
-                rect.localScale = Vector3.Lerp(
-                    startScales[i],
-                    targetScales[i],
-                    t
-                );
+                rect.anchoredPosition = Vector2.Lerp(startPositions[i], targetPositions[i], t);
+                rect.localScale = Vector3.Lerp(startScales[i], targetScales[i], t);
             }
 
             yield return null;
         }
 
         ApplyCarouselPositions();
-
         animationCoroutine = null;
     }
 
@@ -285,7 +299,6 @@ public class LevelSelectionManager2 : MonoBehaviour
     private void UpdateSelectedUI()
     {
         LevelItem selected = levels[selectedIndex];
-
         bool unlocked = IsUnlocked(selected.levelId);
 
         for (int i = 0; i < levels.Count; i++)
@@ -296,23 +309,78 @@ public class LevelSelectionManager2 : MonoBehaviour
                 item.selectedFrame.SetActive(i == selectedIndex);
 
             if (item.lockedOverlay != null)
-            {
-                bool itemUnlocked = IsUnlocked(item.levelId);
-
-                item.lockedOverlay.SetActive(!itemUnlocked);
-            }
+                item.lockedOverlay.SetActive(!IsUnlocked(item.levelId));
         }
 
         if (selectedLevelText != null)
             selectedLevelText.text = selected.levelName;
 
+        // 2 nút cùng vị trí: màn đã mở -> hiện Play, màn khóa -> hiện Unlock
         if (playButton != null)
-            playButton.interactable = unlocked;
+            playButton.gameObject.SetActive(unlocked);
+
+        if (unlockButton != null)
+            unlockButton.gameObject.SetActive(!unlocked);
+
+        if (unlockCostText != null)
+            unlockCostText.text = selected.unlockCost.ToString();
+
+        if (messageText != null)
+            messageText.text = "";
+
+        UpdateCoinUI();
 
         Debug.Log("Selected Level: " + selected.levelName);
     }
 
-    
+    private void UpdateCoinUI()
+    {
+        if (coinText != null)
+            coinText.text = PlayerDataManager.Instance.Data.currency.coin.ToString();
+    }
+
+    private void ShowPurchasePanel()
+    {
+        if (purchasePanelControl == null)
+        {
+            Debug.LogWarning("Chưa gán Purchase Panel Control trong Inspector!");
+            return;
+        }
+
+        // Dùng animation hạ xuống có sẵn trong PurchasePanelControl
+        purchasePanelControl.OpenPurchase();
+    }
+
+    private void UnlockSelectedLevel()
+    {
+        LevelItem selected = levels[selectedIndex];
+
+        if (IsUnlocked(selected.levelId))
+            return;
+
+        // SpendCoin trả về false khi amount <= 0, nên màn giá 0 thì bỏ qua bước trừ tiền
+        bool paid = selected.unlockCost <= 0 ||
+                    PlayerDataManager.Instance.SpendCoin(selected.unlockCost);
+
+        if (!paid)
+        {
+            Debug.Log("Không đủ tiền để mở " + selected.levelName);
+
+            if (messageText != null)
+                messageText.text = "Không đủ tiền!";
+
+            ShowPurchasePanel();
+
+            return;
+        }
+
+        PlayerDataManager.Instance.UnlockLevel(selected.levelId);
+
+        Debug.Log("Đã mở khóa " + selected.levelName);
+
+        UpdateSelectedUI();
+    }
+
     private void PlaySelectedLevel()
     {
         Debug.Log("PLAY BUTTON CLICKED");
@@ -342,5 +410,4 @@ public class LevelSelectionManager2 : MonoBehaviour
 
         SceneManager.LoadScene(selected.sceneName);
     }
-
 }
