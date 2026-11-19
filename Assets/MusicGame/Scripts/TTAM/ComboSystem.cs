@@ -1,10 +1,18 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Serialization;
 using TMPro;
 using System.Collections;
 
 public class ComboSystem : MonoBehaviour
 {
+    [Header("Score System (kéo object ScoreSystem vào đây)")]
+    [SerializeField] private ScoreSystem scoreSystem;
+
+    [Header("Combo Threshold")]
+    [SerializeField] private int greatCombo = 5;     // đạt 5 combo liên tiếp -> Great
+    [SerializeField] private int perfectCombo = 10;  // đạt 10 combo liên tiếp -> Perfect
+
     [Header("UI")]
     [SerializeField] private TMP_Text comboLabelText;   // chữ "COMBO" (gợn sóng)
     [SerializeField] private TMP_Text comboNumberText;  // số "x100" (scale khi tăng)
@@ -12,22 +20,25 @@ public class ComboSystem : MonoBehaviour
     [Header("Judgment Images")]
     [SerializeField] private Image judgmentImage;
     [SerializeField] private Sprite goodSprite;
-    [SerializeField] private Sprite awesomeSprite;
+    [FormerlySerializedAs("awesomeSprite")]
+    [SerializeField] private Sprite greatSprite;
     [SerializeField] private Sprite perfectSprite;
     [SerializeField] private Sprite missSprite;
-    [SerializeField] private bool setNativeSize = true; // tự đặt kích thước theo sprite
+    [SerializeField] private bool setNativeSize = true;
 
     [Header("Judgment Popup (bay lên)")]
-    [SerializeField] private Transform player;            // kéo Player vào đây
-    [SerializeField] private Camera worldCamera;          // camera nhìn thấy player (để trống = Camera.main)
-    [SerializeField] private Canvas canvas;               // canvas chứa judgmentImage
-    [SerializeField] private Vector3 playerWorldOffset = new Vector3(0f, 1f, 0f); // lệch so với chân player
-    [SerializeField] private float startYOffset = -20f;   // điểm bắt đầu, so với vị trí player trên canvas
-    [SerializeField] private float riseDistance = 90f;    // bay lên bao nhiêu pixel canvas
+    [SerializeField] private Transform player;
+    [SerializeField] private Camera worldCamera;
+    [SerializeField] private Canvas canvas;
+    [SerializeField] private Vector3 playerWorldOffset = new Vector3(0f, 1f, 0f);
+    [SerializeField] private float startYOffset = -20f;
+    [SerializeField] private float riseDistance = 90f;
 
     private RectTransform judgmentParentRect;
     private Vector2 lastJudgmentPos;
     private Vector2 judgmentStartPos;
+
+    public int MaxCombo { get; private set; }
 
     [Header("Number Pop")]
     [SerializeField] private float numberPopScale = 1.5f;
@@ -42,10 +53,6 @@ public class ComboSystem : MonoBehaviour
     [SerializeField] private float hitAnimationDuration = 0.12f;
     [SerializeField] private float hideDelay = 3f;
     [SerializeField] private float judgmentHideDelay = 0.5f;
-
-    [Header("Combo Threshold")]
-    [SerializeField] private int awesomeCombo = 6;
-    [SerializeField] private int perfectCombo = 10;
 
     [Header("Combo Colors")]
     [SerializeField] private int colorTier1 = 5;
@@ -107,6 +114,18 @@ public class ComboSystem : MonoBehaviour
     }
 
     // =====================================================
+    // GRADE THEO COMBO
+    // =====================================================
+
+    // Combo 1-4: Good, 5-9: Great, từ 10: Perfect
+    private ScoreSystem.ScoreGrade GetGradeByCombo()
+    {
+        if (combo >= perfectCombo) return ScoreSystem.ScoreGrade.Perfect;
+        if (combo >= greatCombo)   return ScoreSystem.ScoreGrade.Great;
+        return ScoreSystem.ScoreGrade.Good;
+    }
+
+    // =====================================================
     // WAVE
     // =====================================================
 
@@ -165,10 +184,9 @@ public class ComboSystem : MonoBehaviour
     }
 
     // =====================================================
-    // JUDGMENT POSITION (cố định trên player, bay thẳng lên)
+    // JUDGMENT POSITION
     // =====================================================
 
-    // Đổi vị trí world của player -> toạ độ local trong canvas
     private Vector2 GetPlayerCanvasPos()
     {
         if (player == null || worldCamera == null || judgmentParentRect == null)
@@ -203,15 +221,23 @@ public class ComboSystem : MonoBehaviour
     // HIT / MISS
     // =====================================================
 
+    // Gọi khi chạm nốt. Mức Good/Great/Perfect tự tính theo combo liên tiếp,
+    // điểm (100/200/300) được cộng qua ScoreSystem.
     public void HitNote()
     {
         combo++;
 
-        // Ghi nhan combo cao nhat cho Achievements.
-        if (AchievementManager.Instance != null)
-            AchievementManager.Instance.ReportCombo(combo);
+        if (combo > MaxCombo)
+            MaxCombo = combo;
 
-        UpdateJudgment();
+        ScoreSystem.ScoreGrade grade = GetGradeByCombo();
+
+        // Cộng điểm + hiện popup "+100/+200/+300"
+        if (scoreSystem != null)
+            scoreSystem.AddScore(grade);
+
+        SetJudgmentByGrade(grade);
+
         ShowComboUI();
         ShowJudgmentImage();
 
@@ -230,6 +256,22 @@ public class ComboSystem : MonoBehaviour
         if (judgmentHideRoutine != null)
             StopCoroutine(judgmentHideRoutine);
         judgmentHideRoutine = StartCoroutine(HideJudgmentAfterDelay());
+    }
+
+    // Giữ để code cũ gọi HitNote(grade) không lỗi. Grade bị bỏ qua, chỉ tính theo combo.
+    public void HitNote(ScoreSystem.ScoreGrade ignoredGrade)
+    {
+        HitNote();
+    }
+
+    private void SetJudgmentByGrade(ScoreSystem.ScoreGrade grade)
+    {
+        switch (grade)
+        {
+            case ScoreSystem.ScoreGrade.Perfect: SetJudgmentSprite(perfectSprite); break;
+            case ScoreSystem.ScoreGrade.Great:   SetJudgmentSprite(greatSprite);   break;
+            default:                             SetJudgmentSprite(goodSprite);    break;
+        }
     }
 
     public void MissNote()
@@ -262,16 +304,6 @@ public class ComboSystem : MonoBehaviour
         judgmentHideRoutine = StartCoroutine(HideJudgmentAfterDelay());
 
         Debug.Log("MISS - Combo Reset");
-    }
-
-    private void UpdateJudgment()
-    {
-        if (combo >= perfectCombo)
-            SetJudgmentSprite(perfectSprite);
-        else if (combo >= awesomeCombo)
-            SetJudgmentSprite(awesomeSprite);
-        else
-            SetJudgmentSprite(goodSprite);
     }
 
     private void SetJudgmentSprite(Sprite sprite)
@@ -379,7 +411,6 @@ public class ComboSystem : MonoBehaviour
         numberAnimRoutine = null;
     }
 
-    // Phóng to (pop) ở đầu, đồng thời trượt thẳng lên suốt thời gian popup hiển thị
     private IEnumerator AnimateJudgmentImage()
     {
         if (judgmentImage == null)
@@ -389,14 +420,13 @@ public class ComboSystem : MonoBehaviour
         Vector2 start = judgmentStartPos;
         Vector2 end = start + new Vector2(0f, riseDistance);
 
-        // Kết thúc ngay trước khi popup bị ẩn
         float duration = Mathf.Max(0.05f, judgmentHideDelay * 0.95f);
         float elapsed = 0f;
 
         while (elapsed < duration)
         {
             float t = elapsed / duration;
-            float easedRise = 1f - (1f - t) * (1f - t);   // ease-out: lên nhanh rồi chậm dần
+            float easedRise = 1f - (1f - t) * (1f - t);
             rect.anchoredPosition = Vector2.Lerp(start, end, easedRise);
 
             float popT = Mathf.Clamp01(elapsed / hitAnimationDuration);

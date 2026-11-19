@@ -214,10 +214,19 @@ public class PlayerController2 : MonoBehaviour
     // =========================================
 
     // Gọi từ EnemyRhythmController thông qua event
-    public void AddScore(int score)
+    public void AddScore(EnemyRhythmController.HitGrade grade)
     {
-        if (scoreSystem != null)
-            scoreSystem.AddScore(score);
+        // if (scoreSystem == null) return;
+
+        // switch (grade)
+        // {
+        //     case EnemyRhythmController.HitGrade.Perfect:
+        //         scoreSystem.AddScore(ScoreSystem.ScoreGrade.Perfect); break;
+        //     case EnemyRhythmController.HitGrade.Great:
+        //         scoreSystem.AddScore(ScoreSystem.ScoreGrade.Great); break;
+        //     case EnemyRhythmController.HitGrade.Good:
+        //         scoreSystem.AddScore(ScoreSystem.ScoreGrade.Good); break;
+        // }
     }
 
     // Gọi từ EnemyRhythmController thông qua event
