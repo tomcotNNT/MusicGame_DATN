@@ -24,7 +24,7 @@ public class EndGameManager : MonoBehaviour
 
     [Header("References")]
     [FormerlySerializedAs("pianoKeySpawner")]
-    [SerializeField] private EnemySpawnerMan2 spawner;
+    [SerializeField] private BossSpawner2 spawner;
     [SerializeField] private ScoreSystem scoreSystem;
     [SerializeField] private ComboSystem comboSystem;
 
@@ -35,6 +35,16 @@ public class EndGameManager : MonoBehaviour
     [Tooltip("Giữ các chữ số cùng độ rộng để số không bị rung ngang khi cuộn")]
     [SerializeField] private bool useMonospace = true;
     [SerializeField] private float monospaceEm = 0.6f;
+
+    [Header("Coin Reward")]
+    [SerializeField] private int coinFor1Star = 200;
+    [SerializeField] private int coinFor2Stars = 500;
+    [SerializeField] private int coinFor3Stars = 1000;
+
+    [Header("Coin UI")]
+    [SerializeField] private TMP_Text coinRewardText;
+
+    private int earnedCoin;
 
     [Header("Panel")]
     [SerializeField] private GameObject endPanel;
@@ -122,14 +132,44 @@ public class EndGameManager : MonoBehaviour
         };
 
         Stars = 0;
+
         foreach (bool e in earned)
-            if (e) Stars++;
+        {
+            if (e)
+                Stars++;
+        }
+
+        // Tính Coin theo số sao
+        earnedCoin = CalculateCoinReward(Stars);
+
+        // Cộng Coin vào JSON
+        if (PlayerDataManager.Instance != null)
+        {
+            PlayerDataManager.Instance.AddCoin(earnedCoin);
+
+            Debug.Log($"Level Completed | Stars: {Stars} | Coin: +{earnedCoin}");
+        }
+        else
+        {
+            Debug.LogError("PlayerDataManager not found!");
+        }
 
         if (endPanel != null)
             endPanel.SetActive(true);
 
+        // Cuộn số Coin
+        if (coinRewardText != null)
+        {
+            yield return StartCoroutine(
+                RollCoinNumber(coinRewardText, earnedCoin)
+            );
+        }
+
+        // Cuộn số Score
         if (scoreText != null)
+        {
             yield return StartCoroutine(RollNumber(scoreText, score));
+        }
         // Trạng thái ban đầu: mọi hàng là "-", chưa có chữ, sao tắt
         foreach (ConditionRow r in rows)
         {
@@ -307,4 +347,85 @@ public class EndGameManager : MonoBehaviour
     {
         return useMonospace ? "<mspace=" + monospaceEm + "em>" + s + "</mspace>" : s;
     }
+
+
+    private IEnumerator RollCoinNumber(TMP_Text label, int target)
+    {
+        string final = "+" + target.ToString("#,##0", CultureInfo.InvariantCulture);
+        int len = final.Length;
+
+        int digitCount = 0;
+
+        for (int i = 0; i < len; i++)
+        {
+            if (char.IsDigit(final[i]))
+                digitCount++;
+        }
+
+        float[] lockTime = new float[len];
+        int d = 0;
+
+        for (int i = 0; i < len; i++)
+        {
+            if (!char.IsDigit(final[i]))
+                continue;
+
+            float p = digitCount > 1
+                ? (float)d / (digitCount - 1)
+                : 1f;
+
+            lockTime[i] = rollDuration * Mathf.Lerp(0.4f, 1f, p);
+            d++;
+        }
+
+        char[] buffer = new char[len];
+
+        float time = 0f;
+        float nextChange = 0f;
+
+        while (time < rollDuration)
+        {
+            time += Time.unscaledDeltaTime;
+
+            if (time >= nextChange)
+            {
+                nextChange = time + rollInterval;
+
+                for (int i = 0; i < len; i++)
+                {
+                    if (!char.IsDigit(final[i]) || time >= lockTime[i])
+                        buffer[i] = final[i];
+                    else
+                        buffer[i] = (char)('0' + Random.Range(0, 10));
+                }
+
+                label.text = FormatRoll(new string(buffer));
+            }
+
+            yield return null;
+        }
+
+        label.text = FormatRoll(final);
+
+        yield return StartCoroutine(Pop(label.transform));
+    }
+
+    private int CalculateCoinReward(int stars)
+    {
+        switch (stars)
+        {
+            case 1:
+                return coinFor1Star;
+
+            case 2:
+                return coinFor2Stars;
+
+            case 3:
+                return coinFor3Stars;
+
+            default:
+                return 0;
+        }
+    }
+
 }
