@@ -7,7 +7,7 @@ public class CountdownMan2 : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private TMP_Text countdownText;
-    [SerializeField] private EnemySpawnerMan2 enemySpawner;
+    [SerializeField] private BossSpawner2 enemySpawner;
 
     [Header("Audio")]
     [SerializeField] private AudioSource sfxSource;

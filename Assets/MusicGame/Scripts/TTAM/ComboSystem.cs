@@ -67,6 +67,7 @@ public class ComboSystem : MonoBehaviour
 
     private int combo;
     private bool comboVisible;
+    private int maxCombo = 0;
 
     private Vector3 originalLabelScale;
     private Vector3 originalNumberScale;
@@ -112,6 +113,7 @@ public class ComboSystem : MonoBehaviour
             judgmentImage.rectTransform.localScale = Vector3.zero;
         }
     }
+
 
     // =====================================================
     // GRADE THEO COMBO
@@ -230,6 +232,11 @@ public class ComboSystem : MonoBehaviour
         if (combo > MaxCombo)
             MaxCombo = combo;
 
+        if (combo > maxCombo)
+        {
+            maxCombo = combo;
+        }    
+
         ScoreSystem.ScoreGrade grade = GetGradeByCombo();
 
         // Cộng điểm + hiện popup "+100/+200/+300"
@@ -256,6 +263,16 @@ public class ComboSystem : MonoBehaviour
         if (judgmentHideRoutine != null)
             StopCoroutine(judgmentHideRoutine);
         judgmentHideRoutine = StartCoroutine(HideJudgmentAfterDelay());
+    }
+
+    public int GetMaxCombo()
+    {
+        return maxCombo;
+    }
+
+    public void ResetCombo()
+    {
+        combo = 0;
     }
 
     // Giữ để code cũ gọi HitNote(grade) không lỗi. Grade bị bỏ qua, chỉ tính theo combo.
