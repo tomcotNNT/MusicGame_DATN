@@ -1,3 +1,4 @@
+#if false
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,7 +14,7 @@ public enum HitJudgment
     Miss
 }
 
-public enum Man3NoteType
+public enum NTMan3NoteType
 {
     Normal,
     Hold,
@@ -253,8 +254,8 @@ public class NTMan3Director : MonoBehaviour
 
         for (int loop = 0; loop < 3; loop++)
         {
-            chartNotes.Add(new NoteDataMan3 { isLeftLane = true, noteType = Man3NoteType.Normal, hitTime = t, flightDuration = normalSpeed }); t += beat;
-            chartNotes.Add(new NoteDataMan3 { isLeftLane = false, noteType = Man3NoteType.Normal, hitTime = t, flightDuration = normalSpeed }); t += beat;
+            chartNotes.Add(new NoteDataMan3 { isLeftLane = true, noteType = NTMan3NoteType.Normal, hitTime = t, flightDuration = normalSpeed }); t += beat;
+            chartNotes.Add(new NoteDataMan3 { isLeftLane = false, noteType = NTMan3NoteType.Normal, hitTime = t, flightDuration = normalSpeed }); t += beat;
         }
     }
 
@@ -280,7 +281,7 @@ public class NTMan3Director : MonoBehaviour
                 continue;
             }
 
-            if (!note.isBeingHeld && note.noteType != Man3NoteType.Bomb && note.noteType != Man3NoteType.Coin)
+            if (!note.isBeingHeld && note.noteType != NTMan3NoteType.Bomb && note.noteType != NTMan3NoteType.Coin)
             {
                 if (now > note.hitTime + 0.35f) 
                 {
@@ -364,17 +365,17 @@ public class NTMan3Director : MonoBehaviour
 
         switch (data.noteType)
         {
-            case Man3NoteType.Hold: if (holdNotePrefab != null) prefabToUse = holdNotePrefab; break;
-            case Man3NoteType.Double: if (doubleNotePrefab != null) prefabToUse = doubleNotePrefab; break;
-            case Man3NoteType.Bomb: if (bombPrefab != null) prefabToUse = bombPrefab; break;
-            case Man3NoteType.Buff: if (buffPrefab != null) prefabToUse = buffPrefab; break;
-            case Man3NoteType.Coin: if (coinPrefab != null) prefabToUse = coinPrefab; break;
-            case Man3NoteType.Note1: if (prefabNote1 != null) prefabToUse = prefabNote1; break;
-            case Man3NoteType.NoteMan1: if (prefabNoteMan1 != null) prefabToUse = prefabNoteMan1; break;
-            case Man3NoteType.NoteMan2: if (prefabNoteMan2 != null) prefabToUse = prefabNoteMan2; break;
-            case Man3NoteType.NoteMan3_1: if (prefabNoteMan3_1 != null) prefabToUse = prefabNoteMan3_1; break;
-            case Man3NoteType.NoteMan3_2: if (prefabNoteMan3_2 != null) prefabToUse = prefabNoteMan3_2; break;
-            case Man3NoteType.NoteMan3_3: if (prefabNoteMan3_3 != null) prefabToUse = prefabNoteMan3_3; break;
+            case NTMan3NoteType.Hold: if (holdNotePrefab != null) prefabToUse = holdNotePrefab; break;
+            case NTMan3NoteType.Double: if (doubleNotePrefab != null) prefabToUse = doubleNotePrefab; break;
+            case NTMan3NoteType.Bomb: if (bombPrefab != null) prefabToUse = bombPrefab; break;
+            case NTMan3NoteType.Buff: if (buffPrefab != null) prefabToUse = buffPrefab; break;
+            case NTMan3NoteType.Coin: if (coinPrefab != null) prefabToUse = coinPrefab; break;
+            case NTMan3NoteType.Note1: if (prefabNote1 != null) prefabToUse = prefabNote1; break;
+            case NTMan3NoteType.NoteMan1: if (prefabNoteMan1 != null) prefabToUse = prefabNoteMan1; break;
+            case NTMan3NoteType.NoteMan2: if (prefabNoteMan2 != null) prefabToUse = prefabNoteMan2; break;
+            case NTMan3NoteType.NoteMan3_1: if (prefabNoteMan3_1 != null) prefabToUse = prefabNoteMan3_1; break;
+            case NTMan3NoteType.NoteMan3_2: if (prefabNoteMan3_2 != null) prefabToUse = prefabNoteMan3_2; break;
+            case NTMan3NoteType.NoteMan3_3: if (prefabNoteMan3_3 != null) prefabToUse = prefabNoteMan3_3; break;
         }
 
         if (prefabToUse == null) 
@@ -473,7 +474,7 @@ public class NTMan3Director : MonoBehaviour
 
         foreach (var note in activeNotes)
         {
-            if (note.isLeftLane != isLeft || note.noteType == Man3NoteType.Double || note.isBeingHeld) continue;
+            if (note.isLeftLane != isLeft || note.noteType == NTMan3NoteType.Double || note.isBeingHeld) continue;
 
             float diff = Mathf.Abs(now - note.hitTime);
             if (diff <= earlyMissWindow && diff < minDiff)
@@ -486,7 +487,7 @@ public class NTMan3Director : MonoBehaviour
         if (closestNote == null) return;
         Vector3 hitPos = isLeft ? hitPointL.position : hitPointR.position;
 
-        if (closestNote.noteType == Man3NoteType.Bomb)
+        if (closestNote.noteType == NTMan3NoteType.Bomb)
         {
             if (minDiff <= goodWindow)
             {
@@ -500,7 +501,7 @@ public class NTMan3Director : MonoBehaviour
             return;
         }
 
-        if (closestNote.noteType == Man3NoteType.Coin)
+        if (closestNote.noteType == NTMan3NoteType.Coin)
         {
             if (minDiff <= goodWindow)
             {
@@ -547,7 +548,7 @@ public class NTMan3Director : MonoBehaviour
             SpawnVfx(goodHitVfxPrefab, hitPos);
         }
 
-        if (closestNote.noteType == Man3NoteType.Hold)
+        if (closestNote.noteType == NTMan3NoteType.Hold)
         {
             closestNote.StartHold();
             if (isLeft) activeHoldLeft = closestNote;
@@ -557,7 +558,7 @@ public class NTMan3Director : MonoBehaviour
             RegisterHit(judgment, basePoints);
             return;
         }
-        else if (closestNote.noteType == Man3NoteType.Buff)
+        else if (closestNote.noteType == NTMan3NoteType.Buff)
         {
             buffRemainingTime = 5.0f;
             PlaySfx(buffHitClip);
@@ -584,7 +585,7 @@ public class NTMan3Director : MonoBehaviour
 
         foreach (var note in activeNotes)
         {
-            if (note.noteType != Man3NoteType.Double) continue;
+            if (note.noteType != NTMan3NoteType.Double) continue;
             float diff = Mathf.Abs(now - note.hitTime);
             if (diff <= goodWindow)
             {
@@ -625,7 +626,7 @@ public class NTMan3Director : MonoBehaviour
     {
         if (missedNote == null) return;
 
-        if (missedNote.noteType == Man3NoteType.Bomb || missedNote.noteType == Man3NoteType.Coin) 
+        if (missedNote.noteType == NTMan3NoteType.Bomb || missedNote.noteType == NTMan3NoteType.Coin) 
             return;
 
         if (missedNote == activeHoldLeft) activeHoldLeft = null;
@@ -824,3 +825,4 @@ public class NTMan3Director : MonoBehaviour
         activeLungeCoroutine = null;
     }
 }
+#endif
