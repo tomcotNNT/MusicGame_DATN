@@ -45,10 +45,22 @@ public class PianoKeySpawner : MonoBehaviour
     private bool man2Warned;
 
     [Header("Boss")]
+    [Tooltip("Tick = màn này có Boss. Bỏ tick = không có Boss (không spawn, không bắn, không retreat).")]
+    [SerializeField] private bool hasBoss = true;
     [SerializeField] private BossSpawner bossSpawner;
     [Tooltip("Boss xuất hiện khi bài chạy tới tỉ lệ này (0.5 = giữa bài). Chỉ xuất hiện 1 lần")]
     [SerializeField, Range(0.05f, 0.95f)] private float bossAppearAt = 0.5f;
     private bool bossAppeared;
+
+    // Cho LevelManager bật/tắt theo level: PianoKeySpawner.Instance.HasBoss = false;
+    public bool HasBoss
+    {
+        get => hasBoss;
+        set => hasBoss = value;
+    }
+
+    // Chỉ coi là có boss khi đã tick và đã gán BossSpawner
+    private bool BossEnabled => hasBoss && bossSpawner != null;
 
     public float SpawnDirection => spawnDirection;
     public float PlayerX => player.position.x;
@@ -137,6 +149,8 @@ public class PianoKeySpawner : MonoBehaviour
     private int itemIndex;
     private int notesSinceItem;
 
+    
+
     // ---- Hit point helpers ----
 
     // Trái = hit point dưới, Phải = hit point trên. Thiếu hit point thì dùng Player.
@@ -177,7 +191,7 @@ public class PianoKeySpawner : MonoBehaviour
     // Tới giữa bài (bossAppearAt) thì boss xuất hiện, chỉ 1 lần
     private void TrySpawnBoss()
     {
-        if (bossAppeared || bossSpawner == null || audioSource == null || audioSource.clip == null)
+        if (!BossEnabled || bossAppeared || audioSource == null || audioSource.clip == null)
             return;
 
         float songLength = audioSource.clip.length / roundSpeed;
@@ -297,7 +311,7 @@ public class PianoKeySpawner : MonoBehaviour
         ClearAllKeys();
 
         // Bắt đầu vòng mới: xoá hàng đợi tấn công cũ của boss
-        if (bossSpawner != null && bossSpawner.CurrentMusicAttack != null)
+        if (BossEnabled && bossSpawner.CurrentMusicAttack != null)
             bossSpawner.CurrentMusicAttack.ResetAttackState();
 
         // Reset thanh fever theo item
@@ -426,7 +440,7 @@ public class PianoKeySpawner : MonoBehaviour
             // ===== BOSS =====
             // Boss bắn theo nốt MIDI. KHÔNG có continue => piano vẫn spawn bình thường.
             // Muốn boss bắn lane ngược piano thì đổi thành ScheduleBeat(note.time, !left)
-            if (bossAppeared && bossSpawner != null)
+            if (BossEnabled && bossAppeared)
             {
                 BossMusicAttack atk = bossSpawner.CurrentMusicAttack;
                 if (atk != null)
@@ -592,7 +606,8 @@ public class PianoKeySpawner : MonoBehaviour
         Debug.Log($"PianoKeySpawner: Song Ended! (Round {Round}, x{roundSpeed:F2})");
 
         // Hết nhạc boss: boss đi lùi về spawn point rồi biến mất
-        if (bossSpawner != null)
+        // Hết nhạc boss: boss đi lùi về spawn point rồi biến mất
+        if (BossEnabled)
             bossSpawner.RetreatBoss();
 
         SongEnded?.Invoke();
