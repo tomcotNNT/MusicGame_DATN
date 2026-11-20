@@ -21,6 +21,13 @@ public class SubmarineRhythmSpawner : MonoBehaviour
     [SerializeField] private Transform hitPointLeft;
     [SerializeField] private Transform hitPointRight;
 
+    [Header("Hit Point Animations")]
+    [SerializeField] private Animator hitPointLeftAnimator;
+    [SerializeField] private Animator hitPointRightAnimator;
+
+    [SerializeField] private string hitTrigger = "Hit";
+    [SerializeField] private string missTrigger = "Miss";
+
     [Header("Music")]
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private float leadIn = 3f;
@@ -235,6 +242,9 @@ public class SubmarineRhythmSpawner : MonoBehaviour
 
             if (now > item.HitTime + missWindow)
             {
+                // Chạy animation Miss của đúng HitPoint
+                PlayHitPointAnimation(item.IsLeft, false);
+
                 if (comboSystem != null)
                     comboSystem.MissNote();
 
@@ -329,6 +339,9 @@ public class SubmarineRhythmSpawner : MonoBehaviour
 
         hitPosition = target.transform.position;
 
+        // Chạy animation Hit của đúng HitPoint
+        PlayHitPointAnimation(target.IsLeft, true);
+
         activeItems.Remove(target);
         Destroy(target.gameObject);
 
@@ -377,5 +390,23 @@ public class SubmarineRhythmSpawner : MonoBehaviour
         }
 
         return count;
+    }
+
+    private void PlayHitPointAnimation(bool isLeft, bool isHit)
+    {
+        Animator animator = isLeft
+            ? hitPointLeftAnimator
+            : hitPointRightAnimator;
+
+        if (animator == null)
+            return;
+
+        string trigger = isHit ? hitTrigger : missTrigger;
+
+        // Reset để có thể kích hoạt lại animation liên tục
+        animator.ResetTrigger(hitTrigger);
+        animator.ResetTrigger(missTrigger);
+
+        animator.SetTrigger(trigger);
     }
 }
