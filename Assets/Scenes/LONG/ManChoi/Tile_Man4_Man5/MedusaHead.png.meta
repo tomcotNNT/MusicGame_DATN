@@ -116,12 +116,12 @@ TextureImporter:
       name: MedusaHead_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 780
-        height: 227
+        x: 1
+        y: 167
+        width: 62
+        height: 57
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -134,11 +134,99 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: MedusaHead_1
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 167
+        width: 62
+        height: 57
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 50922a41ea4e2174bb0591d316a8d410
+      internalID: 2040260057
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedusaHead_2
+      rect:
+        serializedVersion: 2
+        x: 125
+        y: 167
+        width: 62
+        height: 57
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7ff858a9de3553744ad3287ead0c3d1d
+      internalID: 202316632
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedusaHead_3
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 167
+        width: 62
+        height: 57
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c80f04a45e06de949a02dfc6fa91992b
+      internalID: -1354793549
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MedusaHead_4
+      rect:
+        serializedVersion: 2
+        x: 252
+        y: 167
+        width: 62
+        height: 57
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 520f6f122e0d2734cb3170ee2c793c39
+      internalID: -898228067
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: ddef61ad11192da4cb45ff8c1b1b1dfc
     internalID: 0
     vertices: []
     indices: 
@@ -149,6 +237,10 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       MedusaHead_0: -4200979818482140670
+      MedusaHead_1: 2040260057
+      MedusaHead_2: 202316632
+      MedusaHead_3: -1354793549
+      MedusaHead_4: -898228067
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

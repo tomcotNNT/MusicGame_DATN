@@ -1,16 +1,10 @@
 fileFormatVersion: 2
-guid: f997b0a852f2f214aa4c260a81f19e14
+guid: 2c15dbe90f5c92e4597ae77769fa65ee
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8547307245463852064
-    second: UIButtonRamona_0
-  - first:
-      213: -1550699854306698211
-    second: UIButtonRamona_1
-  - first:
-      213: 6750810560000619750
-    second: UIButtonRamona_2
+      213: 4251182377953193708
+    second: Story5_3_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -52,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -119,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: UIButtonRamona_0
+      name: Story5_3_0
       rect:
         serializedVersion: 2
-        x: 23
-        y: 146
-        width: 411
-        height: 419
+        x: 0
+        y: 0
+        width: 974
+        height: 280
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -134,52 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0eb2108885dd16980800000000000000
-      internalID: -8547307245463852064
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: UIButtonRamona_1
-      rect:
-        serializedVersion: 2
-        x: 474
-        y: 98
-        width: 1266
-        height: 520
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d1c9ccec2beca7ae0800000000000000
-      internalID: -1550699854306698211
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: UIButtonRamona_2
-      rect:
-        serializedVersion: 2
-        x: 1739
-        y: 147
-        width: 411
-        height: 418
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 6e4facedf62bfad50800000000000000
-      internalID: 6750810560000619750
+      spriteID: ceeec4959db3ffa30800000000000000
+      internalID: 4251182377953193708
       vertices: []
       indices: 
       edges: []
@@ -188,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -198,9 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      UIButtonRamona_0: -8547307245463852064
-      UIButtonRamona_1: -1550699854306698211
-      UIButtonRamona_2: 6750810560000619750
+      Story5_3_0: 4251182377953193708
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
