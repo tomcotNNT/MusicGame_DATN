@@ -1,0 +1,702 @@
+fileFormatVersion: 2
+guid: 20338c13aaf65dd499b20504c14c0aea
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -4046640223507338335
+    second: pumpkin_chomp_perfect_x4_0
+  - first:
+      213: -2632074617976766189
+    second: pumpkin_chomp_perfect_x4_1
+  - first:
+      213: 6821313361140220052
+    second: pumpkin_chomp_perfect_x4_2
+  - first:
+      213: 8649902142413336471
+    second: pumpkin_chomp_perfect_x4_3
+  - first:
+      213: -3391075444566711725
+    second: pumpkin_chomp_perfect_x4_4
+  - first:
+      213: 7948718191300020350
+    second: pumpkin_chomp_perfect_x4_5
+  - first:
+      213: -6653701814509292427
+    second: pumpkin_chomp_perfect_x4_6
+  - first:
+      213: -2372777181306939005
+    second: pumpkin_chomp_perfect_x4_7
+  - first:
+      213: -7522180689597998114
+    second: pumpkin_chomp_perfect_x4_8
+  - first:
+      213: 6253458321821402323
+    second: pumpkin_chomp_perfect_x4_9
+  - first:
+      213: 7602580300741200752
+    second: pumpkin_chomp_perfect_x4_10
+  - first:
+      213: -7581633559318387078
+    second: pumpkin_chomp_perfect_x4_11
+  - first:
+      213: -7626932959671438224
+    second: pumpkin_chomp_perfect_x4_12
+  - first:
+      213: -250826017891913666
+    second: pumpkin_chomp_perfect_x4_13
+  - first:
+      213: 5683327635188614304
+    second: pumpkin_chomp_perfect_x4_14
+  - first:
+      213: 7437672103446743082
+    second: pumpkin_chomp_perfect_x4_15
+  - first:
+      213: 4852518621274619235
+    second: pumpkin_chomp_perfect_x4_16
+  - first:
+      213: -3912470274192145470
+    second: pumpkin_chomp_perfect_x4_17
+  - first:
+      213: 8987083795550397612
+    second: pumpkin_chomp_perfect_x4_18
+  - first:
+      213: -4802619794627440779
+    second: pumpkin_chomp_perfect_x4_19
+  - first:
+      213: 2793763374240544190
+    second: pumpkin_chomp_perfect_x4_20
+  - first:
+      213: 2816253777270426225
+    second: pumpkin_chomp_perfect_x4_21
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: pumpkin_chomp_perfect_x4_0
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 51
+        width: 262
+        height: 333
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1aba900282277d7c0800000000000000
+      internalID: -4046640223507338335
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_chomp_perfect_x4_1
+      rect:
+        serializedVersion: 2
+        x: 447
+        y: 51
+        width: 262
+        height: 333
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3114c2d841ef87bd0800000000000000
+      internalID: -2632074617976766189
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_chomp_perfect_x4_2
+      rect:
+        serializedVersion: 2
+        x: 811
+        y: 43
+        width: 298
+        height: 222
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 49083607c5c2aae50800000000000000
+      internalID: 6821313361140220052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_chomp_perfect_x4_3
+      rect:
+        serializedVersion: 2
+        x: 1199
+        y: 43
+        width: 298
+        height: 258
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 79fef6c5b20aa0870800000000000000
+      internalID: 8649902142413336471
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_chomp_perfect_x4_4
+      rect:
+        serializedVersion: 2
+        x: 1559
+        y: 143
+        width: 10
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3522d0099da70f0d0800000000000000
+      internalID: -3391075444566711725
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_chomp_perfect_x4_5
+      rect:
+        serializedVersion: 2
+        x: 1595
+        y: 51
+        width: 270
+        height: 246
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e788f14b4158f4e60800000000000000
+      internalID: 7948718191300020350
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_chomp_perfect_x4_6
+      rect:
+        serializedVersion: 2
+        x: 1979
+        y: 43
+        width: 270
+        height: 270
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5743dc8d37d49a3a0800000000000000
+      internalID: -6653701814509292427
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_chomp_perfect_x4_7
+      rect:
+        serializedVersion: 2
+        x: 2363
+        y: 47
+        width: 270
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3891c01a9b3321fd0800000000000000
+      internalID: -2372777181306939005
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_chomp_perfect_x4_8
+      rect:
+        serializedVersion: 2
+        x: 2751
+        y: 47
+        width: 266
+        height: 254
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: edb553c5488db9790800000000000000
+      internalID: -7522180689597998114
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_chomp_perfect_x4_9
+      rect:
+        serializedVersion: 2
+        x: 3135
+        y: 47
+        width: 262
+        height: 254
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d400e1263fb8c650800000000000000
+      internalID: 6253458321821402323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_chomp_perfect_x4_10
+      rect:
+        serializedVersion: 2
+        x: 3519
+        y: 47
+        width: 262
+        height: 254
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07bcf0ad08ac18960800000000000000
+      internalID: 7602580300741200752
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_chomp_perfect_x4_11
+      rect:
+        serializedVersion: 2
+        x: 1187
+        y: 131
+        width: 10
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a76a5af6270a8c690800000000000000
+      internalID: -7581633559318387078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_chomp_perfect_x4_12
+      rect:
+        serializedVersion: 2
+        x: 1883
+        y: 127
+        width: 10
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 074b015e1e0b72690800000000000000
+      internalID: -7626932959671438224
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_chomp_perfect_x4_13
+      rect:
+        serializedVersion: 2
+        x: 1895
+        y: 111
+        width: 10
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e30702fc013e48cf0800000000000000
+      internalID: -250826017891913666
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_chomp_perfect_x4_14
+      rect:
+        serializedVersion: 2
+        x: 979
+        y: 39
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0a404956f5c3fde40800000000000000
+      internalID: 5683327635188614304
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_chomp_perfect_x4_15
+      rect:
+        serializedVersion: 2
+        x: 1231
+        y: 39
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2886c12f5be73760800000000000000
+      internalID: 7437672103446743082
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_chomp_perfect_x4_16
+      rect:
+        serializedVersion: 2
+        x: 1287
+        y: 35
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 36dba0fe9fb975340800000000000000
+      internalID: 4852518621274619235
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_chomp_perfect_x4_17
+      rect:
+        serializedVersion: 2
+        x: 975
+        y: 27
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c38088c30d14b9c0800000000000000
+      internalID: -3912470274192145470
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_chomp_perfect_x4_18
+      rect:
+        serializedVersion: 2
+        x: 1351
+        y: 27
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ca46370b81988bc70800000000000000
+      internalID: 8987083795550397612
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_chomp_perfect_x4_19
+      rect:
+        serializedVersion: 2
+        x: 1615
+        y: 27
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 57fc8fdfdbaa95db0800000000000000
+      internalID: -4802619794627440779
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_chomp_perfect_x4_20
+      rect:
+        serializedVersion: 2
+        x: 1719
+        y: 3
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb5ba14acf075c620800000000000000
+      internalID: 2793763374240544190
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_chomp_perfect_x4_21
+      rect:
+        serializedVersion: 2
+        x: 1739
+        y: 0
+        width: 6
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 17a4e87a3e7551720800000000000000
+      internalID: 2816253777270426225
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      pumpkin_chomp_perfect_x4_0: -4046640223507338335
+      pumpkin_chomp_perfect_x4_1: -2632074617976766189
+      pumpkin_chomp_perfect_x4_10: 7602580300741200752
+      pumpkin_chomp_perfect_x4_11: -7581633559318387078
+      pumpkin_chomp_perfect_x4_12: -7626932959671438224
+      pumpkin_chomp_perfect_x4_13: -250826017891913666
+      pumpkin_chomp_perfect_x4_14: 5683327635188614304
+      pumpkin_chomp_perfect_x4_15: 7437672103446743082
+      pumpkin_chomp_perfect_x4_16: 4852518621274619235
+      pumpkin_chomp_perfect_x4_17: -3912470274192145470
+      pumpkin_chomp_perfect_x4_18: 8987083795550397612
+      pumpkin_chomp_perfect_x4_19: -4802619794627440779
+      pumpkin_chomp_perfect_x4_2: 6821313361140220052
+      pumpkin_chomp_perfect_x4_20: 2793763374240544190
+      pumpkin_chomp_perfect_x4_21: 2816253777270426225
+      pumpkin_chomp_perfect_x4_3: 8649902142413336471
+      pumpkin_chomp_perfect_x4_4: -3391075444566711725
+      pumpkin_chomp_perfect_x4_5: 7948718191300020350
+      pumpkin_chomp_perfect_x4_6: -6653701814509292427
+      pumpkin_chomp_perfect_x4_7: -2372777181306939005
+      pumpkin_chomp_perfect_x4_8: -7522180689597998114
+      pumpkin_chomp_perfect_x4_9: 6253458321821402323
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

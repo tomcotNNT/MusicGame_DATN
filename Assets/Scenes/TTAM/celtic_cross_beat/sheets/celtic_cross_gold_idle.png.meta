@@ -1,0 +1,1040 @@
+fileFormatVersion: 2
+guid: 9f3ad23b5b4e06442bac80c8bc45b395
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -8980818483386463154
+    second: celtic_cross_gold_idle_0
+  - first:
+      213: -8148742291371527972
+    second: celtic_cross_gold_idle_1
+  - first:
+      213: -4245683737285238284
+    second: celtic_cross_gold_idle_2
+  - first:
+      213: -9027669451593913098
+    second: celtic_cross_gold_idle_3
+  - first:
+      213: -7945658904536786202
+    second: celtic_cross_gold_idle_4
+  - first:
+      213: 5092983154338722450
+    second: celtic_cross_gold_idle_5
+  - first:
+      213: -4645619568792268439
+    second: celtic_cross_gold_idle_6
+  - first:
+      213: -8974762940880125930
+    second: celtic_cross_gold_idle_7
+  - first:
+      213: 6280997826840379775
+    second: celtic_cross_gold_idle_8
+  - first:
+      213: 8207642656367358566
+    second: celtic_cross_gold_idle_9
+  - first:
+      213: 2172785693565919388
+    second: celtic_cross_gold_idle_10
+  - first:
+      213: 7553002398330440332
+    second: celtic_cross_gold_idle_11
+  - first:
+      213: 8325308714248989151
+    second: celtic_cross_gold_idle_12
+  - first:
+      213: 5883563360722155361
+    second: celtic_cross_gold_idle_13
+  - first:
+      213: 1328782824184761966
+    second: celtic_cross_gold_idle_14
+  - first:
+      213: 1173058021754074536
+    second: celtic_cross_gold_idle_15
+  - first:
+      213: -8400066933218214968
+    second: celtic_cross_gold_idle_16
+  - first:
+      213: 4959397545275328345
+    second: celtic_cross_gold_idle_17
+  - first:
+      213: -1194016402253168796
+    second: celtic_cross_gold_idle_18
+  - first:
+      213: 7731442111203096400
+    second: celtic_cross_gold_idle_19
+  - first:
+      213: 6979740434504122701
+    second: celtic_cross_gold_idle_20
+  - first:
+      213: -1775431251264333518
+    second: celtic_cross_gold_idle_21
+  - first:
+      213: 1113196065329502192
+    second: celtic_cross_gold_idle_22
+  - first:
+      213: 1916117824172002238
+    second: celtic_cross_gold_idle_23
+  - first:
+      213: -3722577395757078188
+    second: celtic_cross_gold_idle_24
+  - first:
+      213: -5819107195556689904
+    second: celtic_cross_gold_idle_25
+  - first:
+      213: 7411317871345859967
+    second: celtic_cross_gold_idle_26
+  - first:
+      213: -8133151314674701764
+    second: celtic_cross_gold_idle_27
+  - first:
+      213: 7155017104394597381
+    second: celtic_cross_gold_idle_28
+  - first:
+      213: -538189563084365323
+    second: celtic_cross_gold_idle_29
+  - first:
+      213: -8641064293257316977
+    second: celtic_cross_gold_idle_30
+  - first:
+      213: -1380135048412302179
+    second: celtic_cross_gold_idle_31
+  - first:
+      213: 6166721580054281967
+    second: celtic_cross_gold_idle_32
+  - first:
+      213: -5721641360438929039
+    second: celtic_cross_gold_idle_33
+  - first:
+      213: 5851537195667524275
+    second: celtic_cross_gold_idle_34
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: celtic_cross_gold_idle_0
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 71
+        width: 167
+        height: 392
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e4ccc79fb29bd5380800000000000000
+      internalID: -8980818483386463154
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_idle_1
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 52
+        width: 83
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd0f8945f0ad9ee80800000000000000
+      internalID: -8148742291371527972
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_idle_2
+      rect:
+        serializedVersion: 2
+        x: 266
+        y: 71
+        width: 167
+        height: 392
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f1e572b22d4415c0800000000000000
+      internalID: -4245683737285238284
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_idle_3
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 52
+        width: 77
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6fc6914e67647b280800000000000000
+      internalID: -9027669451593913098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_idle_4
+      rect:
+        serializedVersion: 2
+        x: 498
+        y: 52
+        width: 168
+        height: 411
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6ea5aa003595bb190800000000000000
+      internalID: -7945658904536786202
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_idle_5
+      rect:
+        serializedVersion: 2
+        x: 728
+        y: 52
+        width: 172
+        height: 411
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2927861f139eda640800000000000000
+      internalID: 5092983154338722450
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_idle_6
+      rect:
+        serializedVersion: 2
+        x: 959
+        y: 33
+        width: 176
+        height: 431
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9619880ad91778fb0800000000000000
+      internalID: -4645619568792268439
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_idle_7
+      rect:
+        serializedVersion: 2
+        x: 1191
+        y: 33
+        width: 178
+        height: 434
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6100085d7ac337380800000000000000
+      internalID: -8974762940880125930
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_idle_8
+      rect:
+        serializedVersion: 2
+        x: 1423
+        y: 33
+        width: 180
+        height: 436
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7142dfce369a2750800000000000000
+      internalID: 6280997826840379775
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_idle_9
+      rect:
+        serializedVersion: 2
+        x: 1656
+        y: 33
+        width: 181
+        height: 437
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 662be10928767e170800000000000000
+      internalID: 8207642656367358566
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_idle_10
+      rect:
+        serializedVersion: 2
+        x: 1888
+        y: 33
+        width: 182
+        height: 438
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c902c0e8319472e10800000000000000
+      internalID: 2172785693565919388
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_idle_11
+      rect:
+        serializedVersion: 2
+        x: 2121
+        y: 33
+        width: 183
+        height: 438
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8ac82ce9a7a1d860800000000000000
+      internalID: 7553002398330440332
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_idle_12
+      rect:
+        serializedVersion: 2
+        x: 2354
+        y: 32
+        width: 183
+        height: 440
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fd9664e8a20798370800000000000000
+      internalID: 8325308714248989151
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_idle_13
+      rect:
+        serializedVersion: 2
+        x: 2587
+        y: 32
+        width: 183
+        height: 440
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 167f85144bd96a150800000000000000
+      internalID: 5883563360722155361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_idle_14
+      rect:
+        serializedVersion: 2
+        x: 2820
+        y: 31
+        width: 183
+        height: 441
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e6e4c2b30f8c07210800000000000000
+      internalID: 1328782824184761966
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_idle_15
+      rect:
+        serializedVersion: 2
+        x: 3053
+        y: 30
+        width: 183
+        height: 442
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a5f29f3e0a874010800000000000000
+      internalID: 1173058021754074536
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_idle_16
+      rect:
+        serializedVersion: 2
+        x: 3286
+        y: 30
+        width: 182
+        height: 442
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8cbf50431a7fc6b80800000000000000
+      internalID: -8400066933218214968
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_idle_17
+      rect:
+        serializedVersion: 2
+        x: 3520
+        y: 30
+        width: 181
+        height: 442
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 957841a9ac153d440800000000000000
+      internalID: 4959397545275328345
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_idle_18
+      rect:
+        serializedVersion: 2
+        x: 3754
+        y: 30
+        width: 179
+        height: 442
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 46fb5b788600e6fe0800000000000000
+      internalID: -1194016402253168796
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_idle_19
+      rect:
+        serializedVersion: 2
+        x: 3988
+        y: 30
+        width: 178
+        height: 441
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 057b1cf13a99b4b60800000000000000
+      internalID: 7731442111203096400
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_idle_20
+      rect:
+        serializedVersion: 2
+        x: 4222
+        y: 30
+        width: 175
+        height: 440
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d418c07e1f40dd060800000000000000
+      internalID: 6979740434504122701
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_idle_21
+      rect:
+        serializedVersion: 2
+        x: 4458
+        y: 71
+        width: 170
+        height: 398
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 23913410fa66c57e0800000000000000
+      internalID: -1775431251264333518
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_idle_22
+      rect:
+        serializedVersion: 2
+        x: 4480
+        y: 30
+        width: 123
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f7d3576cedd27f00800000000000000
+      internalID: 1113196065329502192
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_idle_23
+      rect:
+        serializedVersion: 2
+        x: 4693
+        y: 71
+        width: 167
+        height: 397
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ebb0191520b679a10800000000000000
+      internalID: 1916117824172002238
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_idle_24
+      rect:
+        serializedVersion: 2
+        x: 4714
+        y: 30
+        width: 121
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4592005e49fb65cc0800000000000000
+      internalID: -3722577395757078188
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_idle_25
+      rect:
+        serializedVersion: 2
+        x: 4926
+        y: 71
+        width: 167
+        height: 395
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0188cea26d06e3fa0800000000000000
+      internalID: -5819107195556689904
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_idle_26
+      rect:
+        serializedVersion: 2
+        x: 4947
+        y: 31
+        width: 120
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7df21f465a4ad660800000000000000
+      internalID: 7411317871345859967
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_idle_27
+      rect:
+        serializedVersion: 2
+        x: 5159
+        y: 71
+        width: 167
+        height: 392
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c3a205878fd312f80800000000000000
+      internalID: -8133151314674701764
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_idle_28
+      rect:
+        serializedVersion: 2
+        x: 5182
+        y: 32
+        width: 117
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 504b845c52abb4360800000000000000
+      internalID: 7155017104394597381
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_idle_29
+      rect:
+        serializedVersion: 2
+        x: 5392
+        y: 71
+        width: 167
+        height: 392
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f1a88e9177f788f0800000000000000
+      internalID: -538189563084365323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_idle_30
+      rect:
+        serializedVersion: 2
+        x: 5416
+        y: 33
+        width: 114
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f85f51fbec5c41880800000000000000
+      internalID: -8641064293257316977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_idle_31
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 33
+        width: 113
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d9471595c76c8dce0800000000000000
+      internalID: -1380135048412302179
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_idle_32
+      rect:
+        serializedVersion: 2
+        x: 291
+        y: 33
+        width: 113
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: feefed7ba98949550800000000000000
+      internalID: 6166721580054281967
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_idle_33
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 33
+        width: 113
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 179dada4f75a890b0800000000000000
+      internalID: -5721641360438929039
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_idle_34
+      rect:
+        serializedVersion: 2
+        x: 757
+        y: 33
+        width: 113
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ba8fb1a316d43150800000000000000
+      internalID: 5851537195667524275
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      celtic_cross_gold_idle_0: -8980818483386463154
+      celtic_cross_gold_idle_1: -8148742291371527972
+      celtic_cross_gold_idle_10: 2172785693565919388
+      celtic_cross_gold_idle_11: 7553002398330440332
+      celtic_cross_gold_idle_12: 8325308714248989151
+      celtic_cross_gold_idle_13: 5883563360722155361
+      celtic_cross_gold_idle_14: 1328782824184761966
+      celtic_cross_gold_idle_15: 1173058021754074536
+      celtic_cross_gold_idle_16: -8400066933218214968
+      celtic_cross_gold_idle_17: 4959397545275328345
+      celtic_cross_gold_idle_18: -1194016402253168796
+      celtic_cross_gold_idle_19: 7731442111203096400
+      celtic_cross_gold_idle_2: -4245683737285238284
+      celtic_cross_gold_idle_20: 6979740434504122701
+      celtic_cross_gold_idle_21: -1775431251264333518
+      celtic_cross_gold_idle_22: 1113196065329502192
+      celtic_cross_gold_idle_23: 1916117824172002238
+      celtic_cross_gold_idle_24: -3722577395757078188
+      celtic_cross_gold_idle_25: -5819107195556689904
+      celtic_cross_gold_idle_26: 7411317871345859967
+      celtic_cross_gold_idle_27: -8133151314674701764
+      celtic_cross_gold_idle_28: 7155017104394597381
+      celtic_cross_gold_idle_29: -538189563084365323
+      celtic_cross_gold_idle_3: -9027669451593913098
+      celtic_cross_gold_idle_30: -8641064293257316977
+      celtic_cross_gold_idle_31: -1380135048412302179
+      celtic_cross_gold_idle_32: 6166721580054281967
+      celtic_cross_gold_idle_33: -5721641360438929039
+      celtic_cross_gold_idle_34: 5851537195667524275
+      celtic_cross_gold_idle_4: -7945658904536786202
+      celtic_cross_gold_idle_5: 5092983154338722450
+      celtic_cross_gold_idle_6: -4645619568792268439
+      celtic_cross_gold_idle_7: -8974762940880125930
+      celtic_cross_gold_idle_8: 6280997826840379775
+      celtic_cross_gold_idle_9: 8207642656367358566
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

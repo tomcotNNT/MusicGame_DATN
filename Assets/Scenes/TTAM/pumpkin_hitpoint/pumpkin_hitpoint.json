@@ -1,0 +1,61 @@
+{
+  "frame_size": [
+    96,
+    96
+  ],
+  "mouth_center_px": [
+    48,
+    67
+  ],
+  "animations": {
+    "idle": {
+      "frames": 16,
+      "fps": 10,
+      "loop": true
+    },
+    "active": {
+      "frames": 16,
+      "fps": 14,
+      "loop": true
+    },
+    "pulse": {
+      "frames": 6,
+      "fps": 24,
+      "loop": false
+    },
+    "chomp_perfect": {
+      "frames": 10,
+      "fps": 20,
+      "loop": false,
+      "note": "trigger on hit; frame 2 = the SNAP (bat gone) \u2013 destroy the bat object on this frame"
+    },
+    "chomp_great": {
+      "frames": 8,
+      "fps": 20,
+      "loop": false,
+      "note": "same timing as perfect, smaller FX"
+    },
+    "miss": {
+      "frames": 8,
+      "fps": 14,
+      "loop": false
+    },
+    "hold_loop": {
+      "frames": 8,
+      "fps": 14,
+      "loop": true
+    },
+    "hold_progress": {
+      "frames": 16,
+      "fps": 12,
+      "loop": false,
+      "note": "not timed: frame = round(progress * 15), draw over hold_loop"
+    },
+    "approach": {
+      "frames": 12,
+      "fps": 12,
+      "loop": false,
+      "note": "not timed: frame by time-to-hit; last frame = on the beat"
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "frame_size_px": [
+    820,
+    720
+  ],
+  "facing": "left",
+  "sprite_offset_in_frame": [
+    150,
+    70
+  ],
+  "pivot_px_from_top_left": [
+    210,
+    315
+  ],
+  "animations": {
+    "idle": {
+      "frames": 10,
+      "fps": 12,
+      "loop": true
+    },
+    "summon": {
+      "frames": 8,
+      "fps": 12,
+      "loop": false
+    },
+    "vanish": {
+      "frames": 7,
+      "fps": 12,
+      "loop": false
+    },
+    "appear": {
+      "frames": 7,
+      "fps": 12,
+      "loop": false
+    },
+    "die": {
+      "frames": 11,
+      "fps": 10,
+      "loop": false
+    }
+  },
+  "events": {
+    "summon": {
+      "spawn_minions_frame": 3,
+      "note": "bats burst out toward the left"
+    }
+  }
+}

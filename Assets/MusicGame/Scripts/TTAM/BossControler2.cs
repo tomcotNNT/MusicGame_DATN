@@ -1,4 +1,6 @@
+
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,25 +9,19 @@ public class BossController2 : MonoBehaviour
     [Header("Dịch chuyển giữa 2 điểm")]
     [SerializeField] private Transform pointA;
     [SerializeField] private Transform pointB;
-    [Tooltip("Cứ mỗi bao nhiêu giây thì Boss dịch chuyển sang điểm còn lại")]
     [SerializeField] private float teleportInterval = 3f;
-    [Tooltip("Bật để Boss tự dịch chuyển theo thời gian")]
     [SerializeField] private bool autoTeleport = true;
-    [Tooltip("Boss bắt đầu ở điểm A (tắt = bắt đầu ở điểm B)")]
     [SerializeField] private bool startAtA = true;
+    public float TeleportTotalDuration => vanishDuration + appearDuration;
+
     [SerializeField] private SpriteRenderer spriteRenderer;
-    [Tooltip("Bật nếu sprite Boss gốc đang quay mặt sang phải")]
     [SerializeField] private bool spriteFacesRight = true;
-    [Tooltip("Tự lật mặt Boss về phía Player (nếu để trống thì lật theo điểm: A = trái, B = phải)")]
     [SerializeField] private Transform faceTarget;
-    [Tooltip("Bật nếu Boss đang quay mặt ngược hướng mong muốn")]
     [SerializeField] private bool invertFacing = false;
 
     [Header("Teleport VFX")]
     [SerializeField] private GameObject teleportVFXPrefab;
-    [Tooltip("Hiệu ứng tại chỗ Boss rời đi")]
     [SerializeField] private bool vfxAtOldPosition = true;
-    [Tooltip("Hiệu ứng tại chỗ Boss xuất hiện")]
     [SerializeField] private bool vfxAtNewPosition = true;
     [SerializeField] private Vector3 vfxOffset = Vector3.zero;
     [SerializeField] private float vfxDestroyTime = 1.5f;
@@ -33,17 +29,22 @@ public class BossController2 : MonoBehaviour
     [Header("Animation")]
     [SerializeField] private Animator animator;
     [SerializeField] private string attackTrigger = "Attack1";
-    [Tooltip("Chạy trigger Attack1 mỗi lần dịch chuyển")]
-    [SerializeField] private bool playAttackOnTeleport = true;
+    [SerializeField] private string vanishTrigger = "Vanish";
+    [SerializeField] private string appearTrigger = "Appear";
+    [SerializeField] private string dieTrigger = "Die";
 
-    private int attackHash;
+    [Header("Animation Timing")]
+    [Tooltip("Thời gian chạy animation Vanish trước khi đổi vị trí")]
+    [SerializeField] private float vanishDuration = 0.4f;
+
+    [Tooltip("Thời gian chạy animation Appear")]
+    [SerializeField] private float appearDuration = 0.4f;
 
     [Header("Bobbing")]
     [SerializeField] private float bobAmplitude = 0.15f;
     [SerializeField] private float bobSpeed = 2f;
 
     [Header("Drop")]
-    [Tooltip("Vị trí enemy xuất hiện (nòng bắn / miệng Boss)")]
     [SerializeField] private Transform dropPoint;
 
     [Header("Shake khi tấn công")]
@@ -52,10 +53,8 @@ public class BossController2 : MonoBehaviour
     [SerializeField] private float shakeMagnitude = 0.12f;
 
     [Header("Boss HP")]
-    [Tooltip("Image kiểu Filled (Image Type = Filled, Fill Method = Horizontal)")]
     [SerializeField] private Image hpFill;
     [SerializeField] private float hpSmoothSpeed = 8f;
-    [Tooltip("Rung mạnh khi Boss bị hạ")]
     [SerializeField] private float defeatShakeDuration = 0.6f;
     [SerializeField] private float defeatShakeMagnitude = 0.4f;
 
@@ -65,10 +64,23 @@ public class BossController2 : MonoBehaviour
     public int CurrentHp { get; private set; }
     public bool IsDefeated { get; private set; }
 
+    // Spawner sử dụng để kiểm tra trạng thái dịch chuyển
+    public bool IsTeleporting => isTeleporting;
+
+    public bool IsAtPointA => atA;
+
+    private int attackHash;
+    private int vanishHash;
+    private int appearHash;
+    private int dieHash;
+
     private float displayedFill = 1f;
     private bool atA;
     private float teleportTimer;
     private Vector3 basePosition;
+
+    private bool isTeleporting;
+    private Coroutine teleportCoroutine;
 
     private void Start()
     {
@@ -82,15 +94,19 @@ public class BossController2 : MonoBehaviour
             cameraShake = Camera.main.GetComponent<CameraShake>();
 
         attackHash = Animator.StringToHash(attackTrigger);
+        vanishHash = Animator.StringToHash(vanishTrigger);
+        appearHash = Animator.StringToHash(appearTrigger);
+        dieHash = Animator.StringToHash(dieTrigger);
 
         atA = startAtA;
-        SnapToCurrentPoint(false); // lần đầu vào scene: không chạy hiệu ứng
+
+        SnapToCurrentPoint();
     }
 
     private void Update()
     {
-        // Tự dịch chuyển theo thời gian
-        if (autoTeleport && !IsDefeated)
+        // Tự động dịch chuyển nếu được bật
+        if (autoTeleport && !IsDefeated && !isTeleporting)
         {
             teleportTimer += Time.deltaTime;
 
@@ -98,21 +114,31 @@ public class BossController2 : MonoBehaviour
                 TeleportToOtherPoint();
         }
 
-        // Chỉ nhấp nhô nhẹ tại chỗ, không di chuyển
-        Vector3 pos = basePosition;
-        pos.y += Mathf.Sin(Time.time * bobSpeed) * bobAmplitude;
-        transform.position = pos;
+        // Bobbing
+        if (!IsDefeated)
+        {
+            Vector3 pos = basePosition;
+            pos.y += Mathf.Sin(Time.time * bobSpeed) * bobAmplitude;
+            transform.position = pos;
+        }
 
+        // Cập nhật thanh HP
         if (hpFill != null && MaxHp > 0)
         {
             float target = (float)CurrentHp / MaxHp;
-            displayedFill = Mathf.MoveTowards(displayedFill, target, hpSmoothSpeed * Time.deltaTime);
+
+            displayedFill = Mathf.MoveTowards(
+                displayedFill,
+                target,
+                hpSmoothSpeed * Time.deltaTime
+            );
+
             hpFill.fillAmount = displayedFill;
         }
     }
 
     // =========================================
-    // TELEPORT
+    // FACING
     // =========================================
 
     private void UpdateFacing()
@@ -123,22 +149,16 @@ public class BossController2 : MonoBehaviour
         bool lookRight;
 
         if (faceTarget != null)
-        {
-            // Quay về phía Player
             lookRight = faceTarget.position.x > basePosition.x;
-        }
         else
-        {
-            // Không có faceTarget: đứng ở A (bên trái) thì nhìn sang phải, ở B thì nhìn sang trái
             lookRight = atA;
-        }
 
         if (invertFacing)
             lookRight = !lookRight;
 
-        // Sprite gốc quay phải: nhìn phải thì không lật, nhìn trái thì lật
-        // Sprite gốc quay trái: ngược lại
-        spriteRenderer.flipX = spriteFacesRight ? !lookRight : lookRight;
+        spriteRenderer.flipX = spriteFacesRight
+            ? !lookRight
+            : lookRight;
     }
 
     // =========================================
@@ -147,7 +167,9 @@ public class BossController2 : MonoBehaviour
 
     public Vector3 GetDropPosition()
     {
-        return dropPoint != null ? dropPoint.position : transform.position;
+        return dropPoint != null
+            ? dropPoint.position
+            : transform.position;
     }
 
     public void Shake()
@@ -163,10 +185,23 @@ public class BossController2 : MonoBehaviour
     }
 
     // =========================================
+    // ATTACK
+    // =========================================
+
+    // Spawner gọi sau khi Boss dịch chuyển xong
+    public void PlayAttack()
+    {
+        if (IsDefeated || animator == null)
+            return;
+
+        animator.ResetTrigger(attackHash);
+        animator.SetTrigger(attackHash);
+    }
+
+    // =========================================
     // HP
     // =========================================
 
-    // Spawner gọi khi bắt đầu bài: máu tối đa = số nốt
     public void InitHp(int maxHp)
     {
         MaxHp = Mathf.Max(1, maxHp);
@@ -178,60 +213,147 @@ public class BossController2 : MonoBehaviour
             hpFill.fillAmount = 1f;
     }
 
-    // Spawner gọi mỗi lần người chơi đánh trúng 1 enemy
     public void TakeHit()
     {
-        if (IsDefeated) return;
+        if (IsDefeated)
+            return;
 
         CurrentHp = Mathf.Max(0, CurrentHp - 1);
 
         if (CurrentHp <= 0)
         {
             IsDefeated = true;
+
+            // Dừng dịch chuyển nếu Boss bị hạ
+            if (teleportCoroutine != null)
+            {
+                StopCoroutine(teleportCoroutine);
+                teleportCoroutine = null;
+            }
+
+            isTeleporting = false;
+
+            // Chạy animation Die
+            if (animator != null)
+            {
+                animator.ResetTrigger(dieHash);
+                animator.SetTrigger(dieHash);
+            }
+
             Shake(defeatShakeDuration, defeatShakeMagnitude);
+
             AnyBossDefeated?.Invoke();
         }
     }
 
+    // =========================================
+    // TELEPORT
+    // =========================================
+
     public void TeleportToOtherPoint()
     {
+        if (IsDefeated || isTeleporting)
+            return;
+
         atA = !atA;
-        SnapToCurrentPoint(true);
+
+        BeginTeleport();
     }
 
     public void TeleportTo(bool toPointA)
     {
-        // Đang ở đúng điểm đó rồi thì không dịch chuyển, không chạy hiệu ứng
-        if (atA == toPointA)
+        if (IsDefeated || isTeleporting || atA == toPointA)
             return;
 
         atA = toPointA;
-        SnapToCurrentPoint(true);
+
+        BeginTeleport();
     }
 
-    private void SnapToCurrentPoint(bool playEffects)
+    // Spawner gọi:
+    // Lane 0 = Point A (trái)
+    // Lane 1 = Point B (phải)
+    public void MoveToLane(int lane)
     {
+        if (IsDefeated || isTeleporting)
+            return;
+
+        bool targetPointA = lane == 0;
+
+        TeleportTo(targetPointA);
+    }
+
+    private void BeginTeleport()
+    {
+        if (teleportCoroutine != null)
+            StopCoroutine(teleportCoroutine);
+
+        teleportCoroutine = StartCoroutine(TeleportRoutine());
+    }
+
+    private IEnumerator TeleportRoutine()
+    {
+        isTeleporting = true;
         teleportTimer = 0f;
 
         Vector3 oldPosition = transform.position;
 
-        Transform target = atA ? pointA : pointB;
-        basePosition = target != null ? target.position : transform.position;
+        // 1. Vanish
+        if (animator != null)
+        {
+            animator.ResetTrigger(vanishHash);
+            animator.SetTrigger(vanishHash);
+        }
 
-        transform.position = basePosition;
-        UpdateFacing();
+        yield return new WaitForSeconds(vanishDuration);
 
-        if (!playEffects)
-            return;
+        if (IsDefeated)
+            yield break;
 
+        // 2. VFX vị trí cũ
         if (vfxAtOldPosition)
             SpawnTeleportVFX(oldPosition);
 
+        // 3. Di chuyển đến điểm mới
+        Transform target = atA ? pointA : pointB;
+
+        if (target != null)
+            basePosition = target.position;
+
+        transform.position = basePosition;
+
+        UpdateFacing();
+
+        // 4. VFX vị trí mới
         if (vfxAtNewPosition)
             SpawnTeleportVFX(basePosition);
 
-        if (playAttackOnTeleport)
-            PlayAttack();
+        // 5. Appear
+        if (animator != null)
+        {
+            animator.ResetTrigger(appearHash);
+            animator.SetTrigger(appearHash);
+        }
+
+        yield return new WaitForSeconds(appearDuration);
+
+        isTeleporting = false;
+        teleportCoroutine = null;
+    }
+
+    private void SnapToCurrentPoint()
+    {
+        teleportTimer = 0f;
+
+        Transform target = atA ? pointA : pointB;
+
+        basePosition = target != null
+            ? target.position
+            : transform.position;
+
+        transform.position = basePosition;
+
+        UpdateFacing();
     }
 
     private void SpawnTeleportVFX(Vector3 position)
@@ -246,15 +368,5 @@ public class BossController2 : MonoBehaviour
         );
 
         Destroy(vfx, vfxDestroyTime);
-    }
-
-    public void PlayAttack()
-    {
-        if (animator == null)
-            return;
-
-        // Reset trước để các lần dịch chuyển sát nhau vẫn replay được animation
-        animator.ResetTrigger(attackHash);
-        animator.SetTrigger(attackHash);
     }
 }

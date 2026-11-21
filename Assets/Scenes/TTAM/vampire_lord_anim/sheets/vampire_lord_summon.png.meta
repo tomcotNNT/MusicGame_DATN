@@ -1,0 +1,442 @@
+fileFormatVersion: 2
+guid: d1e5be8b09c89074fbf9910b68931c25
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 799089516539476074
+    second: vampire_lord_summon_0
+  - first:
+      213: 5694486394031153985
+    second: vampire_lord_summon_1
+  - first:
+      213: -2823860039311910942
+    second: vampire_lord_summon_2
+  - first:
+      213: 5020010964307782263
+    second: vampire_lord_summon_3
+  - first:
+      213: 6549796045923990154
+    second: vampire_lord_summon_4
+  - first:
+      213: -5899007566269159229
+    second: vampire_lord_summon_5
+  - first:
+      213: 3927244840463961508
+    second: vampire_lord_summon_6
+  - first:
+      213: 3849627297154705569
+    second: vampire_lord_summon_7
+  - first:
+      213: -3518274122599559220
+    second: vampire_lord_summon_8
+  - first:
+      213: 20442771188950198
+    second: vampire_lord_summon_9
+  - first:
+      213: 6846387142103206027
+    second: vampire_lord_summon_10
+  - first:
+      213: 1894720674116579207
+    second: vampire_lord_summon_11
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: vampire_lord_summon_0
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 64
+        width: 591
+        height: 585
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a68f2197eafe61b00800000000000000
+      internalID: 799089516539476074
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vampire_lord_summon_1
+      rect:
+        serializedVersion: 2
+        x: 948
+        y: 77
+        width: 567
+        height: 564
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 143a5866431e60f40800000000000000
+      internalID: 5694486394031153985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vampire_lord_summon_2
+      rect:
+        serializedVersion: 2
+        x: 1693
+        y: 85
+        width: 622
+        height: 551
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e794657142afc8d0800000000000000
+      internalID: -2823860039311910942
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vampire_lord_summon_3
+      rect:
+        serializedVersion: 2
+        x: 2513
+        y: 33
+        width: 740
+        height: 645
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 77aa128ff59aaa540800000000000000
+      internalID: 5020010964307782263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vampire_lord_summon_4
+      rect:
+        serializedVersion: 2
+        x: 3286
+        y: 459
+        width: 70
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8abe8c2dcc85ea50800000000000000
+      internalID: 6549796045923990154
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vampire_lord_summon_5
+      rect:
+        serializedVersion: 2
+        x: 3314
+        y: 0
+        width: 791
+        height: 708
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c86f2d6fd3822ea0800000000000000
+      internalID: -5899007566269159229
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vampire_lord_summon_6
+      rect:
+        serializedVersion: 2
+        x: 4099
+        y: 12
+        width: 825
+        height: 707
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ad07ddff50608630800000000000000
+      internalID: 3927244840463961508
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vampire_lord_summon_7
+      rect:
+        serializedVersion: 2
+        x: 4919
+        y: 458
+        width: 54
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a8ad8c61af9c6530800000000000000
+      internalID: 3849627297154705569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vampire_lord_summon_8
+      rect:
+        serializedVersion: 2
+        x: 5051
+        y: 47
+        width: 644
+        height: 641
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ccf010c73549c2fc0800000000000000
+      internalID: -3518274122599559220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vampire_lord_summon_9
+      rect:
+        serializedVersion: 2
+        x: 5877
+        y: 61
+        width: 599
+        height: 596
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b421f29790a84000800000000000000
+      internalID: 20442771188950198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vampire_lord_summon_10
+      rect:
+        serializedVersion: 2
+        x: 4919
+        y: 388
+        width: 52
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b880ddff4d0430f50800000000000000
+      internalID: 6846387142103206027
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vampire_lord_summon_11
+      rect:
+        serializedVersion: 2
+        x: 4919
+        y: 202
+        width: 29
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 78fae491a666b4a10800000000000000
+      internalID: 1894720674116579207
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      vampire_lord_summon_0: 799089516539476074
+      vampire_lord_summon_1: 5694486394031153985
+      vampire_lord_summon_10: 6846387142103206027
+      vampire_lord_summon_11: 1894720674116579207
+      vampire_lord_summon_2: -2823860039311910942
+      vampire_lord_summon_3: 5020010964307782263
+      vampire_lord_summon_4: 6549796045923990154
+      vampire_lord_summon_5: -5899007566269159229
+      vampire_lord_summon_6: 3927244840463961508
+      vampire_lord_summon_7: 3849627297154705569
+      vampire_lord_summon_8: -3518274122599559220
+      vampire_lord_summon_9: 20442771188950198
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

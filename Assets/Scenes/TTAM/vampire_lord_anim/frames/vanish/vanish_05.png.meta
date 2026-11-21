@@ -1,0 +1,676 @@
+fileFormatVersion: 2
+guid: a3166bd6e86c6b3408b8d41b75448c7d
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1524063101300838624
+    second: vanish_05_0
+  - first:
+      213: -2055692061834625199
+    second: vanish_05_1
+  - first:
+      213: 7133753578304425997
+    second: vanish_05_2
+  - first:
+      213: 7262425162816660463
+    second: vanish_05_3
+  - first:
+      213: 9191412728131646676
+    second: vanish_05_4
+  - first:
+      213: -8187129004812099829
+    second: vanish_05_5
+  - first:
+      213: 8861974000692475781
+    second: vanish_05_6
+  - first:
+      213: -7369439497670465525
+    second: vanish_05_7
+  - first:
+      213: 8274298266663621471
+    second: vanish_05_8
+  - first:
+      213: -2664554365236723857
+    second: vanish_05_9
+  - first:
+      213: -2353156441229007203
+    second: vanish_05_10
+  - first:
+      213: -4363840445797569726
+    second: vanish_05_11
+  - first:
+      213: -8527705813106968926
+    second: vanish_05_12
+  - first:
+      213: -7497288899396257114
+    second: vanish_05_13
+  - first:
+      213: -4042828461009939952
+    second: vanish_05_14
+  - first:
+      213: -5361699554497327812
+    second: vanish_05_15
+  - first:
+      213: -7144860434482000068
+    second: vanish_05_16
+  - first:
+      213: -6996453259116748741
+    second: vanish_05_17
+  - first:
+      213: 1013118885011320311
+    second: vanish_05_18
+  - first:
+      213: -3630705434393855257
+    second: vanish_05_19
+  - first:
+      213: 2161084986859831754
+    second: vanish_05_20
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: vanish_05_0
+      rect:
+        serializedVersion: 2
+        x: 92
+        y: 663
+        width: 47
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0e01158d05f862510800000000000000
+      internalID: 1524063101300838624
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vanish_05_1
+      rect:
+        serializedVersion: 2
+        x: 308
+        y: 628
+        width: 68
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 15fb1c616f6b873e0800000000000000
+      internalID: -2055692061834625199
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vanish_05_2
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 561
+        width: 50
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d00d10e451f200360800000000000000
+      internalID: 7133753578304425997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vanish_05_3
+      rect:
+        serializedVersion: 2
+        x: 347
+        y: 597
+        width: 88
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fe3ab85253159c460800000000000000
+      internalID: 7262425162816660463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vanish_05_4
+      rect:
+        serializedVersion: 2
+        x: 556
+        y: 594
+        width: 96
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d47a449d257e8f70800000000000000
+      internalID: 9191412728131646676
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vanish_05_5
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 519
+        width: 82
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b0f90e12c89716e80800000000000000
+      internalID: -8187129004812099829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vanish_05_6
+      rect:
+        serializedVersion: 2
+        x: 181
+        y: 529
+        width: 32
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 587b500a66e0cfa70800000000000000
+      internalID: 8861974000692475781
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vanish_05_7
+      rect:
+        serializedVersion: 2
+        x: 371
+        y: 544
+        width: 90
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b086e9362dd7ab990800000000000000
+      internalID: -7369439497670465525
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vanish_05_8
+      rect:
+        serializedVersion: 2
+        x: 431
+        y: 529
+        width: 67
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f539d163f6634d270800000000000000
+      internalID: 8274298266663621471
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vanish_05_9
+      rect:
+        serializedVersion: 2
+        x: 726
+        y: 550
+        width: 46
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f6f39571ce9950bd0800000000000000
+      internalID: -2664554365236723857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vanish_05_10
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 445
+        width: 75
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d966f9b2fa8e75fd0800000000000000
+      internalID: -2353156441229007203
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vanish_05_11
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 463
+        width: 45
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 24be0c33c368073c0800000000000000
+      internalID: -4363840445797569726
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vanish_05_12
+      rect:
+        serializedVersion: 2
+        x: 468
+        y: 458
+        width: 53
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a6b9b4aeb087a980800000000000000
+      internalID: -8527705813106968926
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vanish_05_13
+      rect:
+        serializedVersion: 2
+        x: 498
+        y: 437
+        width: 89
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6aab105e77744f790800000000000000
+      internalID: -7497288899396257114
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vanish_05_14
+      rect:
+        serializedVersion: 2
+        x: 278
+        y: 420
+        width: 64
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 012d9ad3fecf4e7c0800000000000000
+      internalID: -4042828461009939952
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vanish_05_15
+      rect:
+        serializedVersion: 2
+        x: 620
+        y: 405
+        width: 76
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c3d01d5a9aa6795b0800000000000000
+      internalID: -5361699554497327812
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vanish_05_16
+      rect:
+        serializedVersion: 2
+        x: 553
+        y: 318
+        width: 111
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c3f05f83a4b58dc90800000000000000
+      internalID: -7144860434482000068
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vanish_05_17
+      rect:
+        serializedVersion: 2
+        x: 655
+        y: 297
+        width: 99
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b30e8b264da97ee90800000000000000
+      internalID: -6996453259116748741
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vanish_05_18
+      rect:
+        serializedVersion: 2
+        x: 687
+        y: 219
+        width: 63
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7fde65812425f0e00800000000000000
+      internalID: 1013118885011320311
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vanish_05_19
+      rect:
+        serializedVersion: 2
+        x: 209
+        y: 177
+        width: 42
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7eabfdac4a42d9dc0800000000000000
+      internalID: -3630705434393855257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vanish_05_20
+      rect:
+        serializedVersion: 2
+        x: 652
+        y: 176
+        width: 55
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac1c53b7857bdfd10800000000000000
+      internalID: 2161084986859831754
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      vanish_05_0: 1524063101300838624
+      vanish_05_1: -2055692061834625199
+      vanish_05_10: -2353156441229007203
+      vanish_05_11: -4363840445797569726
+      vanish_05_12: -8527705813106968926
+      vanish_05_13: -7497288899396257114
+      vanish_05_14: -4042828461009939952
+      vanish_05_15: -5361699554497327812
+      vanish_05_16: -7144860434482000068
+      vanish_05_17: -6996453259116748741
+      vanish_05_18: 1013118885011320311
+      vanish_05_19: -3630705434393855257
+      vanish_05_2: 7133753578304425997
+      vanish_05_20: 2161084986859831754
+      vanish_05_3: 7262425162816660463
+      vanish_05_4: 9191412728131646676
+      vanish_05_5: -8187129004812099829
+      vanish_05_6: 8861974000692475781
+      vanish_05_7: -7369439497670465525
+      vanish_05_8: 8274298266663621471
+      vanish_05_9: -2664554365236723857
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

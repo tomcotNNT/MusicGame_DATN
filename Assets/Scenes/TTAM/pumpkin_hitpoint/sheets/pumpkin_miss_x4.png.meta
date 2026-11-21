@@ -1,0 +1,676 @@
+fileFormatVersion: 2
+guid: aae625f9249b70c47ac3c5fb096f9524
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3680712156369237950
+    second: pumpkin_miss_x4_0
+  - first:
+      213: 21117519383444325
+    second: pumpkin_miss_x4_1
+  - first:
+      213: -8337217441115449846
+    second: pumpkin_miss_x4_2
+  - first:
+      213: 2696493804434389566
+    second: pumpkin_miss_x4_3
+  - first:
+      213: -5637292744275239962
+    second: pumpkin_miss_x4_4
+  - first:
+      213: -139344421917505744
+    second: pumpkin_miss_x4_5
+  - first:
+      213: -7343976423690281560
+    second: pumpkin_miss_x4_6
+  - first:
+      213: 6415968424338018459
+    second: pumpkin_miss_x4_7
+  - first:
+      213: -9167826634713952537
+    second: pumpkin_miss_x4_8
+  - first:
+      213: 5125137105964146734
+    second: pumpkin_miss_x4_9
+  - first:
+      213: 6157507604988336049
+    second: pumpkin_miss_x4_10
+  - first:
+      213: -8797769415695125024
+    second: pumpkin_miss_x4_11
+  - first:
+      213: -5814825910468785083
+    second: pumpkin_miss_x4_12
+  - first:
+      213: -2878347742006190740
+    second: pumpkin_miss_x4_13
+  - first:
+      213: 2057923376057534511
+    second: pumpkin_miss_x4_14
+  - first:
+      213: 5881079498770298982
+    second: pumpkin_miss_x4_15
+  - first:
+      213: 379302444180916412
+    second: pumpkin_miss_x4_16
+  - first:
+      213: -2190920373710386589
+    second: pumpkin_miss_x4_17
+  - first:
+      213: -7069663024188565748
+    second: pumpkin_miss_x4_18
+  - first:
+      213: -4293483560411238210
+    second: pumpkin_miss_x4_19
+  - first:
+      213: 8357715768794759556
+    second: pumpkin_miss_x4_20
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: pumpkin_miss_x4_0
+      rect:
+        serializedVersion: 2
+        x: 91
+        y: 59
+        width: 238
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 24846278bcb7becc0800000000000000
+      internalID: -3680712156369237950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_miss_x4_1
+      rect:
+        serializedVersion: 2
+        x: 443
+        y: 59
+        width: 238
+        height: 230
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 56b3361a5460b4000800000000000000
+      internalID: 21117519383444325
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_miss_x4_2
+      rect:
+        serializedVersion: 2
+        x: 851
+        y: 59
+        width: 238
+        height: 230
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a065f17e8e04c4c80800000000000000
+      internalID: -8337217441115449846
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_miss_x4_3
+      rect:
+        serializedVersion: 2
+        x: 1159
+        y: 259
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3a7a5814dedb6520800000000000000
+      internalID: 2696493804434389566
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_miss_x4_4
+      rect:
+        serializedVersion: 2
+        x: 1167
+        y: 251
+        width: 6
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6eb5692ed1054c1b0800000000000000
+      internalID: -5637292744275239962
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_miss_x4_5
+      rect:
+        serializedVersion: 2
+        x: 1175
+        y: 247
+        width: 6
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 037cc2e8cf2f01ef0800000000000000
+      internalID: -139344421917505744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_miss_x4_6
+      rect:
+        serializedVersion: 2
+        x: 1183
+        y: 247
+        width: 6
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8add81b4a54f41a90800000000000000
+      internalID: -7343976423690281560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_miss_x4_7
+      rect:
+        serializedVersion: 2
+        x: 1191
+        y: 243
+        width: 6
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b905ac6e9491a0950800000000000000
+      internalID: 6415968424338018459
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_miss_x4_8
+      rect:
+        serializedVersion: 2
+        x: 1199
+        y: 243
+        width: 6
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ee828bbf3655c080800000000000000
+      internalID: -9167826634713952537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_miss_x4_9
+      rect:
+        serializedVersion: 2
+        x: 1207
+        y: 247
+        width: 6
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e20aa223b05202740800000000000000
+      internalID: 5125137105964146734
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_miss_x4_10
+      rect:
+        serializedVersion: 2
+        x: 1215
+        y: 247
+        width: 6
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1b79819fa8cd37550800000000000000
+      internalID: 6157507604988336049
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_miss_x4_11
+      rect:
+        serializedVersion: 2
+        x: 1223
+        y: 59
+        width: 238
+        height: 230
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0e532b9345b08e580800000000000000
+      internalID: -8797769415695125024
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_miss_x4_12
+      rect:
+        serializedVersion: 2
+        x: 1611
+        y: 59
+        width: 238
+        height: 230
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 54c45c784a69d4fa0800000000000000
+      internalID: -5814825910468785083
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_miss_x4_13
+      rect:
+        serializedVersion: 2
+        x: 1995
+        y: 59
+        width: 238
+        height: 230
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c6d5ca19afd0e08d0800000000000000
+      internalID: -2878347742006190740
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_miss_x4_14
+      rect:
+        serializedVersion: 2
+        x: 2379
+        y: 59
+        width: 238
+        height: 230
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f28c1ec38663f8c10800000000000000
+      internalID: 2057923376057534511
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_miss_x4_15
+      rect:
+        serializedVersion: 2
+        x: 2763
+        y: 59
+        width: 238
+        height: 230
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 668390415aacd9150800000000000000
+      internalID: 5881079498770298982
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_miss_x4_16
+      rect:
+        serializedVersion: 2
+        x: 815
+        y: 227
+        width: 6
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cb847d7309d834500800000000000000
+      internalID: 379302444180916412
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_miss_x4_17
+      rect:
+        serializedVersion: 2
+        x: 823
+        y: 219
+        width: 6
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 36a83d137894891e0800000000000000
+      internalID: -2190920373710386589
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_miss_x4_18
+      rect:
+        serializedVersion: 2
+        x: 831
+        y: 223
+        width: 6
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c07d689afe283ed90800000000000000
+      internalID: -7069663024188565748
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_miss_x4_19
+      rect:
+        serializedVersion: 2
+        x: 839
+        y: 219
+        width: 6
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb075bc137b7a64c0800000000000000
+      internalID: -4293483560411238210
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_miss_x4_20
+      rect:
+        serializedVersion: 2
+        x: 847
+        y: 215
+        width: 6
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 48141bce5329cf370800000000000000
+      internalID: 8357715768794759556
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      pumpkin_miss_x4_0: -3680712156369237950
+      pumpkin_miss_x4_1: 21117519383444325
+      pumpkin_miss_x4_10: 6157507604988336049
+      pumpkin_miss_x4_11: -8797769415695125024
+      pumpkin_miss_x4_12: -5814825910468785083
+      pumpkin_miss_x4_13: -2878347742006190740
+      pumpkin_miss_x4_14: 2057923376057534511
+      pumpkin_miss_x4_15: 5881079498770298982
+      pumpkin_miss_x4_16: 379302444180916412
+      pumpkin_miss_x4_17: -2190920373710386589
+      pumpkin_miss_x4_18: -7069663024188565748
+      pumpkin_miss_x4_19: -4293483560411238210
+      pumpkin_miss_x4_2: -8337217441115449846
+      pumpkin_miss_x4_20: 8357715768794759556
+      pumpkin_miss_x4_3: 2696493804434389566
+      pumpkin_miss_x4_4: -5637292744275239962
+      pumpkin_miss_x4_5: -139344421917505744
+      pumpkin_miss_x4_6: -7343976423690281560
+      pumpkin_miss_x4_7: 6415968424338018459
+      pumpkin_miss_x4_8: -9167826634713952537
+      pumpkin_miss_x4_9: 5125137105964146734
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,442 @@
+fileFormatVersion: 2
+guid: 55aeef2b9b6f0854787b4e55922d9398
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -1377219663300140377
+    second: celtic_cross_cyan_beat_half_0
+  - first:
+      213: -5131925189284024057
+    second: celtic_cross_cyan_beat_half_1
+  - first:
+      213: -5646885714049916436
+    second: celtic_cross_cyan_beat_half_2
+  - first:
+      213: 2003789120379843715
+    second: celtic_cross_cyan_beat_half_3
+  - first:
+      213: -8050367242638767104
+    second: celtic_cross_cyan_beat_half_4
+  - first:
+      213: -83581987902612295
+    second: celtic_cross_cyan_beat_half_5
+  - first:
+      213: 1491371172587477541
+    second: celtic_cross_cyan_beat_half_6
+  - first:
+      213: -2209597440455227200
+    second: celtic_cross_cyan_beat_half_7
+  - first:
+      213: -5800982796839757207
+    second: celtic_cross_cyan_beat_half_8
+  - first:
+      213: 719004274254770623
+    second: celtic_cross_cyan_beat_half_9
+  - first:
+      213: 1008924843877821607
+    second: celtic_cross_cyan_beat_half_10
+  - first:
+      213: 3976853836463298288
+    second: celtic_cross_cyan_beat_half_11
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: celtic_cross_cyan_beat_half_0
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 13
+        width: 90
+        height: 222
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a2ef47530223ece0800000000000000
+      internalID: -1377219663300140377
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_cyan_beat_half_1
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 11
+        width: 95
+        height: 237
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 701b8defa3db7c8b0800000000000000
+      internalID: -5131925189284024057
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_cyan_beat_half_2
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 10
+        width: 98
+        height: 238
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce1a3de8c5b32a1b0800000000000000
+      internalID: -5646885714049916436
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_cyan_beat_half_3
+      rect:
+        serializedVersion: 2
+        x: 358
+        y: 10
+        width: 99
+        height: 238
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3847805a693eecb10800000000000000
+      internalID: 2003789120379843715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_cyan_beat_half_4
+      rect:
+        serializedVersion: 2
+        x: 474
+        y: 10
+        width: 99
+        height: 238
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00c431f35a9574090800000000000000
+      internalID: -8050367242638767104
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_cyan_beat_half_5
+      rect:
+        serializedVersion: 2
+        x: 591
+        y: 10
+        width: 98
+        height: 238
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9bc9175ff9e07def0800000000000000
+      internalID: -83581987902612295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_cyan_beat_half_6
+      rect:
+        serializedVersion: 2
+        x: 708
+        y: 10
+        width: 98
+        height: 238
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 52a955a0e2a62b410800000000000000
+      internalID: 1491371172587477541
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_cyan_beat_half_7
+      rect:
+        serializedVersion: 2
+        x: 824
+        y: 10
+        width: 98
+        height: 238
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0c8cd09b5dee551e0800000000000000
+      internalID: -2209597440455227200
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_cyan_beat_half_8
+      rect:
+        serializedVersion: 2
+        x: 941
+        y: 10
+        width: 97
+        height: 238
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 96ad63691e4ce7fa0800000000000000
+      internalID: -5800982796839757207
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_cyan_beat_half_9
+      rect:
+        serializedVersion: 2
+        x: 1058
+        y: 11
+        width: 97
+        height: 237
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fb171f6f39a6af900800000000000000
+      internalID: 719004274254770623
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_cyan_beat_half_10
+      rect:
+        serializedVersion: 2
+        x: 1175
+        y: 11
+        width: 96
+        height: 237
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ac676ccccb600e00800000000000000
+      internalID: 1008924843877821607
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_cyan_beat_half_11
+      rect:
+        serializedVersion: 2
+        x: 1291
+        y: 11
+        width: 96
+        height: 237
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f65b067e7f903730800000000000000
+      internalID: 3976853836463298288
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      celtic_cross_cyan_beat_half_0: -1377219663300140377
+      celtic_cross_cyan_beat_half_1: -5131925189284024057
+      celtic_cross_cyan_beat_half_10: 1008924843877821607
+      celtic_cross_cyan_beat_half_11: 3976853836463298288
+      celtic_cross_cyan_beat_half_2: -5646885714049916436
+      celtic_cross_cyan_beat_half_3: 2003789120379843715
+      celtic_cross_cyan_beat_half_4: -8050367242638767104
+      celtic_cross_cyan_beat_half_5: -83581987902612295
+      celtic_cross_cyan_beat_half_6: 1491371172587477541
+      celtic_cross_cyan_beat_half_7: -2209597440455227200
+      celtic_cross_cyan_beat_half_8: -5800982796839757207
+      celtic_cross_cyan_beat_half_9: 719004274254770623
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

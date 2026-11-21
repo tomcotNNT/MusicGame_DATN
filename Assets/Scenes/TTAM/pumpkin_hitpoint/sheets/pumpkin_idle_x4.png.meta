@@ -1,0 +1,546 @@
+fileFormatVersion: 2
+guid: 837ce234f88567245bfd1a1fd2b176fa
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 3766445283313117349
+    second: pumpkin_idle_x4_0
+  - first:
+      213: 3403421434846127457
+    second: pumpkin_idle_x4_1
+  - first:
+      213: -8532536923704017506
+    second: pumpkin_idle_x4_2
+  - first:
+      213: 3870063313197241004
+    second: pumpkin_idle_x4_3
+  - first:
+      213: 908717526362422291
+    second: pumpkin_idle_x4_4
+  - first:
+      213: -4484036119501440373
+    second: pumpkin_idle_x4_5
+  - first:
+      213: -7754015714740561792
+    second: pumpkin_idle_x4_6
+  - first:
+      213: 7365743718754853474
+    second: pumpkin_idle_x4_7
+  - first:
+      213: -3315438514377954791
+    second: pumpkin_idle_x4_8
+  - first:
+      213: -5876957563206445551
+    second: pumpkin_idle_x4_9
+  - first:
+      213: -8342958041630392102
+    second: pumpkin_idle_x4_10
+  - first:
+      213: 8078075925016389606
+    second: pumpkin_idle_x4_11
+  - first:
+      213: 6155851192458115481
+    second: pumpkin_idle_x4_12
+  - first:
+      213: 4240288296100575294
+    second: pumpkin_idle_x4_13
+  - first:
+      213: 3004254237281903730
+    second: pumpkin_idle_x4_14
+  - first:
+      213: -4050292831386226308
+    second: pumpkin_idle_x4_15
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: pumpkin_idle_x4_0
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 47
+        width: 262
+        height: 254
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a8e2d9970a154430800000000000000
+      internalID: 3766445283313117349
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_idle_x4_1
+      rect:
+        serializedVersion: 2
+        x: 447
+        y: 47
+        width: 262
+        height: 254
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16524fc43c16b3f20800000000000000
+      internalID: 3403421434846127457
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_idle_x4_2
+      rect:
+        serializedVersion: 2
+        x: 831
+        y: 47
+        width: 262
+        height: 254
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e9db7bd00e6569980800000000000000
+      internalID: -8532536923704017506
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_idle_x4_3
+      rect:
+        serializedVersion: 2
+        x: 1215
+        y: 47
+        width: 262
+        height: 254
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ca29461341a35b530800000000000000
+      internalID: 3870063313197241004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_idle_x4_4
+      rect:
+        serializedVersion: 2
+        x: 1599
+        y: 51
+        width: 262
+        height: 254
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 31cf00096c96c9c00800000000000000
+      internalID: 908717526362422291
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_idle_x4_5
+      rect:
+        serializedVersion: 2
+        x: 1983
+        y: 51
+        width: 262
+        height: 254
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b8a781128e085c1c0800000000000000
+      internalID: -4484036119501440373
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_idle_x4_6
+      rect:
+        serializedVersion: 2
+        x: 2367
+        y: 51
+        width: 262
+        height: 254
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 088971c3ac3346490800000000000000
+      internalID: -7754015714740561792
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_idle_x4_7
+      rect:
+        serializedVersion: 2
+        x: 2751
+        y: 51
+        width: 262
+        height: 254
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 262a2f603e0683660800000000000000
+      internalID: 7365743718754853474
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_idle_x4_8
+      rect:
+        serializedVersion: 2
+        x: 3135
+        y: 51
+        width: 262
+        height: 254
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 91a6ad3bc323df1d0800000000000000
+      internalID: -3315438514377954791
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_idle_x4_9
+      rect:
+        serializedVersion: 2
+        x: 3519
+        y: 51
+        width: 262
+        height: 254
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 116d805db3ad07ea0800000000000000
+      internalID: -5876957563206445551
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_idle_x4_10
+      rect:
+        serializedVersion: 2
+        x: 3903
+        y: 51
+        width: 262
+        height: 254
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad0c1a03ddbd73c80800000000000000
+      internalID: -8342958041630392102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_idle_x4_11
+      rect:
+        serializedVersion: 2
+        x: 4287
+        y: 51
+        width: 262
+        height: 254
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e7ac3b11471b1070800000000000000
+      internalID: 8078075925016389606
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_idle_x4_12
+      rect:
+        serializedVersion: 2
+        x: 4671
+        y: 47
+        width: 262
+        height: 254
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 99971a06b0afd6550800000000000000
+      internalID: 6155851192458115481
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_idle_x4_13
+      rect:
+        serializedVersion: 2
+        x: 5055
+        y: 47
+        width: 262
+        height: 254
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3832524db788da30800000000000000
+      internalID: 4240288296100575294
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_idle_x4_14
+      rect:
+        serializedVersion: 2
+        x: 5439
+        y: 47
+        width: 262
+        height: 254
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2746624cf4141b920800000000000000
+      internalID: 3004254237281903730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_idle_x4_15
+      rect:
+        serializedVersion: 2
+        x: 5823
+        y: 47
+        width: 262
+        height: 254
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c71b9e411287ac7c0800000000000000
+      internalID: -4050292831386226308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      pumpkin_idle_x4_0: 3766445283313117349
+      pumpkin_idle_x4_1: 3403421434846127457
+      pumpkin_idle_x4_10: -8342958041630392102
+      pumpkin_idle_x4_11: 8078075925016389606
+      pumpkin_idle_x4_12: 6155851192458115481
+      pumpkin_idle_x4_13: 4240288296100575294
+      pumpkin_idle_x4_14: 3004254237281903730
+      pumpkin_idle_x4_15: -4050292831386226308
+      pumpkin_idle_x4_2: -8532536923704017506
+      pumpkin_idle_x4_3: 3870063313197241004
+      pumpkin_idle_x4_4: 908717526362422291
+      pumpkin_idle_x4_5: -4484036119501440373
+      pumpkin_idle_x4_6: -7754015714740561792
+      pumpkin_idle_x4_7: 7365743718754853474
+      pumpkin_idle_x4_8: -3315438514377954791
+      pumpkin_idle_x4_9: -5876957563206445551
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

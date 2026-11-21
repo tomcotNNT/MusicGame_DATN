@@ -21,7 +21,7 @@ TagManager:
   - UI
   - Enemy
   - BossBullet
-  - 
+  - Hitpoint
   - 
   - 
   - 
@@ -51,6 +51,9 @@ TagManager:
     locked: 0
   - name: Map
     uniqueID: 1230307681
+    locked: 0
+  - name: Hitpoint
+    uniqueID: 1743382041
     locked: 0
   - name: Player
     uniqueID: 2623567175

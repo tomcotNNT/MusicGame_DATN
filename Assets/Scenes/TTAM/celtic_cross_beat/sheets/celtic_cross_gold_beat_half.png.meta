@@ -1,0 +1,442 @@
+fileFormatVersion: 2
+guid: 6ce3282868a2ca248a5cc0084ba6d6b0
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1586818340980614315
+    second: celtic_cross_gold_beat_half_0
+  - first:
+      213: -7067158013244519981
+    second: celtic_cross_gold_beat_half_1
+  - first:
+      213: 2376821070602701790
+    second: celtic_cross_gold_beat_half_2
+  - first:
+      213: 4773222808749519885
+    second: celtic_cross_gold_beat_half_3
+  - first:
+      213: -972608118511435874
+    second: celtic_cross_gold_beat_half_4
+  - first:
+      213: -4913925334039081441
+    second: celtic_cross_gold_beat_half_5
+  - first:
+      213: -745570618258158505
+    second: celtic_cross_gold_beat_half_6
+  - first:
+      213: 4295365049554962505
+    second: celtic_cross_gold_beat_half_7
+  - first:
+      213: -8971620411753836024
+    second: celtic_cross_gold_beat_half_8
+  - first:
+      213: 8295615600101729351
+    second: celtic_cross_gold_beat_half_9
+  - first:
+      213: -718858464801201768
+    second: celtic_cross_gold_beat_half_10
+  - first:
+      213: 611009596943842974
+    second: celtic_cross_gold_beat_half_11
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: celtic_cross_gold_beat_half_0
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 13
+        width: 90
+        height: 222
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba46931bfd2850610800000000000000
+      internalID: 1586818340980614315
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_beat_half_1
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 11
+        width: 95
+        height: 237
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d94109fa396ced90800000000000000
+      internalID: -7067158013244519981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_beat_half_2
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 10
+        width: 98
+        height: 238
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: edb00f7bb2a2cf020800000000000000
+      internalID: 2376821070602701790
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_beat_half_3
+      rect:
+        serializedVersion: 2
+        x: 358
+        y: 10
+        width: 99
+        height: 238
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d04be4ddad4ed3240800000000000000
+      internalID: 4773222808749519885
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_beat_half_4
+      rect:
+        serializedVersion: 2
+        x: 474
+        y: 10
+        width: 99
+        height: 238
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e9ff67eb11a9082f0800000000000000
+      internalID: -972608118511435874
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_beat_half_5
+      rect:
+        serializedVersion: 2
+        x: 591
+        y: 10
+        width: 98
+        height: 238
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f1ececb91fa3ecbb0800000000000000
+      internalID: -4913925334039081441
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_beat_half_6
+      rect:
+        serializedVersion: 2
+        x: 708
+        y: 10
+        width: 98
+        height: 238
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75c01cf097337a5f0800000000000000
+      internalID: -745570618258158505
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_beat_half_7
+      rect:
+        serializedVersion: 2
+        x: 824
+        y: 10
+        width: 98
+        height: 238
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9480a5731c33c9b30800000000000000
+      internalID: 4295365049554962505
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_beat_half_8
+      rect:
+        serializedVersion: 2
+        x: 941
+        y: 10
+        width: 97
+        height: 238
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 802d4c9e4c66e7380800000000000000
+      internalID: -8971620411753836024
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_beat_half_9
+      rect:
+        serializedVersion: 2
+        x: 1058
+        y: 11
+        width: 97
+        height: 237
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 744a04daf62ff1370800000000000000
+      internalID: 8295615600101729351
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_beat_half_10
+      rect:
+        serializedVersion: 2
+        x: 1175
+        y: 11
+        width: 96
+        height: 237
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 891edb1f80a1606f0800000000000000
+      internalID: -718858464801201768
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celtic_cross_gold_beat_half_11
+      rect:
+        serializedVersion: 2
+        x: 1291
+        y: 11
+        width: 96
+        height: 237
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e9e313cbdfdba7800800000000000000
+      internalID: 611009596943842974
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      celtic_cross_gold_beat_half_0: 1586818340980614315
+      celtic_cross_gold_beat_half_1: -7067158013244519981
+      celtic_cross_gold_beat_half_10: -718858464801201768
+      celtic_cross_gold_beat_half_11: 611009596943842974
+      celtic_cross_gold_beat_half_2: 2376821070602701790
+      celtic_cross_gold_beat_half_3: 4773222808749519885
+      celtic_cross_gold_beat_half_4: -972608118511435874
+      celtic_cross_gold_beat_half_5: -4913925334039081441
+      celtic_cross_gold_beat_half_6: -745570618258158505
+      celtic_cross_gold_beat_half_7: 4295365049554962505
+      celtic_cross_gold_beat_half_8: -8971620411753836024
+      celtic_cross_gold_beat_half_9: 8295615600101729351
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

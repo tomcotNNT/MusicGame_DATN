@@ -1,0 +1,546 @@
+fileFormatVersion: 2
+guid: 5a7ef14d916c1bb4aa143d9f604f4ac1
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -6024108205537003395
+    second: pumpkin_active_0
+  - first:
+      213: 8566628195416891262
+    second: pumpkin_active_1
+  - first:
+      213: -4504060017956763255
+    second: pumpkin_active_2
+  - first:
+      213: 5520235692628408555
+    second: pumpkin_active_3
+  - first:
+      213: 7674093239905274378
+    second: pumpkin_active_4
+  - first:
+      213: -2790993639218829793
+    second: pumpkin_active_5
+  - first:
+      213: 5933260110932564569
+    second: pumpkin_active_6
+  - first:
+      213: -1573983436536662586
+    second: pumpkin_active_7
+  - first:
+      213: -4845648114429996444
+    second: pumpkin_active_8
+  - first:
+      213: 2336686857820279022
+    second: pumpkin_active_9
+  - first:
+      213: -3871658830660043394
+    second: pumpkin_active_10
+  - first:
+      213: 1124087193828559660
+    second: pumpkin_active_11
+  - first:
+      213: 1538043022559329645
+    second: pumpkin_active_12
+  - first:
+      213: 5479841017369454252
+    second: pumpkin_active_13
+  - first:
+      213: -5274452393548727299
+    second: pumpkin_active_14
+  - first:
+      213: 4685490877428326187
+    second: pumpkin_active_15
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: pumpkin_active_0
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 11
+        width: 67
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d7873701181166ca0800000000000000
+      internalID: -6024108205537003395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_active_1
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 11
+        width: 69
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7f5baea4f6c2e670800000000000000
+      internalID: 8566628195416891262
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_active_2
+      rect:
+        serializedVersion: 2
+        x: 206
+        y: 10
+        width: 69
+        height: 70
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 989c5a6f64d5e71c0800000000000000
+      internalID: -4504060017956763255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_active_3
+      rect:
+        serializedVersion: 2
+        x: 302
+        y: 11
+        width: 69
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: be87c8f6d11db9c40800000000000000
+      internalID: 5520235692628408555
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_active_4
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 11
+        width: 67
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a0ac7c1842bdf7a60800000000000000
+      internalID: 7674093239905274378
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_active_5
+      rect:
+        serializedVersion: 2
+        x: 494
+        y: 11
+        width: 69
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f16acfb82166449d0800000000000000
+      internalID: -2790993639218829793
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_active_6
+      rect:
+        serializedVersion: 2
+        x: 590
+        y: 10
+        width: 69
+        height: 71
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 95a512892ac275250800000000000000
+      internalID: 5933260110932564569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_active_7
+      rect:
+        serializedVersion: 2
+        x: 686
+        y: 11
+        width: 69
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6c532ee5766182ae0800000000000000
+      internalID: -1573983436536662586
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_active_8
+      rect:
+        serializedVersion: 2
+        x: 783
+        y: 11
+        width: 67
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 462dbd896bcc0ccb0800000000000000
+      internalID: -4845648114429996444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_active_9
+      rect:
+        serializedVersion: 2
+        x: 878
+        y: 11
+        width: 69
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee093bf11549d6020800000000000000
+      internalID: 2336686857820279022
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_active_10
+      rect:
+        serializedVersion: 2
+        x: 974
+        y: 10
+        width: 69
+        height: 70
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7df0037eca154ac0800000000000000
+      internalID: -3871658830660043394
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_active_11
+      rect:
+        serializedVersion: 2
+        x: 1070
+        y: 11
+        width: 69
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c2b87bcd85f899f00800000000000000
+      internalID: 1124087193828559660
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_active_12
+      rect:
+        serializedVersion: 2
+        x: 1167
+        y: 11
+        width: 67
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d6dbae8eaf9385510800000000000000
+      internalID: 1538043022559329645
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_active_13
+      rect:
+        serializedVersion: 2
+        x: 1262
+        y: 11
+        width: 69
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ca6ebe13f5e4c0c40800000000000000
+      internalID: 5479841017369454252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_active_14
+      rect:
+        serializedVersion: 2
+        x: 1358
+        y: 10
+        width: 69
+        height: 71
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dfbb1d94e716dc6b0800000000000000
+      internalID: -5274452393548727299
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_active_15
+      rect:
+        serializedVersion: 2
+        x: 1454
+        y: 11
+        width: 69
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b2fd273d025360140800000000000000
+      internalID: 4685490877428326187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      pumpkin_active_0: -6024108205537003395
+      pumpkin_active_1: 8566628195416891262
+      pumpkin_active_10: -3871658830660043394
+      pumpkin_active_11: 1124087193828559660
+      pumpkin_active_12: 1538043022559329645
+      pumpkin_active_13: 5479841017369454252
+      pumpkin_active_14: -5274452393548727299
+      pumpkin_active_15: 4685490877428326187
+      pumpkin_active_2: -4504060017956763255
+      pumpkin_active_3: 5520235692628408555
+      pumpkin_active_4: 7674093239905274378
+      pumpkin_active_5: -2790993639218829793
+      pumpkin_active_6: 5933260110932564569
+      pumpkin_active_7: -1573983436536662586
+      pumpkin_active_8: -4845648114429996444
+      pumpkin_active_9: 2336686857820279022
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
