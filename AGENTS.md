@@ -2,13 +2,13 @@
 - Project name: MusicGame_DATN
 - Unity version: Unity 6000.3.24f1
 - Active scene:
-  - Name: Man2
+  - Name: Man3
   - Tags:
     - Untagged, Respawn, Finish, EditorOnly, MainCamera, Player, GameController, Note, Wall, Ground, HitPointTop, HitPointBottom, BossAttackPosition, Enemy, BossBullet
   - Layers:
     - Default, TransparentFX, Ignore Raycast, Water, UI, Enemy, BossBullet, Hitpoint
 - Active game object:
-  - Name: PointR
-  - Tag: Untagged
+  - Name: Stephen
+  - Tag: Player
   - Layer: Default
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->
