@@ -9,6 +9,7 @@ public class PlayerData
 
     public List<string> claimedAchievements = new List<string>();
     public ComboStatsData comboStats = new ComboStatsData();
+    public List<int> unlockedCharacters = new List<int>();
 
     public CurrencyData currency = new CurrencyData();
 

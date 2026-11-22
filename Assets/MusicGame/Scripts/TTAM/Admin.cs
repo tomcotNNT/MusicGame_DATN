@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// Bộ nút admin để test: +/- coin, diamond, quản lý level, reset dữ liệu.
+/// Bộ nút admin để test: +/- coin, diamond, quản lý level, nhân vật, reset dữ liệu.
 /// Mặc định chỉ hoạt động trong Editor và Development Build.
 /// </summary>
 public class AdminPanel : MonoBehaviour
@@ -37,6 +37,16 @@ public class AdminPanel : MonoBehaviour
     [SerializeField] private Button lockLevelButton;
     [SerializeField] private Button unlockAllButton;
     [SerializeField] private Button lockAllButton;
+
+    [Header("Quản lý Nhân vật")]
+    [Tooltip("Nhập index nhân vật: 0 = nhân vật đầu tiên (luôn mở), 1, 2...")]
+    [SerializeField] private TMP_InputField characterIndexInput;
+    [Tooltip("Tổng số nhân vật, dùng cho nút Mở tất cả / Khóa tất cả")]
+    [SerializeField] private int totalCharacters = 3;
+    [SerializeField] private Button unlockCharacterButton;
+    [SerializeField] private Button lockCharacterButton;
+    [SerializeField] private Button unlockAllCharactersButton;
+    [SerializeField] private Button lockAllCharactersButton;
 
     [Header("Reset dữ liệu")]
     [SerializeField] private Button resetAllButton;
@@ -76,6 +86,11 @@ public class AdminPanel : MonoBehaviour
         Bind(lockLevelButton, LockLevel);
         Bind(unlockAllButton, UnlockAllLevels);
         Bind(lockAllButton, LockAllLevels);
+
+        Bind(unlockCharacterButton, UnlockCharacter);
+        Bind(lockCharacterButton, LockCharacter);
+        Bind(unlockAllCharactersButton, UnlockAllCharacters);
+        Bind(lockAllCharactersButton, LockAllCharacters);
 
         Bind(resetAllButton, AskResetAll);
         Bind(confirmYesButton, ConfirmReset);
@@ -204,6 +219,60 @@ public class AdminPanel : MonoBehaviour
             Manager.LockLevel(id);
     }
 
+    // ================= NHÂN VẬT =================
+
+    private bool TryReadCharacterIndex(out int index)
+    {
+        index = -1;
+
+        if (characterIndexInput == null ||
+            !int.TryParse(characterIndexInput.text, out index) ||
+            index < 0)
+        {
+            Debug.LogWarning("Admin: nhập index nhân vật hợp lệ (số nguyên >= 0).");
+            return false;
+        }
+
+        return true;
+    }
+
+    private void UnlockCharacter()
+    {
+        if (Manager == null) return;
+
+        if (TryReadCharacterIndex(out int index))
+            Manager.UnlockCharacter(index);
+    }
+
+    private void LockCharacter()
+    {
+        if (Manager == null) return;
+
+        if (TryReadCharacterIndex(out int index))
+        {
+            if (index == 0)
+                Debug.LogWarning("Admin: nhân vật 0 luôn mở, không thể khóa.");
+
+            Manager.LockCharacter(index);
+        }
+    }
+
+    private void UnlockAllCharacters()
+    {
+        if (Manager == null) return;
+
+        Manager.UnlockAllCharacters(totalCharacters);
+    }
+
+    // Khóa tất cả trừ nhân vật 0
+    private void LockAllCharacters()
+    {
+        if (Manager == null) return;
+
+        for (int i = 1; i < totalCharacters; i++)
+            Manager.LockCharacter(i);
+    }
+
     // ================= RESET =================
 
     private void AskResetAll()
@@ -248,8 +317,16 @@ public class AdminPanel : MonoBehaviour
         StringBuilder sb = new StringBuilder();
         sb.AppendLine("Coin: " + data.currency.coin.ToString("N0"));
         sb.AppendLine("Diamond: " + data.currency.diamond.ToString("N0"));
-        sb.Append("Level đã mở: " +
+        sb.AppendLine("Level đã mở: " +
                   (unlocked.Count > 0 ? string.Join(", ", unlocked) : "(không có)"));
+
+        List<int> chars = data.unlockedCharacters != null
+            ? new List<int>(data.unlockedCharacters)
+            : new List<int>();
+        chars.Sort();
+
+        sb.Append("Nhân vật đã mở: " +
+                  (chars.Count > 0 ? string.Join(", ", chars) : "(không có)"));
 
         statusText.text = sb.ToString();
     }

@@ -86,6 +86,14 @@ public class PlayerDataManager : MonoBehaviour
         if (Data.claimedAchievements == null)
             Data.claimedAchievements = new List<string>();
 
+        // Danh sách index nhân vật đã mở (file save cũ chưa có field này)
+        if (Data.unlockedCharacters == null)
+            Data.unlockedCharacters = new List<int>();
+
+        // Nhân vật đầu tiên (index 0) luôn mở
+        if (!Data.unlockedCharacters.Contains(0))
+            Data.unlockedCharacters.Add(0);
+
         // File save cũ chưa có thống kê combo
         if (Data.comboStats == null)
             Data.comboStats = new ComboStatsData();
@@ -269,6 +277,70 @@ public class PlayerDataManager : MonoBehaviour
             OnProgressionChanged?.Invoke();
 
             Debug.Log("Locked Level: " + levelId);
+        }
+    }
+
+    // ================= CHARACTER UNLOCK =================
+
+    public bool IsCharacterUnlocked(int characterIndex)
+    {
+        if (Data == null || Data.unlockedCharacters == null)
+            return characterIndex == 0;
+
+        return Data.unlockedCharacters.Contains(characterIndex);
+    }
+
+    public void UnlockCharacter(int characterIndex)
+    {
+        if (Data == null || characterIndex < 0)
+            return;
+
+        if (!Data.unlockedCharacters.Contains(characterIndex))
+        {
+            Data.unlockedCharacters.Add(characterIndex);
+            SaveData();
+            OnProgressionChanged?.Invoke();
+
+            Debug.Log("Unlocked Character: " + characterIndex);
+        }
+    }
+
+    // Mở khóa toàn bộ nhân vật từ 0 đến count - 1, lưu JSON 1 lần duy nhất
+    public void UnlockAllCharacters(int count)
+    {
+        if (Data == null || count <= 0)
+            return;
+
+        bool changed = false;
+
+        for (int i = 0; i < count; i++)
+        {
+            if (!Data.unlockedCharacters.Contains(i))
+            {
+                Data.unlockedCharacters.Add(i);
+                changed = true;
+            }
+        }
+
+        if (changed)
+        {
+            SaveData();
+            OnProgressionChanged?.Invoke();
+            Debug.Log("Đã mở khóa toàn bộ " + count + " nhân vật.");
+        }
+    }
+
+    // Dùng cho admin: khóa lại 1 nhân vật (nhân vật 0 luôn mở)
+    public void LockCharacter(int characterIndex)
+    {
+        if (Data == null || characterIndex == 0)
+            return;
+
+        if (Data.unlockedCharacters.Remove(characterIndex))
+        {
+            SaveData();
+            OnProgressionChanged?.Invoke();
+            Debug.Log("Locked Character: " + characterIndex);
         }
     }
 
