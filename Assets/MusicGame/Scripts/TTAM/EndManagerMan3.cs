@@ -161,16 +161,18 @@ public class EndGameManMan3 : MonoBehaviour
             Debug.LogError("PlayerDataManager not found!");
         }
 
-        int finalScore = scoreSystem.GetScore();
-        int finalCombo = comboSystem.MaxCombo;
-
         if (PlayerDataManager.Instance != null)
         {
-            PlayerDataManager.Instance.UpdateLevelRecord(
-                levelId,
-                finalScore,
-                finalCombo
-            );
+            PlayerDataManager.Instance.UpdateLevelRecord(levelId, score, maxCombo);
+
+            // Cộng dồn số lần Good/Great/Perfect vào thống kê tích lũy
+            if (scoreSystem != null)
+            {
+                PlayerDataManager.Instance.AddComboCounts(
+                    scoreSystem.GoodCount,
+                    scoreSystem.GreatCount,
+                    scoreSystem.PerfectCount);
+            }
         }
 
         // Hiển thị Coin nhận được

@@ -386,6 +386,10 @@ public class PianoKey : MonoBehaviour
         if (comboSystem != null)
             comboSystem.MissNote();
 
+
+        if (scoreSystem != null)
+        scoreSystem.AddMiss();
+
         Destroy(gameObject);
     }
 }

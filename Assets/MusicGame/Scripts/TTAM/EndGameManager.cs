@@ -28,6 +28,9 @@ public class EndGameManager : MonoBehaviour
     [SerializeField] private ScoreSystem scoreSystem;
     [SerializeField] private ComboSystem comboSystem;
 
+    [Header("Level Data")]
+    [SerializeField] private int levelId = 2;
+
     [Header("Cuộn số điểm")]
     [SerializeField] private float rollDuration = 1.5f;
     [Tooltip("Thời gian giữa 2 lần đổi chữ số ngẫu nhiên (giây)")]
@@ -152,6 +155,20 @@ public class EndGameManager : MonoBehaviour
         else
         {
             Debug.LogError("PlayerDataManager not found!");
+        }
+
+        if (PlayerDataManager.Instance != null)
+        {
+            PlayerDataManager.Instance.UpdateLevelRecord(levelId, score, maxCombo);
+
+            // Cộng dồn số lần Good/Great/Perfect vào thống kê tích lũy
+            if (scoreSystem != null)
+            {
+                PlayerDataManager.Instance.AddComboCounts(
+                    scoreSystem.GoodCount,
+                    scoreSystem.GreatCount,
+                    scoreSystem.PerfectCount);
+            }
         }
 
         if (endPanel != null)

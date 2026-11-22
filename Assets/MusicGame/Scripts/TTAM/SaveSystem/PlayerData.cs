@@ -7,6 +7,9 @@ public class PlayerData
 {
     public int version = 1;
 
+    public List<string> claimedAchievements = new List<string>();
+    public ComboStatsData comboStats = new ComboStatsData();
+
     public CurrencyData currency = new CurrencyData();
 
     public List<LevelRecordData> levelRecords =
