@@ -231,7 +231,12 @@ public class MidiReader : MonoBehaviour
             Debug.Log($"[MIDI] Track {t.index} \"{t.name}\": {t.notes.Count} notes, channels: " +
                       string.Join(",", t.notes.Select(n => n.channel).Distinct().Select(c => (c + 1).ToString()).ToArray()));
 
-        TrackData chosen = ChooseTrack(tracks);
+        // Drums: nếu trống nằm rải ở nhiều track (Kick, Snare, Hats...) thì gộp lại
+        TrackData chosen = null;
+        if (contentMode == ContentMode.Drums && forcedTrackIndex < 0)
+            chosen = MergeDrumTracks(tracks);
+        if (chosen == null)
+            chosen = ChooseTrack(tracks);
         if (chosen == null)
         {
             Debug.LogError("MidiReader: Không tìm thấy track phù hợp với Content Mode " + contentMode);
@@ -481,6 +486,26 @@ public class MidiReader : MonoBehaviour
         return chosen.Track;
     }
 
+    // Gộp nốt trống từ mọi track. Trả về null nếu chỉ có <= 1 track trống (dùng cách chọn thường).
+    private TrackData MergeDrumTracks(List<TrackData> tracks)
+    {
+        var drumTracks = tracks.Where(t => FilterNotesForMode(t).Count > 0).ToList();
+        if (drumTracks.Count <= 1)
+            return null;
+
+        var merged = new TrackData
+        {
+            index = -1,
+            name = "Drums (merged: " + string.Join(", ", drumTracks.Select(t => t.name).ToArray()) + ")"
+        };
+
+        foreach (TrackData t in drumTracks)
+            merged.notes.AddRange(t.notes);
+
+        Debug.Log($"[MIDI] Gộp {drumTracks.Count} track trống: {merged.notes.Count} nốt.");
+        return merged;
+    }
+
     private void BuildGameplayNotes(TrackData track)
     {
         List<RawNote> source = FilterNotesForMode(track)
@@ -677,7 +702,9 @@ public class MidiReader : MonoBehaviour
     public List<RhythmNote> GetNotesWithSpeed(float speed)
     {
         speed = Mathf.Max(0.1f, speed);
+        // Chỉ co giãn phần thời gian của bài nhạc, giữ nguyên timeOffset
         return Notes.Select(n => new RhythmNote(
-            n.time / speed, n.pitch, n.velocity, n.lane, n.duration / speed)).ToList();
+            (n.time - timeOffset) / speed + timeOffset,
+            n.pitch, n.velocity, n.lane, n.duration / speed)).ToList();
     }
 }
