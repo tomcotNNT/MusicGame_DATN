@@ -1,0 +1,34 @@
+{
+  "frame_size": [
+    233,
+    496
+  ],
+  "pivot_bottom_center": [
+    116,
+    462
+  ],
+  "animations": {
+    "celtic_cross_gold_beat": {
+      "frames": 12,
+      "fps": 24,
+      "loop": false,
+      "note": "restart on every beat"
+    },
+    "celtic_cross_gold_idle": {
+      "frames": 24,
+      "fps": 12,
+      "loop": true
+    },
+    "celtic_cross_cyan_beat": {
+      "frames": 12,
+      "fps": 24,
+      "loop": false,
+      "note": "restart on every beat"
+    },
+    "celtic_cross_cyan_idle": {
+      "frames": 24,
+      "fps": 12,
+      "loop": true
+    }
+  }
+}

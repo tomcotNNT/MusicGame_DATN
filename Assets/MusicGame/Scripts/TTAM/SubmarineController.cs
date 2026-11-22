@@ -20,6 +20,17 @@ public class SubmarineController : MonoBehaviour
     [Header("Drop")]
     [SerializeField] private Transform dropPoint;   // vị trí thả (dưới bụng tàu)
 
+    [Header("Animator")]
+    [SerializeField] private Animator animator;
+    [Tooltip("Tên trigger trong Animator Controller")]
+    [SerializeField] private string dropTrigger = "Drop";
+    [SerializeField] private string dieTrigger = "Die";
+    [Tooltip("Huỷ tàu sau khi chạy xong animation Die (giây). 0 = không huỷ")]
+    [SerializeField] private float destroyAfterDie = 0f;
+
+    private int dropHash;
+    private int dieHash;
+
     [Header("Shake khi thả")]
     [SerializeField] private CameraShake cameraShake;
     [SerializeField] private float shakeDuration = 0.12f;
@@ -52,12 +63,24 @@ public class SubmarineController : MonoBehaviour
         if (spriteRenderer == null)
             spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
+        if (animator == null)
+            animator = GetComponentInChildren<Animator>();
+
+        dropHash = Animator.StringToHash(dropTrigger);
+        dieHash = Animator.StringToHash(dieTrigger);
+
         if (cameraShake == null && Camera.main != null)
             cameraShake = Camera.main.GetComponent<CameraShake>();
     }
 
     private void Update()
     {
+        UpdateHpBar();
+
+        // Đã bị hạ: đứng yên cho animation Die tự chìm, không patrol/bobbing nữa
+        if (IsDefeated)
+            return;
+
         // 0..1 qua lại mượt (chậm ở hai đầu, nhanh ở giữa)
         float t = (Mathf.Sin(Time.time * patrolSpeed) + 1f) * 0.5f;
 
@@ -71,19 +94,20 @@ public class SubmarineController : MonoBehaviour
         if (spriteRenderer != null && Mathf.Abs(dx) > 0.0001f)
         {
             bool movingRight = dx > 0f;
-            // Sprite gốc quay phải: chạy trái thì lật. Sprite gốc quay trái: chạy phải thì lật.
             bool needFlip = spriteFacesRight ? !movingRight : movingRight;
             spriteRenderer.flipX = needFlip;
         }
         lastX = pos.x;
+    }
 
-        if (hpFill != null && MaxHp > 0)
-        {
-            float target = (float)CurrentHp / MaxHp;
-            displayedFill = Mathf.MoveTowards(displayedFill, target, hpSmoothSpeed * Time.deltaTime);
-            hpFill.fillAmount = displayedFill;
-        }
+    private void UpdateHpBar()
+    {
+        if (hpFill == null || MaxHp <= 0)
+            return;
 
+        float target = (float)CurrentHp / MaxHp;
+        displayedFill = Mathf.MoveTowards(displayedFill, target, hpSmoothSpeed * Time.deltaTime);
+        hpFill.fillAmount = displayedFill;
     }
 
     // Vị trí thả = vị trí tàu ngay lúc này (tàu đang chạy)
@@ -94,14 +118,10 @@ public class SubmarineController : MonoBehaviour
 
     public void Shake()
     {
+        PlayDrop();   // thả rác => chạy animation Drop
+
         if (cameraShake != null)
             cameraShake.Shake(shakeDuration, shakeMagnitude);
-    }
-
-    public void Shake(float duration, float magnitude)
-    {
-        if (cameraShake != null)
-            cameraShake.Shake(duration, magnitude);
     }
 
     // Spawner gọi khi bắt đầu bài: máu tối đa = số nốt
@@ -114,9 +134,17 @@ public class SubmarineController : MonoBehaviour
 
         if (hpFill != null)
             hpFill.fillAmount = 1f;
+
+        // Bài mới: đưa Animator về trạng thái bình thường
+        if (animator != null)
+        {
+            animator.ResetTrigger(dieHash);
+            animator.ResetTrigger(dropHash);
+            animator.Rebind();
+            animator.Update(0f);
+        }
     }
 
-    // Spawner gọi mỗi lần người chơi đánh trúng 1 item
     public void TakeHit()
     {
         if (IsDefeated) return;
@@ -126,8 +154,26 @@ public class SubmarineController : MonoBehaviour
         if (CurrentHp <= 0)
         {
             IsDefeated = true;
-            Shake(defeatShakeDuration, defeatShakeMagnitude);
+
+            if (animator != null)
+            {
+                animator.ResetTrigger(dropHash);   // tránh Drop chen vào lúc đang chết
+                animator.SetTrigger(dieHash);
+            }
+
+            Shake();
             AnyBossDefeated?.Invoke();
+
+            if (destroyAfterDie > 0f)
+                Destroy(gameObject, destroyAfterDie);
         }
     }
+
+    public void PlayDrop()
+    {
+        if (animator == null || IsDefeated) return;
+        animator.SetTrigger(dropHash);
+    }
+
+    
 }

@@ -53,6 +53,10 @@ public class LevelSelectionManager2 : MonoBehaviour
     [Tooltip("Script PurchasePanelControl, đã có sẵn animation hạ xuống")]
     [SerializeField] private PurchasePanelControl purchasePanelControl;
 
+    [Header("Scene chọn nhân vật")]
+    [Tooltip("Tên scene Select Char (phải có trong Build Settings)")]
+    [SerializeField] private string characterSelectSceneName = "SelectChar";
+
     [Header("Selected Level UI")]
     [SerializeField] private TMP_Text selectedLevelText;
 
@@ -408,6 +412,15 @@ public class LevelSelectionManager2 : MonoBehaviour
             return;
         }
 
-        SceneManager.LoadScene(selected.sceneName);
+        if (string.IsNullOrEmpty(characterSelectSceneName))
+        {
+            Debug.LogError("Chưa đặt tên scene Select Char!");
+            return;
+        }
+
+        // Lưu màn đã chọn để scene Select Char dùng
+        SelectedLevelData.Set(selected.levelId, selected.sceneName);
+
+        SceneManager.LoadScene(characterSelectSceneName);
     }
 }

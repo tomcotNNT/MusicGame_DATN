@@ -1,0 +1,520 @@
+fileFormatVersion: 2
+guid: af8e4e9ffbc4f564f94f1fedd3b6309f
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -2086835220401446753
+    second: pumpkin_hold_progress_0
+  - first:
+      213: -5618645965440280725
+    second: pumpkin_hold_progress_1
+  - first:
+      213: 6708070797657483012
+    second: pumpkin_hold_progress_2
+  - first:
+      213: -4141340500909600031
+    second: pumpkin_hold_progress_3
+  - first:
+      213: 1697914718040883216
+    second: pumpkin_hold_progress_4
+  - first:
+      213: 8919443430286943574
+    second: pumpkin_hold_progress_5
+  - first:
+      213: 5555048429598383287
+    second: pumpkin_hold_progress_6
+  - first:
+      213: -2078634565958857109
+    second: pumpkin_hold_progress_7
+  - first:
+      213: -2178480841557377010
+    second: pumpkin_hold_progress_8
+  - first:
+      213: 8759647611572892193
+    second: pumpkin_hold_progress_9
+  - first:
+      213: -8245847093926943094
+    second: pumpkin_hold_progress_10
+  - first:
+      213: -5357254387577400437
+    second: pumpkin_hold_progress_11
+  - first:
+      213: -1633463367808571355
+    second: pumpkin_hold_progress_12
+  - first:
+      213: 2306645115801461515
+    second: pumpkin_hold_progress_13
+  - first:
+      213: 1928051865214310392
+    second: pumpkin_hold_progress_14
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: pumpkin_hold_progress_0
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 65
+        width: 18
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f90a23f6c621a03e0800000000000000
+      internalID: -2086835220401446753
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_hold_progress_1
+      rect:
+        serializedVersion: 2
+        x: 239
+        y: 57
+        width: 29
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b671047634f8602b0800000000000000
+      internalID: -5618645965440280725
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_hold_progress_2
+      rect:
+        serializedVersion: 2
+        x: 335
+        y: 45
+        width: 36
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 407ab8e79dad71d50800000000000000
+      internalID: 6708070797657483012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_hold_progress_3
+      rect:
+        serializedVersion: 2
+        x: 431
+        y: 31
+        width: 38
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e2585591c00786c0800000000000000
+      internalID: -4141340500909600031
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_hold_progress_4
+      rect:
+        serializedVersion: 2
+        x: 527
+        y: 18
+        width: 38
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0100cbba074309710800000000000000
+      internalID: 1697914718040883216
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_hold_progress_5
+      rect:
+        serializedVersion: 2
+        x: 623
+        y: 7
+        width: 38
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 655e178ea8a38cb70800000000000000
+      internalID: 8919443430286943574
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_hold_progress_6
+      rect:
+        serializedVersion: 2
+        x: 719
+        y: 1
+        width: 38
+        height: 72
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7bc9d446d1f771d40800000000000000
+      internalID: 5555048429598383287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_hold_progress_7
+      rect:
+        serializedVersion: 2
+        x: 807
+        y: 0
+        width: 46
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6e8c2610e43723e0800000000000000
+      internalID: -2078634565958857109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_hold_progress_8
+      rect:
+        serializedVersion: 2
+        x: 890
+        y: 0
+        width: 59
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e008af8773b74c1e0800000000000000
+      internalID: -2178480841557377010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_hold_progress_9
+      rect:
+        serializedVersion: 2
+        x: 977
+        y: 0
+        width: 68
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 122b6659715809970800000000000000
+      internalID: 8759647611572892193
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_hold_progress_10
+      rect:
+        serializedVersion: 2
+        x: 1068
+        y: 0
+        width: 73
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a862c46a1cdd09d80800000000000000
+      internalID: -8245847093926943094
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_hold_progress_11
+      rect:
+        serializedVersion: 2
+        x: 1164
+        y: 0
+        width: 73
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b83db09b48537a5b0800000000000000
+      internalID: -5357254387577400437
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_hold_progress_12
+      rect:
+        serializedVersion: 2
+        x: 1260
+        y: 0
+        width: 73
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5282820b8b5c459e0800000000000000
+      internalID: -1633463367808571355
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_hold_progress_13
+      rect:
+        serializedVersion: 2
+        x: 1356
+        y: 0
+        width: 73
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b036c3ef289d20020800000000000000
+      internalID: 2306645115801461515
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pumpkin_hold_progress_14
+      rect:
+        serializedVersion: 2
+        x: 1452
+        y: 0
+        width: 73
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8f7d0a6c4f0d1ca10800000000000000
+      internalID: 1928051865214310392
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      pumpkin_hold_progress_0: -2086835220401446753
+      pumpkin_hold_progress_1: -5618645965440280725
+      pumpkin_hold_progress_10: -8245847093926943094
+      pumpkin_hold_progress_11: -5357254387577400437
+      pumpkin_hold_progress_12: -1633463367808571355
+      pumpkin_hold_progress_13: 2306645115801461515
+      pumpkin_hold_progress_14: 1928051865214310392
+      pumpkin_hold_progress_2: 6708070797657483012
+      pumpkin_hold_progress_3: -4141340500909600031
+      pumpkin_hold_progress_4: 1697914718040883216
+      pumpkin_hold_progress_5: 8919443430286943574
+      pumpkin_hold_progress_6: 5555048429598383287
+      pumpkin_hold_progress_7: -2078634565958857109
+      pumpkin_hold_progress_8: -2178480841557377010
+      pumpkin_hold_progress_9: 8759647611572892193
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

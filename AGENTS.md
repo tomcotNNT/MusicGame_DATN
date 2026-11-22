@@ -6,9 +6,9 @@
   - Tags:
     - Untagged, Respawn, Finish, EditorOnly, MainCamera, Player, GameController, Note, Wall, Ground, HitPointTop, HitPointBottom, BossAttackPosition, Enemy, BossBullet
   - Layers:
-    - Default, TransparentFX, Ignore Raycast, Water, UI, Enemy, BossBullet
+    - Default, TransparentFX, Ignore Raycast, Water, UI, Enemy, BossBullet, Hitpoint
 - Active game object:
-  - Name: Player3
-  - Tag: Player
+  - Name: Clam1
+  - Tag: Untagged
   - Layer: Default
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->

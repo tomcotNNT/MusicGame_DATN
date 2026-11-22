@@ -24,9 +24,11 @@ public class SubmarineRhythmSpawner : MonoBehaviour
     [Header("Hit Point Animations")]
     [SerializeField] private Animator hitPointLeftAnimator;
     [SerializeField] private Animator hitPointRightAnimator;
+    [SerializeField] private Animator PedestalAnimator;
 
     [SerializeField] private string hitTrigger = "Hit";
     [SerializeField] private string missTrigger = "Miss";
+
 
     [Header("Music")]
     [SerializeField] private AudioSource musicSource;
@@ -394,19 +396,30 @@ public class SubmarineRhythmSpawner : MonoBehaviour
 
     private void PlayHitPointAnimation(bool isLeft, bool isHit)
     {
+        // Animator của HitPoint tương ứng
         Animator animator = isLeft
             ? hitPointLeftAnimator
             : hitPointRightAnimator;
 
-        if (animator == null)
-            return;
-
         string trigger = isHit ? hitTrigger : missTrigger;
 
-        // Reset để có thể kích hoạt lại animation liên tục
-        animator.ResetTrigger(hitTrigger);
-        animator.ResetTrigger(missTrigger);
+        if (animator != null)
+        {
+            animator.ResetTrigger(hitTrigger);
+            animator.ResetTrigger(missTrigger);
+            animator.SetTrigger(trigger);
+        }
 
-        animator.SetTrigger(trigger);
+        // Animator của Pedestal
+        if (PedestalAnimator != null)
+        {
+            string pedestalTrigger = isHit
+                ? hitTrigger
+                : missTrigger;
+
+            PedestalAnimator.ResetTrigger(hitTrigger);
+            PedestalAnimator.ResetTrigger(missTrigger);
+            PedestalAnimator.SetTrigger(pedestalTrigger);
+        }
     }
 }
