@@ -2076,12 +2076,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6455be64fbf609449e00c6044f3813d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MidiReader
-  contentMode: 1
-  forcedTrackIndex: -1
+  contentMode: 2
+  forcedTrackIndex: 2
   preferNamedTracks: 1
   requireDrumChannel: 1
-  allowedDrumPitches: 
-  filterDrumPitches: 0
+  allowedDrumPitches: 2400000026000000
+  filterDrumPitches: 1
   mapDrumsByType: 1
   hiHatLane: 1
   otherDrumLane: 0
@@ -2090,9 +2090,9 @@ MonoBehaviour:
   bassMinPitch: 28
   bassMaxPitch: 55
   laneCount: 2
-  laneMode: 0
+  laneMode: 3
   splitPitch: 60
-  maxSameLane: 3
+  maxSameLane: 0
   minimumNoteDistance: 0.15
   timeOffset: 0
   longNoteMinDuration: 0.5
@@ -2206,7 +2206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efc7d6c77ddb2df42ae87992461d62aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelManager
-  currentLevel: {fileID: 11400000, guid: 1918fa7fe42c41c4c8fd17c767762248, type: 2}
+  currentLevel: {fileID: 11400000, guid: 0ebdaf7c7118e2a48a85409343f60c8a, type: 2}
   midiReader: {fileID: 459371224}
   audioSource: {fileID: 459371225}
 --- !u!1 &490564085
