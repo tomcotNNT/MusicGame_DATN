@@ -121,7 +121,7 @@ TextureImporter:
         width: 320
         height: 431
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -143,7 +143,7 @@ TextureImporter:
         width: 321
         height: 431
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -165,7 +165,7 @@ TextureImporter:
         width: 321
         height: 431
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -187,7 +187,7 @@ TextureImporter:
         width: 320
         height: 431
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -196,6 +196,226 @@ TextureImporter:
       bones: []
       spriteID: 2fbd44accc9be96438f13abd73d32963
       internalID: -1540588194
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gigadeon_4
+      rect:
+        serializedVersion: 2
+        x: 2123
+        y: 498
+        width: 41
+        height: 282
+      alignment: 9
+      pivot: {x: 0.50822335, y: 0.021779811}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d6691bdd6cc39b41aeb42ce9608d6fe
+      internalID: 1272980276
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gigadeon_5
+      rect:
+        serializedVersion: 2
+        x: 2167
+        y: 498
+        width: 48
+        height: 282
+      alignment: 9
+      pivot: {x: 0.53512067, y: 0.021779811}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68e27052b8d97cd4b8b51ec755f998b1
+      internalID: 1215631703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gigadeon_6
+      rect:
+        serializedVersion: 2
+        x: 2218
+        y: 498
+        width: 58
+        height: 282
+      alignment: 9
+      pivot: {x: 0.39334002, y: 0.021779161}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b57543f6b60934946a2c974e75195992
+      internalID: 574741005
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gigadeon_7
+      rect:
+        serializedVersion: 2
+        x: 2279
+        y: 498
+        width: 71
+        height: 282
+      alignment: 9
+      pivot: {x: 0.5130701, y: 0.021779161}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d9435c6b629ba7d49826fffb22788025
+      internalID: -1975491024
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gigadeon_8
+      rect:
+        serializedVersion: 2
+        x: 2352
+        y: 498
+        width: 60
+        height: 282
+      alignment: 9
+      pivot: {x: 0.39079183, y: 0.02854151}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 98aa01d857c8dce46817320a794d0af0
+      internalID: 1406853721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gigadeon_9
+      rect:
+        serializedVersion: 2
+        x: 2415
+        y: 498
+        width: 65
+        height: 282
+      alignment: 9
+      pivot: {x: 0.44024563, y: 0.021836085}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ea7875e194b227f4390e1fc6f2a632ca
+      internalID: 1444148015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gigadeon_10
+      rect:
+        serializedVersion: 2
+        x: 2482
+        y: 498
+        width: 70
+        height: 282
+      alignment: 9
+      pivot: {x: 0.4047468, y: 0.021397043}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cab7d206097886f47ac7625c3aa40436
+      internalID: 530593020
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gigadeon_11
+      rect:
+        serializedVersion: 2
+        x: 2553
+        y: 498
+        width: 55
+        height: 282
+      alignment: 9
+      pivot: {x: 0.5103116, y: 0.02805799}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d686b8847a2c0a3438be8fca94221a9f
+      internalID: -1843878760
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gigadeon_12
+      rect:
+        serializedVersion: 2
+        x: 2608
+        y: 498
+        width: 47
+        height: 282
+      alignment: 9
+      pivot: {x: 0.5060308, y: 0.029064747}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 38ec38fbdfecebf44b6b1d3eefd14702
+      internalID: 1943721360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gigadeon_13
+      rect:
+        serializedVersion: 2
+        x: 2079
+        y: 498
+        width: 41
+        height: 282
+      alignment: 9
+      pivot: {x: 0.5068121, y: 0.02280161}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ac9321b168e9ef479a477166a85abe1
+      internalID: -1609775603
       vertices: []
       indices: 
       edges: []
@@ -216,8 +436,18 @@ TextureImporter:
     nameFileIdTable:
       Gigadeon_0: -6206244654319502938
       Gigadeon_1: -1079139004
+      Gigadeon_10: 530593020
+      Gigadeon_11: -1843878760
+      Gigadeon_12: 1943721360
+      Gigadeon_13: -1609775603
       Gigadeon_2: 432500843
       Gigadeon_3: -1540588194
+      Gigadeon_4: 1272980276
+      Gigadeon_5: 1215631703
+      Gigadeon_6: 574741005
+      Gigadeon_7: -1975491024
+      Gigadeon_8: 1406853721
+      Gigadeon_9: 1444148015
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
