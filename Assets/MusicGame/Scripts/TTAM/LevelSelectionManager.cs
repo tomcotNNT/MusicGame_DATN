@@ -418,6 +418,14 @@ public class LevelSelectionManager2 : MonoBehaviour
             return;
         }
 
+        // Hết lượt thì không cho sang Select Char (lượt chỉ bị trừ khi thật sự vào màn)
+        if (!PlayerDataManager.Instance.CheckCanPlay())
+        {
+            if (messageText != null)
+                messageText.text = "Hết lượt chơi!";
+            return;
+        }
+
         // Lưu màn đã chọn để scene Select Char dùng
         SelectedLevelData.Set(selected.levelId, selected.sceneName);
 
