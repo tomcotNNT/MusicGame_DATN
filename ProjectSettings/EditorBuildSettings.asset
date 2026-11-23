@@ -35,9 +35,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Game/SelectChar.unity
     guid: d8beb99304849634db44a6f228fd4204
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/TTAM/Tutorial.unity
     guid: 7da0e5aa37d9cb84d90442ee9a55655c
+  - enabled: 1
+    path: Assets/Scenes/TTAM/LoadingScene.unity
+    guid: 3d28122288e77e04688c34eb4a3f63b1
   - enabled: 1
     path: Assets/Scenes/TTAM/Man1.unity
     guid: e56f3e76eedd0a74d870bfd2363add98
@@ -89,6 +92,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TTAM/SelectChar.unity
     guid: ec5fa2a6415b2c941a050c4d0ef2cd84
+  - enabled: 1
+    path: Assets/Scenes/TTAM/MainMenu.unity
+    guid: 9403fb8619f61c94b8e86703ff290669
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
