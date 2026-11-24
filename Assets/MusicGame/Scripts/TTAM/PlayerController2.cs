@@ -68,27 +68,31 @@ public class PlayerController2 : MonoBehaviour
         rb.bodyType = RigidbodyType2D.Kinematic;
     }
 
+    private void OnEnable()
+    {
+        // Cảm ứng: 2 nút LaneButton (Left / Right) trên màn hình
+        LaneButtonInput.Pressed += OnLaneButtonPressed;
+    }
+
+    private void OnDisable()
+    {
+        LaneButtonInput.Pressed -= OnLaneButtonPressed;
+    }
+
+    private void OnLaneButtonPressed(bool isLeft)
+    {
+        if (isLeft) AttackLeft();
+        else AttackRight();
+    }
+
     private void Update()
     {
+        // Bàn phím (test trong Editor)
         if (Input.GetKeyDown(KeyCode.A))
             AttackLeft();
 
         if (Input.GetKeyDown(KeyCode.D))
             AttackRight();
-
-        if (Input.touchCount > 0)
-        {
-            foreach (Touch touch in Input.touches)
-            {
-                if (touch.phase != TouchPhase.Began)
-                    continue;
-
-                if (touch.position.x < Screen.width / 2f)
-                    AttackLeft();
-                else
-                    AttackRight();
-            }
-        }
     }
 
     // =========================================

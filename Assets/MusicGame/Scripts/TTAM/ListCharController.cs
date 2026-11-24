@@ -411,6 +411,13 @@ public class ListCharController : MonoBehaviour,
             return;
         }
 
+        // Trừ 1 lượt chơi (lưu vào PlayerData.json). Hết lượt thì không vào màn
+        if (PlayerDataManager.Instance != null && !PlayerDataManager.Instance.UseTurn())
+        {
+            Debug.LogWarning("[ListChar] Hết lượt chơi, không thể vào màn!");
+            return;
+        }
+
         SceneManager.LoadScene(sceneToLoad);
     }
 

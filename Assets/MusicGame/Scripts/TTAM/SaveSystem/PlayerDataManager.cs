@@ -19,6 +19,26 @@ public class PlayerDataManager : MonoBehaviour
     // Các UI dựa trên nhiều loại dữ liệu (như thành tựu) chỉ cần nghe event này
     public event Action OnDataChanged;
 
+    // Phát ra khi số lượt chơi thay đổi (dùng, hồi, cộng thêm)
+    public event Action OnPlayTurnChanged;
+
+    // Phát ra khi muốn vào màn nhưng hết lượt -> UI hiện thông báo
+    public event Action OnNotEnoughTurns;
+
+    [Header("Play Turn (Lượt chơi)")]
+    [Tooltip("Số lượt tối đa được hồi tự động")]
+    [SerializeField, Min(1)] private int maxTurns = 5;
+
+    [Tooltip("Bao nhiêu phút hồi 1 lượt")]
+    [SerializeField, Min(0.1f)] private float turnRegenMinutes = 15f;
+
+    [Tooltip("Mỗi lần vào màn tốn bao nhiêu lượt")]
+    [SerializeField, Min(0)] private int turnCostPerPlay = 1;
+
+    private float turnCheckTimer;
+
+    public int MaxTurns => maxTurns;
+
     private string SavePath =>
         Path.Combine(Application.persistentDataPath, "PlayerData.json");
 
@@ -61,6 +81,7 @@ public class PlayerDataManager : MonoBehaviour
         }
 
         EnsureDataStructure();
+        UpdateTurnRegen(false); // Cộng lượt đã hồi trong lúc tắt game
         SaveData();
     }
 
@@ -97,6 +118,13 @@ public class PlayerDataManager : MonoBehaviour
         // File save cũ chưa có thống kê combo
         if (Data.comboStats == null)
             Data.comboStats = new ComboStatsData();
+
+        // File save cũ chưa có lượt chơi -> cho đầy lượt
+        if (Data.playTurn == null)
+            Data.playTurn = new PlayTurnData { turns = maxTurns };
+
+        if (Data.playTurn.turns < 0)
+            Data.playTurn.turns = 0;
 
         // File save cũ chưa có tổng đã kiếm: tổng đã kiếm không thể nhỏ hơn số đang có
         if (Data.currency.totalCoinEarned < Data.currency.coin)
@@ -423,6 +451,195 @@ public class PlayerDataManager : MonoBehaviour
         return true;
     }
 
+    // ================= PLAY TURN (LƯỢT CHƠI) =================
+
+    private void Update()
+    {
+        // Kiểm tra hồi lượt mỗi giây (chỉ ghi file khi thực sự hồi được lượt)
+        turnCheckTimer += Time.unscaledDeltaTime;
+        if (turnCheckTimer < 1f) return;
+
+        turnCheckTimer = 0f;
+        UpdateTurnRegen(true);
+    }
+
+    private void OnApplicationFocus(bool hasFocus)
+    {
+        // Quay lại game sau khi tắt màn hình / chuyển app
+        if (hasFocus && Data != null)
+            UpdateTurnRegen(true);
+    }
+
+    public int GetTurns()
+    {
+        return Data != null && Data.playTurn != null ? Data.playTurn.turns : 0;
+    }
+
+    public bool IsTurnFull()
+    {
+        return GetTurns() >= maxTurns;
+    }
+
+    public bool HasEnoughTurns()
+    {
+        UpdateTurnRegen(true);
+        return GetTurns() >= turnCostPerPlay;
+    }
+
+    // Kiểm tra trước khi vào Select Char: hết lượt thì bắn OnNotEnoughTurns, KHÔNG trừ lượt
+    public bool CheckCanPlay()
+    {
+        if (HasEnoughTurns())
+            return true;
+
+        Debug.Log("Hết lượt chơi!");
+        OnNotEnoughTurns?.Invoke();
+        return false;
+    }
+
+    // Gọi ngay trước khi load scene gameplay. Trả về false nếu hết lượt (không được vào màn)
+    public bool UseTurn()
+    {
+        if (!HasEnoughTurns())
+        {
+            Debug.Log("Hết lượt chơi!");
+            OnNotEnoughTurns?.Invoke();
+            return false;
+        }
+
+        PlayTurnData turn = Data.playTurn;
+        bool wasFull = turn.turns >= maxTurns;
+
+        turn.turns -= turnCostPerPlay;
+        turn.totalPlays++;
+
+        // Vừa tụt từ đầy xuống -> bắt đầu đếm giờ hồi từ bây giờ
+        if (wasFull && turn.turns < maxTurns)
+            turn.lastRegenTicks = DateTime.UtcNow.Ticks;
+
+        SaveData();
+        OnPlayTurnChanged?.Invoke();
+
+        Debug.Log("Đã dùng 1 lượt, còn " + turn.turns + "/" + maxTurns);
+        return true;
+    }
+
+    // Cộng lượt (quà, quảng cáo, gacha...) - được phép vượt max
+    public void AddTurns(int amount)
+    {
+        if (amount <= 0) return;
+
+        Data.playTurn.turns += amount;
+
+        if (Data.playTurn.turns >= maxTurns)
+            Data.playTurn.lastRegenTicks = 0;
+
+        SaveData();
+        OnPlayTurnChanged?.Invoke();
+    }
+
+    // Hồi đầy lượt ngay lập tức
+    public void RefillTurns()
+    {
+        if (IsTurnFull()) return;
+
+        Data.playTurn.turns = maxTurns;
+        Data.playTurn.lastRegenTicks = 0;
+
+        SaveData();
+        OnPlayTurnChanged?.Invoke();
+    }
+
+    // Dùng cho admin: cộng/trừ tự do, không cho xuống dưới 0
+    public void ChangeTurns(int delta)
+    {
+        SetTurns(GetTurns() + delta);
+    }
+
+    // Dùng cho admin: đặt số lượt bất kỳ (>= 0, được phép vượt max)
+    public void SetTurns(int value)
+    {
+        if (Data == null) return;
+
+        PlayTurnData turn = Data.playTurn;
+        bool wasFull = turn.turns >= maxTurns;
+
+        turn.turns = Mathf.Max(0, value);
+
+        if (turn.turns >= maxTurns)
+            turn.lastRegenTicks = 0;                       // Đầy -> dừng đếm
+        else if (wasFull || turn.lastRegenTicks <= 0)
+            turn.lastRegenTicks = DateTime.UtcNow.Ticks;   // Vừa tụt -> bắt đầu đếm
+
+        SaveData();
+        OnPlayTurnChanged?.Invoke();
+    }
+
+    // Dùng cho admin: hồi ngay 1 lượt và đếm lại giờ từ đầu (test hồi lượt)
+    public void SkipTurnTimer()
+    {
+        if (Data == null || IsTurnFull()) return;
+
+        Data.playTurn.lastRegenTicks = 0; // Để SetTurns đặt lại mốc = bây giờ
+        SetTurns(GetTurns() + 1);
+    }
+
+    // Thời gian còn lại tới lượt tiếp theo. Zero nếu đã đầy
+    public TimeSpan GetTimeToNextTurn()
+    {
+        if (Data == null || IsTurnFull() || Data.playTurn.lastRegenTicks <= 0)
+            return TimeSpan.Zero;
+
+        DateTime last = new DateTime(Data.playTurn.lastRegenTicks, DateTimeKind.Utc);
+        TimeSpan left = last.AddMinutes(turnRegenMinutes) - DateTime.UtcNow;
+
+        return left < TimeSpan.Zero ? TimeSpan.Zero : left;
+    }
+
+    // Tính số lượt đã hồi theo thời gian thực (kể cả lúc tắt game)
+    private void UpdateTurnRegen(bool saveIfChanged)
+    {
+        if (Data == null || Data.playTurn == null) return;
+
+        PlayTurnData turn = Data.playTurn;
+
+        if (turn.turns >= maxTurns)
+        {
+            // Đầy rồi thì không đếm giờ
+            if (turn.lastRegenTicks != 0)
+            {
+                turn.lastRegenTicks = 0;
+                if (saveIfChanged) SaveData();
+            }
+            return;
+        }
+
+        long nowTicks = DateTime.UtcNow.Ticks;
+
+        // Chưa có mốc, hoặc giờ máy bị chỉnh lùi -> đếm lại từ bây giờ
+        if (turn.lastRegenTicks <= 0 || turn.lastRegenTicks > nowTicks)
+        {
+            turn.lastRegenTicks = nowTicks;
+            if (saveIfChanged) SaveData();
+            return;
+        }
+
+        long intervalTicks = TimeSpan.FromMinutes(turnRegenMinutes).Ticks;
+        long gained = (nowTicks - turn.lastRegenTicks) / intervalTicks;
+
+        if (gained <= 0) return;
+
+        turn.turns = (int)Math.Min(maxTurns, turn.turns + gained);
+
+        // Đầy -> dừng đếm; chưa đầy -> giữ lại phần thời gian lẻ
+        turn.lastRegenTicks = turn.turns >= maxTurns
+            ? 0
+            : turn.lastRegenTicks + gained * intervalTicks;
+
+        if (saveIfChanged) SaveData();
+        OnPlayTurnChanged?.Invoke();
+    }
+
     // ================= RESET =================
 
     // Dùng cho admin: xóa toàn bộ dữ liệu về mặc định
@@ -430,6 +647,7 @@ public class PlayerDataManager : MonoBehaviour
     {
         Data = new PlayerData();
         EnsureDataStructure();
+        Data.playTurn.turns = maxTurns;
 
         // Màn 1 luôn mở
         if (!Data.progression.unlockedLevels.Contains(1))
@@ -439,6 +657,7 @@ public class PlayerDataManager : MonoBehaviour
 
         OnCurrencyChanged?.Invoke();
         OnProgressionChanged?.Invoke();
+        OnPlayTurnChanged?.Invoke();
 
         Debug.Log("Đã reset toàn bộ dữ liệu người chơi.");
     }

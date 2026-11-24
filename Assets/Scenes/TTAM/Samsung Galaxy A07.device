@@ -1,0 +1,87 @@
+{
+    "friendlyName": "Samsung Galaxy A07",
+    "version": 1,
+    "screens": [
+        {
+            "width": 720,
+            "height": 1600,
+            "navigationBarHeight": 0,
+            "dpi": 262.0,
+            "orientations": [
+                {
+                    "orientation": 1,
+                    "safeArea": { "serializedVersion": "2", "x": 0.0, "y": 0.0, "width": 720.0, "height": 1540.0 },
+                    "cutouts": [
+                        { "serializedVersion": "2", "x": 310.0, "y": 1544.0, "width": 100.0, "height": 56.0 }
+                    ]
+                },
+                {
+                    "orientation": 3,
+                    "safeArea": { "serializedVersion": "2", "x": 60.0, "y": 0.0, "width": 1540.0, "height": 720.0 },
+                    "cutouts": [
+                        { "serializedVersion": "2", "x": 0.0, "y": 310.0, "width": 56.0, "height": 100.0 }
+                    ]
+                },
+                {
+                    "orientation": 4,
+                    "safeArea": { "serializedVersion": "2", "x": 0.0, "y": 0.0, "width": 1540.0, "height": 720.0 },
+                    "cutouts": [
+                        { "serializedVersion": "2", "x": 1544.0, "y": 310.0, "width": 56.0, "height": 100.0 }
+                    ]
+                }
+            ]
+        }
+    ],
+    "systemInfo": {
+        "deviceModel": "samsung SM-A075F",
+        "deviceType": 1,
+        "operatingSystem": "Android OS 15 / API-35",
+        "operatingSystemFamily": 0,
+        "processorCount": 8,
+        "processorFrequency": 2200,
+        "processorType": "ARM64 FP ASIMD AES",
+        "supportsAccelerometer": true,
+        "supportsAudio": true,
+        "supportsGyroscope": false,
+        "supportsLocationService": true,
+        "supportsVibration": true,
+        "systemMemorySize": 3600,
+        "unsupportedIdentifier": "n/a",
+        "graphicsDependentData": [
+            {
+                "graphicsDeviceType": 21,
+                "graphicsMemorySize": 1024,
+                "graphicsDeviceName": "Mali-G57 MC2",
+                "graphicsDeviceVendor": "ARM",
+                "graphicsDeviceID": 0,
+                "graphicsDeviceVendorID": 5045,
+                "graphicsUVStartsAtTop": true,
+                "graphicsDeviceVersion": "Vulkan 1.3",
+                "graphicsShaderLevel": 45,
+                "graphicsMultiThreaded": true,
+                "renderingThreadingMode": 1,
+                "supportsShadows": true,
+                "supportsInstancing": true,
+                "supportsComputeShaders": true,
+                "maxTextureSize": 8192
+            },
+            {
+                "graphicsDeviceType": 11,
+                "graphicsMemorySize": 1024,
+                "graphicsDeviceName": "Mali-G57 MC2",
+                "graphicsDeviceVendor": "ARM",
+                "graphicsDeviceID": 0,
+                "graphicsDeviceVendorID": 0,
+                "graphicsUVStartsAtTop": false,
+                "graphicsDeviceVersion": "OpenGL ES 3.2",
+                "graphicsShaderLevel": 50,
+                "graphicsMultiThreaded": true,
+                "renderingThreadingMode": 1,
+                "supportsShadows": true,
+                "supportsInstancing": true,
+                "supportsComputeShaders": true,
+                "maxTextureSize": 8192
+            }
+        ]
+    }
+}

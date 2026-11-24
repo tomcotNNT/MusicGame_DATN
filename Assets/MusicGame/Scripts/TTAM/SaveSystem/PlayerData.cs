@@ -21,4 +21,7 @@ public class PlayerData
 
     public SettingsData settings =
         new SettingsData();
+
+    public PlayTurnData playTurn =
+        new PlayTurnData();
 }
