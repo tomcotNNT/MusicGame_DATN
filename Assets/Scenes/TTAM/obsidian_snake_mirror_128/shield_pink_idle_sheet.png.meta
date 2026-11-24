@@ -1,0 +1,546 @@
+fileFormatVersion: 2
+guid: ef1ea35393a9a104b80e1f8301efea5c
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 829836710382894151
+    second: shield_pink_idle_sheet_0
+  - first:
+      213: -5069946833705605971
+    second: shield_pink_idle_sheet_1
+  - first:
+      213: 6494435991474367398
+    second: shield_pink_idle_sheet_2
+  - first:
+      213: -3595705851345884371
+    second: shield_pink_idle_sheet_3
+  - first:
+      213: 5946979672037351929
+    second: shield_pink_idle_sheet_4
+  - first:
+      213: 7645092469251449375
+    second: shield_pink_idle_sheet_5
+  - first:
+      213: 2857817743866064495
+    second: shield_pink_idle_sheet_6
+  - first:
+      213: -9156866988695603803
+    second: shield_pink_idle_sheet_7
+  - first:
+      213: -6018123681673541412
+    second: shield_pink_idle_sheet_8
+  - first:
+      213: 739989577575423825
+    second: shield_pink_idle_sheet_9
+  - first:
+      213: 4246239492179730412
+    second: shield_pink_idle_sheet_10
+  - first:
+      213: -8395903545387138248
+    second: shield_pink_idle_sheet_11
+  - first:
+      213: -6692421395708290014
+    second: shield_pink_idle_sheet_12
+  - first:
+      213: -7229306597381116333
+    second: shield_pink_idle_sheet_13
+  - first:
+      213: -774638216585267085
+    second: shield_pink_idle_sheet_14
+  - first:
+      213: -8227019632678648003
+    second: shield_pink_idle_sheet_15
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: shield_pink_idle_sheet_0
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 23
+        width: 82
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74c73f7671c248b00800000000000000
+      internalID: 829836710382894151
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shield_pink_idle_sheet_1
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 25
+        width: 78
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da46cda673ee3a9b0800000000000000
+      internalID: -5069946833705605971
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shield_pink_idle_sheet_2
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 26
+        width: 76
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6ab6750102fd02a50800000000000000
+      internalID: 6494435991474367398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shield_pink_idle_sheet_3
+      rect:
+        serializedVersion: 2
+        x: 410
+        y: 26
+        width: 76
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d2b2cbd349c791ec0800000000000000
+      internalID: -3595705851345884371
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shield_pink_idle_sheet_4
+      rect:
+        serializedVersion: 2
+        x: 538
+        y: 26
+        width: 76
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f16146d08ae78250800000000000000
+      internalID: 5946979672037351929
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shield_pink_idle_sheet_5
+      rect:
+        serializedVersion: 2
+        x: 666
+        y: 26
+        width: 76
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f122fb86813d81a60800000000000000
+      internalID: 7645092469251449375
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shield_pink_idle_sheet_6
+      rect:
+        serializedVersion: 2
+        x: 794
+        y: 26
+        width: 76
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f6ee1ffb81209a720800000000000000
+      internalID: 2857817743866064495
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shield_pink_idle_sheet_7
+      rect:
+        serializedVersion: 2
+        x: 922
+        y: 26
+        width: 76
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a53c4b2df54ce080800000000000000
+      internalID: -9156866988695603803
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shield_pink_idle_sheet_8
+      rect:
+        serializedVersion: 2
+        x: 1048
+        y: 24
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd88b7b95645b7ca0800000000000000
+      internalID: -6018123681673541412
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shield_pink_idle_sheet_9
+      rect:
+        serializedVersion: 2
+        x: 1177
+        y: 25
+        width: 78
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 15fdfd4a998f44a00800000000000000
+      internalID: 739989577575423825
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shield_pink_idle_sheet_10
+      rect:
+        serializedVersion: 2
+        x: 1306
+        y: 26
+        width: 76
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cef9b92125cadea30800000000000000
+      internalID: 4246239492179730412
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shield_pink_idle_sheet_11
+      rect:
+        serializedVersion: 2
+        x: 1434
+        y: 26
+        width: 76
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 833c1c87532cb7b80800000000000000
+      internalID: -8395903545387138248
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shield_pink_idle_sheet_12
+      rect:
+        serializedVersion: 2
+        x: 1562
+        y: 26
+        width: 76
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 22c5595d23ebf13a0800000000000000
+      internalID: -6692421395708290014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shield_pink_idle_sheet_13
+      rect:
+        serializedVersion: 2
+        x: 1690
+        y: 26
+        width: 76
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 35ee5b2c3f75cab90800000000000000
+      internalID: -7229306597381116333
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shield_pink_idle_sheet_14
+      rect:
+        serializedVersion: 2
+        x: 1818
+        y: 26
+        width: 76
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3783efe65aeef35f0800000000000000
+      internalID: -774638216585267085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shield_pink_idle_sheet_15
+      rect:
+        serializedVersion: 2
+        x: 1946
+        y: 26
+        width: 76
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d3746029b31c3dd80800000000000000
+      internalID: -8227019632678648003
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      shield_pink_idle_sheet_0: 829836710382894151
+      shield_pink_idle_sheet_1: -5069946833705605971
+      shield_pink_idle_sheet_10: 4246239492179730412
+      shield_pink_idle_sheet_11: -8395903545387138248
+      shield_pink_idle_sheet_12: -6692421395708290014
+      shield_pink_idle_sheet_13: -7229306597381116333
+      shield_pink_idle_sheet_14: -774638216585267085
+      shield_pink_idle_sheet_15: -8227019632678648003
+      shield_pink_idle_sheet_2: 6494435991474367398
+      shield_pink_idle_sheet_3: -3595705851345884371
+      shield_pink_idle_sheet_4: 5946979672037351929
+      shield_pink_idle_sheet_5: 7645092469251449375
+      shield_pink_idle_sheet_6: 2857817743866064495
+      shield_pink_idle_sheet_7: -9156866988695603803
+      shield_pink_idle_sheet_8: -6018123681673541412
+      shield_pink_idle_sheet_9: 739989577575423825
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
