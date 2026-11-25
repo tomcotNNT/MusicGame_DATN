@@ -396,7 +396,7 @@ MonoBehaviour:
   fallDuration: 1.5
   simultaneousThreshold: 0.03
   minSpawnInterval: 0.15
-  spawnOnStart: 1
+  spawnOnStart: 0
   hitWindow: 0.15
   missWindow: 0.2
   showDebug: 1
@@ -452,12 +452,12 @@ MonoBehaviour:
     status: {fileID: 1569828750}
     flyStar: {fileID: 68385816}
     mainStar: {fileID: 1747870731}
-    text: Score >= 10000
+    text: 'Score >= {0} ({1})'
   - label: {fileID: 987957719}
     status: {fileID: 883117586}
     flyStar: {fileID: 986625175}
     mainStar: {fileID: 700550492}
-    text: Combo >=30
+    text: 'Combo >= {0} ({1})'
   - label: {fileID: 924066667}
     status: {fileID: 954577797}
     flyStar: {fileID: 1199266975}
@@ -2490,7 +2490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efc7d6c77ddb2df42ae87992461d62aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelManager
-  currentLevel: {fileID: 11400000, guid: 0ebdaf7c7118e2a48a85409343f60c8a, type: 2}
+  currentLevel: {fileID: 11400000, guid: b9304b24852632c49a6e7d6678646e18, type: 2}
   midiReader: {fileID: 459371224}
   audioSource: {fileID: 459371225}
 --- !u!1 &490564085
@@ -3668,7 +3668,7 @@ MonoBehaviour:
   comboSystem: {fileID: 25114629}
   leftKey: 97
   rightKey: 100
-  missOnEmptyPress: 1
+  missOnEmptyPress: 0
   hitVFXPrefab: {fileID: 0}
   vfxDestroyTime: 1.5
   vfxOffset: {x: 0, y: 0, z: 0}
@@ -4751,7 +4751,7 @@ MonoBehaviour:
   comboSystem: {fileID: 25114629}
   leftKey: 97
   rightKey: 100
-  missOnEmptyPress: 1
+  missOnEmptyPress: 0
   hitVFXPrefab: {fileID: 0}
   vfxDestroyTime: 1.5
   vfxOffset: {x: 0, y: 0, z: 0}
@@ -10154,14 +10154,14 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1627216517}
         m_TargetAssemblyTypeName: Scenes, Assembly-CSharp
-        m_MethodName: GetScene
-        m_Mode: 5
+        m_MethodName: RetryLevel
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: StoryMan3
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1930549848
@@ -10424,14 +10424,14 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1627216517}
         m_TargetAssemblyTypeName: Scenes, Assembly-CSharp
-        m_MethodName: GetScene
-        m_Mode: 5
+        m_MethodName: BackToSelect
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: SelectSong
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1954047356
@@ -11788,7 +11788,7 @@ MonoBehaviour:
   comboSystem: {fileID: 25114629}
   leftKey: 97
   rightKey: 100
-  missOnEmptyPress: 1
+  missOnEmptyPress: 0
   hitVFXPrefab: {fileID: 0}
   vfxDestroyTime: 1.5
   vfxOffset: {x: 0, y: 0, z: 0}

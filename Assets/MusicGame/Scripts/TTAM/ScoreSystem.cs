@@ -41,6 +41,9 @@
         private int perfectCount;
         public int MissCount { get; private set; }
 
+        /// <summary>Điểm của 1 nốt Perfect (dùng để tính điểm tối đa của bài).</summary>
+        public int PerfectScore => perfectScore;
+
         public int GoodCount => goodCount;
         public int GreatCount => greatCount;
         public int PerfectCount => perfectCount;

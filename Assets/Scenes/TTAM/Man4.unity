@@ -396,7 +396,7 @@ MonoBehaviour:
   fallDuration: 1.5
   simultaneousThreshold: 0.03
   minSpawnInterval: 0.15
-  spawnOnStart: 1
+  spawnOnStart: 0
   hitWindow: 0.15
   missWindow: 0.2
   showDebug: 1
@@ -436,7 +436,7 @@ MonoBehaviour:
   spawner: {fileID: 25114634}
   scoreSystem: {fileID: 25114630}
   comboSystem: {fileID: 25114629}
-  levelId: 3
+  levelId: 4
   rollDuration: 1.5
   rollInterval: 0.05
   useMonospace: 1
@@ -452,17 +452,17 @@ MonoBehaviour:
     status: {fileID: 1569828750}
     flyStar: {fileID: 68385816}
     mainStar: {fileID: 1747870731}
-    text: Score >= 10000
+    text: 'Score >= {0} ({1})'
   - label: {fileID: 987957719}
     status: {fileID: 883117586}
     flyStar: {fileID: 986625175}
     mainStar: {fileID: 700550492}
-    text: Combo >=30
+    text: 'Combo >= {0} ({1})'
   - label: {fileID: 924066667}
     status: {fileID: 954577797}
     flyStar: {fileID: 1199266975}
     mainStar: {fileID: 1582820054}
-    text: Defeat Boss
+    text: Clear the Cave
   starOn: {fileID: 4537489976979972008, guid: f241daa206898b54aa6d92d436d36065, type: 3}
   starOff: {fileID: 4537489976979972008, guid: 91f6b621b8a3fb746bccdd37e5c5c50d, type: 3}
   scoreForStar: 10000
@@ -2303,7 +2303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efc7d6c77ddb2df42ae87992461d62aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelManager
-  currentLevel: {fileID: 11400000, guid: 0ebdaf7c7118e2a48a85409343f60c8a, type: 2}
+  currentLevel: {fileID: 11400000, guid: 40935ccbb4da49dabc670f6b5a09185f, type: 2}
   midiReader: {fileID: 459371224}
   audioSource: {fileID: 459371225}
 --- !u!1 &522643602
@@ -3453,7 +3453,7 @@ MonoBehaviour:
   comboSystem: {fileID: 25114629}
   leftKey: 97
   rightKey: 100
-  missOnEmptyPress: 1
+  missOnEmptyPress: 0
   hitVFXPrefab: {fileID: 0}
   vfxDestroyTime: 1.5
   vfxOffset: {x: 0, y: 0, z: 0}
@@ -4513,7 +4513,7 @@ MonoBehaviour:
   comboSystem: {fileID: 25114629}
   leftKey: 97
   rightKey: 100
-  missOnEmptyPress: 1
+  missOnEmptyPress: 0
   hitVFXPrefab: {fileID: 0}
   vfxDestroyTime: 1.5
   vfxOffset: {x: 0, y: 0, z: 0}
@@ -10409,14 +10409,14 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1627216517}
         m_TargetAssemblyTypeName: Scenes, Assembly-CSharp
-        m_MethodName: GetScene
-        m_Mode: 5
+        m_MethodName: RetryLevel
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: StoryMan4
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1930549848
@@ -10770,14 +10770,14 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1627216517}
         m_TargetAssemblyTypeName: Scenes, Assembly-CSharp
-        m_MethodName: GetScene
-        m_Mode: 5
+        m_MethodName: BackToSelect
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: SelectSong
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1954047356
@@ -12181,7 +12181,7 @@ MonoBehaviour:
   comboSystem: {fileID: 25114629}
   leftKey: 97
   rightKey: 100
-  missOnEmptyPress: 1
+  missOnEmptyPress: 0
   hitVFXPrefab: {fileID: 0}
   vfxDestroyTime: 1.5
   vfxOffset: {x: 0, y: 0, z: 0}
@@ -12221,10 +12221,64 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &7400000001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7400000002}
+  - component: {fileID: 7400000003}
+  m_Layer: 0
+  m_Name: MissExplosionFeedback
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7400000002
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7400000001}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7400000003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7400000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e20cfcdee163485eb6348153610e81d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MissExplosionFeedback
+  explosionPrefab: {fileID: 0}
+  vfxLifetime: 1.5
+  offset: {x: 0, y: 0, z: 0}
+  cameraShake: {fileID: 0}
+  shakeDuration: 0.2
+  shakeMagnitude: 0.25
+  explosionClip: {fileID: 0}
+  explosionVolume: 1
+  damage: 10
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 7400000002}
   - {fileID: 1177515626}
   - {fileID: 147244595}
   - {fileID: 1486055734}

@@ -38,8 +38,14 @@ public class BossHealth : MonoBehaviour
     [Tooltip("Chờ thêm bao lâu sau khi lùi xong rồi mới Destroy")]
     [SerializeField, Min(0f)] private float destroyDelay = 0.1f;
 
+    [Header("Thanh máu")]
+    [Tooltip("Chưa gán Hp Bar thì tự tạo thanh máu trên đầu màn hình")]
+    [SerializeField] private bool autoCreateHpBar = true;
+    [SerializeField] private string hpBarLabel = "BOSS";
+
     private int currentHealth;
     private bool isDead;
+    private RuntimeBossHpBar runtimeBar;
 
     public bool IsDead => isDead;
     public int CurrentHealth => currentHealth;
@@ -49,14 +55,40 @@ public class BossHealth : MonoBehaviour
     public event Action Died;
     public event Action<int, int> HealthChanged;   // (hiện tại, tối đa)
 
+    /// <summary>Boss bất kỳ (màn 1) bị hạ - giống SubmarineController / BossController2.AnyBossDefeated.</summary>
+    public static event Action AnyBossDefeated;
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetStatics() => AnyBossDefeated = null;
+
     private void Awake()
     {
         if (animator == null) animator = GetComponent<Animator>();
         if (attack == null) attack = GetComponent<BossMusicAttack>();
         if (destroyTarget == null) destroyTarget = gameObject;
 
+        if (hpBar == null && autoCreateHpBar)
+            runtimeBar = RuntimeBossHpBar.Create(hpBarLabel);
+
         currentHealth = maxHealth;
         UpdateBar();
+    }
+
+    private void OnDestroy()
+    {
+        if (runtimeBar != null)
+            Destroy(runtimeBar.gameObject);
+    }
+
+    /// <summary>Đặt lại máu tối đa (ví dụ = số nốt của bài) và hồi đầy.</summary>
+    public void SetMaxHealth(int value)
+    {
+        if (isDead) return;
+
+        maxHealth = Mathf.Max(1, value);
+        currentHealth = maxHealth;
+        UpdateBar();
+        HealthChanged?.Invoke(currentHealth, maxHealth);
     }
 
     public void TakeDamage(int damage)
@@ -106,6 +138,14 @@ public class BossHealth : MonoBehaviour
 
         // Báo tín hiệu trước, việc lùi và huỷ chạy sau
         Died?.Invoke();
+        AnyBossDefeated?.Invoke();
+
+        // Thanh máu tự tạo: mờ dần rồi tự huỷ (không chờ boss lùi xong)
+        if (runtimeBar != null)
+        {
+            runtimeBar.FadeOutAndDestroy();
+            runtimeBar = null;
+        }
 
         StartCoroutine(RetreatAndDestroy());
     }
@@ -167,8 +207,13 @@ public class BossHealth : MonoBehaviour
 
     private void UpdateBar()
     {
+        float fill = (float)currentHealth / maxHealth;
+
         if (hpBar != null)
-            hpBar.fillAmount = (float)currentHealth / maxHealth;
+            hpBar.fillAmount = fill;
+
+        if (runtimeBar != null)
+            runtimeBar.SetFill(fill, currentHealth, maxHealth);
     }
 
     private void SetTrigger(string trigger)

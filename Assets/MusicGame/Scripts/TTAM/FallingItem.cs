@@ -11,6 +11,13 @@ public class FallingItem : MonoBehaviour
     [Tooltip("Càng lớn item càng sớm trượt về đúng làn (1 = chéo thẳng)")]
     [SerializeField] private float xSnapPower = 2f;
 
+    [Header("Âm thanh (tuỳ chọn)")]
+    [Tooltip("Tiếng khi người chơi đánh trúng / nhặt item này (ví dụ tiếng bass trầm)")]
+    [SerializeField] private AudioClip collectClip;
+    [SerializeField, Range(0f, 1f)] private float collectVolume = 1f;
+
+    public void PlayCollectSound() => GameplaySfx.Play(collectClip, collectVolume);
+
     public bool IsLeft { get; private set; }
     public float HitTime { get; private set; }
 

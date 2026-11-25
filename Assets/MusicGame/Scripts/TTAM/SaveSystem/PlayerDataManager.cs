@@ -27,10 +27,10 @@ public class PlayerDataManager : MonoBehaviour
 
     [Header("Play Turn (Lượt chơi)")]
     [Tooltip("Số lượt tối đa được hồi tự động")]
-    [SerializeField, Min(1)] private int maxTurns = 5;
+    [SerializeField, Min(1)] private int maxTurns = 20;
 
     [Tooltip("Bao nhiêu phút hồi 1 lượt")]
-    [SerializeField, Min(0.1f)] private float turnRegenMinutes = 15f;
+    [SerializeField, Min(0.1f)] private float turnRegenMinutes = 5f;
 
     [Tooltip("Mỗi lần vào màn tốn bao nhiêu lượt")]
     [SerializeField, Min(0)] private int turnCostPerPlay = 1;
@@ -41,6 +41,17 @@ public class PlayerDataManager : MonoBehaviour
 
     private string SavePath =>
         Path.Combine(Application.persistentDataPath, "PlayerData.json");
+
+    // Luôn có PlayerDataManager dù vào game từ scene nào (LoadingScene, hoặc mở thẳng Man1 trong Editor).
+    // Giá trị mặc định ở trên phải GIỐNG bản đặt trong scene SelectSong (20 lượt, 5 phút/lượt).
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+    private static void Bootstrap()
+    {
+        if (Instance != null || FindFirstObjectByType<PlayerDataManager>() != null)
+            return;
+
+        new GameObject("PlayerDataManager (auto)").AddComponent<PlayerDataManager>();
+    }
 
     private void Awake()
     {
@@ -58,27 +69,46 @@ public class PlayerDataManager : MonoBehaviour
 
     public void LoadData()
     {
+        string tempPath = SavePath + ".tmp";
+
+        // Tắt máy đúng lúc đang lưu: file chính chưa có nhưng bản .tmp đã ghi xong -> dùng bản .tmp
+        if (!File.Exists(SavePath) && File.Exists(tempPath))
+        {
+            try { File.Move(tempPath, SavePath); }
+            catch (Exception e) { Debug.LogWarning("Không khôi phục được file tạm: " + e.Message); }
+        }
+
+        Data = null;
+
         if (File.Exists(SavePath))
         {
             try
             {
-                string json = File.ReadAllText(SavePath);
-
-                Data = JsonUtility.FromJson<PlayerData>(json);
-
-                if (Data == null)
-                    Data = new PlayerData();
+                Data = JsonUtility.FromJson<PlayerData>(File.ReadAllText(SavePath));
             }
             catch (Exception e)
             {
                 Debug.LogError("Load failed: " + e);
-                Data = new PlayerData();
+            }
+
+            // File hỏng: giữ lại 1 bản sao để có thể cứu dữ liệu, KHÔNG ghi đè mất luôn
+            if (Data == null)
+            {
+                try
+                {
+                    string backup = SavePath + ".corrupt_" + DateTime.Now.ToString("yyyyMMdd_HHmmss");
+                    File.Copy(SavePath, backup, true);
+                    Debug.LogWarning("File save bị hỏng, đã sao lưu tại: " + backup);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("Không sao lưu được file hỏng: " + e.Message);
+                }
             }
         }
-        else
-        {
+
+        if (Data == null)
             Data = new PlayerData();
-        }
 
         EnsureDataStructure();
         UpdateTurnRegen(false); // Cộng lượt đã hồi trong lúc tắt game
@@ -100,6 +130,10 @@ public class PlayerDataManager : MonoBehaviour
         if (Data.progression.unlockedLevels == null)
             Data.progression.unlockedLevels = new List<int>();
 
+        // Màn 1 luôn mở (kể cả save mới tạo)
+        if (!Data.progression.unlockedLevels.Contains(1))
+            Data.progression.unlockedLevels.Add(1);
+
         if (Data.settings == null)
             Data.settings = new SettingsData();
 
@@ -114,6 +148,13 @@ public class PlayerDataManager : MonoBehaviour
         // Nhân vật đầu tiên (index 0) luôn mở
         if (!Data.unlockedCharacters.Contains(0))
             Data.unlockedCharacters.Add(0);
+
+        // File save cũ chưa có nhiệm vụ ngày
+        if (Data.dailyMission == null)
+            Data.dailyMission = new DailyMissionData();
+
+        if (Data.dailyMission.claimed == null)
+            Data.dailyMission.claimed = new List<int>();
 
         // File save cũ chưa có thống kê combo
         if (Data.comboStats == null)
@@ -143,12 +184,24 @@ public class PlayerDataManager : MonoBehaviour
 
             File.WriteAllText(tempPath, json);
 
-            if (File.Exists(SavePath))
-                File.Delete(SavePath);
-
-            File.Move(tempPath, SavePath);
-
-            Debug.Log("Player data saved: " + SavePath);
+            // Thay file trong 1 bước: tắt máy giữa chừng cũng không mất save
+            if (!File.Exists(SavePath))
+            {
+                File.Move(tempPath, SavePath);
+            }
+            else
+            {
+                try
+                {
+                    File.Replace(tempPath, SavePath, null);
+                }
+                catch (Exception)
+                {
+                    // Nền tảng không hỗ trợ Replace -> cách cũ
+                    File.Delete(SavePath);
+                    File.Move(tempPath, SavePath);
+                }
+            }
         }
         catch (Exception e)
         {
@@ -405,6 +458,108 @@ public class PlayerDataManager : MonoBehaviour
             return 0;
 
         return Data.comboStats.Get(type);
+    }
+
+    // ================= DAILY MISSION =================
+
+    /// <summary>Tiến độ nhiệm vụ hôm nay (tự làm mới nếu đã sang ngày khác).</summary>
+    public DailyMissionData GetDailyMissions()
+    {
+        if (Data == null) return null;
+
+        if (Data.dailyMission == null)
+            Data.dailyMission = new DailyMissionData();
+
+        // Chỉ làm mới khi đã SANG NGÀY MỚI (so sánh chuỗi yyyy-MM-dd).
+        // Chỉnh đồng hồ lùi về hôm trước thì giữ nguyên tiến độ (không cho nhận thưởng lại).
+        // Chỉ đụng tới nhiệm vụ ngày: tiến độ mở màn / nhân vật / tiền không bị ảnh hưởng.
+        string today = DailyMissions.Today;
+        if (string.IsNullOrEmpty(Data.dailyMission.day) ||
+            string.CompareOrdinal(today, Data.dailyMission.day) > 0)
+        {
+            Data.dailyMission = new DailyMissionData { day = today };
+            SaveData();
+        }
+
+        return Data.dailyMission;
+    }
+
+    /// <summary>Gọi 1 lần khi kết thúc màn: cộng tiến độ nhiệm vụ ngày (không tự lưu).</summary>
+    private void AddDailyProgress(int perfectHits, int maxCombo)
+    {
+        DailyMissionData d = GetDailyMissions();
+        if (d == null) return;
+
+        d.levelsCompleted++;
+        d.perfectHits += Mathf.Max(0, perfectHits);
+        d.bestCombo = Mathf.Max(d.bestCombo, maxCombo);
+    }
+
+    /// <summary>Kết thúc 1 màn: lưu kỷ lục, thống kê combo, nhiệm vụ ngày trong 1 lần ghi file.</summary>
+    public void RecordLevelResult(int levelId, int score, int maxCombo, int good, int great, int perfect)
+    {
+        if (Data == null) return;
+
+        if (levelId > 0)
+        {
+            LevelRecordData record = Data.levelRecords.Find(x => x.levelId == levelId);
+            if (record == null)
+            {
+                Data.levelRecords.Add(new LevelRecordData
+                {
+                    levelId = levelId,
+                    highScore = score,
+                    maxCombo = maxCombo
+                });
+            }
+            else
+            {
+                record.highScore = Mathf.Max(record.highScore, score);
+                record.maxCombo = Mathf.Max(record.maxCombo, maxCombo);
+            }
+        }
+
+        if (good > 0) Data.comboStats.Add(ComboType.Good, good);
+        if (great > 0) Data.comboStats.Add(ComboType.Great, great);
+        if (perfect > 0) Data.comboStats.Add(ComboType.Perfect, perfect);
+
+        AddDailyProgress(perfect, maxCombo);
+
+        SaveData();
+    }
+
+    public bool IsDailyMissionDone(int index)
+    {
+        DailyMissionData d = GetDailyMissions();
+        if (d == null || index < 0 || index >= DailyMissions.All.Length) return false;
+
+        DailyMissions.Def def = DailyMissions.All[index];
+        return def.progress(d) >= def.target;
+    }
+
+    public bool IsDailyMissionClaimed(int index)
+    {
+        DailyMissionData d = GetDailyMissions();
+        return d != null && d.claimed.Contains(index);
+    }
+
+    /// <summary>Nhận thưởng nhiệm vụ (đã hoàn thành, chưa nhận). Cộng coin + lưu 1 lần.</summary>
+    public bool ClaimDailyMission(int index)
+    {
+        if (!IsDailyMissionDone(index) || IsDailyMissionClaimed(index))
+            return false;
+
+        int reward = DailyMissions.All[index].coinReward;
+
+        Data.dailyMission.claimed.Add(index);
+        Data.currency.coin += reward;
+        Data.currency.totalCoinEarned += reward;
+
+        SaveData();
+        OnCurrencyChanged?.Invoke();
+
+        Debug.Log("Nhận thưởng nhiệm vụ ngày " + (index + 1) + ": +" + reward + " coin");
+        return true;
     }
 
     // ================= ACHIEVEMENT =================

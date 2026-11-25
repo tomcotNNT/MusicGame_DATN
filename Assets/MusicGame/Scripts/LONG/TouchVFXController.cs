@@ -121,7 +121,7 @@ public class TouchVFXController : MonoBehaviour
             return;
 
         audioSource.pitch = randomizePitch ? Random.Range(0.9f, 1.1f) : 1f;
-        audioSource.PlayOneShot(clickSound, clickVolume);
+        if (AudioPrefs.SfxOn) audioSource.PlayOneShot(clickSound, clickVolume);
     }
 
     private float GetVFXDestroyTime(ParticleSystem vfx)

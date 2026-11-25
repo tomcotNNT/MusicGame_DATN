@@ -177,6 +177,10 @@ public class PlayerController : MonoBehaviour
             boss.Died -= OnBossDied;
             boss.Died += OnBossDied;
         }
+
+        // Boss màn 1 được spawn lúc chạy (không kéo sẵn vào ô Boss được) -> nghe sự kiện chung
+        BossHealth.AnyBossDefeated -= OnBossDied;
+        BossHealth.AnyBossDefeated += OnBossDied;
     }
 
     private void OnDisable()
@@ -188,6 +192,8 @@ public class PlayerController : MonoBehaviour
 
         if (boss != null)
             boss.Died -= OnBossDied;
+
+        BossHealth.AnyBossDefeated -= OnBossDied;
     }
 
     private void SubscribeSongEnded()
@@ -257,7 +263,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         if (animator != null)
-            animator.SetBool("IsGround", isGround);
+            AnimatorSafe.SetBool(animator, "IsGround", isGround);
 
         bool leftDown  = SideDown(true);
         bool rightDown = SideDown(false);
@@ -312,18 +318,25 @@ public class PlayerController : MonoBehaviour
             PlayAttack();   // chạy animation attack ngẫu nhiên
     }
 
+    private bool warnedNoHitSound;
+
     public void PlayHitSound()
     {
             if (hitSound == null)
             {
-                Debug.LogWarning("PlayerController: Chưa gán Hit Sound!");
+                // Chỉ báo 1 lần, tránh spam Console mỗi lần đánh trúng
+                if (!warnedNoHitSound)
+                {
+                    warnedNoHitSound = true;
+                    Debug.LogWarning("PlayerController: Chưa gán Hit Sound cho " + name);
+                }
                 return;
             }
 
             if (hitAudioSource == null)
                 return;
 
-            hitAudioSource.PlayOneShot(hitSound, hitVolume);
+            if (AudioPrefs.SfxOn) hitAudioSource.PlayOneShot(hitSound, hitVolume);
         }
 
     private bool CanFeverAttack()
@@ -497,7 +510,7 @@ public class PlayerController : MonoBehaviour
         foreach (int i in attackCandidates)
             animator.ResetTrigger(attackTriggers[i]);
 
-        animator.SetTrigger(attackTriggers[pick]);
+        AnimatorSafe.SetTrigger(animator, attackTriggers[pick]);
     }
 
     // =====================================================
@@ -510,7 +523,7 @@ public class PlayerController : MonoBehaviour
             return;
 
         if (animParams.Contains(holdAttackTrigger))
-            animator.SetBool(holdAttackTrigger, true);
+            AnimatorSafe.SetBool(animator, holdAttackTrigger, true);
     }
 
     public void StopHoldAttack()
@@ -519,7 +532,7 @@ public class PlayerController : MonoBehaviour
             return;
 
         if (animParams.Contains(holdAttackTrigger))
-            animator.SetBool(holdAttackTrigger, false);
+            AnimatorSafe.SetBool(animator, holdAttackTrigger, false);
     }
 
     // =====================================================
@@ -717,7 +730,7 @@ public class PlayerController : MonoBehaviour
     private void PlayCountdownSound(AudioClip clip)
     {
         if (countdownAudio != null && clip != null)
-            countdownAudio.PlayOneShot(clip);
+            if (AudioPrefs.SfxOn) countdownAudio.PlayOneShot(clip);
     }
 
     // =====================================================

@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
@@ -17,8 +16,6 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField, Min(0f)] private float gameOverDelay = 1.0f;
     [Tooltip("Dừng luôn nhạc/âm thanh khi chết")]
     [SerializeField] private bool pauseAudioOnDeath = true;
-    [Tooltip("Tên scene menu chính (dùng cho nút Home). Để trống nếu không dùng")]
-    [SerializeField] private string menuSceneName = "";
 
     private Animator anim;
     private int currentHealth;
@@ -74,11 +71,14 @@ public class PlayerHealth : MonoBehaviour
         if (anim != null)
         {
             anim.updateMode = AnimatorUpdateMode.UnscaledTime;
-            anim.SetTrigger("Die");
+            AnimatorSafe.SetTrigger(anim, "Die");
         }
 
         // Dừng game: đạn, boss, nốt nhạc đều dùng Time/audio nên đứng lại
         Time.timeScale = 0f;
+
+        // Đóng băng đồng hồ bài hát -> không sinh thêm nốt / không kết thúc bài sau khi chết
+        SongPause.PauseAll();
 
         if (pauseAudioOnDeath)
             AudioListener.pause = true;
@@ -99,17 +99,12 @@ public class PlayerHealth : MonoBehaviour
 
     public void Retry()
     {
-        ResumeGameState();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        LevelFlow.Retry();
     }
 
     public void BackToMenu()
     {
-        if (string.IsNullOrEmpty(menuSceneName))
-            return;
-
-        ResumeGameState();
-        SceneManager.LoadScene(menuSceneName);
+        LevelFlow.BackToSelect();
     }
 
     private void ResumeGameState()

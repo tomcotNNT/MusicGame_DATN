@@ -9,9 +9,28 @@ public class ComboSystem : MonoBehaviour
     [Header("Score System (kéo object ScoreSystem vào đây)")]
     [SerializeField] private ScoreSystem scoreSystem;
 
-    [Header("Combo Threshold")]
+    public enum JudgeMode
+    {
+        [Tooltip("Good/Great/Perfect theo độ dài combo (cách cũ)")]
+        Combo,
+        [Tooltip("Good/Great/Perfect theo độ lệch thời điểm bấm so với nốt MIDI")]
+        Timing
+    }
+
+    [Header("Cách chấm Good / Great / Perfect")]
+    [SerializeField] private JudgeMode judgeMode = JudgeMode.Combo;
+
+    [Header("Combo Threshold (chế độ Combo)")]
     [SerializeField] private int greatCombo = 5;     // đạt 5 combo liên tiếp -> Great
     [SerializeField] private int perfectCombo = 10;  // đạt 10 combo liên tiếp -> Perfect
+
+    [Header("Timing Window (chế độ Timing, giây lệch so với nốt)")]
+    [SerializeField, Min(0.005f)] private float perfectWindow = 0.06f;
+    [SerializeField, Min(0.01f)] private float greatWindow = 0.12f;
+    [Tooltip("Lần trúng không có thông tin thời gian (item, đạn nhặt...) được tính mức này")]
+    [SerializeField] private ScoreSystem.ScoreGrade untimedGrade = ScoreSystem.ScoreGrade.Great;
+
+    public JudgeMode Mode => judgeMode;
 
     [Header("UI")]
     [SerializeField] private TMP_Text comboLabelText;   // chữ "COMBO" (gợn sóng)
@@ -223,9 +242,45 @@ public class ComboSystem : MonoBehaviour
     // HIT / MISS
     // =====================================================
 
-    // Gọi khi chạm nốt. Mức Good/Great/Perfect tự tính theo combo liên tiếp,
-    // điểm (100/200/300) được cộng qua ScoreSystem.
+    // Gọi khi trúng nốt KHÔNG có thông tin thời gian (item, đạn nhặt...).
+    // Chế độ Combo: mức theo combo. Chế độ Timing: mức untimedGrade.
     public void HitNote()
+    {
+        RegisterHit(judgeMode == JudgeMode.Timing ? untimedGrade : GetGradeAfterIncrement());
+    }
+
+    /// <summary>
+    /// Gọi khi trúng nốt có biết độ lệch thời gian (giây, giá trị tuyệt đối) so với nốt MIDI.
+    /// Chế độ Combo: bỏ qua độ lệch, chấm theo combo như cũ.
+    /// </summary>
+    public void HitNoteTimed(float timingError)
+    {
+        if (judgeMode != JudgeMode.Timing)
+        {
+            RegisterHit(GetGradeAfterIncrement());
+            return;
+        }
+
+        float e = Mathf.Abs(timingError);
+        ScoreSystem.ScoreGrade grade =
+            e <= perfectWindow ? ScoreSystem.ScoreGrade.Perfect :
+            e <= greatWindow   ? ScoreSystem.ScoreGrade.Great :
+                                 ScoreSystem.ScoreGrade.Good;
+
+        RegisterHit(grade);
+    }
+
+    // Chế độ Combo: mức được tính theo combo SAU khi cộng lần trúng này (giống code cũ)
+    private ScoreSystem.ScoreGrade GetGradeAfterIncrement()
+    {
+        combo++;
+        ScoreSystem.ScoreGrade g = GetGradeByCombo();
+        combo--;
+        return g;
+    }
+
+    // Điểm (100/200/300) được cộng qua ScoreSystem theo mức.
+    private void RegisterHit(ScoreSystem.ScoreGrade grade)
     {
         combo++;
 
@@ -237,10 +292,8 @@ public class ComboSystem : MonoBehaviour
             maxCombo = combo;
         }    
 
-        ScoreSystem.ScoreGrade grade = GetGradeByCombo();
-
         // Cộng điểm + hiện popup "+100/+200/+300"
-        if (scoreSystem != null)
+        if (EnsureScoreSystem())
             scoreSystem.AddScore(grade);
 
         SetJudgmentByGrade(grade);
@@ -265,6 +318,13 @@ public class ComboSystem : MonoBehaviour
         judgmentHideRoutine = StartCoroutine(HideJudgmentAfterDelay());
     }
 
+    private bool EnsureScoreSystem()
+    {
+        if (scoreSystem == null)
+            scoreSystem = FindFirstObjectByType<ScoreSystem>();
+        return scoreSystem != null;
+    }
+
     public int GetMaxCombo()
     {
         return maxCombo;
@@ -275,10 +335,10 @@ public class ComboSystem : MonoBehaviour
         combo = 0;
     }
 
-    // Giữ để code cũ gọi HitNote(grade) không lỗi. Grade bị bỏ qua, chỉ tính theo combo.
-    public void HitNote(ScoreSystem.ScoreGrade ignoredGrade)
+    // Code đã tự chấm mức (ví dụ EnemyRhythm). Chế độ Combo: bỏ qua mức, chấm theo combo như cũ.
+    public void HitNote(ScoreSystem.ScoreGrade grade)
     {
-        HitNote();
+        RegisterHit(judgeMode == JudgeMode.Timing ? grade : GetGradeAfterIncrement());
     }
 
     private void SetJudgmentByGrade(ScoreSystem.ScoreGrade grade)
@@ -294,6 +354,10 @@ public class ComboSystem : MonoBehaviour
     public void MissNote()
     {
         combo = 0;
+
+        // Nơi DUY NHẤT đếm Miss cho mọi màn (dùng cho điều kiện sao ở bảng kết thúc)
+        if (EnsureScoreSystem())
+            scoreSystem.AddMiss();
 
         if (comboHideRoutine != null)
         {
@@ -320,7 +384,6 @@ public class ComboSystem : MonoBehaviour
             StopCoroutine(judgmentHideRoutine);
         judgmentHideRoutine = StartCoroutine(HideJudgmentAfterDelay());
 
-        Debug.Log("MISS - Combo Reset");
     }
 
     private void SetJudgmentSprite(Sprite sprite)

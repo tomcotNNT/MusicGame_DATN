@@ -98,7 +98,7 @@ public class StoryController : MonoBehaviour
             return;
         }
 
-        SceneManager.LoadScene(nextSceneName);
+        SceneFader.Load(nextSceneName);   // tối dần rồi chuyển scene
     }
 
     void SetAlpha(Graphic target, float alpha)

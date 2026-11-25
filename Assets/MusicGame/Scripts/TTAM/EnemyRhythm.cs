@@ -44,6 +44,12 @@ public class EnemyRhythmController : MonoBehaviour
     private bool completed;
 
     public bool IsLeft => isLeft;
+
+    /// <summary>
+    /// true = tự báo trúng/trượt cho ComboSystem + PlayerController2.
+    /// BossSpawner2 đặt false vì spawner đã tự báo (tránh cộng combo/điểm/Miss 2 lần).
+    /// </summary>
+    public bool ReportToCombo { get; set; } = true;
     public bool IsCompleted => completed;
     public int CurrentIndex => currentIndex;
     public int TotalNotes => noteTimes == null ? 0 : noteTimes.Length;
@@ -157,17 +163,16 @@ public class EnemyRhythmController : MonoBehaviour
                   : grade == HitGrade.Great   ? 150
                   : 100;   // chỉ để truyền cho UnityEvent onNoteHit
 
-        // Cộng điểm theo mức
-        if (playerController != null)
-            playerController.AddScore(grade);
-        else
-            Debug.LogWarning("PlayerController2 not found!");
+        if (ReportToCombo)
+        {
+            // Cộng điểm theo mức
+            if (playerController != null)
+                playerController.AddScore(grade);
 
-        // Tăng combo + ảnh judgment theo mức
-        if (comboSystem != null)
-            comboSystem.HitNote(sg);
-        else
-            Debug.LogWarning("ComboSystem not found!");
+            // Tăng combo + ảnh judgment theo mức
+            if (comboSystem != null)
+                comboSystem.HitNote(sg);
+        }
 
         // Attack Animation
         if (animator != null)
@@ -199,8 +204,8 @@ public class EnemyRhythmController : MonoBehaviour
     {
         currentIndex++;
 
-        // Reset Combo
-        if (comboSystem != null)
+        // Reset Combo (spawner tự báo Miss thì bỏ qua)
+        if (ReportToCombo && comboSystem != null)
             comboSystem.MissNote();
 
         onMiss?.Invoke();

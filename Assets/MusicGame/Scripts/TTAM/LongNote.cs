@@ -405,11 +405,15 @@ public class LongNote : MonoBehaviour
 
         StartHoldVfx();
 
-        if (scoreSystem != null)
+        // ComboSystem.HitNote() đã cộng điểm theo mức -> startScore chỉ dùng khi không có ComboSystem
+        // Độ lệch lúc bắt đầu giữ so với nốt (dùng khi ComboSystem ở chế độ Timing)
+        if (comboSystem != null)
+            comboSystem.HitNoteTimed(Mathf.Abs(songTime - noteTime));
+        else if (scoreSystem != null)
             scoreSystem.AddScore(startScore);
 
-        if (comboSystem != null)
-            comboSystem.HitNote();
+        // Màn có boss: bắt đầu giữ nốt dài = trúng 1 nốt -> trừ máu boss
+        if (PianoKeySpawner.Instance != null) PianoKeySpawner.Instance.OnPlayableNoteHit();
 
         TutorialEvents.LongNoteStarted?.Invoke();
     }
@@ -457,6 +461,12 @@ public class LongNote : MonoBehaviour
             return;
 
         state = State.Missed;
+
+        // Bỏ lỡ nốt dài = Miss như nốt thường (mất combo + tính vào số Miss)
+        if (comboSystem != null)
+            comboSystem.MissNote();
+        else if (scoreSystem != null)
+            scoreSystem.AddMiss();
 
         UnregisterHold();
         StopHoldAttackSafe();

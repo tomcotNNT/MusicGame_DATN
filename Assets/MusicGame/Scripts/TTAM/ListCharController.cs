@@ -116,7 +116,7 @@ public class ListCharController : MonoBehaviour,
         }
 
         // Quay trở lại màn hình chọn bài hát
-        SceneManager.LoadScene(selectSongSceneName);
+        SceneFader.Load(selectSongSceneName);   // tối dần rồi chuyển scene
     }
 
     // =========================================================
@@ -411,6 +411,10 @@ public class ListCharController : MonoBehaviour,
             return;
         }
 
+        // Đang chuyển scene (bấm đúp) -> không trừ thêm lượt
+        if (SceneFader.IsLoading)
+            return;
+
         // Trừ 1 lượt chơi (lưu vào PlayerData.json). Hết lượt thì không vào màn
         if (PlayerDataManager.Instance != null && !PlayerDataManager.Instance.UseTurn())
         {
@@ -418,7 +422,7 @@ public class ListCharController : MonoBehaviour,
             return;
         }
 
-        SceneManager.LoadScene(sceneToLoad);
+        SceneFader.Load(sceneToLoad);   // tối dần rồi chuyển scene
     }
 
     // =========================================================

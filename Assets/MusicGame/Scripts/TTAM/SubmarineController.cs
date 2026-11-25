@@ -55,7 +55,8 @@ public class SubmarineController : MonoBehaviour
     private float baseY;
     private float lastX;
 
-    private void Start()
+    // Awake (không phải Start): spawner/countdown gọi InitHp ngay ở Start của nó, trước Start của tàu
+    private void Awake()
     {
         baseY = transform.position.y;
         lastX = transform.position.x;

@@ -37,9 +37,8 @@ public class ResultSystem : MonoBehaviour
         if (scoreText != null)
             scoreText.text = score.ToString("#,##0", CultureInfo.InvariantCulture);
 
-
-        // Cập nhật dữ liệu người chơi là đã hoàn thành màn này
-        SelectLevel.CompleteCurrentLevel();
+        // Kết quả màn (coin, kỷ lục...) do EndGameBase lưu vào PlayerDataManager.
+        // Không gọi SelectLevel.CompleteCurrentLevel() (hệ lưu PlayerPrefs cũ, không còn dùng).
     }
 
 }

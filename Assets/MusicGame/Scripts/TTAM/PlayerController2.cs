@@ -212,7 +212,7 @@ public class PlayerController2 : MonoBehaviour
             return;
 
         int index = Random.Range(0, attackTriggers.Length);
-        animator.SetTrigger(attackTriggers[index]);
+        AnimatorSafe.SetTrigger(animator, attackTriggers[index]);
     }
 
     // =========================================
@@ -228,7 +228,7 @@ public class PlayerController2 : MonoBehaviour
     private void PlayAttackSound()
     {
         if (attackAudioSource != null && attackHitSound != null)
-            attackAudioSource.PlayOneShot(attackHitSound);
+            if (AudioPrefs.SfxOn) attackAudioSource.PlayOneShot(attackHitSound);
     }
 
     private void SpawnHitVFX(Vector3 position)
