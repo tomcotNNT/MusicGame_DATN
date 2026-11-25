@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// Bộ nút admin để test: +/- coin, diamond, quản lý level, nhân vật, reset dữ liệu.
+/// Bộ nút admin để test: +/- coin, diamond, quản lý level, nhân vật, lượt chơi, reset dữ liệu.
 /// Mặc định chỉ hoạt động trong Editor và Development Build.
 /// </summary>
 public class AdminPanel : MonoBehaviour
@@ -48,6 +48,16 @@ public class AdminPanel : MonoBehaviour
     [SerializeField] private Button unlockAllCharactersButton;
     [SerializeField] private Button lockAllCharactersButton;
 
+    [Header("Quản lý Lượt chơi")]
+    [Tooltip("Nhập số lượt muốn cộng / trừ / đặt. Để trống = 1")]
+    [SerializeField] private TMP_InputField turnAmountInput;
+    [SerializeField] private Button addTurnButton;        // + lượt
+    [SerializeField] private Button subTurnButton;        // - lượt
+    [SerializeField] private Button setTurnButton;        // Đặt đúng số lượt đã nhập
+    [SerializeField] private Button refillTurnButton;     // Hồi đầy
+    [SerializeField] private Button emptyTurnButton;      // Về 0 lượt (test hết lượt)
+    [SerializeField] private Button skipTurnTimerButton;  // Hồi ngay 1 lượt (bỏ qua thời gian chờ)
+
     [Header("Reset dữ liệu")]
     [SerializeField] private Button resetAllButton;
     [SerializeField] private GameObject confirmPanel;   // Hộp xác nhận (có thể bỏ trống)
@@ -55,6 +65,8 @@ public class AdminPanel : MonoBehaviour
     [SerializeField] private Button confirmNoButton;
 
     private PlayerDataManager Manager => PlayerDataManager.Instance;
+
+    private float statusTimer;
 
     private void Awake()
     {
@@ -92,6 +104,13 @@ public class AdminPanel : MonoBehaviour
         Bind(unlockAllCharactersButton, UnlockAllCharacters);
         Bind(lockAllCharactersButton, LockAllCharacters);
 
+        Bind(addTurnButton, () => ChangeTurns(+1));
+        Bind(subTurnButton, () => ChangeTurns(-1));
+        Bind(setTurnButton, SetTurns);
+        Bind(refillTurnButton, RefillTurns);
+        Bind(emptyTurnButton, EmptyTurns);
+        Bind(skipTurnTimerButton, SkipTurnTimer);
+
         Bind(resetAllButton, AskResetAll);
         Bind(confirmYesButton, ConfirmReset);
         Bind(confirmNoButton, CancelReset);
@@ -106,8 +125,23 @@ public class AdminPanel : MonoBehaviour
         {
             Manager.OnCurrencyChanged += RefreshStatus;
             Manager.OnProgressionChanged += RefreshStatus;
+            Manager.OnPlayTurnChanged += RefreshStatus;
         }
 
+        RefreshStatus();
+    }
+
+    private void Update()
+    {
+        // Cập nhật đồng hồ hồi lượt mỗi giây khi panel đang mở
+        if (panelRoot == null || !panelRoot.activeSelf)
+            return;
+
+        statusTimer += Time.unscaledDeltaTime;
+        if (statusTimer < 1f)
+            return;
+
+        statusTimer = 0f;
         RefreshStatus();
     }
 
@@ -117,6 +151,7 @@ public class AdminPanel : MonoBehaviour
         {
             Manager.OnCurrencyChanged -= RefreshStatus;
             Manager.OnProgressionChanged -= RefreshStatus;
+            Manager.OnPlayTurnChanged -= RefreshStatus;
         }
     }
 
@@ -273,6 +308,66 @@ public class AdminPanel : MonoBehaviour
             Manager.LockCharacter(i);
     }
 
+    // ================= LƯỢT CHƠI =================
+
+    // Đọc số lượt từ ô nhập cho nút +/-; trống / sai -> 1
+    private int ReadTurnAmount()
+    {
+        if (turnAmountInput != null &&
+            int.TryParse(turnAmountInput.text, out int value) &&
+            value > 0)
+        {
+            return value;
+        }
+
+        return 1;
+    }
+
+    // sign = +1 để cộng, -1 để trừ
+    private void ChangeTurns(int sign)
+    {
+        if (Manager == null) return;
+
+        Manager.ChangeTurns(sign * ReadTurnAmount());
+    }
+
+    private void SetTurns()
+    {
+        if (Manager == null) return;
+
+        if (turnAmountInput == null || !int.TryParse(turnAmountInput.text, out int value) || value < 0)
+        {
+            Debug.LogWarning("Admin: nhập số lượt hợp lệ (số nguyên >= 0).");
+            return;
+        }
+
+        Manager.SetTurns(value);
+    }
+
+    private void RefillTurns()
+    {
+        if (Manager == null) return;
+
+        Manager.RefillTurns();
+    }
+
+    private void EmptyTurns()
+    {
+        if (Manager == null) return;
+
+        Manager.SetTurns(0);
+    }
+
+    private void SkipTurnTimer()
+    {
+        if (Manager == null) return;
+
+        if (Manager.IsTurnFull())
+            Debug.LogWarning("Admin: lượt đang đầy, không cần hồi.");
+
+        Manager.SkipTurnTimer();
+    }
+
     // ================= RESET =================
 
     private void AskResetAll()
@@ -325,8 +420,19 @@ public class AdminPanel : MonoBehaviour
             : new List<int>();
         chars.Sort();
 
-        sb.Append("Nhân vật đã mở: " +
+        sb.AppendLine("Nhân vật đã mở: " +
                   (chars.Count > 0 ? string.Join(", ", chars) : "(không có)"));
+
+        if (data.playTurn != null)
+        {
+            string timer = Manager.IsTurnFull()
+                ? "FULL"
+                : Manager.GetTimeToNextTurn().ToString(@"mm\:ss");
+
+            sb.AppendLine("Lượt chơi: " + data.playTurn.turns + "/" + Manager.MaxTurns +
+                          "  (hồi sau: " + timer + ")");
+            sb.Append("Tổng số lần chơi: " + data.playTurn.totalPlays.ToString("N0"));
+        }
 
         statusText.text = sb.ToString();
     }

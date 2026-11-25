@@ -12,9 +12,9 @@ public enum Lanee
     Right
 }
 
-// Quản lý ấn / giữ ở 2 nửa màn hình:
-//   nửa TRÁI  = Lanee.Left  (hit point dưới)
-//   nửa PHẢI  = Lanee.Right (hit point trên)
+// Quản lý ấn / giữ bằng 2 nút LaneButton trên màn hình:
+//   nút TRÁI  = Lanee.Left  (hit point dưới)
+//   nút PHẢI  = Lanee.Right (hit point trên)
 // Gắn vào 1 GameObject trong scene (chỉ cần 1 cái).
 //
 // API dùng cho nốt:
@@ -24,17 +24,6 @@ public enum Lanee
 [DefaultExecutionOrder(-100)] // chạy trước PianoKey / LongNote để họ đọc được input của frame này
 public class HoldInput : MonoBehaviour
 {
-    [Header("Screen Zones")]
-    [Tooltip("Vị trí chia màn hình theo chiều ngang. 0.5 = chia đôi. Bên trái = Left, bên phải = Right")]
-    [Range(0.1f, 0.9f)]
-    [SerializeField] private float splitRatio = 0.5f;
-
-    [Header("Ignore UI")]
-    [Tooltip("Các vùng UI (nút Pause, Skip...) KHÔNG tính là chạm nốt")]
-    [SerializeField] private RectTransform[] ignoreAreas;
-    [Tooltip("Camera của Canvas. Để trống nếu Canvas là Screen Space - Overlay")]
-    [SerializeField] private Camera uiCamera;
-
     [Header("Keyboard (để test trong Editor)")]
     [SerializeField] private bool enableKeyboard = true;
 
@@ -62,36 +51,43 @@ public class HoldInput : MonoBehaviour
     private readonly bool[] heldNow = new bool[2];
     private readonly bool[] pressedNow = new bool[2];
 
-    // Mỗi ngón tay / chuột khoá vào lane lúc chạm xuống => kéo ngón sang nửa kia vẫn giữ đúng lane
-    private readonly Dictionary<int, int> lockedLane = new Dictionary<int, int>();
-    private readonly HashSet<int> activeIds = new HashSet<int>();
-    private readonly List<int> staleIds = new List<int>();
+    // Lần bấm nút đến từ EventSystem (có thể chạy trước/sau Update này) -> giữ lại tới Update kế tiếp.
+    // Nhờ vậy chạm rất nhanh (bấm + nhả trong 1 frame) vẫn không bị mất nốt.
+    private readonly bool[] buttonPressBuffer = new bool[2];
 
-    private const int MouseId = -1;
+    private void OnEnable()
+    {
+        LaneButtonInput.Pressed += OnLaneButtonPressed;
+    }
 
     private void OnDisable()
     {
+        LaneButtonInput.Pressed -= OnLaneButtonPressed;
+
         for (int i = 0; i < 2; i++)
         {
             held[i] = false;
             external[i] = false;
+            buttonPressBuffer[i] = false;
         }
+    }
 
-        lockedLane.Clear();
+    private void OnLaneButtonPressed(bool isLeft)
+    {
+        buttonPressBuffer[isLeft ? 0 : 1] = true;
     }
 
     private void Update()
     {
         heldNow[0] = heldNow[1] = false;
         pressedNow[0] = pressedNow[1] = false;
-        activeIds.Clear();
 
         // Pause thì không nhận input
         bool blocked = PianoKeySpawner.Instance != null && PianoKeySpawner.Instance.IsPaused;
 
         if (!blocked)
         {
-            ReadPointers();
+            ReadLaneButtons();
 
             if (enableKeyboard)
                 ReadKeyboard();
@@ -101,13 +97,7 @@ public class HoldInput : MonoBehaviour
                     heldNow[i] = true;
         }
 
-        // Xoá khoá lane của ngón tay đã nhấc lên
-        staleIds.Clear();
-        foreach (var kv in lockedLane)
-            if (!activeIds.Contains(kv.Key))
-                staleIds.Add(kv.Key);
-        foreach (int id in staleIds)
-            lockedLane.Remove(id);
+        buttonPressBuffer[0] = buttonPressBuffer[1] = false;
 
         Apply(0, Lanee.Left);
         Apply(1, Lanee.Right);
@@ -137,85 +127,21 @@ public class HoldInput : MonoBehaviour
     }
 
     // =====================================================
-    // POINTER (touch + mouse)
+    // 2 NÚT TRÊN MÀN HÌNH (LaneButton)
     // =====================================================
 
-    private void ReadPointers()
+    private void ReadLaneButtons()
     {
-#if ENABLE_INPUT_SYSTEM
-        Touchscreen ts = Touchscreen.current;
-        if (ts != null)
+        for (int i = 0; i < 2; i++)
         {
-            foreach (var t in ts.touches)
-            {
-                bool down = t.press.isPressed;
-                bool began = t.press.wasPressedThisFrame;
-                if (!down && !began) continue;
+            bool isLeft = i == 0;
 
-                Register(t.touchId.ReadValue(), t.position.ReadValue(), down, began);
-            }
+            if (LaneButtonInput.IsHeld(isLeft))
+                heldNow[i] = true;
+
+            if (buttonPressBuffer[i])
+                pressedNow[i] = true;
         }
-
-        Mouse mouse = Mouse.current;
-        if (mouse != null)
-        {
-            bool down = mouse.leftButton.isPressed;
-            bool began = mouse.leftButton.wasPressedThisFrame;
-            if (down || began)
-                Register(MouseId, mouse.position.ReadValue(), down, began);
-        }
-#else
-        for (int i = 0; i < Input.touchCount; i++)
-        {
-            Touch t = Input.GetTouch(i);
-
-            bool began = t.phase == TouchPhase.Began;
-            bool down = t.phase == TouchPhase.Began ||
-                        t.phase == TouchPhase.Moved ||
-                        t.phase == TouchPhase.Stationary;
-            if (!down) continue;
-
-            Register(t.fingerId, t.position, down, began);
-        }
-
-        if (Input.GetMouseButton(0) || Input.GetMouseButtonDown(0))
-            Register(MouseId, Input.mousePosition, Input.GetMouseButton(0), Input.GetMouseButtonDown(0));
-#endif
-    }
-
-    private void Register(int id, Vector2 pos, bool down, bool began)
-    {
-        int laneIdx;
-
-        if (!lockedLane.TryGetValue(id, out laneIdx))
-        {
-            // Chạm bắt đầu ở ngoài game (UI) hoặc không phải frame bắt đầu => bỏ qua
-            if (!began || IsOverIgnoredArea(pos))
-                return;
-
-            laneIdx = pos.x < Screen.width * splitRatio ? 0 : 1;
-            lockedLane[id] = laneIdx;
-        }
-
-        activeIds.Add(id);
-
-        if (down) heldNow[laneIdx] = true;
-        if (began) pressedNow[laneIdx] = true;
-    }
-
-    private bool IsOverIgnoredArea(Vector2 screenPos)
-    {
-        if (ignoreAreas == null)
-            return false;
-
-        foreach (RectTransform r in ignoreAreas)
-        {
-            if (r != null && r.gameObject.activeInHierarchy &&
-                RectTransformUtility.RectangleContainsScreenPoint(r, screenPos, uiCamera))
-                return true;
-        }
-
-        return false;
     }
 
     // =====================================================

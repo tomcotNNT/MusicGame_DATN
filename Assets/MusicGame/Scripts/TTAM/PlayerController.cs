@@ -20,7 +20,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform entryPoint;
     [SerializeField] private float introMoveSpeed = 5f;
     [SerializeField] private float outroMoveSpeed = 4f;
-    private static bool IsLeftHalf(float x) => x < Screen.width * 0.5f;
     private bool sequenceStarted;
     private bool gameEnded;
 
@@ -29,7 +28,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float hangTime = 0.15f;
     [SerializeField] private float riseYOffset = 0f;
 
-    [Header("Nhảy tự do (A / chạm nửa trái màn hình)")]
+    [Header("Nhảy tự do (D / nút phải)")]
     [SerializeField] private bool enableFreeJump = true;
     [SerializeField] private KeyCode jumpKey = KeyCode.A;
     [Tooltip("Nhảy tới độ cao của Transform này. Để trống = nhảy lên jumpHeight so với vị trí hiện tại")]
@@ -47,6 +46,9 @@ public class PlayerController : MonoBehaviour
 
     private float lastLeftDownTime = -10f;
     private float lastRightDownTime = -10f;
+
+    // Lần bấm LaneButton (từ EventSystem) giữ lại tới Update kế tiếp
+    private readonly bool[] buttonPressBuffer = new bool[2];
     private bool jumpPending;
     private float jumpPendingTime;
 
@@ -167,6 +169,9 @@ public class PlayerController : MonoBehaviour
     {
         SubscribeSongEnded();
 
+        LaneButtonInput.Pressed -= OnLaneButtonPressed;
+        LaneButtonInput.Pressed += OnLaneButtonPressed;
+
         if (boss != null)
         {
             boss.Died -= OnBossDied;
@@ -177,6 +182,9 @@ public class PlayerController : MonoBehaviour
     private void OnDisable()
     {
         UnsubscribeSongEnded();
+
+        LaneButtonInput.Pressed -= OnLaneButtonPressed;
+        buttonPressBuffer[0] = buttonPressBuffer[1] = false;
 
         if (boss != null)
             boss.Died -= OnBossDied;
@@ -253,6 +261,9 @@ public class PlayerController : MonoBehaviour
 
         bool leftDown  = SideDown(true);
         bool rightDown = SideDown(false);
+
+        // Đã đọc xong lần bấm nút của frame này
+        buttonPressBuffer[0] = buttonPressBuffer[1] = false;
 
         if (leftDown)  lastLeftDownTime  = Time.time;
         if (rightDown) lastRightDownTime = Time.time;
@@ -332,92 +343,39 @@ public class PlayerController : MonoBehaviour
         return true;
     }
 
-    // ---------- Input: vừa nhấn xuống (1 frame) ----------
+    // ---------- Input: 2 nút LaneButton trên màn hình + bàn phím ----------
+
+    private void OnLaneButtonPressed(bool isLeft)
+    {
+        buttonPressBuffer[isLeft ? 0 : 1] = true;
+    }
+
+    // Vừa nhấn xuống (1 frame)
     private bool SideDown(bool left)
     {
         if (Input.GetKeyDown(left ? leftKey : rightKey))
             return true;
 
-        for (int i = 0; i < Input.touchCount; i++)
-        {
-            Touch t = Input.GetTouch(i);
-            if (t.phase == TouchPhase.Began &&
-                IsLeftHalf(t.position.x) == left &&
-                !IsPointerOverUI(t.fingerId))
-                return true;
-        }
-
-        if (Input.touchCount == 0 &&
-            Input.GetMouseButtonDown(0) &&
-            IsLeftHalf(Input.mousePosition.x) == left &&
-            !IsPointerOverUI(-1))
-            return true;
-
-        return false;
+        return buttonPressBuffer[left ? 0 : 1];
     }
 
-    // ---------- Input: đang giữ ----------
+    // Đang giữ
     private bool SideHeld(bool left)
     {
         if (Input.GetKey(left ? leftKey : rightKey))
             return true;
 
-        for (int i = 0; i < Input.touchCount; i++)
-        {
-            Touch t = Input.GetTouch(i);
-            if (t.phase != TouchPhase.Ended &&
-                t.phase != TouchPhase.Canceled &&
-                IsLeftHalf(t.position.x) == left)
-                return true;
-        }
-
-        if (Input.touchCount == 0 &&
-            Input.GetMouseButton(0) &&
-            IsLeftHalf(Input.mousePosition.x) == left)
-            return true;
-
-        return false;
+        return LaneButtonInput.IsHeld(left);
     }
 
-private void FreeJump()
-{
-    float y = jumpTarget != null
-        ? jumpTarget.position.y
-        : rb.position.y + jumpHeight;
-
-    DashUp(y);
-}
-
-private bool IsJumpInput()
-{
-    if (Input.GetKeyDown(jumpKey))
-        return true;
-
-    // Cảm ứng: chạm nửa trái màn hình (bỏ qua khi chạm vào UI như nút Pause)
-    for (int i = 0; i < Input.touchCount; i++)
+    private void FreeJump()
     {
-        Touch t = Input.GetTouch(i);
-        if (t.phase == TouchPhase.Began &&
-            t.position.x < Screen.width * 0.5f &&
-            !IsPointerOverUI(t.fingerId))
-            return true;
+        float y = jumpTarget != null
+            ? jumpTarget.position.y
+            : rb.position.y + jumpHeight;
+
+        DashUp(y);
     }
-
-    // Chuột (test trên máy tính)
-    if (Input.touchCount == 0 &&
-        Input.GetMouseButtonDown(0) &&
-        Input.mousePosition.x < Screen.width * 0.5f &&
-        !IsPointerOverUI(-1))
-        return true;
-
-    return false;
-}
-
-private static bool IsPointerOverUI(int pointerId)
-{
-    return UnityEngine.EventSystems.EventSystem.current != null &&
-           UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject(pointerId);
-}
 
     // =====================================================
     // INTRO
