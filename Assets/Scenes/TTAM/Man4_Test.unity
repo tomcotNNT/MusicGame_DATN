@@ -272,8 +272,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ComboSystem
   scoreSystem: {fileID: 25114630}
+  judgeMode: 0
   greatCombo: 5
   perfectCombo: 10
+  perfectWindow: 0.06
+  greatWindow: 0.12
+  untimedGrade: 1
   comboLabelText: {fileID: 1609016684}
   comboNumberText: {fileID: 1566575456}
   judgmentImage: {fileID: 1110652937}
@@ -415,13 +419,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CountdownCave
   countdownText: {fileID: 325852676}
-  caveSpawner: {fileID: 25114699}
   sfxSource: {fileID: 25114627}
   readySound: {fileID: 8300000, guid: 8dc9b467efa985b489da379ae2788d6d, type: 3}
   goSound: {fileID: 8300000, guid: dc7f9a1a0b188014b8b41eb4aa7fc724, type: 3}
   readyToGoTime: 1.5
   letterDelay: 0.15
   goDuration: 0.5
+  caveSpawner: {fileID: 25114699}
 --- !u!114 &25114636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -434,7 +438,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c43290b8f287f145b0387492281ed73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EndGameCave
-  caveSpawner: {fileID: 25114699}
   scoreSystem: {fileID: 25114630}
   comboSystem: {fileID: 25114629}
   levelId: 4
@@ -453,12 +456,12 @@ MonoBehaviour:
     status: {fileID: 1569828750}
     flyStar: {fileID: 68385816}
     mainStar: {fileID: 1747870731}
-    text: 'Score >= {0} ({1})'
+    text: Score >= {0} ({1})
   - label: {fileID: 987957719}
     status: {fileID: 883117586}
     flyStar: {fileID: 986625175}
     mainStar: {fileID: 700550492}
-    text: 'Combo >= {0} ({1})'
+    text: Combo >= {0} ({1})
   - label: {fileID: 924066667}
     status: {fileID: 954577797}
     flyStar: {fileID: 1199266975}
@@ -466,6 +469,10 @@ MonoBehaviour:
     text: Clear the Cave
   starOn: {fileID: 4537489976979972008, guid: f241daa206898b54aa6d92d436d36065, type: 3}
   starOff: {fileID: 4537489976979972008, guid: 91f6b621b8a3fb746bccdd37e5c5c50d, type: 3}
+  autoStarThresholds: 1
+  scoreStarRatio: 0.6
+  comboStarRatio: 0.25
+  comboStarCap: 100
   scoreForStar: 10000
   comboForStar: 20
   showDelay: 2
@@ -474,9 +481,13 @@ MonoBehaviour:
   flyDuration: 0.6
   flyScale: 1.5
   starPopScale: 1.4
+  useNewResultPanel: 1
+  starSfx: {fileID: 0}
+  rollTickSfx: {fileID: 0}
   pendingColor: {r: 0.6, g: 0.6, b: 0.6, a: 1}
   successColor: {r: 0.4, g: 1, b: 0.4, a: 1}
   failColor: {r: 1, g: 0.25, b: 0.25, a: 1}
+  caveSpawner: {fileID: 25114699}
 --- !u!114 &25114699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -505,6 +516,7 @@ MonoBehaviour:
   warningSprite: {fileID: 21300000, guid: 97f97fc58e264ae8b0e1e920a8604583, type: 3}
   explosionClip: {fileID: 0}
   sortingOrder: 50
+  flipSpawnX: 1
   laneTopY: 0.64
   laneBottomY: 0.34
   hitPointX: 0.21
@@ -516,9 +528,12 @@ MonoBehaviour:
   minNoteGap: 0.3
   minSwitchGap: 0.22
   simultaneousThreshold: 0.03
+  laneMode: 1
+  maxSameLane: 3
   bossHpRatio: 0.8
   damageOnHit: 10
   laneSwitchTime: 0.08
+  rotateLaneButtons: 1
   hideOnStart:
   - {fileID: 1486055732}
   - {fileID: 147244592}
@@ -3694,7 +3709,7 @@ BoxCollider2D:
   m_Offset: {x: -0.03180933, y: 0.015904725}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.6499, y: 0.5}
     oldSize: {x: 1.3125, y: 1.90625}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
@@ -4754,7 +4769,7 @@ BoxCollider2D:
   m_Offset: {x: -0.03180933, y: 0.015904725}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5823, y: 0.5}
     oldSize: {x: 1.4375, y: 1.9375}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
@@ -8270,6 +8285,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Scenes
   optionPanel: {fileID: 1917147916}
+  useNewPauseMenu: 1
+  resumeCountdownStep: 0.5
 --- !u!1 &1639532880
 GameObject:
   m_ObjectHideFlags: 0
@@ -11666,6 +11683,59 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1.8054705}
   m_EdgeRadius: 0
+--- !u!1 &7400000001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7400000002}
+  - component: {fileID: 7400000003}
+  m_Layer: 0
+  m_Name: MissExplosionFeedback
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7400000002
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7400000001}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7400000003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7400000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e20cfcdee163485eb6348153610e81d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MissExplosionFeedback
+  explosionPrefab: {fileID: 0}
+  vfxLifetime: 1.5
+  offset: {x: 0, y: 0, z: 0}
+  cameraShake: {fileID: 0}
+  shakeDuration: 0.2
+  shakeMagnitude: 0.25
+  explosionClip: {fileID: 0}
+  explosionVolume: 1
+  damage: 10
 --- !u!1001 &152940860175405071
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11978,8 +12048,8 @@ BoxCollider2D:
   m_Offset: {x: -0.03180933, y: 0.015904725}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 2.0625}
+    pivot: {x: 0.4762, y: 0.4925}
+    oldSize: {x: 1.3125, y: 2.09375}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -12270,59 +12340,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &7400000001
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7400000002}
-  - component: {fileID: 7400000003}
-  m_Layer: 0
-  m_Name: MissExplosionFeedback
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7400000002
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7400000001}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7400000003
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7400000001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e20cfcdee163485eb6348153610e81d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MissExplosionFeedback
-  explosionPrefab: {fileID: 0}
-  vfxLifetime: 1.5
-  offset: {x: 0, y: 0, z: 0}
-  cameraShake: {fileID: 0}
-  shakeDuration: 0.2
-  shakeMagnitude: 0.25
-  explosionClip: {fileID: 0}
-  explosionVolume: 1
-  damage: 10
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
