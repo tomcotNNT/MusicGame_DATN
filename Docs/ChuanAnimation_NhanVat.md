@@ -91,3 +91,51 @@ Mọi lệnh đều đi qua `AnimatorSafe`: controller nào chưa có trạng th
 | Cả 3 | Bộ ngã (Chau 724–751, Stephen 531–548, Ramona 530–546) + đứng dậy | Bị nổ trúng nặng |
 
 > **Tránh dùng:** Stephen 704–735 (nhân vật chui vào ống xanh). Hình này giống tài sản của một game nổi tiếng khác. Ngoài ra, cả 3 sheet nhân vật đều là sprite rip, chỉ dùng cho đồ án học tập.
+
+## 6. Bản đồ sử dụng animation theo màn (kiểm tra ngày 26/11/2026)
+
+| Màn | Controller (Ramona / Chau / Stephen) | Script điều khiển | Trigger được gọi |
+|---|---|---|---|
+| Man1 (chạy, nhảy, boss) | `P1/Player`, `P2/Chau_Run`, `P3/Stephen_Run` (mặc định **Run**) | PlayerController + PlayerHealth + PlayerFever | IsGround, Jump, Attack1-3, **AirAttack** (đánh trên không), Sing (giữ nốt → Hold), **Special** (bắn Fever), **Hurt**, Die, Victory |
+| Man2, Man5 (đánh quái 2 bên + boss) | `P1/Player 1`, `P2/Chau`, `P3/Stephen Stills_50` (mặc định **Idle**) | PlayerController2 | Attack1-3, Victory |
+| Man3, Man4 (tàu ngầm, nhặt item trái/phải) | như Man2 | PlayerController3 (`PlayerControllerSub`) | Attack1-3, Victory |
+| Man4_Test (né quái) | như Man2 | CaveMawSpawner điều khiển | **Dodge**, **Hurt**, Victory |
+| Tutorial | chỉ Ramona `P1/Player` | PlayerController | như Man1 |
+
+Các trạng thái chưa được màn nào gọi: Hurt, Die, Special, Hold ở Man2–Man5 (nhân vật trong các màn này không có PlayerHealth / Fever / giữ nốt).
+
+## 7. Bộ đòn mở rộng cho Man2 – Man5 (đánh theo độ chính xác)
+
+Mỗi nhân vật thêm **5 đòn**, nâng tổng số đòn lên **8 đòn**. Tất cả theo chuẩn "frame đầu là frame chạm", dài 0,22–0,32 s:
+
+| Đòn | Hạng | Ramona | Chau | Stephen |
+|---|---|---|---|---|
+| Attack1 | nhẹ | túi xách (352–356) | đấm thẳng (886–888) | đấm thẳng (760–762) |
+| Attack4 | nhẹ | đấm liên hoàn (1008–1011) | đấm nhanh (891–893) | đấm vệt (776–778) |
+| Attack6 | nhẹ | quật túi vệt xanh (428–430) | đá xoay (964–967) | trượt đá thấp (858–860) |
+| Attack2 | vừa | chỉ tay (681–684) | đá (896–898) | đấm (764–766) |
+| Attack5 | vừa | đá vệt hồng (794–797) | đá vòng vệt chém (957–960) | đấm móc lên (862–864) |
+| Attack8 | vừa | trượt đá (903–906) | đá cao (906–909) | vung tay vệt đỏ (1034–1037) |
+| Attack3 | mạnh | vung búa (801–805) | đấm lướt (590–592) | đấm vệt (770–773) |
+| Attack7 | mạnh | búa nện đất (869–872) | xoay người chém vòng (901–903) | đấm lao vệt (1098–1101) |
+| Special | chiêu kết | quả cầu lửa | lửa bốc | sóng năng lượng |
+
+### Cách game chọn đòn (`AttackPicker.cs`)
+
+| Kết quả lần bấm | Đòn được chọn ngẫu nhiên trong nhóm |
+|---|---|
+| Bấm trượt / Good | **nhẹ**: Attack1, 4, 6 |
+| Great | **vừa**: Attack2, 5, 8 |
+| Perfect | **mạnh + vừa**: Attack3, 7, 2, 5, 8 |
+| Combo chạm mốc 10, 20, 30… | **Special** |
+
+- Không bao giờ lặp lại đúng đòn vừa đánh.
+- Bấm càng chuẩn thì đòn càng "đã", nên người chơi tự thấy được phần thưởng cho việc bắt beat chuẩn.
+- Code của Man2 (`PlayerController2`) và Man3/Man4 (`PlayerController3`) giờ **đánh trước rồi mới chọn animation**. Trước đây animation được gọi trước khi biết trúng hay trượt.
+- Muốn đổi nhóm đòn hoặc mốc combo, sửa 3 mảng `Light`, `Medium`, `Heavy` và hằng `FinisherEvery` trong `AttackPicker.cs`.
+
+### Bạn cần làm trong Unity (1 lần)
+1. Chọn **Tools > BeatRun > Thêm trạng thái mới (Attack4-8, Hurt, Dodge, Special, AirAttack, Victory)**. Lệnh thêm 5 state, 5 trigger và các transition cho cả 6 controller. Những trạng thái đã có từ lần trước sẽ được bỏ qua.
+2. Kiểm tra từng đòn bằng **Tools > BeatRun > Xem thử Animation Sprite** (chọn controller rồi chọn clip Attack4–8).
+3. Chơi Man2 hoặc Man3 và để ý: bấm lệch nhịp ra đòn nhẹ, bấm Perfect ra búa hay đòn xoay, đủ 10 combo ra Special.
+4. Nếu một đòn trông lệch: mở sheet nhân vật → **Sprite Editor**, chọn frame theo số ở bảng trên, sửa **Custom Pivot**.

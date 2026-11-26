@@ -102,20 +102,19 @@ public class PlayerController2 : MonoBehaviour
     private void AttackLeft()
     {
         Flip(-1);
-        PlayAttackAnimation();
 
-        HandleAttack(true, hitPointL);
+        // đánh trước, biết trúng/trượt rồi mới chọn animation
+        PlayAttackAnimation(HandleAttack(true, hitPointL));
     }
 
     private void AttackRight()
     {
         Flip(1);
-        PlayAttackAnimation();
 
-        HandleAttack(false, hitPointR);
+        PlayAttackAnimation(HandleAttack(false, hitPointR));
     }
 
-    private void HandleAttack(bool isLeft, Transform hitPoint)
+    private bool HandleAttack(bool isLeft, Transform hitPoint)
     {
         if (hitPoint == null)
         {
@@ -123,22 +122,22 @@ public class PlayerController2 : MonoBehaviour
                 "[PLAYER] Missing HitPoint " +
                 (isLeft ? "LEFT" : "RIGHT")
             );
-            return;
+            return false;
         }
 
-        TryHitEnemyNote(isLeft);
+        return TryHitEnemyNote(isLeft);
     }
 
     // =========================================
     // HIT ENEMY BY MIDI
     // =========================================
 
-    private void TryHitEnemyNote(bool isLeft)
+    private bool TryHitEnemyNote(bool isLeft)
     {
         if (enemySpawner == null)
         {
             Debug.LogError("[PLAYER] EnemySpawner is missing!");
-            return;
+            return false;
         }
 
         bool success = enemySpawner.TryHit(isLeft);
@@ -153,7 +152,7 @@ public class PlayerController2 : MonoBehaviour
                 );
             }
 
-            return;
+            return false;
         }
 
         if (showDebug)
@@ -165,6 +164,7 @@ public class PlayerController2 : MonoBehaviour
         }
 
         PlayHitFeedback(transform.position);
+        return true;
     }
 
     // =========================================
@@ -204,8 +204,13 @@ public class PlayerController2 : MonoBehaviour
             spriteRenderer.flipX = direction < 0;
     }
 
-    private void PlayAttackAnimation()
+    // Chọn đòn theo kết quả bắt beat (AttackPicker): trượt/Good = đòn nhẹ, Great = vừa,
+    // Perfect = mạnh, mỗi 10 combo = chiêu kết. Controller cũ không có đòn mới thì dùng danh sách attackTriggers.
+    private void PlayAttackAnimation(bool hit)
     {
+        if (AttackPicker.Play(animator, hit, comboSystem))
+            return;
+
         if (animator == null ||
             attackTriggers == null ||
             attackTriggers.Length == 0)

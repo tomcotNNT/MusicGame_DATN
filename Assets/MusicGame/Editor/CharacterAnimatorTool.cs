@@ -81,9 +81,9 @@ public class CharacterAnimatorTool : EditorWindow
     };
 
     /// <summary>Trigger mới. Clip cùng tên phải nằm cạnh controller (P1/P2/P3).</summary>
-    private static readonly string[] ExtraStates = { "Hurt", "Dodge", "Special", "AirAttack", "Victory" };
+    private static readonly string[] ExtraStates = { "Attack4", "Attack5", "Attack6", "Attack7", "Attack8", "Hurt", "Dodge", "Special", "AirAttack", "Victory" };
 
-    [MenuItem("Tools/BeatRun/Thêm trạng thái Hurt - Dodge - Special - AirAttack - Victory")]
+    [MenuItem("Tools/BeatRun/Thêm trạng thái mới (Attack4-8, Hurt, Dodge, Special, AirAttack, Victory)")]
     private static void AddExtraStatesMenu()
     {
         var report = new List<string>();

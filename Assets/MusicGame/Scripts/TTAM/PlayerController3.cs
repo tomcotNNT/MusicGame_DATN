@@ -88,9 +88,12 @@ public class PlayerControllerSub : MonoBehaviour
             return;
 
         Flip(isLeft ? -1 : 1);
-        PlayAttackAnimation();
 
-        if (spawner.TryHit(isLeft, out Vector3 hitPos))
+        // đánh trước, biết trúng/trượt rồi mới chọn animation
+        bool hit = spawner.TryHit(isLeft, out Vector3 hitPos);
+        PlayAttackAnimation(hit);
+
+        if (hit)
         {
             if (showDebug)
                 Debug.Log("[PLAYER] HIT " + (isLeft ? "LEFT" : "RIGHT"));
@@ -117,9 +120,16 @@ public class PlayerControllerSub : MonoBehaviour
             spriteRenderer.flipX = direction < 0;
     }
 
-    private void PlayAttackAnimation()
+    // Chọn đòn theo kết quả bắt beat (AttackPicker): trượt/Good = đòn nhẹ, Great = vừa,
+    // Perfect = mạnh, mỗi 10 combo = chiêu kết. Controller cũ không có đòn mới thì dùng danh sách attackTriggers.
+    private void PlayAttackAnimation(bool hit)
     {
-        if (animator == null || attackTriggers == null || attackTriggers.Length == 0)
+        if (AttackPicker.Play(animator, hit, comboSystem))
+            return;
+
+        if (animator == null ||
+            attackTriggers == null ||
+            attackTriggers.Length == 0)
             return;
 
         int index = Random.Range(0, attackTriggers.Length);

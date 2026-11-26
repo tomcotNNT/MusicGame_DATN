@@ -280,8 +280,12 @@ public class ComboSystem : MonoBehaviour
     }
 
     // Điểm (100/200/300) được cộng qua ScoreSystem theo mức.
+    /// <summary>Mức chấm của nốt trúng gần nhất (AttackPicker dùng để chọn đòn đánh).</summary>
+    public ScoreSystem.ScoreGrade LastGrade { get; private set; } = ScoreSystem.ScoreGrade.Good;
+
     private void RegisterHit(ScoreSystem.ScoreGrade grade)
     {
+        LastGrade = grade;
         combo++;
 
         if (combo > MaxCombo)
