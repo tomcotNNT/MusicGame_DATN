@@ -43,7 +43,7 @@ public class Scenes : MonoBehaviour
             return;
         }
 
-        if (!isPaused && Time.timeScale > 0f)
+        if (!isPaused && Time.timeScale > 0f && !EndGameBase.ResultShowing)
             SetOptionPanel(true);
     }
 
@@ -56,6 +56,7 @@ public class Scenes : MonoBehaviour
     public void ToggleOptionPanel()
     {
         if (countingDown) return;   // đang đếm 3-2-1 thì bỏ qua
+        if (!isPaused && EndGameBase.ResultShowing) return;   // đã hết bài, đang hiện bảng kết quả
 
         // Game đã bị dừng bởi script khác (Game Over, bảng kết quả...) -> không mở/đóng pause,
         // tránh đóng panel làm timeScale = 1 và game chạy tiếp sau bảng Game Over

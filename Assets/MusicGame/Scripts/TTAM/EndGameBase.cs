@@ -81,6 +81,21 @@ public abstract class EndGameBase : MonoBehaviour
     [SerializeField] private float flyScale = 1.5f;
     [SerializeField] private float starPopScale = 1.4f;
 
+    [Header("Bảng kết quả mới (neon, dựng bằng code)")]
+    [Tooltip("Bật = dùng bảng kết quả mới cùng phong cách menu Pause. Tắt = dùng End Panel cũ trong scene")]
+    [SerializeField] private bool useNewResultPanel = true;
+    [SerializeField] private AudioClip starSfx;
+    [SerializeField] private AudioClip rollTickSfx;
+
+    /// <summary>Bảng kết quả đang hiện / chuẩn bị hiện -> menu Pause không được mở chồng lên.</summary>
+    public static bool ResultShowing { get; private set; }
+
+    /// <summary>Scene đang dùng bảng kết quả mới -> các panel kết quả cũ (ResultSystem) không tự hiện.</summary>
+    public static bool UsingNewPanel { get; private set; }
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetStatics() { ResultShowing = false; UsingNewPanel = false; }
+
     [Header("Màu")]
     [SerializeField] private Color pendingColor = new Color(0.6f, 0.6f, 0.6f);
     [SerializeField] private Color successColor = new Color(0.4f, 1f, 0.4f);
@@ -112,6 +127,8 @@ public abstract class EndGameBase : MonoBehaviour
     protected virtual void Start()
     {
         shown = false;
+        ResultShowing = false;
+        UsingNewPanel = useNewResultPanel;
 
         if (endPanel != null)
             endPanel.SetActive(false);
@@ -128,6 +145,7 @@ public abstract class EndGameBase : MonoBehaviour
     protected void OnSongEnded()
     {
         if (shown || !CanShowResult()) return;
+        ResultShowing = true;
         StartCoroutine(ShowRoutine());
     }
 
@@ -141,6 +159,45 @@ public abstract class EndGameBase : MonoBehaviour
         return false;
     }
 
+    // ================= XEM THỬ (không cần chơi hết bài) =================
+
+    /// <summary>
+    /// Hiện bảng kết quả mới với dữ liệu giả, KHÔNG lưu coin / kỷ lục. Chỉ dùng khi đang Play.
+    /// Gọi từ menu Tools > BeatRun > Xem thử UI, hoặc chuột phải component -> "Xem thử bảng kết quả".
+    /// Bấm nút bất kỳ trên bảng để đóng.
+    /// </summary>
+    public static void PreviewResultPanel(int stars)
+    {
+        if (!Application.isPlaying) { Debug.LogWarning("[EndGame] Bấm Play trước rồi mới xem thử."); return; }
+
+        foreach (var old in FindObjectsByType<ResultPanelUI>(FindObjectsSortMode.None)) Destroy(old.gameObject);
+
+        var host = FindFirstObjectByType<EndGameBase>();
+        int lv = host != null ? host.levelId : LevelFlow.CurrentLevelId;
+        stars = Mathf.Clamp(stars, 0, 3);
+
+        var ui = ResultPanelUI.Create();
+        if (host != null) { ui.starClip = host.starSfx; ui.tickClip = host.rollTickSfx; }
+        System.Action close = () => { if (ui != null) Destroy(ui.gameObject); };
+        ui.OnReplay = close; ui.OnNext = close; ui.OnHome = close;
+        ui.StartCoroutine(ui.Play(new ResultPanelUI.Data
+        {
+            levelId = lv,
+            score = 12345 + stars * 9000,
+            maxCombo = 16 + stars * 30,
+            coin = stars == 3 ? 1000 : stars == 2 ? 500 : stars == 1 ? 200 : 0,
+            stars = stars,
+            earned = new[] { stars >= 1, stars >= 2, stars >= 3 },
+            captions = new[] { "SCORE 19,800", "COMBO 28", "DEFEAT BOSS" },
+            perfect = 8 + stars * 20, great = 13, good = 7, miss = Mathf.Max(0, 72 - stars * 24),
+            nextAvailable = true,
+        }));
+    }
+
+    [ContextMenu("Xem thử bảng kết quả (3 sao)")] private void PreviewWin() => PreviewResultPanel(3);
+    [ContextMenu("Xem thử bảng kết quả (1 sao)")] private void PreviewOne() => PreviewResultPanel(1);
+    [ContextMenu("Xem thử bảng kết quả (thua)")] private void PreviewLose() => PreviewResultPanel(0);
+
     // ================= HIỂN THỊ =================
 
     private IEnumerator ShowRoutine()
@@ -150,7 +207,10 @@ public abstract class EndGameBase : MonoBehaviour
 
         // Thua trong lúc chờ hiện bảng
         if (!CanShowResult())
+        {
+            ResultShowing = false;
             yield break;
+        }
 
         int score = scoreSystem != null ? scoreSystem.GetScore() : 0;
         int maxCombo = comboSystem != null ? comboSystem.MaxCombo : 0;
@@ -180,13 +240,46 @@ public abstract class EndGameBase : MonoBehaviour
         earnedCoin = CalculateCoinReward(Stars);
         SaveResult(score, maxCombo);
 
+        if (Stars > 0) PlayVictoryPose();
+
+        if (useNewResultPanel)
+        {
+            if (endPanel != null) endPanel.SetActive(false);
+            var ui = ResultPanelUI.Create();
+            ui.starClip = starSfx;
+            ui.tickClip = rollTickSfx;
+            ui.OnReplay = LevelFlow.Retry;
+            ui.OnNext = LevelFlow.NextLevel;
+            ui.OnHome = LevelFlow.BackToSelect;
+            yield return ui.Play(new ResultPanelUI.Data
+            {
+                levelId = levelId,
+                score = score,
+                maxCombo = maxCombo,
+                coin = earnedCoin,
+                stars = Stars,
+                earned = earned,
+                labels = labels,
+                captions = new[]
+                {
+                    "SCORE " + scoreGoal.ToString("#,##0", CultureInfo.InvariantCulture),
+                    "COMBO " + comboGoal,
+                    (labels[2] ?? "").ToUpperInvariant(),
+                },
+                perfect = scoreSystem != null ? scoreSystem.PerfectCount : 0,
+                great = scoreSystem != null ? scoreSystem.GreatCount : 0,
+                good = scoreSystem != null ? scoreSystem.GoodCount : 0,
+                miss = scoreSystem != null ? scoreSystem.MissCount : 0,
+                nextAvailable = LevelFlow.IsNextLevelAvailable(),
+            });
+            yield break;
+        }
+
         if (endPanel != null)
         {
             endPanel.SetActive(true);
             UpdateNextButton();
         }
-
-        if (Stars > 0) PlayVictoryPose();
 
         if (scoreText != null)
             yield return StartCoroutine(RollNumber(scoreText, score, ""));

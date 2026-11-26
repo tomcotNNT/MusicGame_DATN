@@ -31,7 +31,8 @@ public class ResultSystem : MonoBehaviour
 
         shown = true;
 
-        if (resultPanel != null)
+        // Scene dùng bảng kết quả mới (EndGameBase) -> không bật panel cũ chồng lên
+        if (resultPanel != null && !EndGameBase.UsingNewPanel)
             resultPanel.SetActive(true);
 
         if (scoreText != null)
