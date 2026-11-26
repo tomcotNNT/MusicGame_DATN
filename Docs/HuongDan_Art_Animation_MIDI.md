@@ -2,16 +2,17 @@
 
 ## 1. Animation nhân vật (Ramona · Stephen · Knives Chau)
 
-### 1.1 Hiện trạng
-| Nhân vật | Sprite sheet | Controller | Clip đang có | Còn thiếu |
+### 1.1 Hiện trạng (cập nhật 26/11)
+| Nhân vật | Controller Man1 (chạy) | Controller Man2/Man3 (đứng) | Clip | Giá mở khóa |
 |---|---|---|---|---|
-| Ramona | `Prefabs/Member/Long/Characters/RamonaFlower.png` | `Animation/P1/Player.controller` | Idle, Running, Jumping, InLand, Hold, Die, Attack 2, Attack3, Attacking | — |
-| Knives Chau | `Scenes/TTAM/Char/Knives Chau.png` | `Animation/P2/Chau.controller` | Idle, Run, Attack1, Attack2 | Jump, Die, Hold |
-| Stephen Stills | `Scenes/TTAM/Char/Stephen Stills.png` | `Animation/P3/Stephen Stills_50.controller` | Idle, Attack | Run, Jump, Die, Hold |
+| Ramona | `P1/Player.controller` | `P1/Player 1.controller` | đủ | mở sẵn |
+| Stephen Stills | `P3/Stephen_Run.controller` | `P3/Stephen Stills_50.controller` | Idle 50–55, Run 139–146, Attack1 760–762, Attack2 763–765, Attack3 769–772, Jump 228–238, Hold (guitar) 652–659, Die 535–548 | 1.500 coin |
+| Knives Chau | `P2/Chau_Run.controller` | `P2/Chau.controller` | Idle 41–44, Run 145–152, Attack1 979–983, Attack2 955–961, Attack3 984–988, Jump 320–331, Hold 605–608, Die 724–736 | 2.500 coin |
 
-**Đã sửa trong code:**
-- Gameplay gọi tham số qua `AnimatorSafe`, nên nhân vật thiếu animation nào thì lệnh đó bị bỏ qua, không còn spam cảnh báo trong Console.
-- **Phải chạy tool ở mục 1.3 một lần** để Chau và Stephen có đủ tham số. Nếu chưa chạy, ở Man1 hai nhân vật này **không chạy animation đánh**, vì code gọi `Attack1/2/3` mà controller chỉ có `Attack`.
+- Cả 4 controller mới **chép nguyên cấu trúc Animator của Ramona**: cùng tên state, tham số và transition. Có thêm trigger `Attack` vì Man3 dùng.
+- Số frame là số ở cuối tên sprite. Muốn đổi frame: sửa số trong tool **Animator nhân vật** rồi bấm **Tạo clip** (ghi đè, giữ GUID).
+- **Mở khóa:** ở SelectChar, chọn nhân vật đang khóa → trên nút Play hiện "UNLOCK … COIN" → bấm để trả coin. Không đủ coin thì mở bảng nạp tiền. Giá chỉnh ở `ListCharController ▸ Unlock Coin Cost`.
+- **Nhảy:** `PlayerController` (Man1) giờ bắn trigger `Jump` khi lướt lên nốt trên và tính `IsGround` thật. Cả 3 nhân vật đều có animation nhảy (trước đây Ramona cũng không bao giờ nhảy).
 
 ### 1.2 Thông số cắt sprite (giống Ramona)
 | Mục | Giá trị |

@@ -94,7 +94,8 @@ public class BackgroundMusic : MonoBehaviour
     {
         foreach (var s in gameplayScenes)
         {
-            if (!string.IsNullOrEmpty(s) && s == sceneName)
+            // "Man4_Test" (scene thử nghiệm) cũng tính là màn chơi của "Man4"
+            if (!string.IsNullOrEmpty(s) && (s == sceneName || sceneName.StartsWith(s + "_")))
                 return true;
         }
         return false;

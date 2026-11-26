@@ -37,6 +37,14 @@ public class ListCharController : MonoBehaviour,
     [Header("UI Play Button & Lock Settings")]
     [SerializeField] private Button playButton; // Kéo nút Play vào đây trên Inspector
 
+    [Header("Mở khóa nhân vật bằng Coin (thứ tự giống Song Items)")]
+    [Tooltip("Giá mở khóa từng nhân vật. Phần tử 0 (Ramona) = 0 vì luôn mở sẵn")]
+    [SerializeField] private List<int> unlockCoinCost = new List<int> { 0, 1500, 2500 };
+    [Tooltip("Bảng nạp tiền mở ra khi không đủ coin (để trống = tự tìm trong scene)")]
+    [SerializeField] private PurchasePanelControl purchasePanel;
+
+    private TMPro.TextMeshProUGUI priceLabel;
+
     [Tooltip("Chỉ dùng khi không có dữ liệu màn chơi từ scene chọn màn")]
     [SerializeField] private string gameplaySceneName = "GameplayScene";
 
@@ -80,12 +88,20 @@ public class ListCharController : MonoBehaviour,
             return;
         }
 
+        if (purchasePanel == null)
+            purchasePanel = FindFirstObjectByType<PurchasePanelControl>(FindObjectsInactive.Include);
+
+        CreatePriceLabel();
+
         // Trạng thái khóa/mở chỉ đọc từ PlayerData.json (mở/khóa bằng Admin hoặc khi mua)
         SetupLockVisuals();
 
         // Tự cập nhật ổ khóa khi nhân vật được mở/khóa
         if (PlayerDataManager.Instance != null)
+        {
             PlayerDataManager.Instance.OnProgressionChanged += RefreshLockVisuals;
+            PlayerDataManager.Instance.OnCurrencyChanged += UpdatePlayButtonState;   // nạp tiền xong -> nhãn giá đổi màu
+        }
 
         // Mở lại nhân vật đã chọn lần trước (nếu còn hợp lệ)
         int savedChar = SelectedLevelData.CharacterIndex;
@@ -102,7 +118,10 @@ public class ListCharController : MonoBehaviour,
     private void OnDestroy()
     {
         if (PlayerDataManager.Instance != null)
+        {
             PlayerDataManager.Instance.OnProgressionChanged -= RefreshLockVisuals;
+            PlayerDataManager.Instance.OnCurrencyChanged -= UpdatePlayButtonState;
+        }
 
         if (playButton != null)
             playButton.onClick.RemoveListener(OnPlayButtonClicked);
@@ -339,13 +358,27 @@ public class ListCharController : MonoBehaviour,
         // Đọc trạng thái mở khóa nhân vật từ file JSON
         bool isUnlocked = IsCharacterUnlocked(index);
 
-        playButton.interactable = isUnlocked; // Cho phép hoặc chặn bấm nút
+        // Nhân vật khóa vẫn bấm được: bấm = mua mở khóa bằng coin
+        playButton.interactable = true;
 
-        // Làm mờ nhẹ nút Play nếu màn chơi bị khóa (Alpha = 0.5)
+        // Nhãn giá phía trên nút Play
+        if (priceLabel != null)
+        {
+            priceLabel.gameObject.SetActive(!isUnlocked);
+            if (!isUnlocked)
+            {
+                int cost = GetUnlockCost(index);
+                bool enough = PlayerDataManager.Instance != null &&
+                              PlayerDataManager.Instance.Data.currency.coin >= cost;
+                priceLabel.text = "UNLOCK " + cost.ToString("#,##0") + " COIN";
+                priceLabel.color = enough ? new Color(1f, 0.86f, 0.3f) : new Color(1f, 0.45f, 0.45f);
+            }
+        }
+
         CanvasGroup canvasGroup = playButton.GetComponent<CanvasGroup>();
         if (canvasGroup != null)
         {
-            canvasGroup.alpha = isUnlocked ? 1f : 0.5f;
+            canvasGroup.alpha = 1f;
         }
         else
         {
@@ -353,7 +386,7 @@ public class ListCharController : MonoBehaviour,
             if (btnImg != null)
             {
                 Color c = btnImg.color;
-                c.a = isUnlocked ? 1f : 0.5f;
+                c.a = 1f;
                 btnImg.color = c;
             }
         }
@@ -373,15 +406,10 @@ public class ListCharController : MonoBehaviour,
             return;
         }
 
-        // Kiểm tra an toàn: Nếu màn hiện tại chưa mở khóa thì chặn không cho vào game
+        // Nhân vật đang khóa: bấm = mua mở khóa bằng coin (không vào màn ngay)
         if (!IsCharacterUnlocked(currentIndex))
         {
-            if (GameManager.Instance != null)
-            {
-                GameManager.Instance.PlayClickSound();
-            }
-            Debug.LogWarning("[ListChar] Nhân vật index " + currentIndex + " đang bị khóa!");
-            // (Tùy chọn: Bạn có thể bật một bảng thông báo Pop-up "Coming Soon / Locked" ở đây)
+            TryUnlockCurrent();
             return;
         }
 
@@ -489,6 +517,69 @@ public class ListCharController : MonoBehaviour,
         }
 
         UpdatePlayButtonState();
+    }
+
+    private int GetUnlockCost(int index)
+    {
+        return index >= 0 && index < unlockCoinCost.Count ? Mathf.Max(0, unlockCoinCost[index]) : 0;
+    }
+
+    // Trả coin để mở khóa nhân vật đang chọn. Không đủ coin -> mở bảng nạp tiền
+    private void TryUnlockCurrent()
+    {
+        PlayerDataManager data = PlayerDataManager.Instance;
+        if (data == null) return;
+
+        int cost = GetUnlockCost(currentIndex);
+        bool paid = cost <= 0 || data.SpendCoin(cost);
+
+        if (!paid)
+        {
+            if (priceLabel != null) StartCoroutine(FlashLabel());
+            if (purchasePanel != null) purchasePanel.OpenPurchase();
+            return;
+        }
+
+        data.UnlockCharacter(currentIndex);   // lưu JSON + OnProgressionChanged -> cập nhật ổ khóa
+        RefreshLockVisuals();
+        Debug.Log("[ListChar] Đã mở khóa nhân vật " + currentIndex + " (-" + cost + " coin)");
+    }
+
+    private IEnumerator FlashLabel()
+    {
+        Vector3 baseScale = priceLabel.transform.localScale;
+        for (int i = 0; i < 2; i++)
+        {
+            priceLabel.transform.localScale = baseScale * 1.2f;
+            yield return new WaitForSecondsRealtime(0.08f);
+            priceLabel.transform.localScale = baseScale;
+            yield return new WaitForSecondsRealtime(0.08f);
+        }
+    }
+
+    // Nhãn giá tạo bằng code, nằm ngay trên nút Play (nút Play là ảnh có sẵn chữ)
+    private void CreatePriceLabel()
+    {
+        if (playButton == null || priceLabel != null) return;
+
+        GameObject go = new GameObject("UnlockPrice (auto)", typeof(RectTransform));
+        go.transform.SetParent(playButton.transform, false);
+
+        RectTransform rt = (RectTransform)go.transform;
+        rt.anchorMin = new Vector2(0.5f, 1f);
+        rt.anchorMax = new Vector2(0.5f, 1f);
+        rt.pivot = new Vector2(0.5f, 0f);
+        rt.anchoredPosition = new Vector2(0f, 12f);
+        rt.sizeDelta = new Vector2(520f, 70f);
+
+        priceLabel = go.AddComponent<TMPro.TextMeshProUGUI>();
+        priceLabel.alignment = TMPro.TextAlignmentOptions.Center;
+        priceLabel.fontSize = 38;
+        priceLabel.fontStyle = TMPro.FontStyles.Bold;
+        priceLabel.raycastTarget = false;
+        priceLabel.outlineWidth = 0.2f;
+        priceLabel.outlineColor = new Color32(0, 0, 0, 255);
+        go.SetActive(false);
     }
 
     private bool IsCharacterUnlocked(int index)

@@ -262,6 +262,10 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        // Chạm đất = không lướt / không bám nốt dài và không còn rơi (vận tốc dọc ~ 0)
+        if (rb != null)
+            isGround = mode == AirMode.None && Mathf.Abs(rb.linearVelocity.y) < 0.1f;
+
         if (animator != null)
             AnimatorSafe.SetBool(animator, "IsGround", isGround);
 
@@ -545,7 +549,12 @@ public class PlayerController : MonoBehaviour
             return;
 
         if (mode == AirMode.None)
+        {
             savedGravity = rb.gravityScale;
+
+            // Vừa rời đất -> chạy animation nhảy (Any State -> Jumping)
+            AnimatorSafe.SetTrigger(animator, "Jump");
+        }
 
         rb.gravityScale = 0f;
         rb.linearVelocity = Vector2.zero;
