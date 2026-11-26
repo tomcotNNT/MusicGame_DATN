@@ -293,11 +293,11 @@ PrefabInstance:
       objectReference: {fileID: 1065700481826953673}
     - target: {fileID: 5441141549010566609, guid: 15be0d319aede794fbaf307e4ccfa2d8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: GetScene
+      value: NextLevel
       objectReference: {fileID: 0}
     - target: {fileID: 5441141549010566609, guid: 15be0d319aede794fbaf307e4ccfa2d8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: StoryMan2
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5771475622372999492, guid: 15be0d319aede794fbaf307e4ccfa2d8, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -309,11 +309,15 @@ PrefabInstance:
       objectReference: {fileID: 1065700481826953673}
     - target: {fileID: 6429388004209011113, guid: 15be0d319aede794fbaf307e4ccfa2d8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: GetScene
+      value: BackToSelect
+      objectReference: {fileID: 0}
+    - target: {fileID: 6429388004209011113, guid: 15be0d319aede794fbaf307e4ccfa2d8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6429388004209011113, guid: 15be0d319aede794fbaf307e4ccfa2d8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: SelectSong
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6739649962989367145, guid: 15be0d319aede794fbaf307e4ccfa2d8, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -325,11 +329,15 @@ PrefabInstance:
       objectReference: {fileID: 1065700481826953673}
     - target: {fileID: 8156456764726225788, guid: 15be0d319aede794fbaf307e4ccfa2d8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: GetScene
+      value: RetryLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 8156456764726225788, guid: 15be0d319aede794fbaf307e4ccfa2d8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8156456764726225788, guid: 15be0d319aede794fbaf307e4ccfa2d8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: StoryMan1
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -446,17 +454,17 @@ MonoBehaviour:
     status: {fileID: 414110822}
     flyStar: {fileID: 1826023662}
     mainStar: {fileID: 1111452996}
-    text: Score >= 10000
+    text: 'Score >= {0} ({1})'
   - label: {fileID: 1072329753}
     status: {fileID: 1120616874}
     flyStar: {fileID: 285042586}
     mainStar: {fileID: 2093404258}
-    text: Combo >=20
+    text: 'Combo >= {0} ({1})'
   - label: {fileID: 62230970}
     status: {fileID: 841612965}
     flyStar: {fileID: 627162945}
     mainStar: {fileID: 911903860}
-    text: Missnote < 5
+    text: Defeat Boss
   starOn: {fileID: 4537489976979972008, guid: f241daa206898b54aa6d92d436d36065, type: 3}
   starOff: {fileID: 4537489976979972008, guid: 91f6b621b8a3fb746bccdd37e5c5c50d, type: 3}
   scoreForStar: 10000
@@ -2010,7 +2018,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -777, y: -53.075}
+  m_AnchoredPosition: {x: -760, y: 54}
   m_SizeDelta: {x: 160, y: 160}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &334776771
@@ -2466,7 +2474,7 @@ Animator:
   m_GameObject: {fileID: 434754443}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 06f0d232f036a564a97d4d80e232e1c1, type: 2}
+  m_Controller: {fileID: 9100000, guid: 86749dc4626343f39b1935cb64199b93, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -3812,14 +3820,14 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1065700481826953673}
         m_TargetAssemblyTypeName: Scenes, Assembly-CSharp
-        m_MethodName: GetScene
-        m_Mode: 5
+        m_MethodName: BackToSelect
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: SelectSong
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &607466985
@@ -4227,8 +4235,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 625427039}
-  - component: {fileID: 625427041}
-  - component: {fileID: 625427040}
   m_Layer: 0
   m_Name: CoinSpawner
   m_TagString: Untagged
@@ -4251,30 +4257,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 25114625}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &625427040
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 625427038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f61d73e50df250d4b91f8efac72a5f08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CoinSystem
---- !u!114 &625427041
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 625427038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd3b1898def36cc4bba7574ecd627f7e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CoinSpawner
 --- !u!114 &627162945 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3836658546462615214, guid: 15be0d319aede794fbaf307e4ccfa2d8, type: 3}
@@ -4950,7 +4932,7 @@ Animator:
   m_GameObject: {fileID: 676154817}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 5bda303690464854182080673133c001, type: 2}
+  m_Controller: {fileID: 9100000, guid: 600a9754ee3e47759c805d6d9e6e04da, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -5864,14 +5846,14 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1065700481826953673}
         m_TargetAssemblyTypeName: Scenes, Assembly-CSharp
-        m_MethodName: GetScene
-        m_Mode: 5
+        m_MethodName: RetryLevel
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: StoryMan1
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &786269862
@@ -6205,7 +6187,7 @@ MonoBehaviour:
   spawnRight: {fileID: 0}
   man2TravelTime: 1.5
   man2MinInterval: 0.15
-  hasBoss: 0
+  hasBoss: 1
   bossSpawner: {fileID: 2135059614}
   bossAppearAt: 0.426
   keySpeed: 5.7
@@ -6399,7 +6381,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 789, y: -53.075}
+  m_AnchoredPosition: {x: 529, y: 56}
   m_SizeDelta: {x: 160, y: 160}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &977726774
@@ -6845,7 +6827,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 789, y: -53.075}
+  m_AnchoredPosition: {x: 529, y: 56}
   m_SizeDelta: {x: 160, y: 160}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1067509415
@@ -7721,7 +7703,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -777, y: -53.075}
+  m_AnchoredPosition: {x: -760, y: 54}
   m_SizeDelta: {x: 160, y: 160}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1285542540
@@ -8957,7 +8939,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1516358400}
-  - component: {fileID: 1516358401}
   m_Layer: 0
   m_Name: MagnetSpawner
   m_TagString: Untagged
@@ -8980,18 +8961,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 25114625}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1516358401
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1516358399}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: babffe45496cea14fa7d4d2b79c78556, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MagnetSpawner
 --- !u!1 &1527817063
 GameObject:
   m_ObjectHideFlags: 0

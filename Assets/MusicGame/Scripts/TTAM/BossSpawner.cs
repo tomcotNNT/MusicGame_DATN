@@ -28,7 +28,8 @@ public class BossSpawner : MonoBehaviour
         
 
     // Gọi khi hết nhạc đầu (PianoKeySpawner.NextRound): boss xuất hiện và đi vào vị trí đánh.
-    public void StartBossFight(Action onDefeated)
+    /// <param name="maxHp">Máu boss (ví dụ = số nốt của bài). 0 = giữ máu đặt trong prefab.</param>
+    public void StartBossFight(Action onDefeated, int maxHp = 0)
     {
         // Không spawn lại trong cùng lượt chơi.
         if (hasSpawnedBoss)
@@ -51,9 +52,10 @@ public class BossSpawner : MonoBehaviour
 
         boss = spawned;
 
-    
-
         spawned.Begin(stopPoint.position);
+
+        if (maxHp > 0)
+            spawned.SetMaxHealth(maxHp);
 
         spawned.Defeated += () =>
         {
@@ -73,6 +75,13 @@ public class BossSpawner : MonoBehaviour
     {
         if (boss != null && !IsRetreating)
             boss.TakeDamage(damagePerAttack);
+    }
+
+    /// <summary>Đánh trúng nốt -> trừ máu boss (giống màn 2, màn 3).</summary>
+    public void DamageBoss(int amount)
+    {
+        if (boss != null && !IsRetreating)
+            boss.TakeDamage(amount);
     }
 
     // =====================================================

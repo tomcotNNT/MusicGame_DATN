@@ -40,7 +40,8 @@ public class HoldInput : MonoBehaviour
     private static int Idx(Lanee lane) => lane == Lanee.Left ? 0 : 1;
 
     public static bool IsHeld(Lanee lane) => held[Idx(lane)];
-    public static bool WasPressed(Lanee lane) => pressedFrame[Idx(lane)] == Time.frameCount;
+    // Pause / Game Over (timeScale = 0): nốt đứng yên ngay vạch -> không cho bấm trúng
+    public static bool WasPressed(Lanee lane) => Time.timeScale > 0f && pressedFrame[Idx(lane)] == Time.frameCount;
     public static bool WasReleased(Lanee lane) => releasedFrame[Idx(lane)] == Time.frameCount;
 
     // Cho UI Button / script khác bấm giả (ví dụ OnPointerDown/Up của nút trên màn hình)

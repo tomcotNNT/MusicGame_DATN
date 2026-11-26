@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossSpawner2 : MonoBehaviour
+public class BossSpawner2 : MonoBehaviour, IRhythmSongClock, ISongPausable
 {
     public event Action SongEnded;
 
@@ -73,17 +73,27 @@ public class BossSpawner2 : MonoBehaviour
     private int lastPrefabIndex = -1;
     private int nextEventIndex;
 
-    private double songStartDsp;
+    private readonly SongClock clock = new SongClock();
 
     private bool isPlaying;
     private bool songEnded;
 
     private Coroutine spawnEventCoroutine;
 
-    public float SongTime =>
-        isPlaying ? (float)(AudioSettings.dspTime - songStartDsp) : 0f;
+    // Đứng yên khi pause (xem SongClock)
+    public float SongTime => isPlaying ? clock.SongTime : 0f;
 
     public bool IsPlaying => isPlaying;
+
+    public void PauseSong()
+    {
+        if (isPlaying) clock.Pause(musicSource);
+    }
+
+    public void ResumeSong()
+    {
+        if (isPlaying) clock.Resume(musicSource);
+    }
 
     private void Start()
     {
@@ -140,12 +150,11 @@ public class BossSpawner2 : MonoBehaviour
             spawnEventCoroutine = null;
         }
 
-        songStartDsp = AudioSettings.dspTime + countdown;
-
-        musicSource.Stop();
-        musicSource.PlayScheduled(songStartDsp);
+        clock.Start(musicSource, countdown);
 
         isPlaying = true;
+
+        Debug.Log($"[Man2] Bắt đầu bài: {spawnEvents.Count} sự kiện, nốt đầu tại {spawnEvents[0].time:F2}s, đếm ngược {countdown:F2}s");
     }
 
     // =========================================
@@ -392,6 +401,9 @@ public class BossSpawner2 : MonoBehaviour
             () => SongTime
         );
 
+        // Trúng / trượt do spawner báo cho ComboSystem -> enemy không báo nữa (tránh cộng 2 lần)
+        rhythm.ReportToCombo = false;
+
         activeEnemies.Add(new ActiveEnemy
         {
             rhythm = rhythm,
@@ -434,6 +446,9 @@ public class BossSpawner2 : MonoBehaviour
 
                 if (comboSystem != null)
                     comboSystem.MissNote();
+
+                // Cho cơ chế màn (ví dụ quái phát nổ ở Màn 4) biết vị trí bị bỏ lỡ
+                RhythmEvents.RaiseNoteMissed(e.rhythm.transform.position, e.rhythm.IsLeft);
 
                 activeEnemies.RemoveAt(i);
 
@@ -522,6 +537,10 @@ public class BossSpawner2 : MonoBehaviour
     {
         hitPosition = Vector3.zero;
 
+        // Đang pause / Game Over / chưa chạy bài: không cho đánh (nốt đứng yên ngay vạch)
+        if (!isPlaying || clock.IsPaused || Time.timeScale == 0f)
+            return false;
+
         ActiveEnemy target = null;
         float bestError = float.MaxValue;
 
@@ -563,8 +582,9 @@ public class BossSpawner2 : MonoBehaviour
 
         boss.TakeHit();
 
+        // Spawner là nơi DUY NHẤT báo trúng cho ComboSystem (EnemyRhythm không báo nữa)
         if (comboSystem != null)
-            comboSystem.HitNote();
+            comboSystem.HitNoteTimed(bestError);
 
         return true;
     }

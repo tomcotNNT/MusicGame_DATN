@@ -22,7 +22,7 @@ public class BackgroundMusic : MonoBehaviour
 
     [Header("Scene màn chơi (vào đây sẽ TẮT nhạc)")]
     [Tooltip("Tên chính xác của scene màn chơi")]
-    [SerializeField] private string[] gameplayScenes = { "Man1", "Man2", "Man3", "Tutorial" };
+    [SerializeField] private string[] gameplayScenes = { "StoryMan1", "StoryMan2", "StoryMan3", "Tutorial", "Man1", "Man2", "Man3", "Man4", "Man5", "StoryMan4", "StoryMan5" };
 
     [Header("Fade (giây)")]
     [SerializeField, Min(0f)] private float fadeOutDuration = 0.5f;
@@ -48,16 +48,26 @@ public class BackgroundMusic : MonoBehaviour
         source.loop = true;
         source.clip = bgmClip;
         source.volume = volume;
+        source.mute = !AudioPrefs.MusicOn;
     }
 
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
+        AudioPrefs.Changed += ApplyAudioPrefs;
     }
 
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+        AudioPrefs.Changed -= ApplyAudioPrefs;
+    }
+
+    // Nút Music ở menu bật/tắt -> tắt tiếng nhạc nền ngay
+    private void ApplyAudioPrefs()
+    {
+        if (source != null)
+            source.mute = !AudioPrefs.MusicOn;
     }
 
     private void Start()
@@ -84,7 +94,8 @@ public class BackgroundMusic : MonoBehaviour
     {
         foreach (var s in gameplayScenes)
         {
-            if (!string.IsNullOrEmpty(s) && s == sceneName)
+            // "Man4_Test" (scene thử nghiệm) cũng tính là màn chơi của "Man4"
+            if (!string.IsNullOrEmpty(s) && (s == sceneName || sceneName.StartsWith(s + "_")))
                 return true;
         }
         return false;

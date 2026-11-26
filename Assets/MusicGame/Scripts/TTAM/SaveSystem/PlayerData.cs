@@ -24,4 +24,7 @@ public class PlayerData
 
     public PlayTurnData playTurn =
         new PlayTurnData();
+
+    public DailyMissionData dailyMission =
+        new DailyMissionData();
 }

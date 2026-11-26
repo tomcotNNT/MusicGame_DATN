@@ -25,6 +25,11 @@ public class WatchAdsUI : MonoBehaviour
     public int maxDailyAds = 5;
     public int cooldownMinutes = 5;
 
+    [Header("Phần thưởng mỗi lần xem hết quảng cáo")]
+    [Tooltip("Bảng thông báo đang ghi 'YOU RECEIVED 500' -> mặc định +500 coin")]
+    public CurrencyManager.CurrencyType rewardType = CurrencyManager.CurrencyType.Coin;
+    public int rewardAmount = 500;
+
     private int usedAds;
     private long nextAllowedTime;
     private string savedDate;
@@ -103,6 +108,10 @@ public class WatchAdsUI : MonoBehaviour
             + cooldownMinutes * 60;
 
         SaveData();
+
+        // Trả thưởng vào dữ liệu người chơi (JSON) -> UI tiền tự cập nhật qua OnCurrencyChanged
+        if (!PurchasePanel.AddCurrency(rewardType, rewardAmount))
+            Debug.LogWarning("WatchAdsUI: không cộng được phần thưởng quảng cáo!");
 
         noticePanel.SetActive(true);
 

@@ -35,7 +35,6 @@ public class PianoKey : MonoBehaviour
     [Range(0f, 1f)]
     [SerializeField] private float hitVolume = 1f;
 
-    private static AudioSource sfxSource;
 
 
     [Header("Player")]
@@ -307,8 +306,17 @@ public class PianoKey : MonoBehaviour
         PlayHitSfx();
         NoteHit?.Invoke(keyType);
 
-        if (scoreSystem != null) scoreSystem.AddScore();
-        if (comboSystem != null) comboSystem.HitNote();
+        // ComboSystem.HitNote() đã cộng điểm theo mức -> chỉ tự cộng khi không có ComboSystem
+        // Độ lệch thời điểm bấm so với nốt (dùng khi ComboSystem ở chế độ Timing)
+        float timingError = PianoKeySpawner.Instance != null
+            ? Mathf.Abs(PianoKeySpawner.Instance.SongTime - targetTime)
+            : 0f;
+
+        if (comboSystem != null) comboSystem.HitNoteTimed(timingError);
+        else if (scoreSystem != null) scoreSystem.AddScore();
+
+        // Màn có boss: đánh trúng nốt trừ máu boss
+        if (PianoKeySpawner.Instance != null) PianoKeySpawner.Instance.OnPlayableNoteHit();
         if (FeverSystem.Instance != null)
             FeverSystem.Instance.AddNote();
 
@@ -364,15 +372,8 @@ public class PianoKey : MonoBehaviour
         if (clip == null)
             return;
 
-        if (sfxSource == null)
-        {
-            GameObject go = new GameObject("PianoKeySfx");
-            sfxSource = go.AddComponent<AudioSource>();
-            sfxSource.playOnAwake = false;
-            sfxSource.spatialBlend = 0f;   // 2D, không bị nhỏ dần theo khoảng cách
-        }
-
-        sfxSource.PlayOneShot(clip, hitVolume);
+        // Bộ phát chung: 2D, chống chồng tiếng khi 2 nốt trùng nhau, dừng theo Pause
+        GameplaySfx.Play(clip, hitVolume);
     }
 
     private void Miss()
@@ -383,12 +384,13 @@ public class PianoKey : MonoBehaviour
         IsCompleted = true;
 
         // TODO: PlayerHealth.TakeDamage();
+        // ComboSystem.MissNote() đã tự đếm Miss vào ScoreSystem
         if (comboSystem != null)
             comboSystem.MissNote();
+        else if (scoreSystem != null)
+            scoreSystem.AddMiss();
 
-
-        if (scoreSystem != null)
-        scoreSystem.AddMiss();
+        RhythmEvents.RaiseNoteMissed(transform.position, keyType == KeyType.Left);
 
         Destroy(gameObject);
     }

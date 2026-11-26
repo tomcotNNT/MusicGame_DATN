@@ -203,37 +203,34 @@ public class GachaReward
     }
 
     public void SpinX1()
+{
+    if (IsBusy() || !ValidateWheel())
+        return;
+
+    if (GachaTicketManager.Instance == null ||
+        !GachaTicketManager.Instance.SpendTickets(1))
     {
-        StartPaidSpin(1, x1DiamondCost);
+        ShowNotice("Không đủ vé quay!");
+        return;
     }
+
+    StartCoroutine(SpinSequence(1));
+}
 
     public void SpinX5()
-    {
-        StartPaidSpin(5, x5DiamondCost);
-    }
-
-    private void StartPaidSpin(int count, int cost)
     {
         if (IsBusy() || !ValidateWheel())
             return;
 
-        if (GameManager.Instance == null)
+        if (GachaTicketManager.Instance == null ||
+            !GachaTicketManager.Instance.SpendTickets(5))
         {
-            Debug.LogError("GameManager not found!");
+            ShowNotice("Không đủ 5 vé TIME để quay!");
+            RefreshUI();
             return;
         }
 
-        if (cost < 0)
-            return;
-
-        if (cost > 0 &&
-            !GameManager.Instance.SpendDiamonds(cost))
-        {
-            ShowNotice("Không đủ kim cương!");
-            return;
-        }
-
-        StartCoroutine(SpinSequence(count));
+        StartCoroutine(SpinSequence(5));
     }
 
     public void SpinWithRewardedAd()
@@ -322,56 +319,42 @@ public class GachaReward
     {
         isSpinning = true;
         RefreshUI();
-
         StringBuilder results = new StringBuilder();
+        GachaReward lastReward = null;
+        bool allGranted = true;
 
         for (int i = 0; i < count; i++)
         {
             int selectedIndex = ChooseReward();
-
-            yield return StartCoroutine(
-                SpinToReward(selectedIndex)
-            );
-
+            yield return StartCoroutine(SpinToReward(selectedIndex));
             GachaReward reward = rewards[selectedIndex];
-
-            bool granted = GiveReward(reward);
-            if (granted && count == 1)
-{
-    ShowRewardResult(reward);
-}
-
-            if (!granted)
+            if (!GiveReward(reward))
             {
-                results.AppendLine(
-                    "Không thể cộng phần thưởng!"
-                );
+                allGranted = false;
+                results.AppendLine("Không thể cộng phần thưởng!");
                 break;
             }
 
-            if (reward.type == RewardType.Nothing)
-            {
-                results.AppendLine(
-                    "Chúc bạn may mắn lần sau!"
-                );
-            }
-            else
-            {
-                string name = GetRewardName(reward);
-
-                results.AppendLine(
-                    "Chúc mừng! Bạn nhận được " +
-                    reward.amount + " " + name
-                );
-            }
+            lastReward = reward;
+            results.AppendLine(reward.type == RewardType.Nothing
+                ? "Chúc bạn may mắn lần sau!"
+                : "Nhận được " + reward.amount + " " + GetRewardName(reward));
 
             if (count > 1 && i < count - 1)
                 yield return new WaitForSeconds(0.3f);
         }
 
         isSpinning = false;
-
-        ShowNotice(results.ToString().TrimEnd());
+        if (count == 1 && allGranted && lastReward != null)
+        {
+            ShowRewardResult(lastReward);
+        }
+        else
+        {
+            if (iconItemReceive != null) iconItemReceive.enabled = false;
+            if (quantityText != null) quantityText.gameObject.SetActive(false);
+            ShowNotice(results.ToString().TrimEnd());
+        }
         RefreshUI();
     }
 
@@ -579,11 +562,15 @@ public class GachaReward
     {
         bool busy = IsBusy();
 
+        int availableTickets = GachaTicketManager.Instance != null
+            ? GachaTicketManager.Instance.GetTickets()
+            : 0;
+
         if (x1Button != null)
-            x1Button.interactable = !busy;
+            x1Button.interactable = !busy && availableTickets >= 1;
 
         if (x5Button != null)
-            x5Button.interactable = !busy;
+            x5Button.interactable = !busy && availableTickets >= 5;
 
         if (okButton != null)
             okButton.interactable =

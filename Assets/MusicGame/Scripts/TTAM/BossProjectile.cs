@@ -12,6 +12,10 @@ public class BossProjectile : MonoBehaviour
     [Header("Item (chỉ dùng khi Kind = Item)")]
     [Tooltip("Mỗi loại item một id riêng. Nhặt item khác id thì thanh fever tính lại từ đầu")]
     [SerializeField] private string itemId = "item_default";
+
+    [Tooltip("Tiếng khi nhặt item này (mỗi loại item 1 âm riêng). Để trống = không phát")]
+    [SerializeField] private AudioClip collectClip;
+    [SerializeField, Range(0f, 1f)] private float collectVolume = 1f;
     [SerializeField] private Sprite itemIcon;
     [Tooltip("Bỏ lỡ item thì reset luôn thanh fever của item")]
     [SerializeField] private bool resetItemBarOnMiss = false;
@@ -271,11 +275,13 @@ public class BossProjectile : MonoBehaviour
             Destroy(vfx, vfxLifetime);
         }
 
-        if (scoreSystem != null)
-            scoreSystem.AddScore();
+        GameplaySfx.Play(collectClip, collectVolume);
 
+        // ComboSystem.HitNote() đã cộng điểm theo mức
         if (comboSystem != null)
             comboSystem.HitNote();
+        else if (scoreSystem != null)
+            scoreSystem.AddScore();
 
         if (FeverSystem.Instance != null)
             FeverSystem.Instance.AddNote();

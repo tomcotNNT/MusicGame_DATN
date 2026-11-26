@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 112f2cb617dc21d449f48a6d71942238, type: 3}
+  m_Name: LV1
+  m_EditorClassIdentifier: Assembly-CSharp::NTLevelData
+  levelName: 
+  music: {fileID: 8300000, guid: 907c2a2dea8f0ef4592a51fadc1226ab, type: 3}
+  midiFileName: "Ph\xE1o - 2 Ph\xFAt H\u01A1n (KAIZ Remix) - Distraction-more.mid"
+  levelContentMode: 1
+  forcedTrackIndex: -1
+  timeOffset: 0
+  noteSpeed: 8
+  difficulty: 2
+  minNoteDistanceOverride: 0

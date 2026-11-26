@@ -1,7 +1,11 @@
-
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// 2 nút bật/tắt Nhạc nền và Âm thanh trong menu.
+/// Lưu vào AudioPrefs (SETTING_BGM / SETTING_SFX) nên giữ nguyên khi tắt game,
+/// và áp dụng ngay cho BackgroundMusic, tiếng nút, tiếng đánh nốt.
+/// </summary>
 public class AudioToggleControl : MonoBehaviour
 {
     [Header("Music")]
@@ -16,41 +20,41 @@ public class AudioToggleControl : MonoBehaviour
     public Sprite soundOnSprite;
     public Sprite soundOffSprite;
 
-    private bool musicOn = true;
-    private bool soundOn = true;
-
     private void Start()
     {
-        musicButton.onClick.AddListener(ToggleMusic);
-        soundButton.onClick.AddListener(ToggleSound);
+        if (musicButton != null) musicButton.onClick.AddListener(ToggleMusic);
+        if (soundButton != null) soundButton.onClick.AddListener(ToggleSound);
 
-        UpdateMusicSprite();
-        UpdateSoundSprite();
+        RefreshSprites();
+    }
+
+    private void OnEnable()
+    {
+        AudioPrefs.Changed += RefreshSprites;
+        RefreshSprites();
+    }
+
+    private void OnDisable()
+    {
+        AudioPrefs.Changed -= RefreshSprites;
     }
 
     private void ToggleMusic()
     {
-        musicOn = !musicOn;
-        UpdateMusicSprite();
-
-        Debug.Log("Music: " + (musicOn ? "ON" : "OFF"));
+        AudioPrefs.MusicOn = !AudioPrefs.MusicOn;
     }
 
     private void ToggleSound()
     {
-        soundOn = !soundOn;
-        UpdateSoundSprite();
-
-        Debug.Log("Sound: " + (soundOn ? "ON" : "OFF"));
+        AudioPrefs.SfxOn = !AudioPrefs.SfxOn;
     }
 
-    private void UpdateMusicSprite()
+    private void RefreshSprites()
     {
-        musicImage.sprite = musicOn ? musicOnSprite : musicOffSprite;
-    }
+        if (musicImage != null)
+            musicImage.sprite = AudioPrefs.MusicOn ? musicOnSprite : musicOffSprite;
 
-    private void UpdateSoundSprite()
-    {
-        soundImage.sprite = soundOn ? soundOnSprite : soundOffSprite;
+        if (soundImage != null)
+            soundImage.sprite = AudioPrefs.SfxOn ? soundOnSprite : soundOffSprite;
     }
 }

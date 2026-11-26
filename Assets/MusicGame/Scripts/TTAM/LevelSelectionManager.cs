@@ -429,6 +429,6 @@ public class LevelSelectionManager2 : MonoBehaviour
         // Lưu màn đã chọn để scene Select Char dùng
         SelectedLevelData.Set(selected.levelId, selected.sceneName);
 
-        SceneManager.LoadScene(characterSelectSceneName);
+        SceneFader.Load(characterSelectSceneName);   // tối dần rồi chuyển scene
     }
 }

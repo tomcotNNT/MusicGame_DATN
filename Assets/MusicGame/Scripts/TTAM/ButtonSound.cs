@@ -51,7 +51,7 @@ public static class UISoundPlayer
 {
     private static AudioSource source;
 
-    public static bool IsSfxOn => PlayerPrefs.GetInt("SETTING_SFX", 1) == 1;
+    public static bool IsSfxOn => AudioPrefs.SfxOn;
 
     public static void Play(AudioClip clip, float volume = 1f)
     {
