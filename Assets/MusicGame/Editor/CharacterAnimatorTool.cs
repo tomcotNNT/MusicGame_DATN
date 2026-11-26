@@ -67,6 +67,69 @@ public class CharacterAnimatorTool : EditorWindow
         EditorUtility.DisplayDialog("Animator nhân vật", "Đã chuẩn hoá " + done + " controller. Xem chi tiết trong Console.", "OK");
     }
 
+    // ================= TRẠNG THÁI MỚI (bắt beat) =================
+
+    /// <summary>Mọi controller nhân vật đang được scene/prefab dùng (cả bản chạy Man1).</summary>
+    private static readonly string[] AllPlayerControllers =
+    {
+        Root + "P1/Player.controller",
+        Root + "P1/Player 1.controller",
+        Root + "P2/Chau.controller",
+        Root + "P2/Chau_Run.controller",
+        Root + "P3/Stephen Stills_50.controller",
+        Root + "P3/Stephen_Run.controller",
+    };
+
+    /// <summary>Trigger mới. Clip cùng tên phải nằm cạnh controller (P1/P2/P3).</summary>
+    private static readonly string[] ExtraStates = { "Hurt", "Dodge", "Special", "AirAttack", "Victory" };
+
+    [MenuItem("Tools/BeatRun/Thêm trạng thái Hurt - Dodge - Special - AirAttack - Victory")]
+    private static void AddExtraStatesMenu()
+    {
+        var report = new List<string>();
+        foreach (string path in AllPlayerControllers)
+        {
+            var ctrl = AssetDatabase.LoadAssetAtPath<AnimatorController>(path);
+            if (ctrl == null) { report.Add(path + ": không thấy"); continue; }
+            string r = AddExtraStates(ctrl);
+            report.Add(Path.GetFileNameWithoutExtension(path) + ": " + r);
+            Debug.Log("[AnimatorTool] " + path + ": " + r);
+        }
+        AssetDatabase.SaveAssets();
+        EditorUtility.DisplayDialog("Animator nhân vật", string.Join("\n", report), "OK");
+    }
+
+    private static string AddExtraStates(AnimatorController ctrl)
+    {
+        var log = new List<string>();
+        AnimatorStateMachine sm = ctrl.layers[0].stateMachine;
+        string folder = Path.GetDirectoryName(AssetDatabase.GetAssetPath(ctrl)).Replace('\\', '/');
+        AnimatorState home = sm.defaultState ?? Find(sm, "Idle");
+        if (home == null) return "không có state mặc định - bỏ qua";
+
+        for (int i = 0; i < ExtraStates.Length; i++)
+        {
+            string name = ExtraStates[i];
+            AnimatorState s = Find(sm, name) ?? AddStateFromClip(sm, folder, name, log);
+            if (s == null) { log.Add("thiếu clip " + name); continue; }
+
+            // xếp gọn trong cửa sổ Animator
+            var cs = sm.states;
+            for (int k = 0; k < cs.Length; k++)
+                if (cs[k].state == s && cs[k].position == Vector3.zero)
+                    cs[k].position = new Vector3(650, 40 + i * 70, 0);
+            sm.states = cs;
+
+            EnsureParam(ctrl, name, AnimatorControllerParameterType.Trigger, log);
+            bool isVictory = name == "Victory";
+            EnsureAnyStateTrigger(sm, s, name, log, canTransitionToSelf: !isVictory);
+            if (!isVictory) EnsureExitBack(s, home, log);   // Victory lặp mãi tới khi rời màn
+        }
+
+        EditorUtility.SetDirty(ctrl);
+        return log.Count == 0 ? "đã đủ, không đổi" : string.Join("; ", log);
+    }
+
     private void OnGUI()
     {
         scroll = EditorGUILayout.BeginScrollView(scroll);

@@ -1,13 +1,27 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Scenes : MonoBehaviour
 {
+    [Tooltip("Panel option cũ trong scene. Khi bật 'Use New Pause Menu' thì panel này không còn được hiện")]
     public GameObject optionPanel;
+
+    [Header("Menu tạm dừng mới")]
+    [Tooltip("Dùng menu tạm dừng dựng bằng code (RESUME / REPLAY / HOME, âm lượng, hiệu ứng). Tắt = dùng panel cũ")]
+    [SerializeField] private bool useNewPauseMenu = true;
+    [Tooltip("Mỗi số của đếm ngược 3-2-1 khi chơi tiếp (giây thật). 0.5 = đúng 1 phách ở 120 BPM")]
+    [SerializeField, Min(0f)] private float resumeCountdownStep = 0.5f;
+
+    private PauseMenuUI menu;
+    private bool isPaused;
+    private bool countingDown;
+    private Coroutine countdownRoutine;
 
     private void Start()
     {
-        SetOptionPanel(false);
+        if (optionPanel != null) optionPanel.SetActive(false);
+        isPaused = false;
     }
 
     private void Update()
@@ -16,10 +30,20 @@ public class Scenes : MonoBehaviour
             ToggleOptionPanel();
     }
 
-    // Điện thoại chuyển app / tắt màn hình -> tự mở menu pause để không lệch nhịp
+    // Điện thoại chuyển app / tắt màn hình / rời cửa sổ Unity -> tự mở menu pause để không lệch nhịp
     private void OnApplicationPause(bool pauseStatus)
     {
-        if (pauseStatus && optionPanel != null && !optionPanel.activeSelf && Time.timeScale > 0f)
+        if (!pauseStatus) return;
+
+        if (countingDown)
+        {
+            // đang đếm ngược mà rời app -> dừng lại, mở menu (vẫn đang pause)
+            StopCountdown();
+            ShowMenuVisual(true);
+            return;
+        }
+
+        if (!isPaused && Time.timeScale > 0f)
             SetOptionPanel(true);
     }
 
@@ -31,28 +55,96 @@ public class Scenes : MonoBehaviour
 
     public void ToggleOptionPanel()
     {
-        if (optionPanel == null)
-            return;
+        if (countingDown) return;   // đang đếm 3-2-1 thì bỏ qua
 
-        // Game đã bị dừng bởi script khác (Game Over...) -> không cho mở/đóng pause,
+        // Game đã bị dừng bởi script khác (Game Over, bảng kết quả...) -> không mở/đóng pause,
         // tránh đóng panel làm timeScale = 1 và game chạy tiếp sau bảng Game Over
-        if (!optionPanel.activeSelf && Time.timeScale == 0f)
+        if (!isPaused && Time.timeScale == 0f)
             return;
 
-        SetOptionPanel(!optionPanel.activeSelf);
+        SetOptionPanel(!isPaused);
     }
 
     public void ShowOptionPanel() => SetOptionPanel(true);
 
     public void HideOptionPanel() => SetOptionPanel(false);
 
+    /// <summary>Nút RESUME (gắn được vào Button cũ): đóng menu, đếm ngược rồi chơi tiếp.</summary>
+    public void ResumeGame() => SetOptionPanel(false);
+
     private void SetOptionPanel(bool active)
     {
-        if (optionPanel != null)
-            optionPanel.SetActive(active);
+        if (active)
+        {
+            if (isPaused) return;
+            isPaused = true;
+            PauseAll();
+            ShowMenuVisual(true);
+        }
+        else
+        {
+            if (!isPaused) return;
+            ShowMenuVisual(false);
 
-        if (active) PauseAll();
-        else ResumeAll();
+            if (useNewPauseMenu && resumeCountdownStep > 0f && isActiveAndEnabled)
+                countdownRoutine = StartCoroutine(ResumeAfterCountdown());
+            else
+                FinishResume();
+        }
+    }
+
+    private void ShowMenuVisual(bool show)
+    {
+        if (useNewPauseMenu)
+        {
+            if (optionPanel != null) optionPanel.SetActive(false);
+            if (show)
+            {
+                EnsureMenu();
+                menu.Show();
+            }
+            else if (menu != null) menu.Hide();
+        }
+        else if (optionPanel != null)
+        {
+            optionPanel.SetActive(show);
+        }
+    }
+
+    private void EnsureMenu()
+    {
+        if (menu != null) return;
+        menu = PauseMenuUI.Create();
+        // KHÔNG gắn vào object của Scenes: nếu nằm trong Canvas khác sẽ thành Canvas lồng, mất thứ tự hiển thị
+        menu.OnResume = ResumeGame;
+        menu.OnReplay = RetryLevel;
+        menu.OnHome = BackToSelect;
+    }
+
+    private IEnumerator ResumeAfterCountdown()
+    {
+        countingDown = true;
+        yield return menu.StartCoroutine(menu.Countdown(resumeCountdownStep, FinishResume));
+        countingDown = false;
+        countdownRoutine = null;
+    }
+
+    private void StopCountdown()
+    {
+        if (countdownRoutine != null) StopCoroutine(countdownRoutine);
+        if (menu != null)
+        {
+            menu.StopAllCoroutines();
+            menu.CancelCountdown();
+        }
+        countdownRoutine = null;
+        countingDown = false;
+    }
+
+    private void FinishResume()
+    {
+        isPaused = false;
+        ResumeAll();
     }
 
     private bool songPaused;

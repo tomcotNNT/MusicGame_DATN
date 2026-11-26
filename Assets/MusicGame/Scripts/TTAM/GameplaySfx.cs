@@ -42,7 +42,7 @@ public static class GameplaySfx
         AudioSource src = voices[nextVoice];
         nextVoice = (nextVoice + 1) % voices.Length;
 
-        src.PlayOneShot(clip, Mathf.Clamp01(volume));
+        src.PlayOneShot(clip, Mathf.Clamp01(volume) * AudioVolume.Sfx);
     }
 
     private static void EnsureVoices()

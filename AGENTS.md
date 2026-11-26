@@ -2,13 +2,13 @@
 - Project name: MusicGame_DATN
 - Unity version: Unity 6000.3.24f1
 - Active scene:
-  - Name: Man3
+  - Name: Man4_Test
   - Tags:
-    - Untagged, Respawn, Finish, EditorOnly, MainCamera, Player, GameController
+    - Untagged, Respawn, Finish, EditorOnly, MainCamera, Player, GameController, Note, Wall, Ground, HitPointTop, HitPointBottom, BossAttackPosition, Enemy, BossBullet
   - Layers:
-    - Default, TransparentFX, Ignore Raycast, Water, UI
+    - Default, TransparentFX, Ignore Raycast, Water, UI, Enemy, BossBullet, Hitpoint
 - Active game object:
-  - Name: MIDI System
-  - Tag: Untagged
+  - Name: Chauu
+  - Tag: Player
   - Layer: Default
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->

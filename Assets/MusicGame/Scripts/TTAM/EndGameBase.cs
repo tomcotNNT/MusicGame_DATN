@@ -186,6 +186,8 @@ public abstract class EndGameBase : MonoBehaviour
             UpdateNextButton();
         }
 
+        if (Stars > 0) PlayVictoryPose();
+
         if (scoreText != null)
             yield return StartCoroutine(RollNumber(scoreText, score, ""));
 
@@ -314,6 +316,18 @@ public abstract class EndGameBase : MonoBehaviour
     }
 
     // Nút "Next" trong bảng chỉ hiện khi vào được màn kế (đã mở khóa + có trong build)
+    /// <summary>Thắng (có ít nhất 1 sao): nhân vật đang chơi chuyển sang tư thế ăn mừng (trigger Victory).</summary>
+    private static void PlayVictoryPose()
+    {
+        foreach (GameObject go in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            Animator a = go.GetComponentInChildren<Animator>();
+            if (a == null || !AnimatorSafe.Has(a, "Victory")) continue;
+            a.updateMode = AnimatorUpdateMode.UnscaledTime;   // bảng kết quả có thể dừng thời gian
+            a.SetTrigger("Victory");
+        }
+    }
+
     private void UpdateNextButton()
     {
         foreach (Button b in endPanel.GetComponentsInChildren<Button>(true))

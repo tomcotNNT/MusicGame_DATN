@@ -319,7 +319,11 @@ public class PlayerController : MonoBehaviour
     private void FeverAttack()
     {
         if (feverShooter.TryFireFever())
-            PlayAttack();   // chạy animation attack ngẫu nhiên
+        {
+            // có clip Special thì dùng chiêu đặc biệt, không thì đánh thường
+            if (AnimatorSafe.Has(animator, "Special")) AnimatorSafe.SetTrigger(animator, "Special");
+            else PlayAttack();
+        }
     }
 
     private bool warnedNoHitSound;
@@ -478,6 +482,13 @@ public class PlayerController : MonoBehaviour
             attackTriggers == null ||
             attackTriggers.Length == 0)
             return;
+
+        // Đang trên không -> đá trên không (nếu nhân vật có clip AirAttack)
+        if (!isGround && AnimatorSafe.Has(animator, "AirAttack"))
+        {
+            AnimatorSafe.SetTrigger(animator, "AirAttack");
+            return;
+        }
 
         attackCandidates.Clear();
 

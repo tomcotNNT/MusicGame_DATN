@@ -491,7 +491,8 @@ public class CaveMawSpawner : MonoBehaviour, IRhythmSongClock, ISongPausable
             if (comboSystem != null) comboSystem.MissNote();
             var shake = FindFirstObjectByType<CameraShake>();
             if (shake != null) shake.Shake(0.2f, 0.25f);
-            if (playerHealth != null && damageOnHit > 0) playerHealth.TakeDamage(damageOnHit);
+            if (playerHealth != null && damageOnHit > 0) playerHealth.TakeDamage(damageOnHit);   // PlayerHealth tự chạy Hurt
+            else AnimatorSafe.SetTrigger(playerAnim, "Hurt");
             playerFlash = 0.35f;
             if (showDebug) Debug.Log($"[Man4] TRÚNG NỔ lane {(s.note.lane == 0 ? "TRÊN" : "DƯỚI")} @ {s.note.time:F2}s");
         }
@@ -553,7 +554,8 @@ public class CaveMawSpawner : MonoBehaviour, IRhythmSongClock, ISongPausable
         if (playerHealth != null && playerHealth.IsDead) return;
         if (lane == playerLane) return;
         playerLane = lane;
-        AnimatorSafe.SetTrigger(playerAnim, "Jump");
+        // lộn né (Dodge) nếu nhân vật có, không thì dùng Jump
+        AnimatorSafe.SetTrigger(playerAnim, AnimatorSafe.Has(playerAnim, "Dodge") ? "Dodge" : "Jump");
     }
 
     private void MovePlayer()

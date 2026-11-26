@@ -21,6 +21,7 @@ public static class Man4EnemyPackageTool
         "Assets/MusicGame/Scripts/TTAM/AnimatorSafe.cs",
         "Assets/MusicGame/Scripts/TTAM/RuntimeBossHpBar.cs",
         "Assets/MusicGame/Scripts/TTAM/GameplaySfx.cs",
+        "Assets/MusicGame/Scripts/TTAM/AudioVolume.cs",          // GameplaySfx cần
         "Assets/MusicGame/Scripts/TTAM/AudioPrefs.cs",
         "Assets/MusicGame/Scripts/TTAM/RhythmEvents.cs",
         "Assets/MusicGame/Scripts/TTAM/MissExplosionFeedback.cs",

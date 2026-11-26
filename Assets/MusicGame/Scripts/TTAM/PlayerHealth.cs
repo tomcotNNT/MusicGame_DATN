@@ -49,6 +49,8 @@ public class PlayerHealth : MonoBehaviour
 
         if (currentHealth <= 0)
             Die();
+        else
+            AnimatorSafe.SetTrigger(anim, "Hurt");   // giật người khi trúng đòn (controller không có Hurt thì bỏ qua)
     }
 
     public void TakeMissDamage()
