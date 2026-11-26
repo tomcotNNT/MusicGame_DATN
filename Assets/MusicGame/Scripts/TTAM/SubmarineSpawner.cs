@@ -41,6 +41,13 @@ public class SubmarineRhythmSpawner : MonoBehaviour, IRhythmSongClock, ISongPaus
     [SerializeField] private float minSpawnInterval = 0.15f;
     [SerializeField] private bool spawnOnStart = false;
 
+    [Header("Lane Balance")]
+    [Tooltip("Bật: chia đều nốt cho 2 lane thay vì theo lane MIDI gốc")]
+    [SerializeField] private bool balanceLanes = true;
+    [Tooltip("Số nốt 1 lane được hơn lane kia trước khi bị ép đổi. 1 = gần như xen kẽ trái/phải")]
+    [Min(1)]
+    [SerializeField] private int maxLaneImbalance = 2;
+
     [Header("Timing")]
     [Tooltip("Chạm trong khoảng +-giây quanh thời điểm nốt thì tính trúng")]
     [SerializeField] private float hitWindow = 0.15f;
@@ -165,6 +172,49 @@ public class SubmarineRhythmSpawner : MonoBehaviour, IRhythmSongClock, ISongPaus
             if (!midiEvent.lanes.Contains(note.lane))
                 midiEvent.lanes.Add(note.lane);
         }
+
+        if (balanceLanes)
+            BalanceLanes();
+    }
+
+    // Chia đều nốt đơn cho 2 lane (hợp âm 2 lane giữ nguyên).
+    // Giữ lane gốc của MIDI khi 2 bên còn chênh ít, lệch quá maxLaneImbalance thì ép sang lane ít hơn.
+    // Ưu tiên lane còn trống (không bị minSpawnInterval chặn) để không mất nốt.
+    private void BalanceLanes()
+    {
+        int[] count = { 0, 0 };
+        float[] last = { -999f, -999f };
+
+        foreach (MidiSpawnEvent ev in spawnEvents)
+        {
+            if (ev.lanes.Count == 1)
+            {
+                int lane = ev.lanes[0];
+                int other = 1 - lane;
+
+                if (count[lane] - count[other] >= maxLaneImbalance)
+                    lane = other;
+
+                bool laneFree = ev.time - last[lane] >= minSpawnInterval;
+                bool otherFree = ev.time - last[1 - lane] >= minSpawnInterval;
+                if (!laneFree && otherFree)
+                    lane = 1 - lane;
+
+                ev.lanes[0] = lane;
+            }
+
+            foreach (int lane in ev.lanes)
+            {
+                if (ev.time - last[lane] < minSpawnInterval)
+                    continue;
+
+                last[lane] = ev.time;
+                count[lane]++;
+            }
+        }
+
+        if (showDebug)
+            Debug.Log($"[Man3] Chia lane: TRÁI {count[0]}, PHẢI {count[1]}");
     }
 
     // =========================================

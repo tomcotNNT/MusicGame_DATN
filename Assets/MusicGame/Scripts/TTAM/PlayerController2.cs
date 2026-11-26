@@ -37,6 +37,10 @@ public class PlayerController2 : MonoBehaviour
         "Attack3"
     };
 
+    [Header("Hurt Animation")]
+    [Tooltip("Trigger chạy khi để lọt / hụt nốt")]
+    [SerializeField] private string hurtTrigger = "Hurt";
+
     [Header("Score Settings")]
     [SerializeField] private int perfectScore = 100;
     [SerializeField] private int goodScore = 50;
@@ -72,11 +76,23 @@ public class PlayerController2 : MonoBehaviour
     {
         // Cảm ứng: 2 nút LaneButton (Left / Right) trên màn hình
         LaneButtonInput.Pressed += OnLaneButtonPressed;
+
+        // Hụt nốt (quái lọt qua hit point) -> Hurt
+        RhythmEvents.NoteMissed += OnNoteMissed;
     }
 
     private void OnDisable()
     {
         LaneButtonInput.Pressed -= OnLaneButtonPressed;
+        RhythmEvents.NoteMissed -= OnNoteMissed;
+    }
+
+    private void OnNoteMissed(Vector3 position, bool isLeft)
+    {
+        if (animator == null || string.IsNullOrEmpty(hurtTrigger))
+            return;
+
+        AnimatorSafe.SetTrigger(animator, hurtTrigger);
     }
 
     private void OnLaneButtonPressed(bool isLeft)
@@ -99,18 +115,15 @@ public class PlayerController2 : MonoBehaviour
     // PLAYER ATTACK
     // =========================================
 
+    // Không lật sprite khi đánh trái / phải
     private void AttackLeft()
     {
-        Flip(-1);
-
         // đánh trước, biết trúng/trượt rồi mới chọn animation
         PlayAttackAnimation(HandleAttack(true, hitPointL));
     }
 
     private void AttackRight()
     {
-        Flip(1);
-
         PlayAttackAnimation(HandleAttack(false, hitPointR));
     }
 
@@ -197,12 +210,6 @@ public class PlayerController2 : MonoBehaviour
     // =========================================
     // ANIMATION
     // =========================================
-
-    private void Flip(int direction)
-    {
-        if (spriteRenderer != null)
-            spriteRenderer.flipX = direction < 0;
-    }
 
     // Chọn đòn theo kết quả bắt beat (AttackPicker): trượt/Good = đòn nhẹ, Great = vừa,
     // Perfect = mạnh, mỗi 10 combo = chiêu kết. Controller cũ không có đòn mới thì dùng danh sách attackTriggers.

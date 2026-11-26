@@ -234,9 +234,14 @@ public class BossSpawner2 : MonoBehaviour, IRhythmSongClock, ISongPausable
         if (nextEventIndex >= spawnEvents.Count)
             return;
 
+        // Chưa hết đếm ngược (SongTime < 0) thì chưa cho Boss dịch chuyển / thả quái
+        if (SongTime < 0f)
+            return;
+
         MidiSpawnEvent ev = spawnEvents[nextEventIndex];
 
-        float spawnTime = ev.time - travelDuration;
+        // Nốt quá sát đầu bài: spawn ngay khi hết đếm ngược, quái bay nhanh hơn để vẫn kịp nhịp
+        float spawnTime = Mathf.Max(0f, ev.time - travelDuration);
 
         // Bắt đầu chuẩn bị trước khi cần spawn
         float prepareTime = spawnTime - boss.TeleportTotalDuration;

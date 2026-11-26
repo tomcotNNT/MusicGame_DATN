@@ -32,6 +32,10 @@ public class PlayerControllerSub : MonoBehaviour
     [Header("Attack Animation")]
     [SerializeField] private string[] attackTriggers = { "Attack1", "Attack2", "Attack3" };
 
+    [Header("Hurt Animation")]
+    [Tooltip("Trigger chạy khi để lọt / hụt nốt")]
+    [SerializeField] private string hurtTrigger = "Hurt";
+
     [Header("Debug")]
     [SerializeField] private bool showDebug = true;
 
@@ -60,11 +64,23 @@ public class PlayerControllerSub : MonoBehaviour
     {
         // Cảm ứng: 2 nút LaneButton (Left / Right) trên màn hình, hỗ trợ bấm 2 nút cùng lúc
         LaneButtonInput.Pressed += Attack;
+
+        // Hụt nốt (item lọt qua hit point) -> Hurt
+        RhythmEvents.NoteMissed += OnNoteMissed;
     }
 
     private void OnDisable()
     {
         LaneButtonInput.Pressed -= Attack;
+        RhythmEvents.NoteMissed -= OnNoteMissed;
+    }
+
+    private void OnNoteMissed(Vector3 position, bool isLeft)
+    {
+        if (animator == null || string.IsNullOrEmpty(hurtTrigger))
+            return;
+
+        AnimatorSafe.SetTrigger(animator, hurtTrigger);
     }
 
     private void Update()
@@ -87,7 +103,7 @@ public class PlayerControllerSub : MonoBehaviour
         if (spawner == null || !spawner.IsPlaying)
             return;
 
-        Flip(isLeft ? -1 : 1);
+        // Không lật sprite khi đánh trái / phải
 
         // đánh trước, biết trúng/trượt rồi mới chọn animation
         bool hit = spawner.TryHit(isLeft, out Vector3 hitPos);
@@ -113,12 +129,6 @@ public class PlayerControllerSub : MonoBehaviour
     // =========================================
     // ANIMATION
     // =========================================
-
-    private void Flip(int direction)
-    {
-        if (spriteRenderer != null)
-            spriteRenderer.flipX = direction < 0;
-    }
 
     // Chọn đòn theo kết quả bắt beat (AttackPicker): trượt/Good = đòn nhẹ, Great = vừa,
     // Perfect = mạnh, mỗi 10 combo = chiêu kết. Controller cũ không có đòn mới thì dùng danh sách attackTriggers.
