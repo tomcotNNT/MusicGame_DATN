@@ -18,7 +18,8 @@ public class ComboSystem : MonoBehaviour
     }
 
     [Header("Cách chấm Good / Great / Perfect")]
-    [SerializeField] private JudgeMode judgeMode = JudgeMode.Combo;
+    // Mặc định Timing: Perfect/Great/Good theo độ chuẩn nhịp (scene chưa lưu field này, VD Man5, cũng dùng Timing)
+    [SerializeField] private JudgeMode judgeMode = JudgeMode.Timing;
 
     [Header("Combo Threshold (chế độ Combo)")]
     [SerializeField] private int greatCombo = 5;     // đạt 5 combo liên tiếp -> Great

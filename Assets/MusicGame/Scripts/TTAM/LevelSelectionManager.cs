@@ -32,6 +32,13 @@ public class LevelSelectionManager2 : MonoBehaviour
     [Header("Level List")]
     [SerializeField] private List<LevelItem> levels = new List<LevelItem>();
 
+    [Header("Điều kiện mở khóa")]
+    [Tooltip("Bật = phải qua màn đứng trước trong danh sách (đủ số sao bên dưới) mới được trả coin mở màn sau")]
+    [SerializeField] private bool requirePreviousClear = true;
+
+    [Tooltip("Số sao tối thiểu ở màn trước")]
+    [SerializeField, Range(1, 3)] private int requiredStarsOnPrevious = 1;
+
     [Header("Debug")]
     [Tooltip("Bật để mở khóa tất cả các màn (dùng khi test)")]
     [SerializeField] private bool unlockAllLevels = false;
@@ -141,6 +148,24 @@ public class LevelSelectionManager2 : MonoBehaviour
             return true;
 
         return PlayerDataManager.Instance.IsLevelUnlocked(levelId);
+    }
+
+    // Đã qua màn đứng trước (đủ sao) chưa -> mới được trả coin mở màn này.
+    // Màn đầu danh sách, hoặc tắt requirePreviousClear, thì luôn đạt.
+    private bool IsRequirementMet(int index, out LevelItem previous)
+    {
+        previous = index > 0 && index < levels.Count ? levels[index - 1] : null;
+
+        if (unlockAllLevels || !requirePreviousClear || previous == null)
+            return true;
+
+        return PlayerDataManager.Instance.GetBestStars(previous.levelId) >= requiredStarsOnPrevious;
+    }
+
+    private string RequirementMessage(LevelItem previous)
+    {
+        // Không dùng ký tự ★ / ≥: font TMP mặc định có thể không có -> hiện ô vuông
+        return "Cần qua " + previous.levelName + " (ít nhất " + requiredStarsOnPrevious + " sao) trước!";
     }
 
     private void SetupLevelItems()
@@ -330,7 +355,13 @@ public class LevelSelectionManager2 : MonoBehaviour
             unlockCostText.text = selected.unlockCost.ToString();
 
         if (messageText != null)
-            messageText.text = "";
+        {
+            // Màn khóa mà chưa qua màn trước -> nhắc điều kiện ngay khi chọn
+            if (!unlocked && !IsRequirementMet(selectedIndex, out LevelItem previous))
+                messageText.text = RequirementMessage(previous);
+            else
+                messageText.text = "";
+        }
 
         UpdateCoinUI();
 
@@ -361,6 +392,17 @@ public class LevelSelectionManager2 : MonoBehaviour
 
         if (IsUnlocked(selected.levelId))
             return;
+
+        // Chưa qua màn trước -> không cho trả tiền (giữ đúng thứ tự cốt truyện), không mở bảng nạp
+        if (!IsRequirementMet(selectedIndex, out LevelItem previous))
+        {
+            Debug.Log("Chưa đủ điều kiện mở " + selected.levelName + ": " + RequirementMessage(previous));
+
+            if (messageText != null)
+                messageText.text = RequirementMessage(previous);
+
+            return;
+        }
 
         // SpendCoin trả về false khi amount <= 0, nên màn giá 0 thì bỏ qua bước trừ tiền
         bool paid = selected.unlockCost <= 0 ||

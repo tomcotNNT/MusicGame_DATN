@@ -49,7 +49,8 @@ public class Boss1RhythmSpawner : MonoBehaviour, IRhythmSongClock, ISongPausable
     [SerializeField] private bool showDebug = true;
 
     [Header("Boss HP")]
-    [Tooltip("Máu boss = số nốt x tỉ lệ này. 1 = phải trúng hết mọi nốt mới hạ được")]
+    [Tooltip("Máu boss = số nốt x tỉ lệ này. 1 = phải trúng hết mọi nốt mới hạ được. " +
+             "Man1 đặt 0.85 = trúng 85% nốt là hạ boss (sao 3)")]
     [Range(0.1f, 1f)]
     [SerializeField] private float bossHpRatio = 1f;
 

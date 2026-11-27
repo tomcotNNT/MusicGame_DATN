@@ -45,9 +45,20 @@ public abstract class EndGameBase : MonoBehaviour
     [SerializeField] private float monospaceEm = 0.6f;
 
     [Header("Coin Reward")]
-    [SerializeField] private int coinFor1Star = 200;
-    [SerializeField] private int coinFor2Stars = 500;
-    [SerializeField] private int coinFor3Stars = 1000;
+    [Tooltip("Thưởng LẦN ĐẦU đạt từng mốc sao của màn này: [0] = sao 1, [1] = sao 2, [2] = sao 3. " +
+             "Chỉ nhận 1 lần cho mỗi mốc (lần sau đạt lại không được nữa)")]
+    [SerializeField] private int[] firstStarBonus = { 300, 400, 500 };
+    [Tooltip("Thưởng lần đầu tăng theo màn: x (1 + giá trị này x (levelId - 1)). 0.25 -> M1 x1, M2 x1.25, M3 x1.5, M4 x1.75")]
+    [SerializeField, Min(0f)] private float firstBonusScalePerLevel = 0.25f;
+    [Tooltip("Thưởng mỗi lượt chơi (kể cả chơi lại) khi đạt >= 1 sao")]
+    [SerializeField, Min(0)] private int replayBaseCoin = 50;
+    [Tooltip("Cộng thêm cho mỗi sao của lượt chơi (chơi lại vẫn nhận)")]
+    [SerializeField, Min(0)] private int replayCoinPerStar = 50;
+
+    [Header("Lượt chơi (tim)")]
+    [Tooltip("Đạt >= 1 sao thì trả lại lượt đã dùng để vào màn (chỉ thua mới mất lượt)")]
+    [SerializeField] private bool refundTurnOnWin = true;
+
     [SerializeField] private TMP_Text coinRewardText;
 
     [Header("Panel")]
@@ -237,8 +248,13 @@ public abstract class EndGameBase : MonoBehaviour
         foreach (bool e in earned)
             if (e) Stars++;
 
-        earnedCoin = CalculateCoinReward(Stars);
-        SaveResult(score, maxCombo);
+        // Đọc số sao cũ TRƯỚC khi lưu, để biết mốc sao nào là lần đầu đạt
+        int previousBestStars = PlayerDataManager.Instance != null
+            ? PlayerDataManager.Instance.GetBestStars(levelId)
+            : 0;
+
+        earnedCoin = CalculateCoinReward(Stars, previousBestStars);
+        SaveResult(score, maxCombo, previousBestStars);
 
         if (Stars > 0) PlayVictoryPose();
 
@@ -385,7 +401,7 @@ public abstract class EndGameBase : MonoBehaviour
         }
     }
 
-    private void SaveResult(int score, int maxCombo)
+    private void SaveResult(int score, int maxCombo, int previousBestStars)
     {
         PlayerDataManager data = PlayerDataManager.Instance;
 
@@ -402,9 +418,14 @@ public abstract class EndGameBase : MonoBehaviour
             levelId, score, maxCombo,
             scoreSystem != null ? scoreSystem.GoodCount : 0,
             scoreSystem != null ? scoreSystem.GreatCount : 0,
-            scoreSystem != null ? scoreSystem.PerfectCount : 0);
+            scoreSystem != null ? scoreSystem.PerfectCount : 0,
+            Stars);
 
-        Debug.Log($"[EndGame] Level {levelId} | Stars: {Stars} | Coin: +{earnedCoin} | Score: {score} | MaxCombo: {maxCombo}" +
+        // Thắng -> trả lại lượt (chỉ thua mới mất lượt). ShowRoutine chỉ chạy 1 lần nên không hoàn 2 lần
+        if (refundTurnOnWin && Stars >= 1)
+            data.RefundTurn();
+
+        Debug.Log($"[EndGame] Level {levelId} | Stars: {Stars} (cũ: {previousBestStars}) | Coin: +{earnedCoin} | Score: {score} | MaxCombo: {maxCombo}" +
                   (scoreSystem != null ? $" | Miss: {scoreSystem.MissCount}" : ""));
     }
 
@@ -544,14 +565,24 @@ public abstract class EndGameBase : MonoBehaviour
         return useMonospace ? "<mspace=" + monospaceEm + "em>" + s + "</mspace>" : s;
     }
 
-    private int CalculateCoinReward(int stars)
+    // Coin = thưởng lần đầu cho các mốc sao MỚI đạt + thưởng chơi lại.
+    // VD Màn 1: lần đầu 2 sao = 300 + 400 + (50 + 2x50) = 850; chơi lại 2 sao = 150; sau đó lên 3 sao = 500 + 200 = 700
+    private int CalculateCoinReward(int stars, int previousBestStars)
     {
-        switch (stars)
+        stars = Mathf.Clamp(stars, 0, 3);
+        if (stars <= 0) return 0;
+
+        float scale = 1f + firstBonusScalePerLevel * Mathf.Max(0, levelId - 1);
+
+        int firstBonus = 0;
+        for (int s = Mathf.Max(0, previousBestStars); s < stars; s++)   // s = 0 là sao 1
         {
-            case 1: return coinFor1Star;
-            case 2: return coinFor2Stars;
-            case 3: return coinFor3Stars;
-            default: return 0;
+            if (firstStarBonus != null && s < firstStarBonus.Length)
+                firstBonus += Mathf.Max(0, firstStarBonus[s]);
         }
+
+        int replay = replayBaseCoin + replayCoinPerStar * stars;
+
+        return Mathf.RoundToInt(firstBonus * scale) + replay;
     }
 }

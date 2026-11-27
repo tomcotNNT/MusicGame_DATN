@@ -27,10 +27,10 @@ public class PlayerDataManager : MonoBehaviour
 
     [Header("Play Turn (Lượt chơi)")]
     [Tooltip("Số lượt tối đa được hồi tự động")]
-    [SerializeField, Min(1)] private int maxTurns = 20;
+    [SerializeField, Min(1)] private int maxTurns = 5;
 
     [Tooltip("Bao nhiêu phút hồi 1 lượt")]
-    [SerializeField, Min(0.1f)] private float turnRegenMinutes = 5f;
+    [SerializeField, Min(0.1f)] private float turnRegenMinutes = 10f;
 
     [Tooltip("Mỗi lần vào màn tốn bao nhiêu lượt")]
     [SerializeField, Min(0)] private int turnCostPerPlay = 1;
@@ -43,7 +43,8 @@ public class PlayerDataManager : MonoBehaviour
         Path.Combine(Application.persistentDataPath, "PlayerData.json");
 
     // Luôn có PlayerDataManager dù vào game từ scene nào (LoadingScene, hoặc mở thẳng Man1 trong Editor).
-    // Giá trị mặc định ở trên phải GIỐNG bản đặt trong scene SelectSong (20 lượt, 5 phút/lượt).
+    // Giá trị mặc định ở trên phải GIỐNG bản đặt trong scene SelectSong (5 lượt, 10 phút/lượt).
+    // Vào game từ MainMenu thì bản (auto) này được tạo trước -> bản trong SelectSong bị hủy, nên số trong code mới là số có hiệu lực.
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void Bootstrap()
     {
@@ -107,10 +108,22 @@ public class PlayerDataManager : MonoBehaviour
             }
         }
 
-        if (Data == null)
+        // Save mới (chưa có file hoặc file hỏng)
+        bool isNewSave = Data == null;
+
+        if (isNewSave)
             Data = new PlayerData();
 
         EnsureDataStructure();
+
+        // Người chơi mới luôn bắt đầu với đầy lượt.
+        // (new PlayerData() tạo sẵn playTurn với turns mặc định của PlayTurnData, không phải maxTurns)
+        if (isNewSave)
+        {
+            Data.playTurn.turns = maxTurns;
+            Data.playTurn.lastRegenTicks = 0;
+        }
+
         UpdateTurnRegen(false); // Cộng lượt đã hồi trong lúc tắt game
         SaveData();
     }
@@ -310,6 +323,15 @@ public class PlayerDataManager : MonoBehaviour
         return Data.levelRecords.Find(x => x.levelId == levelId);
     }
 
+    /// <summary>Số sao cao nhất từng đạt ở màn này (0 nếu chưa qua).</summary>
+    public int GetBestStars(int levelId)
+    {
+        if (Data == null || Data.levelRecords == null) return 0;
+
+        LevelRecordData record = Data.levelRecords.Find(x => x.levelId == levelId);
+        return record != null ? record.bestStars : 0;
+    }
+
     public string GetSavePath()
     {
         return SavePath;
@@ -496,9 +518,12 @@ public class PlayerDataManager : MonoBehaviour
     }
 
     /// <summary>Kết thúc 1 màn: lưu kỷ lục, thống kê combo, nhiệm vụ ngày trong 1 lần ghi file.</summary>
-    public void RecordLevelResult(int levelId, int score, int maxCombo, int good, int great, int perfect)
+    public void RecordLevelResult(int levelId, int score, int maxCombo, int good, int great, int perfect,
+                                  int stars = 0)
     {
         if (Data == null) return;
+
+        stars = Mathf.Clamp(stars, 0, 3);
 
         if (levelId > 0)
         {
@@ -509,13 +534,15 @@ public class PlayerDataManager : MonoBehaviour
                 {
                     levelId = levelId,
                     highScore = score,
-                    maxCombo = maxCombo
+                    maxCombo = maxCombo,
+                    bestStars = stars
                 });
             }
             else
             {
                 record.highScore = Mathf.Max(record.highScore, score);
                 record.maxCombo = Mathf.Max(record.maxCombo, maxCombo);
+                record.bestStars = Mathf.Max(record.bestStars, stars);
             }
         }
 
@@ -691,6 +718,26 @@ public class PlayerDataManager : MonoBehaviour
 
         SaveData();
         OnPlayTurnChanged?.Invoke();
+    }
+
+    // Thắng màn (>= 1 sao) -> trả lại lượt vừa dùng. Không đẩy vượt max
+    // (khác AddTurns: quà/quảng cáo được phép vượt max, còn hoàn lượt thì không)
+    public void RefundTurn()
+    {
+        if (Data == null || Data.playTurn == null || turnCostPerPlay <= 0) return;
+
+        PlayTurnData turn = Data.playTurn;
+        if (turn.turns >= maxTurns) return;   // Đã đầy (VD: hồi lượt trong lúc chơi) -> không cộng thêm
+
+        turn.turns = Mathf.Min(maxTurns, turn.turns + turnCostPerPlay);
+
+        if (turn.turns >= maxTurns)
+            turn.lastRegenTicks = 0;          // Đầy -> dừng đếm giờ hồi
+
+        SaveData();
+        OnPlayTurnChanged?.Invoke();
+
+        Debug.Log("Thắng màn -> hoàn 1 lượt, còn " + turn.turns + "/" + maxTurns);
     }
 
     // Hồi đầy lượt ngay lập tức

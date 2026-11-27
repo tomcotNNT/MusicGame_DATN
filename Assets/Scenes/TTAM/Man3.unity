@@ -271,7 +271,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ComboSystem
   scoreSystem: {fileID: 25114630}
-  judgeMode: 0
+  judgeMode: 1
   greatCombo: 5
   perfectCombo: 10
   perfectWindow: 0.06

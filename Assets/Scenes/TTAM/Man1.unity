@@ -426,7 +426,7 @@ MonoBehaviour:
   hitWindow: 0.15
   missWindow: 0.2
   showDebug: 1
-  bossHpRatio: 1
+  bossHpRatio: 0.85
 --- !u!114 &25114627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6025,7 +6025,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ComboSystem
   scoreSystem: {fileID: 0}
-  judgeMode: 0
+  judgeMode: 1
   greatCombo: 5
   perfectCombo: 10
   perfectWindow: 0.06
