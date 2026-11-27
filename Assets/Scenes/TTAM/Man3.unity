@@ -446,9 +446,11 @@ MonoBehaviour:
   rollInterval: 0.05
   useMonospace: 1
   monospaceEm: 0.6
-  coinFor1Star: 200
-  coinFor2Stars: 500
-  coinFor3Stars: 1000
+  firstStarBonus: 2c01000090010000f4010000
+  firstBonusScalePerLevel: 0.25
+  replayBaseCoin: 50
+  replayCoinPerStar: 50
+  refundTurnOnWin: 1
   coinRewardText: {fileID: 1606987996}
   endPanel: {fileID: 1544290757}
   scoreText: {fileID: 1192332738}
@@ -485,6 +487,9 @@ MonoBehaviour:
   useNewResultPanel: 1
   starSfx: {fileID: 0}
   rollTickSfx: {fileID: 0}
+  showStarHud: 1
+  starHudPosition: {x: 0, y: -24}
+  starHudScale: 1
   pendingColor: {r: 0.6, g: 0.6, b: 0.6, a: 1}
   successColor: {r: 0.4, g: 1, b: 0.4, a: 1}
   failColor: {r: 1, g: 0.25, b: 0.25, a: 1}
@@ -1033,6 +1038,11 @@ MonoBehaviour:
   isLeft: 0
   visual: {fileID: 0}
   pressedScale: 0.9
+  showKeyboardPress: 1
+  leftKey: 97
+  rightKey: 100
+  leftAltKey: 276
+  rightAltKey: 275
 --- !u!1 &263450484
 GameObject:
   m_ObjectHideFlags: 0
@@ -2401,7 +2411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efc7d6c77ddb2df42ae87992461d62aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelManager
-  currentLevel: {fileID: 11400000, guid: 0ebdaf7c7118e2a48a85409343f60c8a, type: 2}
+  currentLevel: {fileID: 11400000, guid: b9304b24852632c49a6e7d6678646e18, type: 2}
   midiReader: {fileID: 459371224}
   audioSource: {fileID: 459371225}
 --- !u!1 &490564085
@@ -3211,6 +3221,11 @@ MonoBehaviour:
   isLeft: 0
   visual: {fileID: 0}
   pressedScale: 0.9
+  showKeyboardPress: 1
+  leftKey: 97
+  rightKey: 100
+  leftAltKey: 276
+  rightAltKey: 275
 --- !u!114 &700550492 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2687300681532377721, guid: 15be0d319aede794fbaf307e4ccfa2d8, type: 3}
@@ -3499,6 +3514,11 @@ MonoBehaviour:
   isLeft: 1
   visual: {fileID: 0}
   pressedScale: 0.9
+  showKeyboardPress: 1
+  leftKey: 97
+  rightKey: 100
+  leftAltKey: 276
+  rightAltKey: 275
 --- !u!1 &750632771
 GameObject:
   m_ObjectHideFlags: 0
@@ -3587,6 +3607,7 @@ MonoBehaviour:
   attackHitSound: {fileID: 0}
   attackTriggers:
   - Attack
+  hurtTrigger: Hurt
   showDebug: 1
 --- !u!82 &865453642
 AudioSource:
@@ -4671,6 +4692,7 @@ MonoBehaviour:
   attackHitSound: {fileID: 0}
   attackTriggers:
   - Attack
+  hurtTrigger: Hurt
   showDebug: 1
 --- !u!82 &1053951332
 AudioSource:
@@ -5077,6 +5099,11 @@ MonoBehaviour:
   isLeft: 0
   visual: {fileID: 0}
   pressedScale: 0.9
+  showKeyboardPress: 1
+  leftKey: 97
+  rightKey: 100
+  leftAltKey: 276
+  rightAltKey: 275
 --- !u!1 &1080600369
 GameObject:
   m_ObjectHideFlags: 0
@@ -9568,6 +9595,11 @@ MonoBehaviour:
   isLeft: 1
   visual: {fileID: 0}
   pressedScale: 0.9
+  showKeyboardPress: 1
+  leftKey: 97
+  rightKey: 100
+  leftAltKey: 276
+  rightAltKey: 275
 --- !u!1 &1886113528
 GameObject:
   m_ObjectHideFlags: 0
@@ -10253,6 +10285,11 @@ MonoBehaviour:
   isLeft: 1
   visual: {fileID: 0}
   pressedScale: 0.9
+  showKeyboardPress: 1
+  leftKey: 97
+  rightKey: 100
+  leftAltKey: 276
+  rightAltKey: 275
 --- !u!1 &1954047353
 GameObject:
   m_ObjectHideFlags: 0
@@ -11710,6 +11747,7 @@ MonoBehaviour:
   attackHitSound: {fileID: 0}
   attackTriggers:
   - Attack2
+  hurtTrigger: Hurt
   showDebug: 1
 --- !u!4 &8432812381672651461
 Transform:

@@ -85,6 +85,10 @@ public class BossSpawner2 : MonoBehaviour, IRhythmSongClock, ISongPausable
 
     public bool IsPlaying => isPlaying;
 
+    /// <summary>Tổng số nốt của bài (biết sau khi StartSpawner). 0 = chưa bắt đầu. Thanh sao dùng để tính mốc.</summary>
+    public int TotalNotes { get; private set; }
+    public BossController2 Boss => boss;
+
     public void PauseSong()
     {
         if (isPlaying) clock.Pause(musicSource);
@@ -134,7 +138,8 @@ public class BossSpawner2 : MonoBehaviour, IRhythmSongClock, ISongPausable
             return;
         }
 
-        boss.InitHp(Mathf.CeilToInt(CountDroppableNotes() * bossHpRatio));
+        TotalNotes = CountDroppableNotes();
+        boss.InitHp(Mathf.CeilToInt(TotalNotes * bossHpRatio));
 
         nextEventIndex = 0;
         songEnded = false;

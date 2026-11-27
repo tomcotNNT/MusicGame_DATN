@@ -81,6 +81,10 @@ public class SubmarineRhythmSpawner : MonoBehaviour, IRhythmSongClock, ISongPaus
     public float SongTime => isPlaying ? clock.SongTime : 0f;
     public bool IsPlaying => isPlaying;
 
+    /// <summary>Tổng số nốt của bài (biết sau khi StartSpawner). 0 = chưa bắt đầu. Thanh sao dùng để tính mốc.</summary>
+    public int TotalNotes { get; private set; }
+    public SubmarineController Boss => submarine;
+
     public void PauseSong()
     {
         if (isPlaying) clock.Pause(musicSource);
@@ -121,6 +125,7 @@ public class SubmarineRhythmSpawner : MonoBehaviour, IRhythmSongClock, ISongPaus
         }
 
         int noteCount = CountDroppableNotes();
+        TotalNotes = noteCount;
         submarine.InitHp(Mathf.CeilToInt(noteCount * bossHpRatio));
 
         nextEventIndex = 0;

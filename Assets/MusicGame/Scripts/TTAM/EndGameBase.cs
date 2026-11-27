@@ -98,6 +98,14 @@ public abstract class EndGameBase : MonoBehaviour
     [SerializeField] private AudioClip starSfx;
     [SerializeField] private AudioClip rollTickSfx;
 
+    [Header("Thanh 3 mốc sao trong lúc chơi (dựng bằng code)")]
+    [Tooltip("Bật = hiện thanh tiến độ 3 sao ở mép trên màn hình, sao sáng ngay khi đạt điều kiện")]
+    [SerializeField] private bool showStarHud = true;
+    [Tooltip("Vị trí so với giữa mép trên màn hình (khung 1920x1080). Y âm = dịch xuống")]
+    [SerializeField] private Vector2 starHudPosition = new Vector2(0f, -24f);
+    [Tooltip("Tỉ lệ kích thước thanh sao")]
+    [SerializeField, Range(0.5f, 1.5f)] private float starHudScale = 1f;
+
     /// <summary>Bảng kết quả đang hiện / chuẩn bị hiện -> menu Pause không được mở chồng lên.</summary>
     public static bool ResultShowing { get; private set; }
 
@@ -129,6 +137,58 @@ public abstract class EndGameBase : MonoBehaviour
     /// <summary>Màn chơi có cho hiện bảng kết quả không (ví dụ: đã Game Over thì không).</summary>
     protected virtual bool CanShowResult() => !IsAnyPlayerDead();
 
+    /// <summary>
+    /// Tổng số nốt của bài, lấy từ spawner khi bài đã bắt đầu (0 = chưa biết).
+    /// Có số này thì mốc sao 1, 2 tính từ đầu bài -> thanh sao lúc chơi và bảng kết quả dùng CÙNG một mốc.
+    /// </summary>
+    protected virtual int LiveTotalNotes => 0;
+
+    /// <summary>Tiến độ sao 3 lúc đang chơi (0..1, 1 = đã đạt). -1 = màn này không theo dõi được -> ẩn ô sao 3.</summary>
+    protected virtual float LiveThirdStarProgress => -1f;
+
+    /// <summary>Chữ ngắn dưới ô sao 3 trên thanh sao.</summary>
+    protected virtual string ThirdStarShortLabel => "BOSS";
+
+    /// <summary>
+    /// Thanh sao gọi mỗi khung hình: tiến độ 3 sao (0..1) + chữ dưới mỗi ô.
+    /// Trả về false khi chưa biết mốc (bài chưa bắt đầu).
+    /// </summary>
+    public bool GetLiveStarProgress(float[] progress, string[] labels)
+    {
+        if (progress == null || progress.Length < 3 || labels == null || labels.Length < 3)
+            return false;
+
+        if (scoreSystem == null || LiveTotalNotes <= 0)
+            return false;
+
+        ResolveStarThresholds(out int scoreGoal, out int comboGoal);
+
+        int score = scoreSystem.GetScore();
+        int combo = comboSystem != null ? comboSystem.MaxCombo : 0;
+
+        progress[0] = score >= scoreGoal ? 1f : Mathf.Clamp01((float)score / Mathf.Max(1, scoreGoal));
+        progress[1] = combo >= comboGoal ? 1f : Mathf.Clamp01((float)combo / Mathf.Max(1, comboGoal));
+        progress[2] = LiveThirdStarProgress;
+
+        // Chưa đạt thì không bao giờ hiện 100% (tránh "100%" mà sao chưa sáng)
+        int scorePct = progress[0] >= 1f ? 100 : Mathf.Min(99, Mathf.FloorToInt(progress[0] * 100f));
+        labels[0] = "SCORE " + scorePct + "%";
+        labels[1] = "COMBO " + Mathf.Min(combo, comboGoal) + "/" + comboGoal;
+        labels[2] = progress[2] < 0f
+            ? ThirdStarShortLabel
+            : ThirdStarShortLabel + " " + (progress[2] >= 1f ? 100 : Mathf.Min(99, Mathf.FloorToInt(progress[2] * 100f))) + "%";
+
+        return true;
+    }
+
+    /// <summary>Tiến độ hạ boss theo máu: 1 khi boss đã chết, còn lại tối đa 0.99.</summary>
+    protected static float BossProgress(int currentHp, int maxHp, bool defeated)
+    {
+        if (defeated) return 1f;
+        if (maxHp <= 0) return 0f;
+        return Mathf.Min(0.99f, 1f - (float)currentHp / maxHp);
+    }
+
     protected virtual void Awake()
     {
         if (scoreSystem == null) scoreSystem = FindFirstObjectByType<ScoreSystem>();
@@ -145,6 +205,9 @@ public abstract class EndGameBase : MonoBehaviour
             endPanel.SetActive(false);
 
         SubscribeSongEnded(true);
+
+        if (showStarHud)
+            StarProgressHUD.Create(this, starSfx, starHudPosition, starHudScale);
     }
 
     protected virtual void OnDestroy()
@@ -375,7 +438,11 @@ public abstract class EndGameBase : MonoBehaviour
         if (!autoStarThresholds || scoreSystem == null)
             return;
 
-        int notes = scoreSystem.GoodCount + scoreSystem.GreatCount + scoreSystem.PerfectCount + scoreSystem.MissCount;
+        // Ưu tiên tổng nốt của bài (biết từ đầu) để mốc không đổi giữa lúc chơi và lúc kết thúc.
+        // Màn không cung cấp thì đếm số nốt đã chấm như cũ.
+        int notes = LiveTotalNotes > 0
+            ? LiveTotalNotes
+            : scoreSystem.GoodCount + scoreSystem.GreatCount + scoreSystem.PerfectCount + scoreSystem.MissCount;
         if (notes <= 0)
             return;
 

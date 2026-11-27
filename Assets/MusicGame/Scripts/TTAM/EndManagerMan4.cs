@@ -31,6 +31,19 @@ public class EndGameManMan4 : EndGameBase
 
     private void OnBossDefeated() => bossDefeated = true;
 
+    // Thanh sao lúc chơi
+    protected override int LiveTotalNotes => spawner != null ? spawner.TotalNotes : 0;
+
+    protected override float LiveThirdStarProgress
+    {
+        get
+        {
+            Boss4Controller b = spawner != null ? spawner.Boss : null;
+            if (b == null) return bossDefeated ? 1f : -1f;
+            return BossProgress(b.CurrentHp, b.MaxHp, bossDefeated || b.IsDefeated);
+        }
+    }
+
     protected override bool EvaluateThirdStar(out object arg0, out object arg1)
     {
         arg0 = "";
