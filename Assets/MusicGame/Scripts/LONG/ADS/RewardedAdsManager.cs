@@ -19,8 +19,61 @@ public class RewardedAdsManager : MonoBehaviour
     private bool hasEarnedReward;
     private bool hasAdClosed;
 
+    // Callback của AdMob trên Android có thể chạy ở thread khác (không phải main thread của Unity).
+    // Gọi API Unity (SetActive, ghi file, event UI) từ đó sẽ lỗi/crash -> chỉ bật cờ, xử lý trong Update().
+    private volatile bool pendingEarned;
+    private volatile bool pendingClosed;
+    private volatile bool pendingShowFailed;
+    private volatile bool pendingReload;
+
     public bool IsReady =>
         rewardedAd != null && rewardedAd.CanShowAd();
+
+    private void Update()
+    {
+        if (pendingShowFailed)
+        {
+            pendingShowFailed = false;
+            pendingEarned = false;
+            pendingClosed = false;
+
+            Action failed = pendingFailedAction;
+            pendingRewardAction = null;
+            pendingFailedAction = null;
+            hasEarnedReward = false;
+            hasAdClosed = false;
+
+            failed?.Invoke();
+        }
+
+        if (pendingEarned)
+        {
+            pendingEarned = false;
+            hasEarnedReward = true;
+        }
+
+        if (pendingClosed)
+        {
+            pendingClosed = false;
+            hasAdClosed = true;
+
+            if (!hasEarnedReward)
+            {
+                Action failed = pendingFailedAction;
+                pendingFailedAction = null;
+                pendingRewardAction = null;
+                failed?.Invoke();
+            }
+        }
+
+        CheckRewardComplete();
+
+        if (pendingReload)
+        {
+            pendingReload = false;
+            LoadRewardedAd();
+        }
+    }
 
     private void Start()
     {
@@ -69,47 +122,19 @@ public class RewardedAdsManager : MonoBehaviour
 
                 Debug.Log("Rewarded ad is ready.");
 
-                // Quảng cáo đóng
+                // Quảng cáo đóng (có thể ở thread khác -> chỉ bật cờ)
                 rewardedAd.OnAdFullScreenContentClosed += () =>
                 {
-                    hasAdClosed = true;
-
-                    // Nếu chưa nhận được thưởng
-                    if (!hasEarnedReward)
-                    {
-                        pendingFailedAction?.Invoke();
-
-                        pendingFailedAction = null;
-                        pendingRewardAction = null;
-                    }
-
-                    CheckRewardComplete();
-
-                    rewardedAd = null;
-
-                    // Tải quảng cáo tiếp theo
-                    LoadRewardedAd();
+                    pendingClosed = true;
+                    pendingReload = true;   // tải quảng cáo tiếp theo
                 };
 
                 // Quảng cáo gặp lỗi khi hiển thị
                 rewardedAd.OnAdFullScreenContentFailed +=
                     (AdError adError) =>
                     {
-                        Debug.LogWarning(
-                            "Rewarded ad failed to show: " + adError
-                        );
-
-                        pendingFailedAction?.Invoke();
-
-                        rewardedAd = null;
-
-                        pendingRewardAction = null;
-                        pendingFailedAction = null;
-
-                        hasEarnedReward = false;
-                        hasAdClosed = false;
-
-                        LoadRewardedAd();
+                        pendingShowFailed = true;
+                        pendingReload = true;
                     };
             }
         );
@@ -146,13 +171,10 @@ public class RewardedAdsManager : MonoBehaviour
         hasEarnedReward = false;
         hasAdClosed = false;
 
+        // Callback nhận thưởng có thể ở thread khác -> chỉ bật cờ, Update() trả thưởng
         adToShow.Show((Reward reward) =>
         {
-            Debug.Log("Rewarded ad reward received.");
-
-            hasEarnedReward = true;
-
-            CheckRewardComplete();
+            pendingEarned = true;
         });
 
         return true;

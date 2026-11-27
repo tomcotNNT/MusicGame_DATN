@@ -177,6 +177,10 @@ public class PlayerController : MonoBehaviour
             boss.Died -= OnBossDied;
             boss.Died += OnBossDied;
         }
+
+        // Boss màn 1 được spawn lúc chạy (không kéo sẵn vào ô Boss được) -> nghe sự kiện chung
+        BossHealth.AnyBossDefeated -= OnBossDied;
+        BossHealth.AnyBossDefeated += OnBossDied;
     }
 
     private void OnDisable()
@@ -188,6 +192,8 @@ public class PlayerController : MonoBehaviour
 
         if (boss != null)
             boss.Died -= OnBossDied;
+
+        BossHealth.AnyBossDefeated -= OnBossDied;
     }
 
     private void SubscribeSongEnded()
@@ -256,8 +262,12 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        // Chạm đất = không lướt / không bám nốt dài và không còn rơi (vận tốc dọc ~ 0)
+        if (rb != null)
+            isGround = mode == AirMode.None && Mathf.Abs(rb.linearVelocity.y) < 0.1f;
+
         if (animator != null)
-            animator.SetBool("IsGround", isGround);
+            AnimatorSafe.SetBool(animator, "IsGround", isGround);
 
         bool leftDown  = SideDown(true);
         bool rightDown = SideDown(false);
@@ -309,21 +319,32 @@ public class PlayerController : MonoBehaviour
     private void FeverAttack()
     {
         if (feverShooter.TryFireFever())
-            PlayAttack();   // chạy animation attack ngẫu nhiên
+        {
+            // có clip Special thì dùng chiêu đặc biệt, không thì đánh thường
+            if (AnimatorSafe.Has(animator, "Special")) AnimatorSafe.SetTrigger(animator, "Special");
+            else PlayAttack();
+        }
     }
+
+    private bool warnedNoHitSound;
 
     public void PlayHitSound()
     {
             if (hitSound == null)
             {
-                Debug.LogWarning("PlayerController: Chưa gán Hit Sound!");
+                // Chỉ báo 1 lần, tránh spam Console mỗi lần đánh trúng
+                if (!warnedNoHitSound)
+                {
+                    warnedNoHitSound = true;
+                    Debug.LogWarning("PlayerController: Chưa gán Hit Sound cho " + name);
+                }
                 return;
             }
 
             if (hitAudioSource == null)
                 return;
 
-            hitAudioSource.PlayOneShot(hitSound, hitVolume);
+            if (AudioPrefs.SfxOn) hitAudioSource.PlayOneShot(hitSound, hitVolume);
         }
 
     private bool CanFeverAttack()
@@ -462,6 +483,13 @@ public class PlayerController : MonoBehaviour
             attackTriggers.Length == 0)
             return;
 
+        // Đang trên không -> đá trên không (nếu nhân vật có clip AirAttack)
+        if (!isGround && AnimatorSafe.Has(animator, "AirAttack"))
+        {
+            AnimatorSafe.SetTrigger(animator, "AirAttack");
+            return;
+        }
+
         attackCandidates.Clear();
 
         for (int i = 0; i < attackTriggers.Length; i++)
@@ -497,7 +525,7 @@ public class PlayerController : MonoBehaviour
         foreach (int i in attackCandidates)
             animator.ResetTrigger(attackTriggers[i]);
 
-        animator.SetTrigger(attackTriggers[pick]);
+        AnimatorSafe.SetTrigger(animator, attackTriggers[pick]);
     }
 
     // =====================================================
@@ -510,7 +538,7 @@ public class PlayerController : MonoBehaviour
             return;
 
         if (animParams.Contains(holdAttackTrigger))
-            animator.SetBool(holdAttackTrigger, true);
+            AnimatorSafe.SetBool(animator, holdAttackTrigger, true);
     }
 
     public void StopHoldAttack()
@@ -519,7 +547,7 @@ public class PlayerController : MonoBehaviour
             return;
 
         if (animParams.Contains(holdAttackTrigger))
-            animator.SetBool(holdAttackTrigger, false);
+            AnimatorSafe.SetBool(animator, holdAttackTrigger, false);
     }
 
     // =====================================================
@@ -532,7 +560,12 @@ public class PlayerController : MonoBehaviour
             return;
 
         if (mode == AirMode.None)
+        {
             savedGravity = rb.gravityScale;
+
+            // Vừa rời đất -> chạy animation nhảy (Any State -> Jumping)
+            AnimatorSafe.SetTrigger(animator, "Jump");
+        }
 
         rb.gravityScale = 0f;
         rb.linearVelocity = Vector2.zero;
@@ -717,7 +750,7 @@ public class PlayerController : MonoBehaviour
     private void PlayCountdownSound(AudioClip clip)
     {
         if (countdownAudio != null && clip != null)
-            countdownAudio.PlayOneShot(clip);
+            if (AudioPrefs.SfxOn) countdownAudio.PlayOneShot(clip);
     }
 
     // =====================================================

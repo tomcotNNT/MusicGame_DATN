@@ -37,6 +37,10 @@ public class PlayerController2 : MonoBehaviour
         "Attack3"
     };
 
+    [Header("Hurt Animation")]
+    [Tooltip("Trigger chạy khi để lọt / hụt nốt")]
+    [SerializeField] private string hurtTrigger = "Hurt";
+
     [Header("Score Settings")]
     [SerializeField] private int perfectScore = 100;
     [SerializeField] private int goodScore = 50;
@@ -72,11 +76,23 @@ public class PlayerController2 : MonoBehaviour
     {
         // Cảm ứng: 2 nút LaneButton (Left / Right) trên màn hình
         LaneButtonInput.Pressed += OnLaneButtonPressed;
+
+        // Hụt nốt (quái lọt qua hit point) -> Hurt
+        RhythmEvents.NoteMissed += OnNoteMissed;
     }
 
     private void OnDisable()
     {
         LaneButtonInput.Pressed -= OnLaneButtonPressed;
+        RhythmEvents.NoteMissed -= OnNoteMissed;
+    }
+
+    private void OnNoteMissed(Vector3 position, bool isLeft)
+    {
+        if (animator == null || string.IsNullOrEmpty(hurtTrigger))
+            return;
+
+        AnimatorSafe.SetTrigger(animator, hurtTrigger);
     }
 
     private void OnLaneButtonPressed(bool isLeft)
@@ -99,23 +115,19 @@ public class PlayerController2 : MonoBehaviour
     // PLAYER ATTACK
     // =========================================
 
+    // Không lật sprite khi đánh trái / phải
     private void AttackLeft()
     {
-        Flip(-1);
-        PlayAttackAnimation();
-
-        HandleAttack(true, hitPointL);
+        // đánh trước, biết trúng/trượt rồi mới chọn animation
+        PlayAttackAnimation(HandleAttack(true, hitPointL));
     }
 
     private void AttackRight()
     {
-        Flip(1);
-        PlayAttackAnimation();
-
-        HandleAttack(false, hitPointR);
+        PlayAttackAnimation(HandleAttack(false, hitPointR));
     }
 
-    private void HandleAttack(bool isLeft, Transform hitPoint)
+    private bool HandleAttack(bool isLeft, Transform hitPoint)
     {
         if (hitPoint == null)
         {
@@ -123,22 +135,22 @@ public class PlayerController2 : MonoBehaviour
                 "[PLAYER] Missing HitPoint " +
                 (isLeft ? "LEFT" : "RIGHT")
             );
-            return;
+            return false;
         }
 
-        TryHitEnemyNote(isLeft);
+        return TryHitEnemyNote(isLeft);
     }
 
     // =========================================
     // HIT ENEMY BY MIDI
     // =========================================
 
-    private void TryHitEnemyNote(bool isLeft)
+    private bool TryHitEnemyNote(bool isLeft)
     {
         if (enemySpawner == null)
         {
             Debug.LogError("[PLAYER] EnemySpawner is missing!");
-            return;
+            return false;
         }
 
         bool success = enemySpawner.TryHit(isLeft);
@@ -153,7 +165,7 @@ public class PlayerController2 : MonoBehaviour
                 );
             }
 
-            return;
+            return false;
         }
 
         if (showDebug)
@@ -165,6 +177,7 @@ public class PlayerController2 : MonoBehaviour
         }
 
         PlayHitFeedback(transform.position);
+        return true;
     }
 
     // =========================================
@@ -198,21 +211,20 @@ public class PlayerController2 : MonoBehaviour
     // ANIMATION
     // =========================================
 
-    private void Flip(int direction)
+    // Chọn đòn theo kết quả bắt beat (AttackPicker): trượt/Good = đòn nhẹ, Great = vừa,
+    // Perfect = mạnh, mỗi 10 combo = chiêu kết. Controller cũ không có đòn mới thì dùng danh sách attackTriggers.
+    private void PlayAttackAnimation(bool hit)
     {
-        if (spriteRenderer != null)
-            spriteRenderer.flipX = direction < 0;
-    }
+        if (AttackPicker.Play(animator, hit, comboSystem))
+            return;
 
-    private void PlayAttackAnimation()
-    {
         if (animator == null ||
             attackTriggers == null ||
             attackTriggers.Length == 0)
             return;
 
         int index = Random.Range(0, attackTriggers.Length);
-        animator.SetTrigger(attackTriggers[index]);
+        AnimatorSafe.SetTrigger(animator, attackTriggers[index]);
     }
 
     // =========================================
@@ -228,7 +240,7 @@ public class PlayerController2 : MonoBehaviour
     private void PlayAttackSound()
     {
         if (attackAudioSource != null && attackHitSound != null)
-            attackAudioSource.PlayOneShot(attackHitSound);
+            if (AudioPrefs.SfxOn) attackAudioSource.PlayOneShot(attackHitSound);
     }
 
     private void SpawnHitVFX(Vector3 position)

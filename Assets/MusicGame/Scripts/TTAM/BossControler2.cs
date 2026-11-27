@@ -82,7 +82,8 @@ public class BossController2 : MonoBehaviour
     private bool isTeleporting;
     private Coroutine teleportCoroutine;
 
-    private void Start()
+    // Awake (không phải Start): spawner có thể gọi InitHp ngay ở Start của nó, trước Start của boss
+    private void Awake()
     {
         if (spriteRenderer == null)
             spriteRenderer = GetComponentInChildren<SpriteRenderer>();

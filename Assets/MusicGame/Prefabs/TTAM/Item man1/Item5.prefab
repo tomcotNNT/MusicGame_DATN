@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 7071524000229335330}
   - component: {fileID: 1206445397075562867}
   - component: {fileID: 3426409896853041607}
-  - component: {fileID: 6137512781079532292}
   - component: {fileID: 3286521753218473480}
+  - component: {fileID: 9173865054594236723}
   m_Layer: 0
   m_Name: Item5
   m_TagString: Untagged
@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -7.33, y: 0.1, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -81,7 +81,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1671400121
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 274800454ba400a4e9da27415c80c81d, type: 3}
@@ -140,39 +140,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 6.497257, y: 3.8049107}
   m_EdgeRadius: 0
---- !u!114 &6137512781079532292
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 342349606016470801}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f51b4e8b9312dbb4e8788ae363961af7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Assets.MusicGame.Scripts.TTAM.NewMonoBehaviour
-  amplitude: 3.5
-  wavelength: 4.55
-  settleDistance: 2.5
-  autoCollect: 0
-  hitWindow: 0.8
-  destroyAfterDistance: 8
-  addScore: 1
-  addCombo: 1
-  movePlayer: 0
-  collectVfxPrefab: {fileID: 4306488877223958017, guid: 2fbb1969d46802e4485b17e89d3a86cb, type: 3}
-  vfxLifetime: 1
-  collectClip: {fileID: 8300000, guid: 0510cc9ec447116448a399bc0afa9b8d, type: 3}
-  collectVolume: 1
-  onCollected:
-    m_PersistentCalls:
-      m_Calls: []
-  missBreaksCombo: 0
-  onMissed:
-    m_PersistentCalls:
-      m_Calls: []
-  collectAudioSource: {fileID: 3286521753218473480}
 --- !u!82 &3286521753218473480
 AudioSource:
   m_ObjectHideFlags: 0
@@ -270,3 +237,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &9173865054594236723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 342349606016470801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 924ca48570296d14fbe5d5f346c88f11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Boss1Item
+  xSnapPower: 2
+  hitVfxPrefab: {fileID: 4306488877223958017, guid: 2fbb1969d46802e4485b17e89d3a86cb, type: 3}
+  vfxOffset: {x: 0, y: 0, z: 0}
+  vfxLifetime: 1
+  collectClip: {fileID: 0}
+  collectVolume: 1

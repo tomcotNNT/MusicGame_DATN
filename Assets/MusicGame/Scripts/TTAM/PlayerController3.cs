@@ -32,6 +32,10 @@ public class PlayerControllerSub : MonoBehaviour
     [Header("Attack Animation")]
     [SerializeField] private string[] attackTriggers = { "Attack1", "Attack2", "Attack3" };
 
+    [Header("Hurt Animation")]
+    [Tooltip("Trigger chạy khi để lọt / hụt nốt")]
+    [SerializeField] private string hurtTrigger = "Hurt";
+
     [Header("Debug")]
     [SerializeField] private bool showDebug = true;
 
@@ -60,11 +64,23 @@ public class PlayerControllerSub : MonoBehaviour
     {
         // Cảm ứng: 2 nút LaneButton (Left / Right) trên màn hình, hỗ trợ bấm 2 nút cùng lúc
         LaneButtonInput.Pressed += Attack;
+
+        // Hụt nốt (item lọt qua hit point) -> Hurt
+        RhythmEvents.NoteMissed += OnNoteMissed;
     }
 
     private void OnDisable()
     {
         LaneButtonInput.Pressed -= Attack;
+        RhythmEvents.NoteMissed -= OnNoteMissed;
+    }
+
+    private void OnNoteMissed(Vector3 position, bool isLeft)
+    {
+        if (animator == null || string.IsNullOrEmpty(hurtTrigger))
+            return;
+
+        AnimatorSafe.SetTrigger(animator, hurtTrigger);
     }
 
     private void Update()
@@ -87,10 +103,13 @@ public class PlayerControllerSub : MonoBehaviour
         if (spawner == null || !spawner.IsPlaying)
             return;
 
-        Flip(isLeft ? -1 : 1);
-        PlayAttackAnimation();
+        // Không lật sprite khi đánh trái / phải
 
-        if (spawner.TryHit(isLeft, out Vector3 hitPos))
+        // đánh trước, biết trúng/trượt rồi mới chọn animation
+        bool hit = spawner.TryHit(isLeft, out Vector3 hitPos);
+        PlayAttackAnimation(hit);
+
+        if (hit)
         {
             if (showDebug)
                 Debug.Log("[PLAYER] HIT " + (isLeft ? "LEFT" : "RIGHT"));
@@ -111,19 +130,20 @@ public class PlayerControllerSub : MonoBehaviour
     // ANIMATION
     // =========================================
 
-    private void Flip(int direction)
+    // Chọn đòn theo kết quả bắt beat (AttackPicker): trượt/Good = đòn nhẹ, Great = vừa,
+    // Perfect = mạnh, mỗi 10 combo = chiêu kết. Controller cũ không có đòn mới thì dùng danh sách attackTriggers.
+    private void PlayAttackAnimation(bool hit)
     {
-        if (spriteRenderer != null)
-            spriteRenderer.flipX = direction < 0;
-    }
+        if (AttackPicker.Play(animator, hit, comboSystem))
+            return;
 
-    private void PlayAttackAnimation()
-    {
-        if (animator == null || attackTriggers == null || attackTriggers.Length == 0)
+        if (animator == null ||
+            attackTriggers == null ||
+            attackTriggers.Length == 0)
             return;
 
         int index = Random.Range(0, attackTriggers.Length);
-        animator.SetTrigger(attackTriggers[index]);
+        AnimatorSafe.SetTrigger(animator, attackTriggers[index]);
     }
 
     // =========================================
@@ -133,7 +153,7 @@ public class PlayerControllerSub : MonoBehaviour
     private void PlayHitFeedback(Vector3 position)
     {
         if (attackAudioSource != null && attackHitSound != null)
-            attackAudioSource.PlayOneShot(attackHitSound);
+            if (AudioPrefs.SfxOn) attackAudioSource.PlayOneShot(attackHitSound);
 
         if (hitVFXPrefab != null)
         {

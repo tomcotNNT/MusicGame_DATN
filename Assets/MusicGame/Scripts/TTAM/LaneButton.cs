@@ -16,7 +16,16 @@ public class LaneButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     [SerializeField] private Transform visual;
     [SerializeField] private float pressedScale = 0.9f;
 
+    [Header("Bàn phím")]
+    [Tooltip("Nút lún xuống khi nhấn phím. Chỉ là hiệu ứng: controller tự đọc phím, không bắn Pressed để tránh đánh 2 lần")]
+    [SerializeField] private bool showKeyboardPress = true;
+    [SerializeField] private KeyCode leftKey = KeyCode.A;
+    [SerializeField] private KeyCode rightKey = KeyCode.D;
+    [SerializeField] private KeyCode leftAltKey = KeyCode.LeftArrow;
+    [SerializeField] private KeyCode rightAltKey = KeyCode.RightArrow;
+
     private int pointerCount;   // Số ngón đang đè lên nút
+    private bool keyHeld;
     private Vector3 baseScale;
     private UnityEngine.UI.Selectable selectable; // Button (nếu có) trên cùng object
 
@@ -31,7 +40,26 @@ public class LaneButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         // Panel bị tắt khi đang giữ -> nhả nút, tránh kẹt trạng thái giữ
         while (pointerCount > 0) ReleaseOne();
+        keyHeld = false;
         visual.localScale = baseScale;
+    }
+
+    private void Update()
+    {
+        if (!showKeyboardPress) return;
+
+        bool held = isLeft
+            ? Input.GetKey(leftKey) || Input.GetKey(leftAltKey)
+            : Input.GetKey(rightKey) || Input.GetKey(rightAltKey);
+
+        if (held == keyHeld) return;
+        keyHeld = held;
+        RefreshVisual();
+    }
+
+    private void RefreshVisual()
+    {
+        visual.localScale = pointerCount > 0 || keyHeld ? baseScale * pressedScale : baseScale;
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -56,7 +84,7 @@ public class LaneButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         if (pointerCount <= 0) return;
 
         pointerCount--;
-        if (pointerCount == 0) visual.localScale = baseScale;
+        RefreshVisual();
 
         LaneButtonInput.Release(isLeft);
     }

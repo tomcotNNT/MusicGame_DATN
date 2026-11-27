@@ -78,7 +78,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1671400121
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: -1
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2185138969848271980, guid: b66c2cb8a96ae6e458a49685cabe4e94, type: 3}
@@ -169,7 +169,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1671400121
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: -1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 3399124021226697802, guid: e43c5353ed78feb4dad26dd843ef9fab, type: 3}
@@ -193,7 +193,7 @@ GameObject:
   - component: {fileID: 8170766296982222407}
   - component: {fileID: 1651321825674009140}
   - component: {fileID: 6896539473384915555}
-  - component: {fileID: 5862540432827857619}
+  - component: {fileID: -6959986756218404963}
   m_Layer: 0
   m_Name: PianoKeyMan1
   m_TagString: Untagged
@@ -264,7 +264,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1671400121
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: -2
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
@@ -323,7 +323,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 2.5374603, y: 2.465924}
   m_EdgeRadius: 0
---- !u!114 &5862540432827857619
+--- !u!114 &-6959986756218404963
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -332,24 +332,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5717739272137354105}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b5f0dd1b4d619640b6eda641f82bedf, type: 3}
+  m_Script: {fileID: 11500000, guid: 924ca48570296d14fbe5d5f346c88f11, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PianoKey
-  hitVfxPrefab: {fileID: 3586783676955513028, guid: 8b22428d0d58c2c42af8a9057c319963, type: 3}
-  hitVfxPrefab2: {fileID: 4306488877223958017, guid: 2fbb1969d46802e4485b17e89d3a86cb, type: 3}
-  vfxLifetime: 1
+  m_EditorClassIdentifier: Assembly-CSharp::Boss1Item
+  xSnapPower: 2
+  hitVfxPrefab: {fileID: 4306488877223958017, guid: 2fbb1969d46802e4485b17e89d3a86cb, type: 3}
   vfxOffset: {x: 0, y: 0, z: 0}
-  leftHitClip: {fileID: 8300000, guid: d850257c70836db408639fb2f787f9b1, type: 3}
-  rightHitClip: {fileID: 8300000, guid: d850257c70836db408639fb2f787f9b1, type: 3}
-  hitVolume: 1
-  movePlayer: 1
-  keyLeft: {fileID: 5649146341775402379}
-  keyRight: {fileID: 991127301677762403}
-  randomSprite: 1
-  sprites:
-  - {fileID: 21300000, guid: 42b18c96a000595478e4c63d83861bd0, type: 3}
-  - {fileID: 21300000, guid: 274800454ba400a4e9da27415c80c81d, type: 3}
-  - {fileID: 21300000, guid: bd642191d6dca7543897b907f1343665, type: 3}
-  - {fileID: 21300000, guid: 605b7344703c4ed43a8f07441f34cb5a, type: 3}
-  - {fileID: 21300000, guid: 95edd70103e8b244aa41000c718d49e2, type: 3}
-  avoidRepeat: 1
+  vfxLifetime: 1
+  collectClip: {fileID: 0}
+  collectVolume: 1

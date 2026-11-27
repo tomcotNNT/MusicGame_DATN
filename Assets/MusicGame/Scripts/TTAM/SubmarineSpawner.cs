@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SubmarineRhythmSpawner : MonoBehaviour
+public class SubmarineRhythmSpawner : MonoBehaviour, IRhythmSongClock, ISongPausable
 {
     public event Action SongEnded;
 
@@ -41,6 +41,13 @@ public class SubmarineRhythmSpawner : MonoBehaviour
     [SerializeField] private float minSpawnInterval = 0.15f;
     [SerializeField] private bool spawnOnStart = false;
 
+    [Header("Lane Balance")]
+    [Tooltip("Bật: chia đều nốt cho 2 lane thay vì theo lane MIDI gốc")]
+    [SerializeField] private bool balanceLanes = true;
+    [Tooltip("Số nốt 1 lane được hơn lane kia trước khi bị ép đổi. 1 = gần như xen kẽ trái/phải")]
+    [Min(1)]
+    [SerializeField] private int maxLaneImbalance = 2;
+
     [Header("Timing")]
     [Tooltip("Chạm trong khoảng +-giây quanh thời điểm nốt thì tính trúng")]
     [SerializeField] private float hitWindow = 0.15f;
@@ -66,12 +73,23 @@ public class SubmarineRhythmSpawner : MonoBehaviour
     private readonly float[] lastSpawnTimeOnLane = { -999f, -999f };
 
     private int nextEventIndex;
-    private double songStartDsp;
+    private readonly SongClock clock = new SongClock();
     private bool isPlaying;
     private bool songEnded;
 
-    public float SongTime => isPlaying ? (float)(AudioSettings.dspTime - songStartDsp) : 0f;
+    // Đứng yên khi pause (xem SongClock)
+    public float SongTime => isPlaying ? clock.SongTime : 0f;
     public bool IsPlaying => isPlaying;
+
+    public void PauseSong()
+    {
+        if (isPlaying) clock.Pause(musicSource);
+    }
+
+    public void ResumeSong()
+    {
+        if (isPlaying) clock.Resume(musicSource);
+    }
 
     private void Start()
     {
@@ -111,11 +129,13 @@ public class SubmarineRhythmSpawner : MonoBehaviour
         lastSpawnTimeOnLane[1] = -999f;
         activeItems.Clear();
 
-        songStartDsp = AudioSettings.dspTime + countdown;
-        musicSource.Stop();
-        musicSource.PlayScheduled(songStartDsp);
+        clock.Start(musicSource, countdown);
 
         isPlaying = true;
+        diagStartedAt = Time.unscaledTime;
+        diagLogged = false;
+
+        Debug.Log($"[Man3] Bắt đầu bài: {spawnEvents.Count} sự kiện, nốt đầu tại {spawnEvents[0].time:F2}s, đếm ngược {countdown:F2}s");
     }
 
     // =========================================
@@ -152,17 +172,72 @@ public class SubmarineRhythmSpawner : MonoBehaviour
             if (!midiEvent.lanes.Contains(note.lane))
                 midiEvent.lanes.Add(note.lane);
         }
+
+        if (balanceLanes)
+            BalanceLanes();
+    }
+
+    // Chia đều nốt đơn cho 2 lane (hợp âm 2 lane giữ nguyên).
+    // Giữ lane gốc của MIDI khi 2 bên còn chênh ít, lệch quá maxLaneImbalance thì ép sang lane ít hơn.
+    // Ưu tiên lane còn trống (không bị minSpawnInterval chặn) để không mất nốt.
+    private void BalanceLanes()
+    {
+        int[] count = { 0, 0 };
+        float[] last = { -999f, -999f };
+
+        foreach (MidiSpawnEvent ev in spawnEvents)
+        {
+            if (ev.lanes.Count == 1)
+            {
+                int lane = ev.lanes[0];
+                int other = 1 - lane;
+
+                if (count[lane] - count[other] >= maxLaneImbalance)
+                    lane = other;
+
+                bool laneFree = ev.time - last[lane] >= minSpawnInterval;
+                bool otherFree = ev.time - last[1 - lane] >= minSpawnInterval;
+                if (!laneFree && otherFree)
+                    lane = 1 - lane;
+
+                ev.lanes[0] = lane;
+            }
+
+            foreach (int lane in ev.lanes)
+            {
+                if (ev.time - last[lane] < minSpawnInterval)
+                    continue;
+
+                last[lane] = ev.time;
+                count[lane]++;
+            }
+        }
+
+        if (showDebug)
+            Debug.Log($"[Man3] Chia lane: TRÁI {count[0]}, PHẢI {count[1]}");
     }
 
     // =========================================
     // UPDATE
     // =========================================
 
+    private float diagStartedAt;
+    private bool diagLogged;
+
     private void Update()
     {
         if (!isPlaying) return;
 
         DropUpcomingItems();
+
+        // Chẩn đoán: chạy đã lâu mà chưa thả được item nào -> ghi lý do 1 lần
+        if (!diagLogged && nextEventIndex == 0 && spawnEvents.Count > 0 &&
+            Time.unscaledTime - diagStartedAt > 5f + fallDuration + spawnEvents[0].time)
+        {
+            diagLogged = true;
+            Debug.LogWarning($"[Man3] Chưa thả item nào: SongTime={SongTime:F2}, nốt đầu={spawnEvents[0].time:F2}, " +
+                             $"paused={clock.IsPaused}, fallback={clock.UsingFallback}, dsp={AudioSettings.dspTime:F2}, timeScale={Time.timeScale}");
+        }
         CheckMissedItems();
         CheckSongEnd();
     }
@@ -250,6 +325,8 @@ public class SubmarineRhythmSpawner : MonoBehaviour
                 if (comboSystem != null)
                     comboSystem.MissNote();
 
+                RhythmEvents.RaiseNoteMissed(item.transform.position, item.IsLeft);
+
                 activeItems.RemoveAt(i);
                 Destroy(item.gameObject);
             }
@@ -316,6 +393,10 @@ public class SubmarineRhythmSpawner : MonoBehaviour
     {
         hitPosition = Vector3.zero;
 
+        // Đang pause / Game Over / chưa chạy bài: không cho đánh
+        if (!isPlaying || clock.IsPaused || Time.timeScale == 0f)
+            return false;
+
         FallingItem target = null;
         float bestError = float.MaxValue;
 
@@ -344,14 +425,16 @@ public class SubmarineRhythmSpawner : MonoBehaviour
         // Chạy animation Hit của đúng HitPoint
         PlayHitPointAnimation(target.IsLeft, true);
 
+        target.PlayCollectSound();
+
         activeItems.Remove(target);
         Destroy(target.gameObject);
 
         submarine.TakeHit();
 
-        // Cộng combo + điểm (100/200/300 theo combo liên tiếp)
+        // Cộng combo + điểm (mức theo combo hoặc theo độ lệch, tuỳ chế độ của ComboSystem)
         if (comboSystem != null)
-            comboSystem.HitNote();
+            comboSystem.HitNoteTimed(bestError);
 
         return true;
     }

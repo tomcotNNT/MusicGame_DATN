@@ -121,19 +121,17 @@ public class RhythmItemm : MonoBehaviour
 
         if (collectAudioSource != null && collectClip != null)
         {
-            collectAudioSource.PlayOneShot(collectClip, collectVolume);
+            if (AudioPrefs.SfxOn) collectAudioSource.PlayOneShot(collectClip, collectVolume);
         }
         else if (collectClip != null)
         {
-            AudioSource.PlayClipAtPoint(
-                collectClip,
-                transform.position,
-                collectVolume
-            );
+            // Âm 2D dùng chung (PlayClipAtPoint là âm 3D, bị nhỏ theo khoảng cách camera)
+            GameplaySfx.Play(collectClip, collectVolume);
         }
 
-        if (addScore && scoreSystem != null) scoreSystem.AddScore();
+        // HitNote() đã cộng điểm theo mức -> bật cả 2 thì không cộng điểm 2 lần
         if (addCombo && comboSystem != null) comboSystem.HitNote();
+        else if (addScore && scoreSystem != null) scoreSystem.AddScore();
 
        if (playerCtrl != null)
         {

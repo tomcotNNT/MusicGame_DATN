@@ -32,6 +32,7 @@ public class GameplayCharacterSelector : MonoBehaviour
 
     public int ActiveIndex { get; private set; } = -1;
     public GameObject ActiveCharacter { get; private set; }
+    public EndGameBase d;
 
     private void Awake()
     {

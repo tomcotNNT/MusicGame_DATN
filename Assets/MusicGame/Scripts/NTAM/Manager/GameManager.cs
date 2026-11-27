@@ -22,7 +22,11 @@ public class GameManager : MonoBehaviour
     [Header("Dữ Liệu Người Chơi")]
     public PlayerGameData playerData = new PlayerGameData();
 
-    private string savePath;
+    // PlayerPrefs keys (giu co dinh de khong mat du lieu)
+    private const string CoinsKey = "Player_TotalCoins";
+    private const string DiamondsKey = "Player_TotalDiamonds";
+    private const string ScoreKey = "Player_HighestScore";
+    private const string MigrationKey = "Player_DataMigrated";
 
     // =========================================================================
     // CẦU NỐI ÂM THANH (TƯƠNG THÍCH VỚI SCRIPT CỦA NHÁNH TTAM & LONG)
@@ -62,7 +66,7 @@ public class GameManager : MonoBehaviour
     }
 
     // =========================================================================
-    // VÒNG ĐỜI VÀ QUẢN TRỊ DỮ LIỆU JSON
+    // PLAYERPREFS: SAVE / LOAD + CHUYEN DU LIEU JSON CU MOT LAN
     // =========================================================================
     private void Awake()
     {
@@ -76,45 +80,66 @@ public class GameManager : MonoBehaviour
         transform.SetParent(null);
         DontDestroyOnLoad(gameObject);
 
-        savePath = Path.Combine(Application.persistentDataPath, "PlayerSaveData.json");
-
         LoadGameData();
         LoadSettingsData();
     }
 
     public void SaveGameData()
     {
-        try
-        {
-            string json = JsonUtility.ToJson(playerData, true);
-            File.WriteAllText(savePath, json);
-        }
-        catch (Exception ex)
-        {
-            Debug.LogError(">>> [DATA] Lỗi khi lưu dữ liệu JSON: " + ex.Message);
-        }
+        PlayerPrefs.SetInt(CoinsKey, playerData.totalCoins);
+        PlayerPrefs.SetInt(DiamondsKey, playerData.totalDiamonds);
+        PlayerPrefs.SetInt(ScoreKey, playerData.highestScore);
+        PlayerPrefs.SetFloat("GameVolume", playerData.gameVolume);
+        PlayerPrefs.SetFloat("AudioOffset", playerData.audioOffset);
+        PlayerPrefs.Save();
     }
 
     public void LoadGameData()
     {
-        try
+        // Neu da co PlayerPrefs, khong ghi de bang file JSON cu.
+        bool hasPrefs = PlayerPrefs.HasKey(CoinsKey) ||
+                        PlayerPrefs.HasKey(DiamondsKey) ||
+                        PlayerPrefs.HasKey(ScoreKey);
+
+        if (!PlayerPrefs.HasKey(MigrationKey))
         {
-            if (File.Exists(savePath))
+            if (!hasPrefs)
             {
-                string json = File.ReadAllText(savePath);
-                JsonUtility.FromJsonOverwrite(json, playerData);
+                // Chi doc JSON mot lan de giu tien va diem cu.
+                // Tu sau lan nay, game chi SAVE vao PlayerPrefs.
+                string oldPath = Path.Combine(Application.persistentDataPath,
+                                              "PlayerSaveData.json");
+                if (File.Exists(oldPath))
+                {
+                    try
+                    {
+                        string json = File.ReadAllText(oldPath);
+                        JsonUtility.FromJsonOverwrite(json, playerData);
+
+                        // Cai dat am thanh da co san trong PlayerPrefs duoc uu tien.
+                        playerData.gameVolume = PlayerPrefs.GetFloat("GameVolume", playerData.gameVolume);
+                        playerData.audioOffset = PlayerPrefs.GetFloat("AudioOffset", playerData.audioOffset);
+                        SaveGameData();
+                        Debug.Log("[GameManager] Da chuyen JSON cu sang PlayerPrefs.");
+                    }
+                    catch (Exception ex)
+                    {
+                        // Khong danh dau migration neu doc JSON that bai.
+                        Debug.LogError("[GameManager] Khong the chuyen JSON cu: " + ex.Message);
+                        return;
+                    }
+                }
             }
-            else
-            {
-                // Lần đầu chơi: Khởi tạo dữ liệu sạch (0 Coin, 0 Diamond)
-                ResetNewPlayerData();
-            }
+
+            PlayerPrefs.SetInt(MigrationKey, 1);
+            PlayerPrefs.Save();
         }
-        catch (Exception ex)
-        {
-            Debug.LogError(">>> [DATA] Lỗi khi tải dữ liệu JSON: " + ex.Message);
-            ResetNewPlayerData();
-        }
+
+        playerData.totalCoins = PlayerPrefs.GetInt(CoinsKey, 0);
+        playerData.totalDiamonds = PlayerPrefs.GetInt(DiamondsKey, 0);
+        playerData.highestScore = PlayerPrefs.GetInt(ScoreKey, 0);
+        playerData.gameVolume = PlayerPrefs.GetFloat("GameVolume", 1f);
+        playerData.audioOffset = PlayerPrefs.GetFloat("AudioOffset", 0f);
     }
 
     private void LoadSettingsData()
@@ -184,7 +209,7 @@ public class GameManager : MonoBehaviour
     // =========================================================================
     // CÔNG CỤ TEST NHANH TRONG EDITOR
     // =========================================================================
-    [ContextMenu("Test: Xóa Toàn Bộ File Save Về 0")]
+    [ContextMenu("Test: Reset Player Data (PlayerPrefs)")]
     public void ResetNewPlayerData()
     {
         playerData = new PlayerGameData();
