@@ -426,7 +426,7 @@ MonoBehaviour:
   hitWindow: 0.15
   missWindow: 0.2
   showDebug: 1
-  bossHpRatio: 0.85
+  bossHpRatio: 0.8
 --- !u!114 &25114627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -446,9 +446,11 @@ MonoBehaviour:
   rollInterval: 0.05
   useMonospace: 1
   monospaceEm: 0.6
-  coinFor1Star: 200
-  coinFor2Stars: 500
-  coinFor3Stars: 1000
+  firstStarBonus: 2c01000090010000f4010000
+  firstBonusScalePerLevel: 0.25
+  replayBaseCoin: 50
+  replayCoinPerStar: 50
+  refundTurnOnWin: 1
   coinRewardText: {fileID: 2137784342}
   endPanel: {fileID: 1568723583}
   scoreText: {fileID: 631843414}
@@ -485,6 +487,9 @@ MonoBehaviour:
   useNewResultPanel: 1
   starSfx: {fileID: 0}
   rollTickSfx: {fileID: 0}
+  showStarHud: 1
+  starHudPosition: {x: 0, y: -24}
+  starHudScale: 1
   pendingColor: {r: 0.6, g: 0.6, b: 0.6, a: 1}
   successColor: {r: 0.4, g: 1, b: 0.4, a: 1}
   failColor: {r: 1, g: 0.25, b: 0.25, a: 1}

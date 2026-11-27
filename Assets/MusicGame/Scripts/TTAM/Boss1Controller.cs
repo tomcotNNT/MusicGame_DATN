@@ -144,7 +144,7 @@ public class Boss1Controller : MonoBehaviour
         if (animator != null)
         {
             ResetAllTriggers();   // tránh Attack / Hit chen vào lúc đang chết
-            animator.SetTrigger(dieHash);
+            AnimatorSafe.SetTrigger(animator, dieTrigger);
         }
 
         if (cameraShake != null)
@@ -156,24 +156,31 @@ public class Boss1Controller : MonoBehaviour
             Destroy(gameObject, destroyAfterDie);
     }
 
-    public void PlayAttack()
+     public void PlayAttack()
     {
         if (animator == null || IsDefeated) return;
-        animator.ResetTrigger(hitHash);
-        animator.SetTrigger(attackHash);
+        SafeReset(hitTrigger);
+        AnimatorSafe.SetTrigger(animator, attackTrigger);
     }
 
     public void PlayHit()
     {
         if (animator == null || IsDefeated) return;
-        animator.ResetTrigger(attackHash);
-        animator.SetTrigger(hitHash);
+        SafeReset(attackTrigger);
+        AnimatorSafe.SetTrigger(animator, hitTrigger);
     }
 
     private void ResetAllTriggers()
     {
-        animator.ResetTrigger(attackHash);
-        animator.ResetTrigger(hitHash);
-        animator.ResetTrigger(dieHash);
+        SafeReset(attackTrigger);
+        SafeReset(hitTrigger);
+        SafeReset(dieTrigger);
+    }
+
+    // Animator thiếu trigger nào thì bỏ qua, không in cảnh báo
+    private void SafeReset(string trigger)
+    {
+        if (AnimatorSafe.Has(animator, trigger))
+            animator.ResetTrigger(trigger);
     }
 }
