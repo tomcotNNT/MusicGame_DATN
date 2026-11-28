@@ -423,9 +423,11 @@ MonoBehaviour:
   rollInterval: 0.05
   useMonospace: 1
   monospaceEm: 0.6
-  coinFor1Star: 200
-  coinFor2Stars: 500
-  coinFor3Stars: 1000
+  firstStarBonus: 2c01000090010000f4010000
+  firstBonusScalePerLevel: 0.25
+  replayBaseCoin: 50
+  replayCoinPerStar: 50
+  refundTurnOnWin: 1
   coinRewardText: {fileID: 1606987996}
   endPanel: {fileID: 1544290757}
   scoreText: {fileID: 1192332738}
@@ -462,6 +464,9 @@ MonoBehaviour:
   useNewResultPanel: 1
   starSfx: {fileID: 0}
   rollTickSfx: {fileID: 0}
+  showStarHud: 1
+  starHudPosition: {x: 0, y: -24}
+  starHudScale: 1
   pendingColor: {r: 0.6, g: 0.6, b: 0.6, a: 1}
   successColor: {r: 0.4, g: 1, b: 0.4, a: 1}
   failColor: {r: 1, g: 0.25, b: 0.25, a: 1}
@@ -904,7 +909,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 778, y: 285}
+  m_AnchoredPosition: {x: 722.5, y: 285}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &191662386
@@ -2736,7 +2741,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 32, y: 63}
+  m_AnchoredPosition: {x: 32, y: -1.7000122}
   m_SizeDelta: {x: -320, y: -180.00006}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &630547844
@@ -2948,7 +2953,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -720, y: 415}
+  m_AnchoredPosition: {x: -634, y: 415}
   m_SizeDelta: {x: 325.089, y: 119.307}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &653619317
@@ -3995,7 +4000,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -645.2, y: 402.5}
+  m_AnchoredPosition: {x: -559.2, y: 402.5}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &901820999
@@ -4535,7 +4540,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 79.8, y: 207.70001}
+  m_AnchoredPosition: {x: 124, y: 143}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1046574750
@@ -9180,7 +9185,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 1048, y: -47}
+  m_AnchoredPosition: {x: 956, y: -47}
   m_SizeDelta: {x: 39.374, y: 21.654}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1723479664
@@ -10250,7 +10255,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 1049.0001, y: -112.00003}
+  m_AnchoredPosition: {x: 957.0001, y: -112.00003}
   m_SizeDelta: {x: 39.374, y: 21.654}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1896015188
@@ -11532,7 +11537,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -136, y: 194, z: -7342.4355}
-  m_LocalScale: {x: 58, y: 58, z: 58}
+  m_LocalScale: {x: 59.999996, y: 59.999996, z: 59.999996}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 824100485}
@@ -12124,7 +12129,7 @@ Transform:
   m_GameObject: {fileID: 699542804908433331}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12.6653595, y: 0.29123855, z: 0}
+  m_LocalPosition: {x: 10.16, y: -0.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
